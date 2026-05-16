@@ -1,0 +1,34 @@
+{
+  "name": "ux-design-shared",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Heuresys UI Design System — 180+ reusable React components, extracted from @heuresys/ui",
+  "license": "MIT",
+  "author": "Heuresys <info@heuresys.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heuresys/ux-design-shared.git"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "install:deps": "npm install --prefer-offline",
+    "dev": "cd ui && npm run dev",
+    "storybook": "cd ui && npm run storybook",
+    "build-storybook": "cd ui && npm run build-storybook",
+    "typecheck": "cd ui && npm run typecheck",
+    "test": "cd ui && npm run test",
+    "test:watch": "cd ui && npm run test:watch",
+    "test:coverage": "cd ui && npm run test:coverage",
+    "clean": "cd ui && npm run clean && rm -rf node_modules"
+  },
+  "workspaces": [
+    "ui"
+  ],
+  "devDependencies": {
+    "prettier": "3.8.3"
+  }
+}

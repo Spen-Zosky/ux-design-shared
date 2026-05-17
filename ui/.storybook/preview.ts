@@ -3,7 +3,14 @@ import { withThemeByClassName } from "@storybook/addon-themes";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import "../src/styles/globals.css";
 
-initialize({ onUnhandledRequest: "bypass" });
+// Use a page-relative SW URL so MSW works both at the root in dev
+// (http://localhost:6006/) and under a subpath in deploy
+// (https://spen-zosky.github.io/ux-design-shared/). Without this the SW
+// would default to /mockServiceWorker.js, which doesn't exist on Pages.
+initialize({
+  onUnhandledRequest: "bypass",
+  serviceWorker: { url: "./mockServiceWorker.js" },
+});
 
 const preview: Preview = {
   parameters: {

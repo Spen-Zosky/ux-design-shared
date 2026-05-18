@@ -55,7 +55,7 @@ export function LogoCandidateCFull(props: SVGProps<SVGSVGElement>) {
       <text
         x="56"
         y="32"
-        fontFamily="system-ui, -apple-system, 'Segoe UI', sans-serif"
+        fontFamily="'Exo 2', system-ui, -apple-system, 'Segoe UI', sans-serif"
         fontSize="22"
         fontWeight="300"
         letterSpacing="1"

@@ -8,7 +8,9 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles": "./src/styles/globals.css"
+    "./styles": "./src/styles/globals.css",
+    "./brand/candidates": "./src/components/brand/candidates/index.ts",
+    "./assets/brand/*": "./src/assets/brand/*"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",

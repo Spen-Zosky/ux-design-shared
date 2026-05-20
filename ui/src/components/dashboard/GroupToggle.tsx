@@ -43,13 +43,11 @@ export function GroupToggle({ groupId, label, children, className }: GroupToggle
   }, [groupId]);
 
   function toggle() {
-    setExpanded((prev) => {
-      const next = !prev;
-      const state = readGroupState();
-      state[groupId] = next;
-      writeGroupState(state);
-      return next;
-    });
+    const next = !expanded;
+    setExpanded(next);
+    const state = readGroupState();
+    state[groupId] = next;
+    writeGroupState(state);
   }
 
   return (

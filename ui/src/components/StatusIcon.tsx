@@ -27,12 +27,17 @@ export type StatusTone =
   | 'danger'
   | 'disabled';
 
+// Mapping note: the `danger` semantic tone maps to Tailwind `text-destructive`
+// because the canonical token in @heuresys/ui design system is named
+// `--color-destructive` (per tokens.css). The `danger` discriminator is kept
+// at the API level for ergonomic semantic naming, but it routes to the
+// destructive utility class under the hood.
 const TONE_CLASS: Record<StatusTone, string> = {
   neutral: 'text-muted-foreground',
   info: 'text-info',
   success: 'text-success',
   warning: 'text-warning',
-  danger: 'text-danger',
+  danger: 'text-destructive',
   disabled: 'text-muted-foreground/40',
 };
 

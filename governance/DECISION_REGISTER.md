@@ -29,9 +29,9 @@ Schema and rule mirror `ux-design/heuresys_uxix_brand_identity_bundle_v1/templat
 | Decision ID | Date | Category | Title | Status | Final Decision | Showcase Reference | Supersedes | Superseded By | Impacted Areas |
 |---|---:|---|---|---|---|---|---|---|---|
 | UXIX-0001 | 2026-05-18 | Shell | Dashboard shell architecture | Accepted | CSS grid `rows-[64px_1fr_44px]`, body cols `[280px_1fr]` expanded / `[72px_1fr]` collapsed, Header+Footer fixed across collapse. | `/showcase/shell` (pending Phase 5) | — | — | `DashboardShell`, `Header`, `Sidebar`, `Footer`, tokens.css |
-| UXIX-0002 | 2026-05-18 | Header | Header mandatory composition | Proposed | Left: hamburger + Heuresys SVG logo. Right: IT/EN switcher, palette 4-box, theme dark/light, user menu→Logout. | `/showcase/header` (pending Phase 5) | — | — | `Header`, language store, palette store, theme store, auth client |
-| UXIX-0003 | 2026-05-18 | Footer | Footer composition | Proposed | Left: © year + Heuresys.com SVG (clickable). Right: 4 social icons icon-only, aria-label, `target="_blank" rel="noopener noreferrer"`. | `/showcase/footer` (pending Phase 5) | — | — | `Footer`, brand SVG assets |
-| UXIX-0004 | 2026-05-18 | Sidebar | Sidebar collapse + tree state | Proposed | Two separate state levels: `sidebarCollapsed` (width) vs `treeGroups[id].open` (sub-items). localStorage persistence. Permission + tenant flag filtering. | `/showcase/sidebar` (pending Phase 5) | — | — | `Sidebar`, navigation registry, localStorage |
+| UXIX-0002 | 2026-05-20 | Header | Header mandatory composition | **Accepted** | `DashboardHeader` from `@heuresys/ui`: left hamburger + `HeuresysWordmark` + optional breadcrumb; right IT/EN + `PaletteDropdown` + `ThemeToggle` + user identity card with `roleTone`. Slot-driven (`logo`, `logoBadge`, `leftExtras`, `rightExtras`). | `/showcase/header` (3 variants) | — | — | `DashboardHeader`, `HeuresysWordmark`, `HeuresysLogoBadge` |
+| UXIX-0003 | 2026-05-20 | Footer | Footer composition | **Accepted** | `DashboardFooter` from `@heuresys/ui`: left immutable © + heuresys.com link + 5 social icons (LinkedIn/GitHub/Discord/Facebook/X) with `aria-label` + `target="_blank"` + `rel="noopener noreferrer"`; right context-specific via `rightSlot` prop. | `/showcase/footer` (3 variants) | — | — | `DashboardFooter`, `DEFAULT_SOCIALS` |
+| UXIX-0004 | 2026-05-20 | Sidebar | Sidebar collapse + tree state | **Accepted** | `DashboardSidebar` from `@heuresys/ui`: two independent state levels (`sidebarCollapsed` width 260↔72 + per-group `defaultExpanded`). localStorage keys `heuresys-sidebar` + `heuresys-sidebar-groups`. 6-pattern aux slot taxonomy. `customContent` for non-list groups (e.g. `DBSupervisorSidebar`). | `/showcase/sidebar` | — | — | `DashboardSidebar`, navigation registry, localStorage |
 | UXIX-0005 | 2026-05-20 | Palette | Brand primary palette | **Accepted** | **A · Blue Primary**. Primary `hsl(221 83% 53%)` + cyan/purple/yellow accents. Ratifies the post-S924 `PaletteDropdown` `Default · balanced` preset and matches the hardcoded `BRAND_BLUE` of `HeuresysWordmark`. | `/showcase/palettes` | — | — | tokens.css, PaletteDropdown, all chart components |
 | UXIX-0011 | 2026-05-19 | Style | No-gradient rule | Accepted | Heuresys brand v1 forbids any gradient (CSS linear/radial, Tailwind bg-gradient-*, SVG linearGradient/radialGradient) on any surface, theme, palette, or page type. Depth comes from elevation tokens (shadows + borders) only. | `/showcase/palettes` (rule banner) | — | — | All `apps/web/src/app/**`, `D:\ux-design-shared\ui\src\**` |
 | UXIX-0012 | 2026-05-19 | Logo | Logo wordmark font stack | Accepted | Logo wordmark uses `'Exo 2', system-ui, -apple-system, 'Segoe UI', sans-serif` to align with the body typography candidate A default. Locked even before UXIX-0006 (typography) is Accepted — if UXIX-0006 picks a non-Exo-2 family, this row gets re-opened. | `/showcase/logo` | — | — | `LogoCandidate{A,B,C}.tsx`, raw SVG sources in `ui/src/assets/brand/candidates/UXIX-0007-logo/` |
@@ -46,9 +46,9 @@ Schema and rule mirror `ux-design/heuresys_uxix_brand_identity_bundle_v1/templat
 ## Index — ADR files
 
 - [ADR-0001 — Shell architecture confirm](./ADR-0001-shell-architecture-confirm.md) (UXIX-0001, Accepted)
-- ADR-0002 — Header mandatory composition (UXIX-0002, Proposed) — *pending*
-- ADR-0003 — Footer composition (UXIX-0003, Proposed) — *pending*
-- ADR-0004 — Sidebar collapse + tree state (UXIX-0004, Proposed) — *pending*
+- [ADR-0002 — Header mandatory composition](./ADR-0002-header-mandatory-composition.md) (UXIX-0002, **Accepted** 2026-05-20)
+- [ADR-0003 — Footer composition](./ADR-0003-footer-composition.md) (UXIX-0003, **Accepted** 2026-05-20)
+- [ADR-0004 — Sidebar collapse + tree state](./ADR-0004-sidebar-collapse-tree-state.md) (UXIX-0004, **Accepted** 2026-05-20)
 - [ADR-0005 — Brand primary palette](./ADR-0005-brand-primary-palette.md) (UXIX-0005, **Accepted** 2026-05-20)
 - [ADR-0006 — Brand typography](./ADR-0006-brand-typography.md) (UXIX-0006, **Accepted** 2026-05-20)
 - [ADR-0007 — Heuresys logo system](./ADR-0007-heuresys-logo-system.md) (UXIX-0007, **Accepted** 2026-05-20)

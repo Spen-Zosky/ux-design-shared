@@ -184,13 +184,12 @@ function SidebarGroup({ group }: { group: NavGroup }) {
 function DefaultSidebarFooter() {
   return (
     <div className="sidebar-footer-card shrink-0 border-t border-border p-3">
-      <div className="rounded-control border border-border bg-card p-2.5">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Build</span>
+      <div className="rounded-control border border-border bg-card px-2.5 py-1.5 leading-tight">
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-mono text-[11px] text-foreground">v5.0.0-mvp3</span>
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-success" aria-hidden="true" />
         </div>
-        <div className="mt-1 font-mono text-[11px] text-foreground">v5.0.0-mvp3</div>
-        <div className="font-mono text-[10px] text-muted-foreground">— · production</div>
+        <div className="font-mono text-[10px] text-muted-foreground">production · build —</div>
       </div>
     </div>
   );

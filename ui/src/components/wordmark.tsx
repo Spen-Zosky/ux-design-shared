@@ -59,18 +59,30 @@ function resolveSize(size: WordmarkSize | number): { fontSize: number; letterSpa
   return { fontSize: SIZE_MAP[size], letterSpacing: LETTER_SPACING_MAP[size] };
 }
 
+/**
+ * Brand wordmark color canon (rule "il logo è sempre quello"):
+ *   - body "heures" + "s" → hsl(221 83% 53%)  (canonical blue)
+ *   - accent "y"           → #a855f7           (canonical purple)
+ *   - font family           → Exo 2 700, letter-spacing -0.5px
+ * These values are HARDCODED inside the variants below — they must NOT depend
+ * on `--accent`, `--brand-blue`, or any CSS custom property, so the logo
+ * renders identically on every theme, palette, and surface.
+ */
+const BRAND_BLUE = 'hsl(221 83% 53%)';
+const BRAND_PURPLE = '#a855f7';
+
 const VARIANT_STYLES: Record<WordmarkVariant, React.CSSProperties> = {
   default: {
-    fontFamily: 'var(--font-sans, Inter), Inter, sans-serif',
-    color: 'var(--ink)',
+    fontFamily: '"Exo 2", Inter, ui-sans-serif, system-ui, sans-serif',
+    color: BRAND_BLUE,
   },
   brand: {
-    fontFamily: 'var(--font-display, "Exo 2"), "Exo 2", sans-serif',
-    color: 'var(--brand-blue)',
+    fontFamily: '"Exo 2", Inter, ui-sans-serif, system-ui, sans-serif',
+    color: BRAND_BLUE,
   },
   relative: {
-    fontFamily: 'var(--font-sans, Inter), Inter, sans-serif',
-    color: 'var(--logo-body, var(--ink))',
+    fontFamily: '"Exo 2", Inter, ui-sans-serif, system-ui, sans-serif',
+    color: BRAND_BLUE,
   },
 };
 
@@ -110,7 +122,7 @@ export function HeuresysWordmark({
       <span
         aria-hidden="true"
         className="wm-y"
-        style={{ color: 'var(--accent)', fontWeight: yWeight }}
+        style={{ color: BRAND_PURPLE, fontWeight: yWeight }}
       >
         y
       </span>

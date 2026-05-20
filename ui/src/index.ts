@@ -350,8 +350,18 @@ export {
    Spec: heuresys-advanced/ux-design/heuresys_uxix_brand_identity_bundle_v1/
    ============================================================ */
 
-// Brand mark (symbol-only "y")
+// Brand mark + badge (canonical Heuresys logo system).
+// NOTE: HeuresysWordmark is already exported above from './components/wordmark'
+// (Phase 14.SH, variant="brand" renders the canonical Exo 2 + BRAND_BLUE +
+// BRAND_PURPLE pattern hardcoded — "il logo è sempre quello"). Do not re-add.
 export { HeuresysMark, type HeuresysMarkProps } from './components/brand/HeuresysMark';
+export {
+  HeuresysLogoBadge,
+  type HeuresysLogoBadgeProps,
+} from './components/brand/HeuresysLogoBadge';
+
+// Semantic icon wrapper (tone-driven foreground)
+export { StatusIcon, type StatusIconProps, type StatusTone } from './components/StatusIcon';
 
 // Shell composition
 export { DashboardShell, type DashboardShellProps } from './components/dashboard/DashboardShell';
@@ -392,6 +402,12 @@ export {
   DataTableWithCrossHair,
   type DataTableWithCrossHairProps,
 } from './components/dashboard/DataTableWithCrossHair';
+export {
+  TimeRangeSelector,
+  type TimeRangeSelectorProps,
+  type TimeRangeOption,
+} from './components/dashboard/TimeRangeSelector';
+export { PageActions, type PageActionsProps } from './components/dashboard/PageActions';
 
 // Observability widgets
 export { KPIStrip, KpiCard, type KpiCardData, type KPIStripProps } from './components/dashboard/KPIStrip';

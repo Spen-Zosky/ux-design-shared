@@ -422,7 +422,7 @@ export {
 export {
   RBACMatrix,
   type RBACMatrixProps,
-  type RbacRole,
+  type RbacRole as DashboardRbacRole,
   type RbacRow,
   type RbacState,
 } from './components/dashboard/RBACMatrix';

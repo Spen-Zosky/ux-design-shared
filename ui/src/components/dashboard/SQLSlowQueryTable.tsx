@@ -49,7 +49,7 @@ export function SQLSlowQueryTable({ rows, totalTracked, sampleSince, totalCaptur
           </div>
           <div className="flex items-center gap-2">
             {onResetStats && <button type="button" onClick={onResetStats} className="inline-flex h-9 items-center gap-2 rounded-control border border-border px-3 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30">Reset stats</button>}
-            {onOpenExplain && <button type="button" onClick={() => onOpenExplain(rows[0])} className="inline-flex h-9 items-center gap-2 rounded-control bg-palette-3/10 px-3 text-xs font-medium text-palette-3 transition hover:bg-palette-3/20">Open EXPLAIN</button>}
+            {onOpenExplain && rows[0] && <button type="button" onClick={() => onOpenExplain(rows[0]!)} className="inline-flex h-9 items-center gap-2 rounded-control bg-palette-3/10 px-3 text-xs font-medium text-palette-3 transition hover:bg-palette-3/20">Open EXPLAIN</button>}
           </div>
         </div>
 

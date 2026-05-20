@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./hover-affordance.css";
 
 /*
  * Design tokens (placeholder) — TBD by brand definition.

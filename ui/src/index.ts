@@ -344,3 +344,102 @@ export {
   type SAPJobStatus,
   type SAPDeltaEntry,
 } from './components/sap-sync-panel';
+
+/* ============================================================
+   Heuresys dashboard pattern components (2026-05-20 promotion)
+   Spec: heuresys-advanced/ux-design/heuresys_uxix_brand_identity_bundle_v1/
+   ============================================================ */
+
+// Brand mark (symbol-only "y")
+export { HeuresysMark, type HeuresysMarkProps } from './components/brand/HeuresysMark';
+
+// Shell composition
+export { DashboardShell, type DashboardShellProps } from './components/dashboard/DashboardShell';
+export {
+  DashboardHeader,
+  type DashboardHeaderProps,
+  type HeaderBreadcrumb,
+  type UserIdentity,
+} from './components/dashboard/DashboardHeader';
+export {
+  DashboardSidebar,
+  type DashboardSidebarProps,
+  type NavGroup,
+  type NavItem,
+} from './components/dashboard/DashboardSidebar';
+export {
+  DashboardFooter,
+  type DashboardFooterProps,
+  type SocialLink,
+} from './components/dashboard/DashboardFooter';
+
+// Interactive primitives
+export {
+  PaletteDropdown,
+  PALETTES,
+  applyPalette,
+  type PaletteIdx,
+  type PalettePreset,
+} from './components/dashboard/PaletteDropdown';
+export { GroupToggle, type GroupToggleProps } from './components/dashboard/GroupToggle';
+export {
+  AlertBanner,
+  type AlertBannerProps,
+  type AlertVariant,
+  type AlertAction,
+} from './components/dashboard/AlertBanner';
+export {
+  DataTableWithCrossHair,
+  type DataTableWithCrossHairProps,
+} from './components/dashboard/DataTableWithCrossHair';
+
+// Observability widgets
+export { KPIStrip, KpiCard, type KpiCardData, type KPIStripProps } from './components/dashboard/KPIStrip';
+export {
+  LogStream,
+  type LogStreamProps,
+  type LogEntry,
+  type LogLevel,
+} from './components/dashboard/LogStream';
+export {
+  AuditFeed,
+  type AuditFeedProps,
+  type AuditEvent,
+  type AuditTone,
+} from './components/dashboard/AuditFeed';
+export {
+  IncidentTimeline,
+  type IncidentTimelineProps,
+  type IncidentItem,
+  type IncidentSeverity,
+  type IncidentStatus,
+} from './components/dashboard/IncidentTimeline';
+export {
+  SQLSlowQueryTable,
+  type SQLSlowQueryTableProps,
+  type SqlSlowRow,
+} from './components/dashboard/SQLSlowQueryTable';
+export {
+  RBACMatrix,
+  type RBACMatrixProps,
+  type RbacRole,
+  type RbacRow,
+  type RbacState,
+} from './components/dashboard/RBACMatrix';
+export {
+  TenantFleetTable,
+  type TenantFleetTableProps,
+  type TenantRow,
+  type TenantFleetRow,
+  type TenantStatus,
+} from './components/dashboard/TenantFleetTable';
+export {
+  ErrorRateBreakdown,
+  type ErrorRateBreakdownProps,
+  type EndpointRow,
+  type StatusBucket,
+} from './components/dashboard/ErrorRateBreakdown';
+export { DBSupervisorSidebar, DB_SUBITEMS, type DBSubItem } from './components/dashboard/DBSupervisorSidebar';
+
+// Cross-hair helper
+export { attachCrossHair, type CrossHairBindings } from './lib/table-cursor';

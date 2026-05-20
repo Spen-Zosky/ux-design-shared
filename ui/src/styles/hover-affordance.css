@@ -1,14 +1,16 @@
 /* ============================================================
-   Heuresys universal hover affordance — single canonical sheet
+   Heuresys universal hover + interaction sheet (canonical).
    ============================================================
    Source: ux-design/prototypes/superuser-system-health.html
-   Doctrine: docs/13_best_practices_for_modern_saas_ui.md +
-             docs/09_design_system_and_tokens.md
-   Mirror at @heuresys/ui/src/styles/hover-affordance.css.
+   Mirror at heuresys-advanced/.../code_examples/src/styles/hover-affordance.css
 
-   Every hoverable surface reacts to the cursor with at least
-   two cues (border-color + glow/scale/marker). Cross-hair on
-   tables eliminates pointer ambiguity in data-dense interfaces.
+   IMPORTANT — color tokens convention:
+     This sheet uses `color-mix(in srgb, var(--X) N%, transparent)` rather than
+     `hsl(var(--X) / N)`. The latter syntax requires the var to be a bare HSL
+     triple ("221 83% 53%"); apps/web emits hex values via PaletteProvider, so
+     hsl()-wrapped vars would resolve to `hsl(#2563EB / 0.18)` which is invalid
+     and falls back to transparent (= the bug that made cross-hair / hover
+     invisible). color-mix() accepts any color format.
    ============================================================ */
 
 /* ---------- Cards (every <article> with a border) ---------- */
@@ -20,11 +22,11 @@ article {
   transform-origin: center;
 }
 article:hover {
-  border-color: hsl(var(--primary) / 0.85) !important;
+  border-color: color-mix(in srgb, var(--primary) 85%, transparent) !important;
   box-shadow:
-    0 0 0 1px hsl(var(--primary) / 0.35),
-    0 6px 18px hsl(var(--primary) / 0.12),
-    var(--shadow-card, 0 1px 2px hsl(220 20% 10% / 0.06));
+    0 0 0 1px color-mix(in srgb, var(--primary) 35%, transparent),
+    0 6px 18px color-mix(in srgb, var(--primary) 12%, transparent),
+    var(--shadow-card, 0 1px 2px rgba(0, 0, 0, 0.06));
   transform: scale(1.012);
   cursor: pointer;
   z-index: 1;
@@ -36,8 +38,8 @@ article:hover {
   transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 [role="alert"]:hover {
-  border-color: hsl(var(--primary) / 0.85) !important;
-  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.3);
+  border-color: color-mix(in srgb, var(--primary) 85%, transparent) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
 /* ---------- Table rows (every tbody row) ---------- */
@@ -45,30 +47,36 @@ tbody tr {
   transition: background-color 150ms ease, box-shadow 150ms ease;
 }
 tbody tr:hover {
-  background: hsl(var(--accent) / 0.9) !important;
+  background: color-mix(in srgb, var(--accent) 90%, transparent) !important;
   box-shadow:
-    inset 4px 0 0 hsl(var(--primary)),
-    inset 0 1px 0 hsl(var(--primary) / 0.4),
-    inset 0 -1px 0 hsl(var(--primary) / 0.4);
+    inset 4px 0 0 var(--primary),
+    inset 0 1px 0 color-mix(in srgb, var(--primary) 40%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--primary) 40%, transparent);
   cursor: pointer;
 }
-/* Sticky cells (frozen first column) need explicit row-hover override
-   because their own bg-card / bg-muted occludes the tr background. */
+/* Sticky cells need explicit row-hover override */
 tbody tr:hover > td.sticky,
 tbody tr:hover > td[class*="sticky"] {
-  background-color: hsl(var(--accent) / 0.9) !important;
+  background-color: color-mix(in srgb, var(--accent) 90%, transparent) !important;
 }
 
 /* ---------- Log stream lines ---------- */
 .log-line {
   transition: background-color 150ms ease, box-shadow 150ms ease;
+  font-size: 12px;
 }
+.log-line .ts    { color: var(--muted-foreground); }
+.log-line .lvl-info  { color: var(--info); }
+.log-line .lvl-warn  { color: var(--warning); }
+.log-line .lvl-error { color: var(--danger); }
+.log-line .lvl-debug { color: var(--muted-foreground); }
+.log-line .lvl-trace { color: var(--palette-3); }
 .log-line:hover {
-  background: hsl(var(--accent) / 0.9) !important;
+  background: color-mix(in srgb, var(--accent) 90%, transparent) !important;
   box-shadow:
-    inset 4px 0 0 hsl(var(--info)),
-    inset 0 1px 0 hsl(var(--info) / 0.4),
-    inset 0 -1px 0 hsl(var(--info) / 0.4);
+    inset 4px 0 0 var(--info),
+    inset 0 1px 0 color-mix(in srgb, var(--info) 40%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--info) 40%, transparent);
   cursor: pointer;
 }
 
@@ -78,18 +86,18 @@ ol[class*="space-y"] > li {
   transition: background-color 150ms ease, box-shadow 150ms ease;
 }
 ul[class*="divide-y"] > li:hover {
-  background: hsl(var(--accent) / 0.75);
+  background: color-mix(in srgb, var(--accent) 75%, transparent);
   box-shadow:
-    inset 4px 0 0 hsl(var(--primary)),
-    inset 0 1px 0 hsl(var(--primary) / 0.35),
-    inset 0 -1px 0 hsl(var(--primary) / 0.35);
+    inset 4px 0 0 var(--primary),
+    inset 0 1px 0 color-mix(in srgb, var(--primary) 35%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--primary) 35%, transparent);
   cursor: pointer;
 }
 ol[class*="space-y"] > li:hover {
   box-shadow:
-    inset 4px 0 0 hsl(var(--primary)),
-    inset 0 1px 0 hsl(var(--primary) / 0.35),
-    inset 0 -1px 0 hsl(var(--primary) / 0.35);
+    inset 4px 0 0 var(--primary),
+    inset 0 1px 0 color-mix(in srgb, var(--primary) 35%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--primary) 35%, transparent);
   cursor: pointer;
 }
 
@@ -102,7 +110,7 @@ ol[class*="space-y"] > li:hover {
     color 180ms ease;
 }
 .nav-link:hover {
-  border-color: hsl(var(--primary) / 0.4);
+  border-color: color-mix(in srgb, var(--primary) 40%, transparent);
 }
 
 /* ============================================================
@@ -114,35 +122,35 @@ table {
   position: relative;
 }
 tbody td.col-cross {
-  background-color: hsl(var(--primary) / 0.08) !important;
+  background-color: color-mix(in srgb, var(--primary) 8%, transparent) !important;
   transition: background-color 100ms ease;
 }
 tbody tr.row-cross > td {
-  background-color: hsl(var(--primary) / 0.06) !important;
+  background-color: color-mix(in srgb, var(--primary) 6%, transparent) !important;
 }
 tbody td.cell-cross {
-  background-color: hsl(var(--primary) / 0.18) !important;
-  box-shadow: inset 0 0 0 1.5px hsl(var(--primary) / 0.7);
+  background-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--primary) 70%, transparent);
   position: relative;
   z-index: 2;
 }
 thead th.col-hover-header {
-  background-color: hsl(var(--primary) / 0.15) !important;
-  color: hsl(var(--primary));
-  box-shadow: inset 0 -2px 0 hsl(var(--primary));
+  background-color: color-mix(in srgb, var(--primary) 15%, transparent) !important;
+  color: var(--primary);
+  box-shadow: inset 0 -2px 0 var(--primary);
 }
-/* Sticky cells also need !important to beat their inline bg-card / bg-muted */
+/* Sticky cells too */
 tbody td.sticky.col-cross,
 tbody td[class*="sticky"].col-cross {
-  background-color: hsl(var(--primary) / 0.08) !important;
+  background-color: color-mix(in srgb, var(--primary) 8%, transparent) !important;
 }
 tbody td.sticky.cell-cross,
 tbody td[class*="sticky"].cell-cross {
-  background-color: hsl(var(--primary) / 0.18) !important;
+  background-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
 }
 thead th.sticky.col-hover-header,
 thead th[class*="sticky"].col-hover-header {
-  background-color: hsl(var(--primary) / 0.15) !important;
+  background-color: color-mix(in srgb, var(--primary) 15%, transparent) !important;
 }
 
 /* ============================================================
@@ -186,6 +194,70 @@ body[data-sidebar="collapsed"] .sidebar-icon-expand   { display: block; }
 }
 
 /* ============================================================
+   Custom scrollbar — quiet, premium (port from prototype)
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--muted-foreground) 40%, transparent);
+}
+
+/* ============================================================
+   Focus ring system-wide
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ============================================================
+   Animations — pulse-dot, shimmer-bar (port from prototype)
+   ============================================================ */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.shimmer-bar {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--primary) 8%, transparent),
+    transparent
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Tabular numerics (port from prototype) */
+.num {
+  font-feature-settings: 'tnum' 1, 'cv03' 1;
+}
+
+/* ============================================================
    prefers-reduced-motion — kill all transitions + transforms
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -198,8 +270,11 @@ body[data-sidebar="collapsed"] .sidebar-icon-expand   { display: block; }
   .nav-link,
   [data-group-chevron],
   [data-palette-chevron],
-  [data-shell="grid"] {
+  [data-shell="grid"],
+  .pulse-dot,
+  .shimmer-bar::after {
     transition: none !important;
     transform: none !important;
+    animation: none !important;
   }
 }

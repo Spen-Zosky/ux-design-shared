@@ -37,6 +37,11 @@ export interface DashboardHeaderProps {
   onOpenMenu?: () => void;
   onOpenCommandPalette?: () => void;
   className?: string;
+  /** Override the default wordmark logo with a custom node (e.g. the canonical
+   *  two-color SVG inline used in the SUPERUSER prototype). */
+  logo?: React.ReactNode;
+  /** Optional trailing badge next to the logo (e.g. "advanced" product chip). */
+  logoBadge?: React.ReactNode;
   leftExtras?: React.ReactNode;
   rightExtras?: React.ReactNode;
 }
@@ -57,6 +62,8 @@ export function DashboardHeader({
   onOpenMenu,
   onOpenCommandPalette,
   className,
+  logo,
+  logoBadge,
   leftExtras,
   rightExtras,
 }: DashboardHeaderProps) {
@@ -93,8 +100,9 @@ export function DashboardHeader({
           </svg>
         </button>
 
-        <a href="/app" aria-label="Heuresys — pagina iniziale autenticata" className="flex items-center">
-          <HeuresysWordmark variant="brand" size="md" />
+        <a href="/app" aria-label="Heuresys — pagina iniziale autenticata" className="flex items-center gap-2.5">
+          {logo ?? <HeuresysWordmark variant="brand" size="md" />}
+          {logoBadge}
         </a>
 
         {breadcrumb && breadcrumb.length > 0 && (

@@ -124,7 +124,7 @@ function EndpointSparkline({ values, tone }: { values: ReadonlyArray<number>; to
   const points = values.map((v, i) => `${i * step},${H - v * (H - 2) - 1}`).join(" ");
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="h-3.5 w-full" aria-hidden="true" preserveAspectRatio="none">
-      <polyline points={points} fill="none" stroke={`hsl(var(--${tone}))`} strokeWidth="1.4" strokeLinejoin="round" />
+      <polyline points={points} fill="none" stroke={`var(--${tone})`} strokeWidth="1.4" strokeLinejoin="round" />
     </svg>
   );
 }

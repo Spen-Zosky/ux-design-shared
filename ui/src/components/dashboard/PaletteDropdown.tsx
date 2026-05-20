@@ -84,10 +84,13 @@ export function PaletteDropdown() {
         onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }}
         className="inline-flex h-9 items-center gap-1.5 rounded-control border border-border px-2 transition hover:bg-accent hover:border-foreground/30"
       >
+        {/* Static class names so Tailwind v4 source-scan picks them up
+            (template literal `bg-palette-${n}` is not resolvable at build time). */}
         <span className="flex gap-0.5">
-          {([1, 2, 3, 4] as const).map((n) => (
-            <span key={n} className={`h-4 w-4 rounded-sm bg-palette-${n}`} />
-          ))}
+          <span className="h-4 w-4 rounded-sm bg-palette-1" />
+          <span className="h-4 w-4 rounded-sm bg-palette-2" />
+          <span className="h-4 w-4 rounded-sm bg-palette-3" />
+          <span className="h-4 w-4 rounded-sm bg-palette-4" />
         </span>
         <svg data-palette-chevron className="h-3.5 w-3.5 text-muted-foreground transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polyline points="6 9 12 15 18 9" />

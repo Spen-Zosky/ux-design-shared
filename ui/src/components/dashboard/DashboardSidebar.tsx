@@ -165,6 +165,7 @@ function SidebarGroup({ group }: { group: NavGroup }) {
                     ? 'bg-accent text-foreground font-medium'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                 )}
+                style={item.active ? { boxShadow: 'inset 2px 0 0 var(--primary)' } : undefined}
               >
                 <span className="flex min-w-0 items-center gap-2">
                   {item.icon && <span className="shrink-0">{item.icon}</span>}

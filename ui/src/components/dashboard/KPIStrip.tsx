@@ -67,10 +67,14 @@ function SparklineMini({ values, tone }: { values: ReadonlyArray<number>; tone: 
   const step = W / (values.length - 1);
   const points = values.map((v, i) => `${i * step},${H - v * (H - 4) - 2}`).join(" ");
   const areaPoints = `${points} ${W},${H} 0,${H}`;
+  // Use var() directly — wrapping with hsl() fails when the var is a hex value
+  // (e.g. apps/web emits hex via PaletteProvider). color-mix() is format-agnostic.
+  const stroke = `var(--${tone})`;
+  const areaFill = `color-mix(in srgb, var(--${tone}) 12%, transparent)`;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="mt-3 h-7 w-full" aria-hidden="true" preserveAspectRatio="none">
-      <polyline points={points} fill="none" stroke={`hsl(var(--${tone}))`} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <polyline points={areaPoints} fill={`hsl(var(--${tone}) / 0.12)`} stroke="none" />
+      <polyline points={points} fill="none" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <polyline points={areaPoints} fill={areaFill} stroke="none" />
     </svg>
   );
 }

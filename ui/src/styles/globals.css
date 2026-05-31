@@ -1,21 +1,61 @@
 @import "tailwindcss";
 @import "./hover-affordance.css";
 
-/*
- * Design tokens (placeholder) — TBD by brand definition.
- * Tokens use OKLCH for perceptual uniformity. Values picked to read well on
- * white and dark backgrounds; replace once the official Heuresys palette is
- * confirmed.
- */
+/* D3 — canonical gap-fill for the semantic-token contract.
+ * Consumers own brand/surface tokens (background, foreground, card, muted,
+ * border, accent, primary, sidebar, palette-*, success/warning/info) via their
+ * own @theme. The library fills ONLY the tokens no consumer provides, plus
+ * `-fg` aliases so components using either naming convention resolve.
+ * Aliases inherit each consumer's `-foreground` value at runtime (verified).
+ * Values mirror src/styles/tokens.css (wizard template, not a runtime import). */
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --color-primary:        oklch(0.55 0.18 250);
-  --color-primary-fg:     oklch(1.00 0.00 0);
-  --color-destructive:    oklch(0.55 0.20 25);
-  --color-destructive-fg: oklch(1.00 0.00 0);
+  /* -fg aliases → inherit consumer's -foreground value */
+  --color-muted-fg:    var(--color-muted-foreground);
+  --color-primary-fg:  oklch(0.99 0 0);            /* primary text = near-white */
+
+  /* secondary (no consumer provides it) */
+  --color-secondary:            oklch(0.96 0.005 252);
+  --color-secondary-foreground: oklch(0.22 0.018 252);
+  --color-secondary-fg:         var(--color-secondary-foreground);
+
+  /* accent foreground (consumers provide accent, not its fg) */
+  --color-accent-foreground: oklch(0.22 0.018 252);
+  --color-accent-fg:         var(--color-accent-foreground);
+
+  /* destructive (consumers use `danger`, not `destructive`) */
+  --color-destructive:            oklch(0.6 0.22 22);
+  --color-destructive-foreground: oklch(0.99 0 0);
+  --color-destructive-fg:         var(--color-destructive-foreground);
+
+  /* feedback foregrounds (consumers provide the base hues only) */
+  --color-success-fg: oklch(0.99 0 0);
+  --color-warning-fg: oklch(0.22 0.018 252);
+  --color-info-fg:    oklch(0.99 0 0);
+
+  /* chrome (missing everywhere) */
+  --color-input: oklch(0.92 0.008 252);
+  --color-ring:  oklch(0.55 0.18 264);
+
+  /* overlay — theme-neutral modal scrim */
+  --color-overlay: oklch(0.15 0 0);
 }
 
-html, body {
+/* Dark overrides — only the library-owned utility tokens. */
+.dark {
+  --color-secondary:            oklch(0.28 0.018 252);
+  --color-secondary-foreground: oklch(0.96 0.005 252);
+  --color-accent-foreground:    oklch(0.96 0.005 252);
+  --color-destructive:          oklch(0.65 0.22 22);
+  --color-input:                oklch(0.32 0.018 252);
+  --color-ring:                 oklch(0.7 0.18 264);
+  /* overlay stays neutral-dark in both themes */
+}
+
+html,
+body {
   font-family: var(--font-sans);
 }

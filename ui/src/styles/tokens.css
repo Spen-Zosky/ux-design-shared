@@ -40,6 +40,13 @@
   --color-input: oklch(0.92 0.008 252);
   --color-ring: oklch(0.55 0.18 264);
 
+  /* ---- Color: overlay ----
+   * Semantic modal-scrim token. Theme-NEUTRAL: a modal backdrop must dim the
+   * page regardless of light/dark theme, so the same deep-neutral dark value
+   * is declared here and re-declared (identically) in `.dark` below. Opacity
+   * is applied at the utility level via `bg-overlay/NN`. */
+  --color-overlay: oklch(0.15 0 0);
+
   /* ---- Typography ---- */
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -94,6 +101,9 @@
   --color-border: oklch(0.32 0.018 252);
   --color-input: oklch(0.32 0.018 252);
   --color-ring: oklch(0.7 0.18 264);
+
+  /* Overlay is theme-neutral: identical deep-neutral dark in dark mode too. */
+  --color-overlay: oklch(0.15 0 0);
 }
 
 /* ---- Reduced motion respect (a11y) ---- */

@@ -69,6 +69,7 @@ function resolveSize(size: WordmarkSize | number): { fontSize: number; letterSpa
  * renders identically on every theme, palette, and surface.
  */
 const BRAND_BLUE = 'hsl(221 83% 53%)';
+// eslint-disable-next-line no-restricted-syntax -- intentional brand hex (canonical wordmark accent "y", must NOT depend on theme/palette vars)
 const BRAND_PURPLE = '#a855f7';
 
 const VARIANT_STYLES: Record<WordmarkVariant, React.CSSProperties> = {

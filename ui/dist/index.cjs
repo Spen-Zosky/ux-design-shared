@@ -100,9 +100,9 @@ var buttonVariants = classVarianceAuthority.cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-fg hover:bg-primary/90",
-        secondary: "bg-neutral-200 text-neutral-900 hover:bg-neutral-300",
-        outline: "border border-neutral-300 bg-transparent text-neutral-900 hover:bg-neutral-100",
-        ghost: "bg-transparent text-neutral-900 hover:bg-neutral-100",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        outline: "border border-border bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
+        ghost: "bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
         destructive: "bg-destructive text-destructive-fg hover:bg-destructive/90",
         link: "text-primary underline-offset-4 hover:underline"
       },
@@ -129,7 +129,7 @@ var Card = React53__namespace.forwardRef(
     "div",
     {
       ref,
-      className: cn("rounded-lg border border-neutral-200 bg-white text-neutral-900 shadow-sm", className),
+      className: cn("rounded-lg border border-border bg-card text-card-foreground shadow-sm", className),
       ...props
     }
   )
@@ -144,7 +144,7 @@ var CardTitle = React53__namespace.forwardRef(
 );
 CardTitle.displayName = "CardTitle";
 var CardDescription = React53__namespace.forwardRef(
-  ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("p", { ref, className: cn("text-sm text-neutral-500", className), ...props })
+  ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("p", { ref, className: cn("text-sm text-muted-foreground", className), ...props })
 );
 CardDescription.displayName = "CardDescription";
 var CardContent = React53__namespace.forwardRef(
@@ -156,11 +156,11 @@ var CardFooter = React53__namespace.forwardRef(
 );
 CardFooter.displayName = "CardFooter";
 var inputVariants = classVarianceAuthority.cva(
-  "flex w-full rounded-md border bg-white px-3 py-2 text-sm transition-colors placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+  "flex w-full rounded-md border bg-background px-3 py-2 text-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "border-neutral-300 focus-visible:ring-primary",
+        default: "border-input focus-visible:ring-primary",
         error: "border-destructive focus-visible:ring-destructive"
       },
       inputSize: {
@@ -204,9 +204,9 @@ var Input = React53__namespace.forwardRef(
     );
     if (!label && !helperText && !errorText) return inputEl;
     return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("flex flex-col gap-1", containerClassName), children: [
-      label ? /* @__PURE__ */ jsxRuntime.jsx("label", { htmlFor: id, className: "text-sm font-medium text-neutral-900", children: label }) : null,
+      label ? /* @__PURE__ */ jsxRuntime.jsx("label", { htmlFor: id, className: "text-sm font-medium text-foreground", children: label }) : null,
       inputEl,
-      errorText ? /* @__PURE__ */ jsxRuntime.jsx("p", { id: helperId, className: "text-xs text-destructive", role: "alert", children: errorText }) : helperText ? /* @__PURE__ */ jsxRuntime.jsx("p", { id: helperId, className: "text-xs text-neutral-600", children: helperText }) : null
+      errorText ? /* @__PURE__ */ jsxRuntime.jsx("p", { id: helperId, className: "text-xs text-destructive", role: "alert", children: errorText }) : helperText ? /* @__PURE__ */ jsxRuntime.jsx("p", { id: helperId, className: "text-xs text-muted-foreground", children: helperText }) : null
     ] });
   }
 );
@@ -229,7 +229,7 @@ var toastVariants = classVarianceAuthority.cva(
   {
     variants: {
       variant: {
-        default: "border-neutral-200 bg-white text-neutral-900",
+        default: "border-border bg-card text-card-foreground",
         destructive: "border-destructive bg-destructive text-destructive-fg"
       }
     },
@@ -265,7 +265,7 @@ var ToastAction = React53__namespace.forwardRef(({ className, ...props }, ref) =
   {
     ref,
     className: cn(
-      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border border-neutral-300 bg-transparent px-3 text-sm font-medium transition-colors hover:bg-neutral-100",
+      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border border-border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
       className
     ),
     ...props
@@ -359,7 +359,7 @@ var DialogOverlay = React53__namespace.forwardRef(({ className, ...props }, ref)
   {
     ref,
     className: cn(
-      "fixed inset-0 z-50 bg-black/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-overlay/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     ),
     ...props
@@ -1289,7 +1289,7 @@ function AppShell({
         {
           type: "button",
           "aria-label": "Close navigation",
-          className: "fixed inset-0 z-40 bg-black/50 md:hidden",
+          className: "fixed inset-0 z-40 bg-overlay/50 md:hidden",
           onClick: () => setMobileOpen(false)
         }
       ),
@@ -3441,11 +3441,12 @@ var tierVariants = classVarianceAuthority.cva(
   {
     variants: {
       tier: {
-        bronze: "border-amber-600/40 bg-amber-100/50 text-amber-900 dark:bg-amber-900/20",
-        silver: "border-slate-400/40 bg-slate-100/50 text-slate-700 dark:bg-slate-800/40",
-        gold: "border-yellow-500/50 bg-yellow-100/60 text-yellow-900 dark:bg-yellow-900/30",
-        platinum: "border-cyan-400/40 bg-cyan-50/50 text-cyan-900 dark:bg-cyan-900/30",
-        legendary: "border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-100 to-purple-100 text-fuchsia-900 dark:from-fuchsia-900/30 dark:to-purple-900/30"
+        bronze: "border-amber-600/40 bg-amber-100/50 text-amber-900 [.dark_&]:bg-amber-900/20",
+        // eslint-disable-next-line no-restricted-syntax -- intentional gamification tier palette (silver = slate; decorative tier color, matches bronze/gold/platinum/legendary siblings, already uses class-based [.dark_&]:)
+        silver: "border-slate-400/40 bg-slate-100/50 text-slate-700 [.dark_&]:bg-slate-800/40",
+        gold: "border-yellow-500/50 bg-yellow-100/60 text-yellow-900 [.dark_&]:bg-yellow-900/30",
+        platinum: "border-cyan-400/40 bg-cyan-50/50 text-cyan-900 [.dark_&]:bg-cyan-900/30",
+        legendary: "border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-100 to-purple-100 text-fuchsia-900 [.dark_&]:from-fuchsia-900/30 [.dark_&]:to-purple-900/30"
       }
     },
     defaultVariants: { tier: "bronze" }
@@ -3511,7 +3512,7 @@ function OnboardingTour({
     }
   };
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntime.jsx("div", { className: "fixed inset-0 z-50 bg-black/40", "aria-hidden": "true" }),
+    /* @__PURE__ */ jsxRuntime.jsx("div", { className: "fixed inset-0 z-50 bg-overlay/40", "aria-hidden": "true" }),
     /* @__PURE__ */ jsxRuntime.jsx(
       "div",
       {
@@ -3614,6 +3615,7 @@ function useShortcutsModal() {
 }
 function MeshGradient({
   className,
+  // eslint-disable-next-line no-restricted-syntax -- intentional decorative gradient palette (pure-visual mesh, palette-independent)
   colors = ["#a78bfa", "#60a5fa", "#34d399", "#f472b6"],
   intensity = 0.6
 }) {
@@ -3642,7 +3644,10 @@ function AuroraBackground({ className }) {
       {
         className: "absolute -inset-[10%] motion-safe:animate-[aurora_18s_ease-in-out_infinite_alternate]",
         style: {
-          background: "conic-gradient(from 180deg at 50% 50%, #38bdf8 0deg, #818cf8 120deg, #f472b6 240deg, #38bdf8 360deg)",
+          background: (
+            // eslint-disable-next-line no-restricted-syntax -- intentional decorative gradient palette (pure-visual aurora, palette-independent)
+            "conic-gradient(from 180deg at 50% 50%, #38bdf8 0deg, #818cf8 120deg, #f472b6 240deg, #38bdf8 360deg)"
+          ),
           filter: "blur(80px)",
           opacity: 0.4
         }
@@ -5230,7 +5235,7 @@ function ImageGallery({
         role: "dialog",
         "aria-modal": "true",
         "aria-label": `Lightbox: ${images[active].alt}`,
-        className: "fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 p-4",
+        className: "fixed inset-0 z-50 flex flex-col items-center justify-center bg-overlay/90 p-4",
         children: [
           /* @__PURE__ */ jsxRuntime.jsx(
             Button,
@@ -5275,7 +5280,10 @@ function ImageGallery({
               className: "max-h-[90vh] max-w-[90vw] object-contain"
             }
           ),
-          images[active].caption ? /* @__PURE__ */ jsxRuntime.jsx("p", { className: "mt-3 max-w-prose text-center text-sm text-white/80", children: images[active].caption }) : null,
+          images[active].caption ? (
+            // eslint-disable-next-line no-restricted-syntax -- intentional text-white over lightbox black scrim (caption on dark overlay)
+            /* @__PURE__ */ jsxRuntime.jsx("p", { className: "mt-3 max-w-prose text-center text-sm text-white/80", children: images[active].caption })
+          ) : null,
           /* @__PURE__ */ jsxRuntime.jsxs("p", { className: "mt-1 text-xs text-white/60", children: [
             active + 1,
             " / ",
@@ -5536,7 +5544,7 @@ function MarkdownView({
   className,
   components
 }) {
-  return /* @__PURE__ */ jsxRuntime.jsx("div", { className: cn("prose prose-sm dark:prose-invert max-w-none", className), children: /* @__PURE__ */ jsxRuntime.jsx(
+  return /* @__PURE__ */ jsxRuntime.jsx("div", { className: cn("prose prose-sm [.dark_&]:prose-invert max-w-none", className), children: /* @__PURE__ */ jsxRuntime.jsx(
     ReactMarkdown__default.default,
     {
       remarkPlugins: [remarkGfm__default.default, remarkMath__default.default],
@@ -6178,7 +6186,7 @@ function AccessibilityPanel({ className }) {
       {
         role: "dialog",
         "aria-label": "Accessibility settings",
-        className: "fixed inset-0 z-50 flex items-end justify-end bg-black/30 p-4",
+        className: "fixed inset-0 z-50 flex items-end justify-end bg-overlay/30 p-4",
         onClick: (e) => {
           if (e.target === e.currentTarget) setOpen(false);
         },
@@ -6475,7 +6483,7 @@ function HeroVideoBackground({
             className: "absolute inset-0 -z-10 h-full w-full object-cover"
           }
         ),
-        /* @__PURE__ */ jsxRuntime.jsx("div", { "aria-hidden": "true", className: "absolute inset-0 -z-10 bg-black/60" }),
+        /* @__PURE__ */ jsxRuntime.jsx("div", { "aria-hidden": "true", className: "absolute inset-0 -z-10 bg-overlay/60" }),
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-5 px-6 text-center text-white", children: [
           /* @__PURE__ */ jsxRuntime.jsx("h1", { className: "text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl", children: title }),
           /* @__PURE__ */ jsxRuntime.jsx("p", { className: "mx-auto max-w-2xl text-lg text-white/80", children: description }),
@@ -7399,7 +7407,7 @@ function ESCOTreeNavigator({ nodes, onExpand, onSelect }) {
           {
             type: "button",
             onClick: () => handleExpand(node),
-            className: "h-5 w-5 rounded text-xs hover:bg-neutral-100",
+            className: "h-5 w-5 rounded text-xs hover:bg-accent hover:text-accent-foreground",
             "aria-expanded": isExpanded,
             "data-testid": "esco-tree-toggle",
             children: isLoading ? "\u2026" : isExpanded ? "\u25BE" : "\u25B8"
@@ -7410,11 +7418,11 @@ function ESCOTreeNavigator({ nodes, onExpand, onSelect }) {
           {
             type: "button",
             onClick: () => onSelect?.(node),
-            className: "rounded px-2 py-0.5 text-left text-sm hover:bg-neutral-100",
+            className: "rounded px-2 py-0.5 text-left text-sm hover:bg-accent hover:text-accent-foreground",
             "data-testid": "esco-tree-label",
             children: [
               /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", children: node.label }),
-              node.code && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-2 font-mono text-xs text-neutral-500", children: node.code })
+              node.code && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-2 font-mono text-xs text-muted-foreground", children: node.code })
             ]
           }
         )
@@ -7435,10 +7443,10 @@ function KGGraphCanvas({ nodes, edges, emptyState }) {
     return m;
   }, [edges]);
   if (nodes.length === 0) {
-    return /* @__PURE__ */ jsxRuntime.jsx("div", { className: "rounded-md border border-dashed border-neutral-300 p-6 text-sm text-neutral-500", children: emptyState ?? "No graph data" });
+    return /* @__PURE__ */ jsxRuntime.jsx("div", { className: "rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground", children: emptyState ?? "No graph data" });
   }
-  return /* @__PURE__ */ jsxRuntime.jsxs("div", { "data-testid": "kg-graph-canvas", className: "rounded-md border border-neutral-200", children: [
-    /* @__PURE__ */ jsxRuntime.jsxs("header", { className: "flex items-center justify-between border-b border-neutral-200 px-3 py-2 text-xs font-mono uppercase tracking-wide text-neutral-500", children: [
+  return /* @__PURE__ */ jsxRuntime.jsxs("div", { "data-testid": "kg-graph-canvas", className: "rounded-md border border-border", children: [
+    /* @__PURE__ */ jsxRuntime.jsxs("header", { className: "flex items-center justify-between border-b border-border px-3 py-2 text-xs font-mono uppercase tracking-wide text-muted-foreground", children: [
       /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Knowledge graph" }),
       /* @__PURE__ */ jsxRuntime.jsxs("span", { children: [
         nodes.length,
@@ -7447,19 +7455,19 @@ function KGGraphCanvas({ nodes, edges, emptyState }) {
         " edges"
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "divide-y divide-neutral-100", children: nodes.map((n) => {
+    /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "divide-y divide-border", children: nodes.map((n) => {
       const out = adj.get(n.id) ?? [];
       return /* @__PURE__ */ jsxRuntime.jsxs("li", { className: "px-3 py-2", "data-testid": "kg-graph-node", children: [
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-baseline gap-2", children: [
           /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", children: n.label }),
-          n.group && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-mono text-neutral-600", children: n.group })
+          n.group && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground", children: n.group })
         ] }),
-        out.length > 0 && /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "mt-1 space-y-0.5 pl-4 text-xs text-neutral-600", children: out.map((e) => {
+        out.length > 0 && /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "mt-1 space-y-0.5 pl-4 text-xs text-muted-foreground", children: out.map((e) => {
           const target = byId.get(e.target);
           return /* @__PURE__ */ jsxRuntime.jsxs("li", { "data-testid": "kg-graph-edge", children: [
             "\u2192 ",
             target?.label ?? e.target,
-            e.label && /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "ml-1 text-neutral-400", children: [
+            e.label && /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "ml-1 text-muted-foreground", children: [
               "(",
               e.label,
               ")"
@@ -7471,7 +7479,7 @@ function KGGraphCanvas({ nodes, edges, emptyState }) {
   ] });
 }
 var STATUS_BADGE = {
-  pending: { label: "Pending", className: "bg-neutral-100 text-neutral-700" },
+  pending: { label: "Pending", className: "bg-muted text-muted-foreground" },
   running: { label: "Running", className: "bg-blue-100 text-blue-800" },
   completed: { label: "Completed", className: "bg-emerald-100 text-emerald-800" },
   failed: { label: "Failed", className: "bg-red-100 text-red-800" },
@@ -7481,7 +7489,7 @@ var STATUS_BADGE = {
 function StatusBadge({ status }) {
   const cfg = STATUS_BADGE[status] ?? {
     label: status,
-    className: "bg-neutral-100 text-neutral-700"
+    className: "bg-muted text-muted-foreground"
   };
   return /* @__PURE__ */ jsxRuntime.jsx(
     "span",
@@ -7497,37 +7505,37 @@ function SAPSyncPanel({ jobs, delta, emptyJobsLabel }) {
   const totalSuccess = delta.filter((d) => d.kind === "success").reduce((a, b) => a + b.count, 0);
   const totalErrors = delta.filter((d) => d.kind === "error").reduce((a, b) => a + b.count, 0);
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { "data-testid": "sap-sync-panel", className: "space-y-4", children: [
-    /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "grid grid-cols-3 gap-2 rounded-md border border-neutral-200 p-3", children: [
+    /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "grid grid-cols-3 gap-2 rounded-md border border-border p-3", children: [
       /* @__PURE__ */ jsxRuntime.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-[10px] font-mono uppercase text-neutral-500", children: "Last job" }),
+        /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-[10px] font-mono uppercase text-muted-foreground", children: "Last job" }),
         /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-sm font-medium", children: lastJob ? lastJob.jobName : "\u2014" }),
         lastJob && /* @__PURE__ */ jsxRuntime.jsx(StatusBadge, { status: lastJob.status })
       ] }),
       /* @__PURE__ */ jsxRuntime.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-[10px] font-mono uppercase text-neutral-500", children: "\u0394 success (recent)" }),
+        /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-[10px] font-mono uppercase text-muted-foreground", children: "\u0394 success (recent)" }),
         /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-2xl font-semibold text-emerald-700", children: totalSuccess })
       ] }),
       /* @__PURE__ */ jsxRuntime.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-[10px] font-mono uppercase text-neutral-500", children: "\u0394 errors (recent)" }),
+        /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-[10px] font-mono uppercase text-muted-foreground", children: "\u0394 errors (recent)" }),
         /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-2xl font-semibold text-red-700", children: totalErrors })
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntime.jsx("h3", { className: "mb-2 text-sm font-medium", children: "Migration jobs" }),
-      jobs.length === 0 ? /* @__PURE__ */ jsxRuntime.jsx("p", { className: "rounded-md border border-dashed border-neutral-300 p-3 text-sm text-neutral-500", children: emptyJobsLabel ?? "No SAP migration jobs yet." }) : /* @__PURE__ */ jsxRuntime.jsxs("table", { className: "w-full text-sm", children: [
-        /* @__PURE__ */ jsxRuntime.jsx("thead", { className: "text-[10px] font-mono uppercase text-neutral-500", children: /* @__PURE__ */ jsxRuntime.jsxs("tr", { className: "text-left", children: [
+      jobs.length === 0 ? /* @__PURE__ */ jsxRuntime.jsx("p", { className: "rounded-md border border-dashed border-border p-3 text-sm text-muted-foreground", children: emptyJobsLabel ?? "No SAP migration jobs yet." }) : /* @__PURE__ */ jsxRuntime.jsxs("table", { className: "w-full text-sm", children: [
+        /* @__PURE__ */ jsxRuntime.jsx("thead", { className: "text-[10px] font-mono uppercase text-muted-foreground", children: /* @__PURE__ */ jsxRuntime.jsxs("tr", { className: "text-left", children: [
           /* @__PURE__ */ jsxRuntime.jsx("th", { className: "pb-2 pr-4", children: "Name" }),
           /* @__PURE__ */ jsxRuntime.jsx("th", { className: "pb-2 pr-4", children: "Type" }),
           /* @__PURE__ */ jsxRuntime.jsx("th", { className: "pb-2 pr-4", children: "Status" }),
           /* @__PURE__ */ jsxRuntime.jsx("th", { className: "pb-2 pr-4", children: "Progress" }),
           /* @__PURE__ */ jsxRuntime.jsx("th", { className: "pb-2 pr-4", children: "Started" })
         ] }) }),
-        /* @__PURE__ */ jsxRuntime.jsx("tbody", { className: "divide-y divide-neutral-100", children: jobs.map((j) => /* @__PURE__ */ jsxRuntime.jsxs("tr", { "data-testid": "sap-job-row", children: [
+        /* @__PURE__ */ jsxRuntime.jsx("tbody", { className: "divide-y divide-border", children: jobs.map((j) => /* @__PURE__ */ jsxRuntime.jsxs("tr", { "data-testid": "sap-job-row", children: [
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "py-2 pr-4 font-medium", children: j.jobName }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "py-2 pr-4", children: j.jobType }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "py-2 pr-4", children: /* @__PURE__ */ jsxRuntime.jsx(StatusBadge, { status: j.status }) }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "py-2 pr-4", children: j.progressPercent !== null ? `${j.progressPercent}%` : "\u2014" }),
-          /* @__PURE__ */ jsxRuntime.jsx("td", { className: "py-2 pr-4 text-xs text-neutral-500", children: j.startedAt ? new Date(j.startedAt).toLocaleString() : "\u2014" })
+          /* @__PURE__ */ jsxRuntime.jsx("td", { className: "py-2 pr-4 text-xs text-muted-foreground", children: j.startedAt ? new Date(j.startedAt).toLocaleString() : "\u2014" })
         ] }, j.id)) })
       ] })
     ] })
@@ -7842,7 +7850,7 @@ function DashboardHeader({
               onClick: toggleTheme,
               className: "inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
               children: [
-                /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4 dark:hidden", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
+                /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4 [.dark_&]:hidden", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
                   /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "5" }),
                   /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "1", x2: "12", y2: "3" }),
                   /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "21", x2: "12", y2: "23" }),
@@ -7853,7 +7861,7 @@ function DashboardHeader({
                   /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }),
                   /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" })
                 ] }),
-                /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "hidden h-4 w-4 dark:block", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }) })
+                /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "hidden h-4 w-4 [.dark_&]:block", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }) })
               ]
             }
           ),

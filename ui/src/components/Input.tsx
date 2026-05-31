@@ -3,11 +3,11 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/cn';
 
 const inputVariants = cva(
-  'flex w-full rounded-md border bg-white px-3 py-2 text-sm transition-colors placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full rounded-md border bg-background px-3 py-2 text-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: 'border-neutral-300 focus-visible:ring-primary',
+        default: 'border-input focus-visible:ring-primary',
         error: 'border-destructive focus-visible:ring-destructive',
       },
       inputSize: {
@@ -70,7 +70,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={cn('flex flex-col gap-1', containerClassName)}>
         {label ? (
-          <label htmlFor={id} className="text-sm font-medium text-neutral-900">
+          <label htmlFor={id} className="text-sm font-medium text-foreground">
             {label}
           </label>
         ) : null}
@@ -80,7 +80,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {errorText}
           </p>
         ) : helperText ? (
-          <p id={helperId} className="text-xs text-neutral-600">
+          <p id={helperId} className="text-xs text-muted-foreground">
             {helperText}
           </p>
         ) : null}

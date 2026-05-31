@@ -8,12 +8,13 @@ const tierVariants = cva(
   {
     variants: {
       tier: {
-        bronze: 'border-amber-600/40 bg-amber-100/50 text-amber-900 dark:bg-amber-900/20',
-        silver: 'border-slate-400/40 bg-slate-100/50 text-slate-700 dark:bg-slate-800/40',
-        gold: 'border-yellow-500/50 bg-yellow-100/60 text-yellow-900 dark:bg-yellow-900/30',
-        platinum: 'border-cyan-400/40 bg-cyan-50/50 text-cyan-900 dark:bg-cyan-900/30',
+        bronze: 'border-amber-600/40 bg-amber-100/50 text-amber-900 [.dark_&]:bg-amber-900/20',
+        // eslint-disable-next-line no-restricted-syntax -- intentional gamification tier palette (silver = slate; decorative tier color, matches bronze/gold/platinum/legendary siblings, already uses class-based [.dark_&]:)
+        silver: 'border-slate-400/40 bg-slate-100/50 text-slate-700 [.dark_&]:bg-slate-800/40',
+        gold: 'border-yellow-500/50 bg-yellow-100/60 text-yellow-900 [.dark_&]:bg-yellow-900/30',
+        platinum: 'border-cyan-400/40 bg-cyan-50/50 text-cyan-900 [.dark_&]:bg-cyan-900/30',
         legendary:
-          'border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-100 to-purple-100 text-fuchsia-900 dark:from-fuchsia-900/30 dark:to-purple-900/30',
+          'border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-100 to-purple-100 text-fuchsia-900 [.dark_&]:from-fuchsia-900/30 [.dark_&]:to-purple-900/30',
       },
     },
     defaultVariants: { tier: 'bronze' },

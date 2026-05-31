@@ -8,6 +8,7 @@ import { cn } from '../lib/cn';
 
 export function MeshGradient({
   className,
+  // eslint-disable-next-line no-restricted-syntax -- intentional decorative gradient palette (pure-visual mesh, palette-independent)
   colors = ['#a78bfa', '#60a5fa', '#34d399', '#f472b6'],
   intensity = 0.6,
 }: {
@@ -40,6 +41,7 @@ export function AuroraBackground({ className }: { className?: string }) {
         className="absolute -inset-[10%] motion-safe:animate-[aurora_18s_ease-in-out_infinite_alternate]"
         style={{
           background:
+            // eslint-disable-next-line no-restricted-syntax -- intentional decorative gradient palette (pure-visual aurora, palette-independent)
             'conic-gradient(from 180deg at 50% 50%, #38bdf8 0deg, #818cf8 120deg, #f472b6 240deg, #38bdf8 360deg)',
           filter: 'blur(80px)',
           opacity: 0.4,

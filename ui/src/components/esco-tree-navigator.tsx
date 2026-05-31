@@ -93,7 +93,7 @@ export function ESCOTreeNavigator({ nodes, onExpand, onSelect }: ESCOTreeNavigat
             <button
               type="button"
               onClick={() => handleExpand(node)}
-              className="h-5 w-5 rounded text-xs hover:bg-neutral-100"
+              className="h-5 w-5 rounded text-xs hover:bg-accent hover:text-accent-foreground"
               aria-expanded={isExpanded}
               data-testid="esco-tree-toggle"
             >
@@ -105,12 +105,12 @@ export function ESCOTreeNavigator({ nodes, onExpand, onSelect }: ESCOTreeNavigat
           <button
             type="button"
             onClick={() => onSelect?.(node)}
-            className="rounded px-2 py-0.5 text-left text-sm hover:bg-neutral-100"
+            className="rounded px-2 py-0.5 text-left text-sm hover:bg-accent hover:text-accent-foreground"
             data-testid="esco-tree-label"
           >
             <span className="font-medium">{node.label}</span>
             {node.code && (
-              <span className="ml-2 font-mono text-xs text-neutral-500">{node.code}</span>
+              <span className="ml-2 font-mono text-xs text-muted-foreground">{node.code}</span>
             )}
           </button>
         </div>

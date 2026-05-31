@@ -109,9 +109,11 @@ export function HeroVideoBackground({
         aria-hidden="true"
         className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/60" />
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-overlay/60" />
+      {/* eslint-disable-next-line no-restricted-syntax -- intentional text-white on hero scrim (white text over dark video overlay) */}
       <div className="space-y-5 px-6 text-center text-white">
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">{title}</h1>
+        {/* eslint-disable-next-line no-restricted-syntax -- intentional text-white on hero scrim (white text over dark video overlay) */}
         <p className="mx-auto max-w-2xl text-lg text-white/80">{description}</p>
         {primaryCta ? <CtaButton {...primaryCta} variant="default" /> : null}
       </div>

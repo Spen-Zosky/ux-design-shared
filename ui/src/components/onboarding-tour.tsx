@@ -64,7 +64,7 @@ export function OnboardingTour({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-black/40" aria-hidden="true" />
+      <div className="fixed inset-0 z-50 bg-overlay/40" aria-hidden="true" />
       <div
         aria-hidden="true"
         className="pointer-events-none fixed z-50 rounded-md ring-4 ring-primary"

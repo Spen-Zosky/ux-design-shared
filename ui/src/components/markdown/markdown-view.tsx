@@ -26,7 +26,7 @@ export function MarkdownView({
   components?: React.ComponentProps<typeof ReactMarkdown>['components'];
 }) {
   return (
-    <div className={cn('prose prose-sm dark:prose-invert max-w-none', className)}>
+    <div className={cn('prose prose-sm [.dark_&]:prose-invert max-w-none', className)}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}

@@ -43,21 +43,21 @@ export function KGGraphCanvas({ nodes, edges, emptyState }: KGGraphCanvasProps) 
 
   if (nodes.length === 0) {
     return (
-      <div className="rounded-md border border-dashed border-neutral-300 p-6 text-sm text-neutral-500">
+      <div className="rounded-md border border-dashed border-border p-6 text-sm text-muted-foreground">
         {emptyState ?? 'No graph data'}
       </div>
     );
   }
 
   return (
-    <div data-testid="kg-graph-canvas" className="rounded-md border border-neutral-200">
-      <header className="flex items-center justify-between border-b border-neutral-200 px-3 py-2 text-xs font-mono uppercase tracking-wide text-neutral-500">
+    <div data-testid="kg-graph-canvas" className="rounded-md border border-border">
+      <header className="flex items-center justify-between border-b border-border px-3 py-2 text-xs font-mono uppercase tracking-wide text-muted-foreground">
         <span>Knowledge graph</span>
         <span>
           {nodes.length} nodes · {edges.length} edges
         </span>
       </header>
-      <ul className="divide-y divide-neutral-100">
+      <ul className="divide-y divide-border">
         {nodes.map((n) => {
           const out = adj.get(n.id) ?? [];
           return (
@@ -65,19 +65,19 @@ export function KGGraphCanvas({ nodes, edges, emptyState }: KGGraphCanvasProps) 
               <div className="flex items-baseline gap-2">
                 <span className="font-medium">{n.label}</span>
                 {n.group && (
-                  <span className="rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-mono text-neutral-600">
+                  <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
                     {n.group}
                   </span>
                 )}
               </div>
               {out.length > 0 && (
-                <ul className="mt-1 space-y-0.5 pl-4 text-xs text-neutral-600">
+                <ul className="mt-1 space-y-0.5 pl-4 text-xs text-muted-foreground">
                   {out.map((e) => {
                     const target = byId.get(e.target);
                     return (
                       <li key={e.id} data-testid="kg-graph-edge">
                         → {target?.label ?? e.target}
-                        {e.label && <span className="ml-1 text-neutral-400">({e.label})</span>}
+                        {e.label && <span className="ml-1 text-muted-foreground">({e.label})</span>}
                       </li>
                     );
                   })}

@@ -76,7 +76,7 @@ export function AppShell({
           <button
             type="button"
             aria-label="Close navigation"
-            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            className="fixed inset-0 z-40 bg-overlay/50 md:hidden"
             onClick={() => setMobileOpen(false)}
           />
           <aside

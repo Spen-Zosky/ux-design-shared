@@ -44,6 +44,7 @@ function DemoCube() {
   return (
     <mesh onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
       <boxGeometry args={[1, 1, 1]} />
+      {/* eslint-disable-next-line no-restricted-syntax -- intentional decorative hex (Three.js material color, WebGL scene not Tailwind-themed) */}
       <meshStandardMaterial color={hovered ? '#a78bfa' : '#60a5fa'} />
     </mesh>
   );

@@ -2,6 +2,26 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { HeuresysWordmark } from '../wordmark';
 
+/*
+ * Brand-canon color assertions.
+ *
+ * The wordmark is the ONE component that intentionally HARDCODES its colors —
+ * "il logo è sempre quello": body = canonical brand blue `hsl(221 83% 53%)`,
+ * accent "y" = canonical purple `#a855f7`. These are NOT theme tokens, by
+ * design (see wordmark.tsx BRAND_BLUE / BRAND_PURPLE), so the logo renders
+ * identically on every theme, palette and surface.
+ *
+ * jsdom's CSSOM normalizes every authored color form (hsl(), hex) to its
+ * `rgb(...)` serialization on write — for BOTH `el.style.color` and
+ * `el.getAttribute("style")`. So we assert on the canonical brand colors in
+ * their jsdom-normalized rgb form (stable, deterministic) rather than the
+ * literal source string. This verifies the real intent (logo body is the
+ * brand blue, "y" is the brand purple, identical across variants) without
+ * weakening it.
+ */
+const BRAND_BLUE_RGB = 'rgb(36, 99, 235)'; // hsl(221 83% 53%) normalized by jsdom
+const BRAND_PURPLE_RGB = 'rgb(168, 85, 247)'; // #a855f7 normalized by jsdom
+
 describe('<HeuresysWordmark />', () => {
   it('renders the canonical "heuresys" lowercase wordmark', () => {
     render(<HeuresysWordmark />);
@@ -16,24 +36,26 @@ describe('<HeuresysWordmark />', () => {
     expect(y?.textContent).toBe('y');
   });
 
-  it('applies default variant (Inter, ink color)', () => {
+  it('applies default variant (Inter in stack, canonical brand-blue body)', () => {
     const { container } = render(<HeuresysWordmark variant="default" />);
     const root = container.firstElementChild as HTMLElement;
-    expect(root.style.color).toContain('var(--ink)');
+    // Body is the hardcoded canonical brand blue (logo is theme-independent).
+    expect(root.style.color).toBe(BRAND_BLUE_RGB);
     expect(root.style.fontFamily).toContain('Inter');
   });
 
-  it('applies brand variant (Exo 2, brand-blue color)', () => {
+  it('applies brand variant (Exo 2, canonical brand-blue body)', () => {
     const { container } = render(<HeuresysWordmark variant="brand" />);
     const root = container.firstElementChild as HTMLElement;
-    expect(root.style.color).toContain('var(--brand-blue)');
+    expect(root.style.color).toBe(BRAND_BLUE_RGB);
     expect(root.style.fontFamily).toContain('Exo 2');
   });
 
-  it('applies relative variant (themed body color via --logo-body)', () => {
+  it('applies relative variant (canonical brand-blue body, theme-independent)', () => {
     const { container } = render(<HeuresysWordmark variant="relative" />);
     const root = container.firstElementChild as HTMLElement;
-    expect(root.style.color).toContain('var(--logo-body');
+    // "il logo è sempre quello": relative variant renders the same brand blue.
+    expect(root.style.color).toBe(BRAND_BLUE_RGB);
   });
 
   it('respects size keyword "hero" (60px)', () => {
@@ -58,9 +80,10 @@ describe('<HeuresysWordmark />', () => {
     expect(screen.getByRole('img', { name: 'heuresys.com' })).toBeInTheDocument();
   });
 
-  it('the "y" inherits accent color', () => {
+  it('the "y" renders the canonical brand accent (purple)', () => {
     const { container } = render(<HeuresysWordmark />);
     const y = container.querySelector('.wm-y') as HTMLElement;
-    expect(y.style.color).toContain('var(--accent)');
+    // Accent "y" is the hardcoded canonical brand purple (theme-independent).
+    expect(y.style.color).toBe(BRAND_PURPLE_RGB);
   });
 });

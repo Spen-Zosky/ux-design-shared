@@ -69,13 +69,14 @@ export function ImageGallery({
           role="dialog"
           aria-modal="true"
           aria-label={`Lightbox: ${images[active]!.alt}`}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-overlay/90 p-4"
         >
           <Button
             size="icon"
             variant="ghost"
             onClick={() => setActive(null)}
             aria-label="Close lightbox"
+            // eslint-disable-next-line no-restricted-syntax -- intentional text-white/bg-white over lightbox black scrim (control button on dark overlay)
             className="absolute right-4 top-4 text-white hover:bg-white/20"
           >
             <X className="h-5 w-5" />
@@ -86,6 +87,7 @@ export function ImageGallery({
             onClick={() => setActive(active > 0 ? active - 1 : active)}
             disabled={active === 0}
             aria-label="Previous image"
+            // eslint-disable-next-line no-restricted-syntax -- intentional text-white/bg-white over lightbox black scrim (control button on dark overlay)
             className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 disabled:opacity-40"
           >
             <ChevronLeft className="h-6 w-6" />
@@ -96,6 +98,7 @@ export function ImageGallery({
             onClick={() => setActive(active < images.length - 1 ? active + 1 : active)}
             disabled={active === images.length - 1}
             aria-label="Next image"
+            // eslint-disable-next-line no-restricted-syntax -- intentional text-white/bg-white over lightbox black scrim (control button on dark overlay)
             className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 disabled:opacity-40"
           >
             <ChevronRight className="h-6 w-6" />
@@ -106,10 +109,12 @@ export function ImageGallery({
             className="max-h-[90vh] max-w-[90vw] object-contain"
           />
           {images[active]!.caption ? (
+            // eslint-disable-next-line no-restricted-syntax -- intentional text-white over lightbox black scrim (caption on dark overlay)
             <p className="mt-3 max-w-prose text-center text-sm text-white/80">
               {images[active]!.caption}
             </p>
           ) : null}
+          {/* eslint-disable-next-line no-restricted-syntax -- intentional text-white over lightbox black scrim (counter on dark overlay) */}
           <p className="mt-1 text-xs text-white/60">
             {active + 1} / {images.length}
           </p>

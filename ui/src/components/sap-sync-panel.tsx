@@ -46,7 +46,7 @@ export interface SAPSyncPanelProps {
 }
 
 const STATUS_BADGE: Record<SAPJobStatus, { label: string; className: string }> = {
-  pending: { label: 'Pending', className: 'bg-neutral-100 text-neutral-700' },
+  pending: { label: 'Pending', className: 'bg-muted text-muted-foreground' },
   running: { label: 'Running', className: 'bg-blue-100 text-blue-800' },
   completed: { label: 'Completed', className: 'bg-emerald-100 text-emerald-800' },
   failed: { label: 'Failed', className: 'bg-red-100 text-red-800' },
@@ -57,7 +57,7 @@ const STATUS_BADGE: Record<SAPJobStatus, { label: string; className: string }> =
 function StatusBadge({ status }: { status: SAPJobStatus }): ReactNode {
   const cfg = STATUS_BADGE[status] ?? {
     label: status,
-    className: 'bg-neutral-100 text-neutral-700',
+    className: 'bg-muted text-muted-foreground',
   };
   return (
     <span
@@ -76,18 +76,18 @@ export function SAPSyncPanel({ jobs, delta, emptyJobsLabel }: SAPSyncPanelProps)
 
   return (
     <div data-testid="sap-sync-panel" className="space-y-4">
-      <div className="grid grid-cols-3 gap-2 rounded-md border border-neutral-200 p-3">
+      <div className="grid grid-cols-3 gap-2 rounded-md border border-border p-3">
         <div>
-          <p className="text-[10px] font-mono uppercase text-neutral-500">Last job</p>
+          <p className="text-[10px] font-mono uppercase text-muted-foreground">Last job</p>
           <p className="text-sm font-medium">{lastJob ? lastJob.jobName : '—'}</p>
           {lastJob && <StatusBadge status={lastJob.status} />}
         </div>
         <div>
-          <p className="text-[10px] font-mono uppercase text-neutral-500">Δ success (recent)</p>
+          <p className="text-[10px] font-mono uppercase text-muted-foreground">Δ success (recent)</p>
           <p className="text-2xl font-semibold text-emerald-700">{totalSuccess}</p>
         </div>
         <div>
-          <p className="text-[10px] font-mono uppercase text-neutral-500">Δ errors (recent)</p>
+          <p className="text-[10px] font-mono uppercase text-muted-foreground">Δ errors (recent)</p>
           <p className="text-2xl font-semibold text-red-700">{totalErrors}</p>
         </div>
       </div>
@@ -95,12 +95,12 @@ export function SAPSyncPanel({ jobs, delta, emptyJobsLabel }: SAPSyncPanelProps)
       <div>
         <h3 className="mb-2 text-sm font-medium">Migration jobs</h3>
         {jobs.length === 0 ? (
-          <p className="rounded-md border border-dashed border-neutral-300 p-3 text-sm text-neutral-500">
+          <p className="rounded-md border border-dashed border-border p-3 text-sm text-muted-foreground">
             {emptyJobsLabel ?? 'No SAP migration jobs yet.'}
           </p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="text-[10px] font-mono uppercase text-neutral-500">
+            <thead className="text-[10px] font-mono uppercase text-muted-foreground">
               <tr className="text-left">
                 <th className="pb-2 pr-4">Name</th>
                 <th className="pb-2 pr-4">Type</th>
@@ -109,7 +109,7 @@ export function SAPSyncPanel({ jobs, delta, emptyJobsLabel }: SAPSyncPanelProps)
                 <th className="pb-2 pr-4">Started</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100">
+            <tbody className="divide-y divide-border">
               {jobs.map((j) => (
                 <tr key={j.id} data-testid="sap-job-row">
                   <td className="py-2 pr-4 font-medium">{j.jobName}</td>
@@ -120,7 +120,7 @@ export function SAPSyncPanel({ jobs, delta, emptyJobsLabel }: SAPSyncPanelProps)
                   <td className="py-2 pr-4">
                     {j.progressPercent !== null ? `${j.progressPercent}%` : '—'}
                   </td>
-                  <td className="py-2 pr-4 text-xs text-neutral-500">
+                  <td className="py-2 pr-4 text-xs text-muted-foreground">
                     {j.startedAt ? new Date(j.startedAt).toLocaleString() : '—'}
                   </td>
                 </tr>

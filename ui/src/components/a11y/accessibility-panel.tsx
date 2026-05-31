@@ -78,7 +78,7 @@ export function AccessibilityPanel({ className }: { className?: string }) {
         <div
           role="dialog"
           aria-label="Accessibility settings"
-          className="fixed inset-0 z-50 flex items-end justify-end bg-black/30 p-4"
+          className="fixed inset-0 z-50 flex items-end justify-end bg-overlay/30 p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false);
           }}

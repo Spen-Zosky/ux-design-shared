@@ -20,7 +20,9 @@ import type { SVGProps } from "react";
  * Raw SVG twins in `../../assets/brand/candidates/UXIX-0007-logo/heuresys-logo-D-{symbol,full}.svg`.
  */
 
+// eslint-disable-next-line no-restricted-syntax -- intentional brand hex (legacy logo color canon, palette-independent by design)
 const LEGACY_BLUE = "#3B82F6";
+// eslint-disable-next-line no-restricted-syntax -- intentional brand hex (legacy logo color canon, palette-independent by design)
 const LEGACY_PURPLE = "#A855F7";
 
 export function LogoCandidateDSymbol(props: SVGProps<SVGSVGElement>) {

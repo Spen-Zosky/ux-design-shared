@@ -32,3 +32,6 @@ coverage/
 # Misc
 .cache/
 .pnpm-store/
+
+# TypeScript incremental build cache
+*.tsbuildinfo

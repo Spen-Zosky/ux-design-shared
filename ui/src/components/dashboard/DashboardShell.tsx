@@ -50,7 +50,12 @@ export function DashboardShell({
         style={{ gridTemplateColumns: `${initialSidebarWidth}px 1fr` }}
       >
         {sidebar}
-        <main className="min-h-0 overflow-y-auto p-6">{children}</main>
+        {/* tabIndex: the main area is the shell's scroll container — without a
+            focusable element inside, keyboard users could not scroll it (axe
+            scrollable-region-focusable, WCAG 2.1.1). */}
+        <main tabIndex={0} className="min-h-0 overflow-y-auto p-6">
+          {children}
+        </main>
       </div>
 
       {footer}

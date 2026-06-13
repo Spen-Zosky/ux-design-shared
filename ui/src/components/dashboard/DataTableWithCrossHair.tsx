@@ -36,8 +36,14 @@ export function DataTableWithCrossHair({
     return unbind;
   }, [enableCrossHair]);
 
+  // a11y (D-27): the horizontally-scrollable wrapper must be keyboard-focusable
+  // with an accessible name, or axe `scrollable-region-focusable` (serious) fires
+  // whenever the table overflows (e.g. a 5-column table on a Pixel 7 / 412px viewport).
+  // tabIndex=0 makes it reachable; role=region + aria-label name the landmark
+  // (reusing the caption when it is a plain string, else a generic fallback).
+  const regionLabel = typeof caption === "string" && caption.trim() ? caption : "Data table";
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={regionLabel}>
       <table ref={tableRef} className={`w-full text-sm ${className ?? ""}`.trim()}>
         {caption && <caption className="sr-only">{caption}</caption>}
         {children}

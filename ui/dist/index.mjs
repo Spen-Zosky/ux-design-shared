@@ -7571,7 +7571,7 @@ function DashboardShell({
             style: { gridTemplateColumns: `${initialSidebarWidth}px 1fr` },
             children: [
               sidebar,
-              /* @__PURE__ */ jsx("main", { className: "min-h-0 overflow-y-auto p-6", children })
+              /* @__PURE__ */ jsx("main", { tabIndex: 0, className: "min-h-0 overflow-y-auto p-6", children })
             ]
           }
         ),
@@ -8219,7 +8219,8 @@ function DataTableWithCrossHair({
     const unbind = attachCrossHair(tableRef.current);
     return unbind;
   }, [enableCrossHair]);
-  return /* @__PURE__ */ jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxs("table", { ref: tableRef, className: `w-full text-sm ${className ?? ""}`.trim(), children: [
+  const regionLabel = typeof caption === "string" && caption.trim() ? caption : "Data table";
+  return /* @__PURE__ */ jsx("div", { className: "overflow-x-auto", tabIndex: 0, role: "region", "aria-label": regionLabel, children: /* @__PURE__ */ jsxs("table", { ref: tableRef, className: `w-full text-sm ${className ?? ""}`.trim(), children: [
     caption && /* @__PURE__ */ jsx("caption", { className: "sr-only", children: caption }),
     children
   ] }) });

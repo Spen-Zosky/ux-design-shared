@@ -7619,7 +7619,7 @@ function DashboardShell({
             style: { gridTemplateColumns: `${initialSidebarWidth}px 1fr` },
             children: [
               sidebar,
-              /* @__PURE__ */ jsxRuntime.jsx("main", { className: "min-h-0 overflow-y-auto p-6", children })
+              /* @__PURE__ */ jsxRuntime.jsx("main", { tabIndex: 0, className: "min-h-0 overflow-y-auto p-6", children })
             ]
           }
         ),
@@ -8267,7 +8267,8 @@ function DataTableWithCrossHair({
     const unbind = attachCrossHair(tableRef.current);
     return unbind;
   }, [enableCrossHair]);
-  return /* @__PURE__ */ jsxRuntime.jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxRuntime.jsxs("table", { ref: tableRef, className: `w-full text-sm ${className ?? ""}`.trim(), children: [
+  const regionLabel = typeof caption === "string" && caption.trim() ? caption : "Data table";
+  return /* @__PURE__ */ jsxRuntime.jsx("div", { className: "overflow-x-auto", tabIndex: 0, role: "region", "aria-label": regionLabel, children: /* @__PURE__ */ jsxRuntime.jsxs("table", { ref: tableRef, className: `w-full text-sm ${className ?? ""}`.trim(), children: [
     caption && /* @__PURE__ */ jsxRuntime.jsx("caption", { className: "sr-only", children: caption }),
     children
   ] }) });

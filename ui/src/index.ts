@@ -459,3 +459,7 @@ export { DBSupervisorSidebar, DB_SUBITEMS, type DBSubItem } from './components/d
 
 // Cross-hair helper
 export { attachCrossHair, type CrossHairBindings } from './lib/table-cursor';
+
+// Status pill (QW-E5: promoted from heuresys-advanced apps; tone type aliased to
+// StatusPillTone to avoid colliding with the StatusIcon StatusTone exported above)
+export { StatusPill, StatusBadge, statusTone, type StatusPillTone } from './components/status-pill';

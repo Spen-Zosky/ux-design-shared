@@ -8557,13 +8557,13 @@ function IncidentTimeline({
     ] }),
     /* @__PURE__ */ jsxRuntime.jsx("ol", { className: "relative mt-5 space-y-4 border-l border-border pl-5", children: items.map((it, i) => {
       const sevTone = SEVERITY_TONE[it.severity];
-      const statusTone = STATUS_TONE[it.status];
+      const statusTone2 = STATUS_TONE[it.status];
       const isResolved = it.status === "RESOLVED";
       return /* @__PURE__ */ jsxRuntime.jsxs("li", { className: "relative", children: [
         /* @__PURE__ */ jsxRuntime.jsx("span", { className: `absolute -left-[27px] mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-${sevTone} ring-4 ring-${sevTone}/20`, children: isResolved ? /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-2.5 w-2.5 text-card", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) }) : /* @__PURE__ */ jsxRuntime.jsx("span", { className: "h-1.5 w-1.5 rounded-full bg-card pulse-dot" }) }),
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-baseline justify-between gap-2", children: [
           /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-sm font-semibold text-foreground", children: it.title }),
-          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `rounded-sm bg-${statusTone}/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-${statusTone}`, children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `rounded-sm bg-${statusTone2}/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-${statusTone2}`, children: [
             it.severity,
             " \xB7 ",
             it.status
@@ -9024,6 +9024,32 @@ function DBSupervisorSidebar() {
     ] }) }, item.label)) })
   ] });
 }
+var TONE_CLASS2 = {
+  success: "border-green-200 bg-green-100 text-green-800",
+  warning: "border-amber-200 bg-amber-100 text-amber-800",
+  danger: "border-red-200 bg-red-100 text-red-800",
+  info: "border-blue-200 bg-blue-100 text-blue-800",
+  neutral: "border-border bg-muted text-muted-foreground"
+};
+function statusTone(value) {
+  const v = (value ?? "").toUpperCase();
+  if (["ACTIVE", "FILLED", "APPROVED", "COMPLETED", "DONE", "SUCCESS", "PUBLISHED", "ENABLED", "RESOLVED", "PASSED"].includes(v)) return "success";
+  if (["OPEN", "PENDING", "PROPOSED", "DRAFT", "IN_PROGRESS", "RUNNING", "QUEUED", "SCHEDULED", "INFO"].includes(v)) return "info";
+  if (["AT_RISK", "AT RISK", "WARNING", "HIGH", "MEDIUM", "REVIEW", "PARTIAL", "DEGRADED", "STALE"].includes(v)) return "warning";
+  if (["INACTIVE", "SUSPENDED", "CRITICAL", "FAILED", "ERROR", "REJECTED", "BLOCKED", "EXPIRED", "REVOKED"].includes(v)) return "danger";
+  return "neutral";
+}
+function StatusPill({
+  tone,
+  children,
+  className = ""
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsx("span", { className: `inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${TONE_CLASS2[tone]} ${className}`, children });
+}
+function StatusBadge2({ value, className }) {
+  if (!value) return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-foreground", children: "\u2014" });
+  return /* @__PURE__ */ jsxRuntime.jsx(StatusPill, { tone: statusTone(value), className, children: value });
+}
 
 exports.AccessibilityPanel = AccessibilityPanel;
 exports.Accordion = Accordion;
@@ -9187,7 +9213,9 @@ exports.Stack = Stack;
 exports.StaggerChildren = StaggerChildren;
 exports.StaggerItem = StaggerItem;
 exports.StatsCard = StatsCard;
+exports.StatusBadge = StatusBadge2;
 exports.StatusIcon = StatusIcon;
+exports.StatusPill = StatusPill;
 exports.Stepper = Stepper;
 exports.SuccessionCard = SuccessionCard;
 exports.Switch = Switch;
@@ -9259,6 +9287,7 @@ exports.parseExcel = parseExcel;
 exports.parseJSON = parseJSON;
 exports.parseTOML = parseTOML;
 exports.parseXML = parseXML;
+exports.statusTone = statusTone;
 exports.toastVariants = toastVariants;
 exports.useAnnounce = useAnnounce;
 exports.useChat = useChat;

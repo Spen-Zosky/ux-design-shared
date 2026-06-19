@@ -463,3 +463,7 @@ export { attachCrossHair, type CrossHairBindings } from './lib/table-cursor';
 // Status pill (QW-E5: promoted from heuresys-advanced apps; tone type aliased to
 // StatusPillTone to avoid colliding with the StatusIcon StatusTone exported above)
 export { StatusPill, StatusBadge, statusTone, type StatusPillTone } from './components/status-pill';
+
+// FieldGrid (QW de-dup follow-up: promoted from heuresys-advanced apps/web + apps/showcase,
+// identical copies of the detail-page definition grid)
+export { FieldGrid, type DetailField } from './components/field-grid';

@@ -9050,6 +9050,16 @@ function StatusBadge2({ value, className }) {
   if (!value) return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-foreground", children: "\u2014" });
   return /* @__PURE__ */ jsxRuntime.jsx(StatusPill, { tone: statusTone(value), className, children: value });
 }
+function FieldGrid({
+  fields,
+  testId,
+  className = ""
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsx("dl", { "data-testid": testId, className: `grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2 ${className}`, children: fields.map((f, i) => /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex flex-col gap-0.5", children: [
+    /* @__PURE__ */ jsxRuntime.jsx("dt", { className: "text-[11px] uppercase tracking-wide text-muted-foreground", children: f.label }),
+    /* @__PURE__ */ jsxRuntime.jsx("dd", { "data-testid": f.testId, className: f.mono ? "break-all font-mono text-xs text-foreground" : "text-sm text-foreground", children: f.value })
+  ] }, i)) });
+}
 
 exports.AccessibilityPanel = AccessibilityPanel;
 exports.Accordion = Accordion;
@@ -9136,6 +9146,7 @@ exports.ErrorRateBreakdown = ErrorRateBreakdown;
 exports.ErrorState = ErrorState;
 exports.FAB = FAB;
 exports.FadeIn = FadeIn;
+exports.FieldGrid = FieldGrid;
 exports.FileDropzone = FileDropzone;
 exports.FilterBar = FilterBar;
 exports.FormWizard = FormWizard;

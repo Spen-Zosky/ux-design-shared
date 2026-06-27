@@ -1,6 +1,6 @@
 {
   "name": "@heuresys/ui",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "type": "module",
   "description": "Heuresys UI — design system + dashboard components (Tier 1-16)",
   "license": "PROPRIETARY",
@@ -15,6 +15,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./charts": {
+      "types": "./dist/entry-charts.d.ts",
+      "import": "./dist/entry-charts.mjs",
+      "require": "./dist/entry-charts.cjs"
+    },
+    "./markdown": {
+      "types": "./dist/entry-markdown.d.ts",
+      "import": "./dist/entry-markdown.mjs",
+      "require": "./dist/entry-markdown.cjs"
     },
     "./styles": "./src/styles/globals.css",
     "./brand/candidates": "./src/components/brand/candidates/index.ts",

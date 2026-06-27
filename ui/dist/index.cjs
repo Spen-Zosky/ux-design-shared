@@ -7619,7 +7619,7 @@ function DashboardShell({
             style: { gridTemplateColumns: `${initialSidebarWidth}px 1fr` },
             children: [
               sidebar,
-              /* @__PURE__ */ jsxRuntime.jsx("main", { tabIndex: 0, className: "min-h-0 overflow-y-auto p-6", children })
+              /* @__PURE__ */ jsxRuntime.jsx("div", { tabIndex: 0, className: "min-h-0 overflow-y-auto p-6", children })
             ]
           }
         ),
@@ -7969,7 +7969,7 @@ function SidebarGroup({ group }) {
         "data-group-toggle": group.id,
         "aria-expanded": expanded,
         onClick: toggle,
-        className: "sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70 transition hover:text-foreground",
+        className: "sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70 transition hover:text-foreground",
         children: [
           /* @__PURE__ */ jsxRuntime.jsx("span", { children: group.label }),
           /* @__PURE__ */ jsxRuntime.jsx("svg", { "data-group-chevron": true, className: "h-3 w-3 transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "6 9 12 15 18 9" }) })
@@ -8485,7 +8485,7 @@ function LogStream({
         )
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntime.jsx("ol", { className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", "aria-live": "polite", children: entries.map((e, i) => /* @__PURE__ */ jsxRuntime.jsxs("li", { className: "log-line flex items-start gap-3 px-5 py-2", children: [
+    /* @__PURE__ */ jsxRuntime.jsx("ol", { tabIndex: 0, "aria-label": title, className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", "aria-live": "polite", children: entries.map((e, i) => /* @__PURE__ */ jsxRuntime.jsxs("li", { className: "log-line flex items-start gap-3 px-5 py-2", children: [
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ts shrink-0 whitespace-nowrap font-mono", children: e.timestamp }),
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: `lvl-${e.level} shrink-0 font-mono font-semibold`, children: e.level.toUpperCase().padEnd(5) }),
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: `shrink-0 rounded-sm bg-${e.sourceTone ?? "palette-1"}/15 px-1.5 font-mono text-[10px] text-${e.sourceTone ?? "palette-1"}`, children: e.source }),
@@ -8524,7 +8524,7 @@ function AuditFeed({
       ] }),
       onViewAll && /* @__PURE__ */ jsxRuntime.jsx("button", { type: "button", onClick: onViewAll, className: "text-xs font-medium text-primary transition hover:underline", children: "view all \u2192" })
     ] }),
-    /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", children: events.map((ev, i) => /* @__PURE__ */ jsxRuntime.jsx("li", { className: "px-5 py-3", children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-start gap-3", children: [
+    /* @__PURE__ */ jsxRuntime.jsx("ul", { tabIndex: 0, "aria-label": title, className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", children: events.map((ev, i) => /* @__PURE__ */ jsxRuntime.jsx("li", { className: "px-5 py-3", children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-start gap-3", children: [
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: `mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-${ev.tone}/15 text-${ev.tone}`, children: ev.icon }),
       /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "min-w-0", children: [
         /* @__PURE__ */ jsxRuntime.jsx("div", { className: "text-sm text-foreground", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", children: ev.title }) }),

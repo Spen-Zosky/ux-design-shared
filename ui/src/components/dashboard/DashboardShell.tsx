@@ -50,12 +50,14 @@ export function DashboardShell({
         style={{ gridTemplateColumns: `${initialSidebarWidth}px 1fr` }}
       >
         {sidebar}
-        {/* tabIndex: the main area is the shell's scroll container — without a
-            focusable element inside, keyboard users could not scroll it (axe
-            scrollable-region-focusable, WCAG 2.1.1). */}
-        <main tabIndex={0} className="min-h-0 overflow-y-auto p-6">
+        {/* The shell's scroll container is a plain <div>, NOT a <main>: every
+            page renders its own <main> landmark, so a <main> here duplicates it
+            (axe landmark-no-duplicate-main / landmark-unique / main-is-top-level
+            — the page <main> would be nested inside this one). tabIndex={0} keeps
+            it keyboard-scrollable (axe scrollable-region-focusable, WCAG 2.1.1). */}
+        <div tabIndex={0} className="min-h-0 overflow-y-auto p-6">
           {children}
-        </main>
+        </div>
       </div>
 
       {footer}

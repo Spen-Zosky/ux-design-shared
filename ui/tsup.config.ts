@@ -1,7 +1,10 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts"],
+  // index = the full barrel; entry-charts / entry-markdown = lightweight subpaths
+  // that isolate the heavy libs (echarts, mermaid) so a dynamic import of one does
+  // not drag the whole barrel into a single chunk (#21 perf chunk-split).
+  entry: ["src/index.ts", "src/entry-charts.ts", "src/entry-markdown.ts"],
   format: ["esm", "cjs"],
   dts: true,
   clean: true,

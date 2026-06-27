@@ -1,9 +1,11 @@
-import * as React53 from 'react';
+export { EChartsCard, echartsPresets } from './chunk-AK6O32HA.mjs';
+export { MermaidDiagram } from './chunk-ARWFBL7V.mjs';
+import { cn } from './chunk-5UY7U2ED.mjs';
+export { cn } from './chunk-5UY7U2ED.mjs';
+import * as React52 from 'react';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { X, ChevronRight, Check, Circle, ChevronDown, Plus, Search, Moon, Sun, Monitor, ChevronUp, SlidersHorizontal, Menu, MoreHorizontal, ChevronsLeft, ChevronLeft, ChevronsRight, Grip, Download, RefreshCw, TrendingUp, TrendingDown, Minus, Bell, Award, Info, AlertCircle, AlertTriangle, CheckCircle2, Upload, FileText, GripVertical, Heart, Smile, Reply, Pause, Play, VolumeX, Volume2, Maximize2, Quote, BookOpen, Lightbulb, Wrench, Trash, Square, Send, MicOff, Mic, Globe, Accessibility, Activity } from 'lucide-react';
@@ -21,7 +23,6 @@ import { Command } from 'cmdk';
 import { useReactTable, getPaginationRowModel, getFilteredRowModel, getSortedRowModel, getCoreRowModel, flexRender } from '@tanstack/react-table';
 import confettiLib from 'canvas-confetti';
 import Lottie from 'lottie-react';
-import ReactECharts from 'echarts-for-react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { PhoneInput } from 'react-international-phone';
 import zxcvbn from 'zxcvbn';
@@ -38,14 +39,9 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import mermaid from 'mermaid';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 
-// src/components/Button.tsx
-function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
 var buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
@@ -69,14 +65,14 @@ var buttonVariants = cva(
     defaultVariants: { variant: "default", size: "md" }
   }
 );
-var Button = React53.forwardRef(
+var Button = React52.forwardRef(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return /* @__PURE__ */ jsx(Comp, { ref, className: cn(buttonVariants({ variant, size, className })), ...props });
   }
 );
 Button.displayName = "Button";
-var Card = React53.forwardRef(
+var Card = React52.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx(
     "div",
     {
@@ -87,23 +83,23 @@ var Card = React53.forwardRef(
   )
 );
 Card.displayName = "Card";
-var CardHeader = React53.forwardRef(
+var CardHeader = React52.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("flex flex-col gap-1.5 p-6", className), ...props })
 );
 CardHeader.displayName = "CardHeader";
-var CardTitle = React53.forwardRef(
+var CardTitle = React52.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx("h3", { ref, className: cn("text-lg font-semibold leading-none tracking-tight", className), ...props })
 );
 CardTitle.displayName = "CardTitle";
-var CardDescription = React53.forwardRef(
+var CardDescription = React52.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx("p", { ref, className: cn("text-sm text-muted-foreground", className), ...props })
 );
 CardDescription.displayName = "CardDescription";
-var CardContent = React53.forwardRef(
+var CardContent = React52.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("p-6 pt-0", className), ...props })
 );
 CardContent.displayName = "CardContent";
-var CardFooter = React53.forwardRef(
+var CardFooter = React52.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn("flex items-center p-6 pt-0", className), ...props })
 );
 CardFooter.displayName = "CardFooter";
@@ -125,7 +121,7 @@ var inputVariants = cva(
   }
 );
 var inputIdCounter = 0;
-var Input = React53.forwardRef(
+var Input = React52.forwardRef(
   ({
     className,
     variant,
@@ -138,7 +134,7 @@ var Input = React53.forwardRef(
     id: providedId,
     ...props
   }, ref) => {
-    const generatedId = React53.useId ? React53.useId() : `heur-input-${++inputIdCounter}`;
+    const generatedId = React52.useId ? React52.useId() : `heur-input-${++inputIdCounter}`;
     const id = providedId ?? generatedId;
     const helperId = helperText || errorText ? `${id}-helper` : void 0;
     const effectiveVariant = errorText ? "error" : variant;
@@ -164,7 +160,7 @@ var Input = React53.forwardRef(
 );
 Input.displayName = "Input";
 var ToastProvider = ToastPrimitive.Provider;
-var ToastViewport = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastViewport = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitive.Viewport,
   {
     ref,
@@ -188,7 +184,7 @@ var toastVariants = cva(
     defaultVariants: { variant: "default" }
   }
 );
-var Toast = React53.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsx(
+var Toast = React52.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitive.Root,
   {
     ref,
@@ -197,11 +193,11 @@ var Toast = React53.forwardRef(({ className, variant, ...props }, ref) => /* @__
   }
 ));
 Toast.displayName = ToastPrimitive.Root.displayName;
-var ToastTitle = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(ToastPrimitive.Title, { ref, className: cn("text-sm font-semibold", className), ...props }));
+var ToastTitle = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(ToastPrimitive.Title, { ref, className: cn("text-sm font-semibold", className), ...props }));
 ToastTitle.displayName = ToastPrimitive.Title.displayName;
-var ToastDescription = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(ToastPrimitive.Description, { ref, className: cn("text-sm opacity-90", className), ...props }));
+var ToastDescription = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(ToastPrimitive.Description, { ref, className: cn("text-sm opacity-90", className), ...props }));
 ToastDescription.displayName = ToastPrimitive.Description.displayName;
-var ToastClose = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastClose = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitive.Close,
   {
     ref,
@@ -212,7 +208,7 @@ var ToastClose = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 ToastClose.displayName = ToastPrimitive.Close.displayName;
-var ToastAction = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var ToastAction = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   ToastPrimitive.Action,
   {
     ref,
@@ -224,7 +220,7 @@ var ToastAction = React53.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 ToastAction.displayName = ToastPrimitive.Action.displayName;
-var ThemeContext = React53.createContext(null);
+var ThemeContext = React52.createContext(null);
 var STORAGE_KEY = "heuresys-theme";
 function resolveTheme(theme) {
   if (theme === "system") {
@@ -244,18 +240,18 @@ function ThemeProvider({
   children,
   defaultTheme = "system"
 }) {
-  const [theme, setThemeState] = React53.useState(() => {
+  const [theme, setThemeState] = React52.useState(() => {
     if (typeof window === "undefined") return defaultTheme;
     const stored = window.localStorage.getItem(STORAGE_KEY);
     return stored ?? defaultTheme;
   });
-  const [resolved, setResolved] = React53.useState(() => resolveTheme(theme));
-  React53.useEffect(() => {
+  const [resolved, setResolved] = React52.useState(() => resolveTheme(theme));
+  React52.useEffect(() => {
     const next = resolveTheme(theme);
     setResolved(next);
     applyTheme(next);
   }, [theme]);
-  React53.useEffect(() => {
+  React52.useEffect(() => {
     if (theme !== "system" || typeof window === "undefined") return;
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
@@ -266,15 +262,15 @@ function ThemeProvider({
     mql.addEventListener("change", handler);
     return () => mql.removeEventListener("change", handler);
   }, [theme]);
-  const setTheme = React53.useCallback((t) => {
+  const setTheme = React52.useCallback((t) => {
     setThemeState(t);
     if (typeof window !== "undefined") window.localStorage.setItem(STORAGE_KEY, t);
   }, []);
-  const value = React53.useMemo(() => ({ theme, resolved, setTheme }), [theme, resolved, setTheme]);
+  const value = React52.useMemo(() => ({ theme, resolved, setTheme }), [theme, resolved, setTheme]);
   return /* @__PURE__ */ jsx(ThemeContext.Provider, { value, children });
 }
 function useTheme() {
-  const ctx = React53.useContext(ThemeContext);
+  const ctx = React52.useContext(ThemeContext);
   if (!ctx) {
     throw new Error("useTheme must be used within ThemeProvider");
   }
@@ -306,7 +302,7 @@ var Dialog = DialogPrimitive.Root;
 var DialogTrigger = DialogPrimitive.Trigger;
 var DialogClose = DialogPrimitive.Close;
 var DialogPortal = DialogPrimitive.Portal;
-var DialogOverlay = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogOverlay = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Overlay,
   {
     ref,
@@ -318,7 +314,7 @@ var DialogOverlay = React53.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React53.forwardRef(({ className, children, showCloseButton = true, ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
+var DialogContent = React52.forwardRef(({ className, children, showCloseButton = true, ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
   /* @__PURE__ */ jsx(DialogOverlay, {}),
   /* @__PURE__ */ jsxs(
     DialogPrimitive.Content,
@@ -352,7 +348,7 @@ function DialogFooter({ className, ...props }) {
     }
   );
 }
-var DialogTitle = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogTitle = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Title,
   {
     ref,
@@ -361,7 +357,7 @@ var DialogTitle = React53.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DialogDescription = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Description,
   {
     ref,
@@ -375,7 +371,7 @@ var DropdownMenuTrigger = Dropdown.Trigger;
 var DropdownMenuGroup = Dropdown.Group;
 var DropdownMenuSub = Dropdown.Sub;
 var DropdownMenuRadioGroup = Dropdown.RadioGroup;
-var DropdownMenuSubTrigger = React53.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuSubTrigger = React52.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxs(
   Dropdown.SubTrigger,
   {
     ref,
@@ -392,7 +388,7 @@ var DropdownMenuSubTrigger = React53.forwardRef(({ className, inset, children, .
   }
 ));
 DropdownMenuSubTrigger.displayName = Dropdown.SubTrigger.displayName;
-var DropdownMenuSubContent = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuSubContent = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   Dropdown.SubContent,
   {
     ref,
@@ -404,7 +400,7 @@ var DropdownMenuSubContent = React53.forwardRef(({ className, ...props }, ref) =
   }
 ));
 DropdownMenuSubContent.displayName = Dropdown.SubContent.displayName;
-var DropdownMenuContent = React53.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(Dropdown.Portal, { children: /* @__PURE__ */ jsx(
+var DropdownMenuContent = React52.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(Dropdown.Portal, { children: /* @__PURE__ */ jsx(
   Dropdown.Content,
   {
     ref,
@@ -417,7 +413,7 @@ var DropdownMenuContent = React53.forwardRef(({ className, sideOffset = 4, ...pr
   }
 ) }));
 DropdownMenuContent.displayName = Dropdown.Content.displayName;
-var DropdownMenuItem = React53.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
+var DropdownMenuItem = React52.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx(
   Dropdown.Item,
   {
     ref,
@@ -430,7 +426,7 @@ var DropdownMenuItem = React53.forwardRef(({ className, inset, ...props }, ref) 
   }
 ));
 DropdownMenuItem.displayName = Dropdown.Item.displayName;
-var DropdownMenuCheckboxItem = React53.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuCheckboxItem = React52.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxs(
   Dropdown.CheckboxItem,
   {
     ref,
@@ -447,7 +443,7 @@ var DropdownMenuCheckboxItem = React53.forwardRef(({ className, children, checke
   }
 ));
 DropdownMenuCheckboxItem.displayName = Dropdown.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React53.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+var DropdownMenuRadioItem = React52.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
   Dropdown.RadioItem,
   {
     ref,
@@ -476,7 +472,7 @@ function DropdownMenuLabel({
     }
   );
 }
-var DropdownMenuSeparator = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(Dropdown.Separator, { ref, className: cn("-mx-1 my-1 h-px bg-border", className), ...props }));
+var DropdownMenuSeparator = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(Dropdown.Separator, { ref, className: cn("-mx-1 my-1 h-px bg-border", className), ...props }));
 DropdownMenuSeparator.displayName = Dropdown.Separator.displayName;
 function DropdownMenuShortcut({
   className,
@@ -487,7 +483,7 @@ function DropdownMenuShortcut({
 var Popover = PopoverPrimitive.Root;
 var PopoverTrigger = PopoverPrimitive.Trigger;
 var PopoverAnchor = PopoverPrimitive.Anchor;
-var PopoverContent = React53.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var PopoverContent = React52.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   PopoverPrimitive.Content,
   {
     ref,
@@ -504,7 +500,7 @@ PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React53.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsx(
+var TooltipContent = React52.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsx(
   TooltipPrimitive.Content,
   {
     ref,
@@ -518,7 +514,7 @@ var TooltipContent = React53.forwardRef(({ className, sideOffset = 4, ...props }
 ) }));
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 var Tabs = TabsPrimitive.Root;
-var TabsList = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsList = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.List,
   {
     ref,
@@ -530,7 +526,7 @@ var TabsList = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
-var TabsTrigger = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsTrigger = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.Trigger,
   {
     ref,
@@ -542,7 +538,7 @@ var TabsTrigger = React53.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-var TabsContent = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var TabsContent = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   TabsPrimitive.Content,
   {
     ref,
@@ -555,7 +551,7 @@ var TabsContent = React53.forwardRef(({ className, ...props }, ref) => /* @__PUR
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 var Accordion = AccordionPrimitive.Root;
-var AccordionItem = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AccordionItem = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AccordionPrimitive.Item,
   {
     ref,
@@ -564,7 +560,7 @@ var AccordionItem = React53.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React53.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(AccordionPrimitive.Header, { className: "flex", children: /* @__PURE__ */ jsxs(
+var AccordionTrigger = React52.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(AccordionPrimitive.Header, { className: "flex", children: /* @__PURE__ */ jsxs(
   AccordionPrimitive.Trigger,
   {
     ref,
@@ -586,7 +582,7 @@ var AccordionTrigger = React53.forwardRef(({ className, children, ...props }, re
   }
 ) }));
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
-var AccordionContent = React53.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
+var AccordionContent = React52.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsx(
   AccordionPrimitive.Content,
   {
     ref,
@@ -596,7 +592,7 @@ var AccordionContent = React53.forwardRef(({ className, children, ...props }, re
   }
 ));
 AccordionContent.displayName = AccordionPrimitive.Content.displayName;
-var Checkbox = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Checkbox = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   CheckboxPrimitive.Root,
   {
     ref,
@@ -609,7 +605,7 @@ var Checkbox = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__
   }
 ));
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
-var Switch = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Switch = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   SwitchPrimitive.Root,
   {
     ref,
@@ -629,7 +625,7 @@ var Switch = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
   }
 ));
 Switch.displayName = SwitchPrimitive.Root.displayName;
-var Avatar = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var Avatar = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AvatarPrimitive.Root,
   {
     ref,
@@ -638,7 +634,7 @@ var Avatar = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
   }
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
-var AvatarImage = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AvatarImage = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AvatarPrimitive.Image,
   {
     ref,
@@ -647,7 +643,7 @@ var AvatarImage = React53.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
-var AvatarFallback = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var AvatarFallback = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   AvatarPrimitive.Fallback,
   {
     ref,
@@ -664,7 +660,7 @@ function AvatarGroup({
   max = 5,
   className
 }) {
-  const arr = React53.Children.toArray(children);
+  const arr = React52.Children.toArray(children);
   const visible = arr.slice(0, max);
   const overflow = arr.length - visible.length;
   return /* @__PURE__ */ jsxs("div", { className: cn("flex items-center -space-x-2", className), children: [
@@ -948,7 +944,7 @@ var StaggerItem = ({ children, ...rest }) => /* @__PURE__ */ jsx(
   }
 );
 function useGlobalCmdK(callback) {
-  React53.useEffect(() => {
+  React52.useEffect(() => {
     function onKey(e) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -983,7 +979,7 @@ function CommandPaletteRoot({
     ] })
   ] }) }) });
 }
-var CommandPaletteGroup = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CommandPaletteGroup = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   Command.Group,
   {
     ref,
@@ -995,7 +991,7 @@ var CommandPaletteGroup = React53.forwardRef(({ className, ...props }, ref) => /
   }
 ));
 CommandPaletteGroup.displayName = "CommandPaletteGroup";
-var CommandPaletteItem = React53.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+var CommandPaletteItem = React52.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   Command.Item,
   {
     ref,
@@ -1020,7 +1016,7 @@ function DataTable({
   emptyMessage = "No rows.",
   pageSize = 10
 }) {
-  const [sorting, setSorting] = React53.useState([]);
+  const [sorting, setSorting] = React52.useState([]);
   const table = useReactTable({
     data,
     columns,
@@ -1205,8 +1201,8 @@ function AppShell({
   collapsedDefault = false,
   className
 }) {
-  const [collapsed, setCollapsed] = React53.useState(collapsedDefault);
-  const [mobileOpen, setMobileOpen] = React53.useState(false);
+  const [collapsed, setCollapsed] = React52.useState(collapsedDefault);
+  const [mobileOpen, setMobileOpen] = React52.useState(false);
   return /* @__PURE__ */ jsxs("div", { className: cn("flex min-h-screen bg-background text-foreground", className), children: [
     /* @__PURE__ */ jsxs(
       "aside",
@@ -1293,7 +1289,7 @@ function NavList({ items, collapsed }) {
   return /* @__PURE__ */ jsx("ul", { className: "flex flex-col gap-0.5", children: items.map((it) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(NavItemRow, { item: it, collapsed }) }, it.id)) });
 }
 function NavItemRow({ item, collapsed }) {
-  const [open, setOpen] = React53.useState(false);
+  const [open, setOpen] = React52.useState(false);
   const hasChildren = item.children && item.children.length > 0;
   const Tag = item.href ? "a" : "button";
   return /* @__PURE__ */ jsxs(Fragment, { children: [
@@ -1393,7 +1389,7 @@ function Breadcrumbs({
   return /* @__PURE__ */ jsx("nav", { "aria-label": "Breadcrumb", className: cn("flex items-center text-sm", className), children: /* @__PURE__ */ jsx("ol", { className: "flex flex-wrap items-center gap-1.5", children: visible.map((it, idx) => {
     const isCollapseSlot = idx === 1 && collapsed.length > 0;
     const isLast = idx === visible.length - 1;
-    return /* @__PURE__ */ jsxs(React53.Fragment, { children: [
+    return /* @__PURE__ */ jsxs(React52.Fragment, { children: [
       idx > 0 ? /* @__PURE__ */ jsx("li", { "aria-hidden": "true", children: separator }) : null,
       isCollapseSlot ? /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx(CollapsedItems, { items: collapsed }) }) : null,
       isCollapseSlot ? /* @__PURE__ */ jsx("li", { "aria-hidden": "true", children: separator }) : null,
@@ -1422,7 +1418,7 @@ function Breadcrumbs({
   }) }) });
 }
 function CollapsedItems({ items }) {
-  const [open, setOpen] = React53.useState(false);
+  const [open, setOpen] = React52.useState(false);
   return /* @__PURE__ */ jsxs("span", { className: "relative", children: [
     /* @__PURE__ */ jsx(
       "button",
@@ -1540,7 +1536,7 @@ function Pagination({
   onPageSizeChange,
   className
 }) {
-  const [jump, setJump] = React53.useState("");
+  const [jump, setJump] = React52.useState("");
   const start = Math.max(1, Math.min(page - 2, Math.max(1, pageCount - 4)));
   const end = Math.min(pageCount, start + 4);
   const visiblePages = [];
@@ -1684,7 +1680,7 @@ var fabVariants = cva(
     defaultVariants: { size: "md", position: "bottom-right", tone: "primary" }
   }
 );
-var FAB = React53.forwardRef(
+var FAB = React52.forwardRef(
   ({ className, size, position, tone, icon, label, extended, ...props }, ref) => /* @__PURE__ */ jsxs(
     "button",
     {
@@ -1747,10 +1743,10 @@ function TabsOverflow({
   onChange,
   className
 }) {
-  const containerRef = React53.useRef(null);
-  const [overflowOpen, setOverflowOpen] = React53.useState(false);
-  const [visibleCount, setVisibleCount] = React53.useState(items.length);
-  React53.useEffect(() => {
+  const containerRef = React52.useRef(null);
+  const [overflowOpen, setOverflowOpen] = React52.useState(false);
+  const [visibleCount, setVisibleCount] = React52.useState(items.length);
+  React52.useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const observer = new ResizeObserver(() => {
@@ -1835,9 +1831,9 @@ function AppSwitcher({
   trigger,
   className
 }) {
-  const [open, setOpen] = React53.useState(false);
-  const ref = React53.useRef(null);
-  React53.useEffect(() => {
+  const [open, setOpen] = React52.useState(false);
+  const ref = React52.useRef(null);
+  React52.useEffect(() => {
     function onClickOutside(e) {
       if (open && ref.current && !ref.current.contains(e.target)) {
         setOpen(false);
@@ -1894,9 +1890,9 @@ function MegaMenu({
   triggers,
   className
 }) {
-  const [open, setOpen] = React53.useState(null);
-  const ref = React53.useRef(null);
-  React53.useEffect(() => {
+  const [open, setOpen] = React52.useState(null);
+  const ref = React52.useRef(null);
+  React52.useEffect(() => {
     function onClickOutside(e) {
       if (open && ref.current && !ref.current.contains(e.target)) {
         setOpen(null);
@@ -2344,16 +2340,16 @@ function ThemeBuilderWizard({
   onChange,
   className
 }) {
-  const [state, setState] = React53.useState({
+  const [state, setState] = React52.useState({
     ...DEFAULT_THEME_STATE,
     ...initial
   });
-  const [step, setStep] = React53.useState(0);
-  const onChangeRef = React53.useRef(onChange);
-  React53.useEffect(() => {
+  const [step, setStep] = React52.useState(0);
+  const onChangeRef = React52.useRef(onChange);
+  React52.useEffect(() => {
     onChangeRef.current = onChange;
   }, [onChange]);
-  React53.useEffect(() => {
+  React52.useEffect(() => {
     onChangeRef.current?.(state);
   }, [state]);
   const update = (key, value) => setState((s) => ({ ...s, [key]: value }));
@@ -2512,7 +2508,7 @@ function BrandStep({ state, update }) {
   ] });
 }
 function ColorsStep({ state, update }) {
-  const [harmonyKind, setHarmonyKind] = React53.useState("analogous");
+  const [harmonyKind, setHarmonyKind] = React52.useState("analogous");
   const harmonyColors = harmony(state.colors.primary, harmonyKind);
   return /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
     /* @__PURE__ */ jsx(Field, { label: "Primary (OKLCH)", children: /* @__PURE__ */ jsx(
@@ -3124,7 +3120,7 @@ var glassVariants = cva("rounded-lg border bg-background/40 backdrop-blur", {
   },
   defaultVariants: { intensity: "medium", tint: "none" }
 });
-var GlassCard = React53.forwardRef(
+var GlassCard = React52.forwardRef(
   ({ className, intensity, tint, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn(glassVariants({ intensity, tint }), className), ...props })
 );
 GlassCard.displayName = "GlassCard";
@@ -3138,7 +3134,7 @@ var neuVariants = cva("rounded-2xl bg-muted p-4 transition-all", {
   },
   defaultVariants: { elevation: "raised" }
 });
-var NeumorphicCard = React53.forwardRef(
+var NeumorphicCard = React52.forwardRef(
   ({ className, elevation, ...props }, ref) => /* @__PURE__ */ jsx("div", { ref, className: cn(neuVariants({ elevation }), className), ...props })
 );
 NeumorphicCard.displayName = "NeumorphicCard";
@@ -3155,8 +3151,8 @@ function StatsCard({
   className
 }) {
   const numericValue = typeof value === "number" ? value : null;
-  const [display, setDisplay] = React53.useState(animate && numericValue !== null ? 0 : value);
-  React53.useEffect(() => {
+  const [display, setDisplay] = React52.useState(animate && numericValue !== null ? 0 : value);
+  React52.useEffect(() => {
     if (!animate || numericValue === null) return;
     let raf = 0;
     const start = performance.now();
@@ -3279,10 +3275,10 @@ function NotificationCenter({
   onMarkAllRead,
   className
 }) {
-  const [open, setOpen] = React53.useState(false);
-  const ref = React53.useRef(null);
+  const [open, setOpen] = React52.useState(false);
+  const ref = React52.useRef(null);
   const unreadCount = notifications.filter((n) => !n.read).length;
-  React53.useEffect(() => {
+  React52.useEffect(() => {
     function close(e) {
       if (open && ref.current && !ref.current.contains(e.target)) setOpen(false);
     }
@@ -3360,7 +3356,7 @@ function NotificationCenter({
   ] });
 }
 function useConfetti() {
-  return React53.useCallback((options) => {
+  return React52.useCallback((options) => {
     confettiLib({
       particleCount: 100,
       spread: 70,
@@ -3434,10 +3430,10 @@ function OnboardingTour({
   onDismiss,
   onComplete
 }) {
-  const [idx, setIdx] = React53.useState(0);
-  const [rect, setRect] = React53.useState(null);
+  const [idx, setIdx] = React52.useState(0);
+  const [rect, setRect] = React52.useState(null);
   const step = steps[idx];
-  React53.useEffect(() => {
+  React52.useEffect(() => {
     if (!active || !step) return;
     const el = document.querySelector(step.targetSelector);
     if (el) {
@@ -3552,8 +3548,8 @@ function KeyboardShortcutsModal({
   ] }) });
 }
 function useShortcutsModal() {
-  const [open, setOpen] = React53.useState(false);
-  React53.useEffect(() => {
+  const [open, setOpen] = React52.useState(false);
+  React52.useEffect(() => {
     function onKey(e) {
       if ((e.metaKey || e.ctrlKey) && e.key === "/") {
         e.preventDefault();
@@ -3653,7 +3649,7 @@ function TiltCard({
   intensity = 12,
   ...props
 }) {
-  const ref = React53.useRef(null);
+  const ref = React52.useRef(null);
   function onMouseMove(e) {
     const el = ref.current;
     if (!el) return;
@@ -3728,12 +3724,12 @@ function Banner({
   ] });
 }
 function LottiePlayer({ src, data, ariaLabel, className, ...rest }) {
-  const [animation, setAnimation] = React53.useState(data ?? null);
-  const reducedMotion = React53.useMemo(
+  const [animation, setAnimation] = React52.useState(data ?? null);
+  const reducedMotion = React52.useMemo(
     () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     []
   );
-  React53.useEffect(() => {
+  React52.useEffect(() => {
     if (data || !src) return;
     let cancelled = false;
     fetch(src).then((r) => r.json()).then((j) => {
@@ -3749,132 +3745,6 @@ function LottiePlayer({ src, data, ariaLabel, className, ...rest }) {
   }
   return /* @__PURE__ */ jsx("div", { role: "img", "aria-label": ariaLabel, className, children: /* @__PURE__ */ jsx(Lottie, { animationData: animation, loop: !reducedMotion, autoplay: !reducedMotion, ...rest }) });
 }
-function EChartsCard({
-  option,
-  height = 320,
-  loading,
-  className,
-  onEvents,
-  ariaLabel = "Chart"
-}) {
-  return /* @__PURE__ */ jsx(
-    "div",
-    {
-      role: "img",
-      "aria-label": ariaLabel,
-      className: cn("rounded-md border border-border bg-background p-2", className),
-      children: /* @__PURE__ */ jsx(
-        ReactECharts,
-        {
-          option,
-          style: { height, width: "100%" },
-          showLoading: loading,
-          notMerge: true,
-          lazyUpdate: true,
-          onEvents
-        }
-      )
-    }
-  );
-}
-var echartsPresets = {
-  line(data) {
-    return {
-      tooltip: { trigger: "axis" },
-      legend: { data: data.series.map((s) => s.name) },
-      xAxis: { type: "category", data: data.x },
-      yAxis: { type: "value" },
-      series: data.series.map((s) => ({
-        name: s.name,
-        type: "line",
-        smooth: true,
-        data: s.values
-      }))
-    };
-  },
-  bar(data) {
-    return {
-      tooltip: { trigger: "axis" },
-      legend: {},
-      xAxis: { type: "category", data: data.x },
-      yAxis: { type: "value" },
-      series: data.series.map((s) => ({ name: s.name, type: "bar", data: s.values }))
-    };
-  },
-  pie(data) {
-    return {
-      tooltip: { trigger: "item" },
-      legend: { orient: "vertical", right: 0 },
-      series: [{ type: "pie", radius: ["40%", "70%"], data }]
-    };
-  },
-  heatmap(data) {
-    return {
-      tooltip: { position: "top" },
-      grid: { height: "70%" },
-      xAxis: { type: "category", data: data.x },
-      yAxis: { type: "category", data: data.y },
-      visualMap: {
-        min: 0,
-        max: 100,
-        calculable: true,
-        orient: "horizontal",
-        left: "center",
-        bottom: 0
-      },
-      series: [{ type: "heatmap", data: data.values, label: { show: true } }]
-    };
-  },
-  sankey(data) {
-    return {
-      tooltip: {},
-      series: [
-        { type: "sankey", data: data.nodes, links: data.links, emphasis: { focus: "adjacency" } }
-      ]
-    };
-  },
-  funnel(data) {
-    return {
-      tooltip: { trigger: "item" },
-      series: [{ type: "funnel", sort: "descending", data }]
-    };
-  },
-  treemap(data) {
-    return {
-      tooltip: {},
-      series: [
-        {
-          type: "treemap",
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          data,
-          label: { show: true },
-          breadcrumb: { show: true }
-        }
-      ]
-    };
-  },
-  radar(data) {
-    return {
-      tooltip: {},
-      legend: {},
-      radar: { indicator: data.indicator },
-      series: [{ type: "radar", data: data.series }]
-    };
-  },
-  gauge(value, max = 100) {
-    return {
-      series: [
-        {
-          type: "gauge",
-          progress: { show: true },
-          detail: { valueAnimation: true, formatter: "{value}" },
-          data: [{ value }],
-          max
-        }
-      ]
-    };
-  }
-};
 function Sparkline2({
   data,
   width = 120,
@@ -4168,7 +4038,7 @@ function NetworkGraph({
   className,
   ariaLabel = "Network graph"
 }) {
-  const elements = React53.useMemo(
+  const elements = React52.useMemo(
     () => [
       ...nodes.map((n) => ({
         data: { id: n.id, label: n.label ?? n.id, group: n.group ?? "default" },
@@ -4180,7 +4050,7 @@ function NetworkGraph({
     ],
     [nodes, edges]
   );
-  const stylesheet = React53.useMemo(
+  const stylesheet = React52.useMemo(
     () => [
       {
         selector: "node",
@@ -4235,9 +4105,9 @@ function FormWizard({
   className,
   title
 }) {
-  const [state, setState] = React53.useState(draft ?? initial);
-  const [current, setCurrent] = React53.useState(0);
-  const [errors, setErrors] = React53.useState({});
+  const [state, setState] = React52.useState(draft ?? initial);
+  const [current, setCurrent] = React52.useState(0);
+  const [errors, setErrors] = React52.useState({});
   const update = (patch) => setState((s) => ({ ...s, ...patch }));
   const step = steps[current];
   function next() {
@@ -4324,7 +4194,7 @@ function MoneyInput({
   className,
   ...rest
 }) {
-  const [text, setText] = React53.useState(
+  const [text, setText] = React52.useState(
     () => value != null ? formatMoney(value, locale, currency) : ""
   );
   function formatMoney(n, l, c) {
@@ -4410,7 +4280,7 @@ function OtpInput({
   className,
   ariaLabel = "One-time password"
 }) {
-  const refs = React53.useRef([]);
+  const refs = React52.useRef([]);
   const chars = Array.from({ length }, (_, i) => value[i] ?? "");
   function setChar(idx, ch) {
     const arr = chars.slice();
@@ -4467,7 +4337,7 @@ function PasswordStrengthMeter({
   userInputs = [],
   className
 }) {
-  const result = React53.useMemo(() => {
+  const result = React52.useMemo(() => {
     if (!password) return null;
     return zxcvbn(password, userInputs);
   }, [password, userInputs]);
@@ -4508,8 +4378,8 @@ function SignaturePadField({
   className,
   ariaLabel = "Signature pad"
 }) {
-  const ref = React53.useRef(null);
-  const [empty, setEmpty] = React53.useState(true);
+  const ref = React52.useRef(null);
+  const [empty, setEmpty] = React52.useState(true);
   return /* @__PURE__ */ jsxs("div", { className: cn("flex flex-col gap-2", className), role: "group", "aria-label": ariaLabel, children: [
     /* @__PURE__ */ jsx("div", { className: "rounded-md border border-input bg-background", children: /* @__PURE__ */ jsx(
       SignaturePad,
@@ -4559,8 +4429,8 @@ function FileDropzone({
   className,
   label = "Drop files here or click to browse"
 }) {
-  const [over, setOver] = React53.useState(false);
-  const inputRef = React53.useRef(null);
+  const [over, setOver] = React52.useState(false);
+  const inputRef = React52.useRef(null);
   function handleFiles(list) {
     if (!list) return;
     const arr = Array.from(list);
@@ -4656,8 +4526,8 @@ function KanbanBoard({
   onAddCard,
   className
 }) {
-  const [columns, setColumns] = React53.useState(initialColumns);
-  React53.useEffect(() => setColumns(initialColumns), [initialColumns]);
+  const [columns, setColumns] = React52.useState(initialColumns);
+  React52.useEffect(() => setColumns(initialColumns), [initialColumns]);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
@@ -4820,8 +4690,8 @@ function CommentItem({
   onReact,
   depth
 }) {
-  const [replying, setReplying] = React53.useState(false);
-  const [text, setText] = React53.useState("");
+  const [replying, setReplying] = React52.useState(false);
+  const [text, setText] = React52.useState("");
   return /* @__PURE__ */ jsxs("li", { className: cn("flex gap-3", depth > 0 && "ml-10"), children: [
     /* @__PURE__ */ jsxs(Avatar, { className: "h-8 w-8 shrink-0", children: [
       comment.author.avatar ? /* @__PURE__ */ jsx(AvatarImage, { src: comment.author.avatar, alt: comment.author.name }) : null,
@@ -4891,7 +4761,7 @@ function CommentItem({
 function renderMentions(body) {
   const parts = body.split(/(@\w+)/g);
   return parts.map(
-    (p, i) => p.startsWith("@") ? /* @__PURE__ */ jsx("span", { className: "rounded bg-primary/10 px-1 font-medium text-primary", children: p }, i) : /* @__PURE__ */ jsx(React53.Fragment, { children: p }, i)
+    (p, i) => p.startsWith("@") ? /* @__PURE__ */ jsx("span", { className: "rounded bg-primary/10 px-1 font-medium text-primary", children: p }, i) : /* @__PURE__ */ jsx(React52.Fragment, { children: p }, i)
   );
 }
 function CalendarGrid({
@@ -4912,7 +4782,7 @@ function CalendarGrid({
     cells.push({ iso, day: d });
   }
   while (cells.length % 7 !== 0) cells.push(null);
-  const eventsByIso = React53.useMemo(() => {
+  const eventsByIso = React52.useMemo(() => {
     const map = /* @__PURE__ */ new Map();
     for (const e of events) {
       const arr = map.get(e.date) ?? [];
@@ -4978,11 +4848,11 @@ function VideoPlayer({
   className,
   ariaLabel = "Video player"
 }) {
-  const ref = React53.useRef(null);
-  const [playing, setPlaying] = React53.useState(false);
-  const [muted, setMuted] = React53.useState(false);
-  const [time, setTime] = React53.useState(0);
-  const [duration, setDuration] = React53.useState(0);
+  const ref = React52.useRef(null);
+  const [playing, setPlaying] = React52.useState(false);
+  const [muted, setMuted] = React52.useState(false);
+  const [time, setTime] = React52.useState(0);
+  const [duration, setDuration] = React52.useState(0);
   return /* @__PURE__ */ jsxs(
     "div",
     {
@@ -5103,9 +4973,9 @@ function QRCodeView({
   ariaLabel,
   level = "M"
 }) {
-  const [src, setSrc] = React53.useState(null);
-  const [error, setError] = React53.useState(null);
-  React53.useEffect(() => {
+  const [src, setSrc] = React52.useState(null);
+  const [error, setError] = React52.useState(null);
+  React52.useEffect(() => {
     let cancelled = false;
     QRCode.toDataURL(value, { errorCorrectionLevel: level, width: size, margin: 1 }).then((url) => {
       if (!cancelled) setSrc(url);
@@ -5144,8 +5014,8 @@ function ImageGallery({
   className,
   columns = 3
 }) {
-  const [active, setActive] = React53.useState(null);
-  React53.useEffect(() => {
+  const [active, setActive] = React52.useState(null);
+  React52.useEffect(() => {
     if (active == null) return;
     function onKey(e) {
       if (e.key === "Escape") setActive(null);
@@ -5323,7 +5193,7 @@ function JsonTree({
   defaultOpen = true,
   className
 }) {
-  const [open, setOpen] = React53.useState(defaultOpen);
+  const [open, setOpen] = React52.useState(defaultOpen);
   if (value === null) {
     return /* @__PURE__ */ jsx(Leaf, { name, type: "null", content: "null", className });
   }
@@ -5506,50 +5376,6 @@ function MarkdownView({
     }
   ) });
 }
-mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "strict" });
-function MermaidDiagram({
-  source,
-  className,
-  ariaLabel = "Mermaid diagram"
-}) {
-  const id = React53.useId().replace(/:/g, "_");
-  const [src, setSrc] = React53.useState(null);
-  const [error, setError] = React53.useState(null);
-  React53.useEffect(() => {
-    let cancelled = false;
-    mermaid.render(`mmd-${id}`, source).then((res) => {
-      if (cancelled) return;
-      const dataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(res.svg)}`;
-      setSrc(dataUrl);
-    }).catch((e) => {
-      if (!cancelled) setError(String(e?.message ?? e));
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [id, source]);
-  if (error) {
-    return /* @__PURE__ */ jsx("pre", { role: "alert", className: "rounded-md bg-destructive/10 p-2 text-xs text-destructive", children: error });
-  }
-  if (!src) {
-    return /* @__PURE__ */ jsx(
-      "div",
-      {
-        role: "status",
-        "aria-label": "Rendering diagram",
-        className: cn("h-32 animate-pulse rounded-md bg-muted", className)
-      }
-    );
-  }
-  return /* @__PURE__ */ jsx(
-    "img",
-    {
-      src,
-      alt: ariaLabel,
-      className: cn("w-full rounded-md border border-border bg-background p-2", className)
-    }
-  );
-}
 var VARIANTS = {
   info: { icon: Info, label: "Info", className: "border-info/40 bg-info/10 text-info" },
   warning: {
@@ -5604,9 +5430,9 @@ function TableOfContents({
   containerSelector = "article",
   className
 }) {
-  const [items, setItems] = React53.useState([]);
-  const [activeId, setActiveId] = React53.useState(null);
-  React53.useEffect(() => {
+  const [items, setItems] = React52.useState([]);
+  const [activeId, setActiveId] = React52.useState(null);
+  React52.useEffect(() => {
     const el = document.querySelector(containerSelector);
     if (!el) return;
     const headings = el.querySelectorAll("h1, h2, h3, h4, h5, h6");
@@ -5646,15 +5472,15 @@ function TableOfContents({
     ) }, item.id)) })
   ] });
 }
-var ChatContext = React53.createContext(null);
+var ChatContext = React52.createContext(null);
 function ChatProvider({
   adapter,
   initialMessages = [],
   children
 }) {
-  const [messages, setMessages] = React53.useState(initialMessages);
-  const [isStreaming, setIsStreaming] = React53.useState(false);
-  const abortRef = React53.useRef(null);
+  const [messages, setMessages] = React52.useState(initialMessages);
+  const [isStreaming, setIsStreaming] = React52.useState(false);
+  const abortRef = React52.useRef(null);
   async function send(text) {
     const userMsg = {
       id: crypto.randomUUID(),
@@ -5717,7 +5543,7 @@ function ChatProvider({
   return /* @__PURE__ */ jsx(ChatContext.Provider, { value: { messages, send, isStreaming, abort, clear, adapter }, children });
 }
 function useChat() {
-  const ctx = React53.useContext(ChatContext);
+  const ctx = React52.useContext(ChatContext);
   if (!ctx) throw new Error("useChat must be used within ChatProvider");
   return ctx;
 }
@@ -5726,7 +5552,7 @@ function ToolCallView({
   result,
   className
 }) {
-  const [open, setOpen] = React53.useState(false);
+  const [open, setOpen] = React52.useState(false);
   return /* @__PURE__ */ jsxs("div", { className: cn("mt-2 rounded-md border border-border bg-background/50 text-xs", className), children: [
     /* @__PURE__ */ jsxs(
       "button",
@@ -5763,9 +5589,9 @@ function ToolCallView({
 }
 function Chatbot({ className }) {
   const { messages, send, isStreaming, abort, clear, adapter } = useChat();
-  const [input, setInput] = React53.useState("");
-  const scrollRef = React53.useRef(null);
-  React53.useEffect(() => {
+  const [input, setInput] = React52.useState("");
+  const scrollRef = React52.useRef(null);
+  React52.useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
   return /* @__PURE__ */ jsxs(
@@ -5880,15 +5706,15 @@ function VoiceInput({
   language = "it-IT",
   className
 }) {
-  const [recording, setRecording] = React53.useState(false);
-  const [supported, setSupported] = React53.useState(true);
-  const [error, setError] = React53.useState(null);
-  const recognitionRef = React53.useRef(null);
-  const canvasRef = React53.useRef(null);
-  const audioCtxRef = React53.useRef(null);
-  const analyserRef = React53.useRef(null);
-  const rafRef = React53.useRef(0);
-  React53.useEffect(() => {
+  const [recording, setRecording] = React52.useState(false);
+  const [supported, setSupported] = React52.useState(true);
+  const [error, setError] = React52.useState(null);
+  const recognitionRef = React52.useRef(null);
+  const canvasRef = React52.useRef(null);
+  const audioCtxRef = React52.useRef(null);
+  const analyserRef = React52.useRef(null);
+  const rafRef = React52.useRef(0);
+  React52.useEffect(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
       setSupported(false);
@@ -6092,9 +5918,9 @@ var DEFAULT_SETTINGS = {
   colorBlindSim: "none"
 };
 function AccessibilityPanel({ className }) {
-  const [open, setOpen] = React53.useState(false);
-  const [settings, setSettings] = React53.useState(DEFAULT_SETTINGS);
-  React53.useEffect(() => {
+  const [open, setOpen] = React52.useState(false);
+  const [settings, setSettings] = React52.useState(DEFAULT_SETTINGS);
+  React52.useEffect(() => {
     const stored = localStorage.getItem("heuresys-a11y");
     if (stored) {
       try {
@@ -6103,7 +5929,7 @@ function AccessibilityPanel({ className }) {
       }
     }
   }, []);
-  React53.useEffect(() => {
+  React52.useEffect(() => {
     const html = document.documentElement;
     const fontSizeMap = { A: "100%", "A+": "110%", "A++": "125%", "A+++": "140%" };
     html.style.fontSize = fontSizeMap[settings.fontSize];
@@ -6239,11 +6065,11 @@ function ToggleRow2({
     )
   ] });
 }
-var LiveRegionContext = React53.createContext(null);
+var LiveRegionContext = React52.createContext(null);
 function LiveRegionProvider({ children }) {
-  const [polite, setPolite] = React53.useState("");
-  const [assertive, setAssertive] = React53.useState("");
-  const announce = React53.useCallback((msg, urgency = "polite") => {
+  const [polite, setPolite] = React52.useState("");
+  const [assertive, setAssertive] = React52.useState("");
+  const announce = React52.useCallback((msg, urgency = "polite") => {
     if (urgency === "assertive") {
       setAssertive(msg);
       setTimeout(() => setAssertive(""), 1e3);
@@ -6259,7 +6085,7 @@ function LiveRegionProvider({ children }) {
   ] });
 }
 function useAnnounce() {
-  const ctx = React53.useContext(LiveRegionContext);
+  const ctx = React52.useContext(LiveRegionContext);
   if (!ctx) throw new Error("useAnnounce must be used within LiveRegionProvider");
   return ctx;
 }
@@ -6267,11 +6093,11 @@ function PerfMonitor({
   position = "bottom-left",
   className
 }) {
-  const [open, setOpen] = React53.useState(true);
-  const [fps, setFps] = React53.useState(0);
-  const [mem, setMem] = React53.useState(null);
-  const [domNodes, setDomNodes] = React53.useState(0);
-  React53.useEffect(() => {
+  const [open, setOpen] = React52.useState(true);
+  const [fps, setFps] = React52.useState(0);
+  const [mem, setMem] = React52.useState(null);
+  const [domNodes, setDomNodes] = React52.useState(0);
+  React52.useEffect(() => {
     if (!open) return;
     let frames = 0;
     let last = performance.now();
@@ -6474,9 +6300,9 @@ function AnimatedNumber({
   suffix,
   className
 }) {
-  const [display, setDisplay] = React53.useState(value);
-  const fromRef = React53.useRef(0);
-  React53.useEffect(() => {
+  const [display, setDisplay] = React52.useState(value);
+  const fromRef = React52.useRef(0);
+  React52.useEffect(() => {
     if (typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setDisplay(value);
       fromRef.current = value;
@@ -6507,8 +6333,8 @@ function Typewriter({
   className,
   onComplete
 }) {
-  const [out, setOut] = React53.useState("");
-  React53.useEffect(() => {
+  const [out, setOut] = React52.useState("");
+  React52.useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setOut(text);
       onComplete?.();
@@ -6595,7 +6421,7 @@ function ThreeScene({
   );
 }
 function DemoCube() {
-  const [hovered, setHovered] = React53.useState(false);
+  const [hovered, setHovered] = React52.useState(false);
   return /* @__PURE__ */ jsxs("mesh", { onPointerOver: () => setHovered(true), onPointerOut: () => setHovered(false), children: [
     /* @__PURE__ */ jsx("boxGeometry", { args: [1, 1, 1] }),
     /* @__PURE__ */ jsx("meshStandardMaterial", { color: hovered ? "#a78bfa" : "#60a5fa" })
@@ -6921,7 +6747,7 @@ function SkillHeatmap({
   onCellClick,
   className
 }) {
-  const cellMap = React53.useMemo(() => {
+  const cellMap = React52.useMemo(() => {
     const m = /* @__PURE__ */ new Map();
     for (const c of cells) m.set(`${c.rowId}|${c.colId}`, c);
     return m;
@@ -7143,7 +6969,7 @@ function RbacMatrix({
   onChange,
   className
 }) {
-  const map = React53.useMemo(() => {
+  const map = React52.useMemo(() => {
     const m = /* @__PURE__ */ new Map();
     for (const a of assignments) m.set(`${a.roleId}|${a.areaId}`, a.level);
     return m;
@@ -7571,7 +7397,7 @@ function DashboardShell({
             style: { gridTemplateColumns: `${initialSidebarWidth}px 1fr` },
             children: [
               sidebar,
-              /* @__PURE__ */ jsx("main", { tabIndex: 0, className: "min-h-0 overflow-y-auto p-6", children })
+              /* @__PURE__ */ jsx("div", { tabIndex: 0, className: "min-h-0 overflow-y-auto p-6", children })
             ]
           }
         ),
@@ -7892,8 +7718,8 @@ function DashboardSidebar({ groups, footerSlot, className }) {
   );
 }
 function SidebarGroup({ group }) {
-  const [expanded, setExpanded] = React53.useState(group.defaultExpanded ?? true);
-  React53.useEffect(() => {
+  const [expanded, setExpanded] = React52.useState(group.defaultExpanded ?? true);
+  React52.useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       const state = JSON.parse(window.localStorage.getItem(STORAGE_GROUPS) || "{}");
@@ -7921,7 +7747,7 @@ function SidebarGroup({ group }) {
         "data-group-toggle": group.id,
         "aria-expanded": expanded,
         onClick: toggle,
-        className: "sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70 transition hover:text-foreground",
+        className: "sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70 transition hover:text-foreground",
         children: [
           /* @__PURE__ */ jsx("span", { children: group.label }),
           /* @__PURE__ */ jsx("svg", { "data-group-chevron": true, className: "h-3 w-3 transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsx("polyline", { points: "6 9 12 15 18 9" }) })
@@ -8437,7 +8263,7 @@ function LogStream({
         )
       ] })
     ] }),
-    /* @__PURE__ */ jsx("ol", { className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", "aria-live": "polite", children: entries.map((e, i) => /* @__PURE__ */ jsxs("li", { className: "log-line flex items-start gap-3 px-5 py-2", children: [
+    /* @__PURE__ */ jsx("ol", { tabIndex: 0, "aria-label": title, className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", "aria-live": "polite", children: entries.map((e, i) => /* @__PURE__ */ jsxs("li", { className: "log-line flex items-start gap-3 px-5 py-2", children: [
       /* @__PURE__ */ jsx("span", { className: "ts shrink-0 whitespace-nowrap font-mono", children: e.timestamp }),
       /* @__PURE__ */ jsx("span", { className: `lvl-${e.level} shrink-0 font-mono font-semibold`, children: e.level.toUpperCase().padEnd(5) }),
       /* @__PURE__ */ jsx("span", { className: `shrink-0 rounded-sm bg-${e.sourceTone ?? "palette-1"}/15 px-1.5 font-mono text-[10px] text-${e.sourceTone ?? "palette-1"}`, children: e.source }),
@@ -8476,7 +8302,7 @@ function AuditFeed({
       ] }),
       onViewAll && /* @__PURE__ */ jsx("button", { type: "button", onClick: onViewAll, className: "text-xs font-medium text-primary transition hover:underline", children: "view all \u2192" })
     ] }),
-    /* @__PURE__ */ jsx("ul", { className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", children: events.map((ev, i) => /* @__PURE__ */ jsx("li", { className: "px-5 py-3", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
+    /* @__PURE__ */ jsx("ul", { tabIndex: 0, "aria-label": title, className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", children: events.map((ev, i) => /* @__PURE__ */ jsx("li", { className: "px-5 py-3", children: /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-3", children: [
       /* @__PURE__ */ jsx("span", { className: `mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-${ev.tone}/15 text-${ev.tone}`, children: ev.icon }),
       /* @__PURE__ */ jsxs("div", { className: "min-w-0", children: [
         /* @__PURE__ */ jsx("div", { className: "text-sm text-foreground", children: /* @__PURE__ */ jsx("span", { className: "font-medium", children: ev.title }) }),
@@ -9013,4 +8839,4 @@ function FieldGrid({
   ] }, i)) });
 }
 
-export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, ActivityFeed, ActivityRing, Admonition, AlertBanner, AnimatedNumber, AppShell, AppSwitcher, AuditFeed, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, BentoCell, BentoGrid, Breadcrumbs, Button, CalendarGrid, CapabilityRadar, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, Center, ChatProvider, Chatbot, Checkbox, Cluster, CommandPalette, CommentThread, ConfettiButton, Cover, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, DashboardHeader, DashboardShell, DashboardSidebar, DataTable, DataTableWithCrossHair, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EChartsCard, ESCOTreeNavigator, EmptyState, ErrorRateBreakdown, ErrorState, FAB, FadeIn, FieldGrid, FileDropzone, FilterBar, FormWizard, Frame, GlassCard, GradientText, Grid, GroupToggle, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, HeuresysMark, HeuresysWordmark, IbanInput, ImageGallery, IncidentTimeline, Input, IntegrationHealthPill, JsonTree, KGGraphCanvas, KPIStrip, KanbanBoard, KeyboardShortcutsModal, KgMiniGraph, KpiCard, KpiRing, LanguagePicker, LinearGauge, LiveRegionProvider, LogStream, LottiePlayer, MarkdownView, Marquee, MegaMenu, MermaidDiagram, MeshGradient, MobileBottomNav, MoneyInput, NetworkGraph, NeumorphicCard, NoiseOverlay, NotificationCenter, OnboardingTour, OtpInput, PALETTES, PageActions, PageHeader, Pagination, PaletteDropdown, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, RadialGauge, RbacMatrix, SAPSyncPanel, SQLSlowQueryTable, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, SignaturePadField, Skeleton, SkillHeatmap, SkipLink, SlideIn, Sparkline2 as Sparkline, Spinner, Stack, StaggerChildren, StaggerItem, StatsCard, StatusBadge2 as StatusBadge, StatusIcon, StatusPill, Stepper, SuccessionCard, Switch, Switcher, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, TenantFleetTable, ThemeBuilderWizard, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, TimeRangeSelector, Timeline, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, ToolCallView, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Typewriter, VideoPlayer, VoiceInput, WinLossSparkline, applyPalette, attachCrossHair, badgeVariants, buttonVariants, cn, downloadAsFile, echartsPresets, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme };
+export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, ActivityFeed, ActivityRing, Admonition, AlertBanner, AnimatedNumber, AppShell, AppSwitcher, AuditFeed, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, BentoCell, BentoGrid, Breadcrumbs, Button, CalendarGrid, CapabilityRadar, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, Center, ChatProvider, Chatbot, Checkbox, Cluster, CommandPalette, CommentThread, ConfettiButton, Cover, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, DashboardHeader, DashboardShell, DashboardSidebar, DataTable, DataTableWithCrossHair, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, EmptyState, ErrorRateBreakdown, ErrorState, FAB, FadeIn, FieldGrid, FileDropzone, FilterBar, FormWizard, Frame, GlassCard, GradientText, Grid, GroupToggle, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, HeuresysMark, HeuresysWordmark, IbanInput, ImageGallery, IncidentTimeline, Input, IntegrationHealthPill, JsonTree, KGGraphCanvas, KPIStrip, KanbanBoard, KeyboardShortcutsModal, KgMiniGraph, KpiCard, KpiRing, LanguagePicker, LinearGauge, LiveRegionProvider, LogStream, LottiePlayer, MarkdownView, Marquee, MegaMenu, MeshGradient, MobileBottomNav, MoneyInput, NetworkGraph, NeumorphicCard, NoiseOverlay, NotificationCenter, OnboardingTour, OtpInput, PALETTES, PageActions, PageHeader, Pagination, PaletteDropdown, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, RadialGauge, RbacMatrix, SAPSyncPanel, SQLSlowQueryTable, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, SignaturePadField, Skeleton, SkillHeatmap, SkipLink, SlideIn, Sparkline2 as Sparkline, Spinner, Stack, StaggerChildren, StaggerItem, StatsCard, StatusBadge2 as StatusBadge, StatusIcon, StatusPill, Stepper, SuccessionCard, Switch, Switcher, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, TenantFleetTable, ThemeBuilderWizard, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, TimeRangeSelector, Timeline, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, ToolCallView, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Typewriter, VideoPlayer, VoiceInput, WinLossSparkline, applyPalette, attachCrossHair, badgeVariants, buttonVariants, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme };

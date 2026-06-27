@@ -38,7 +38,9 @@ export function AuditFeed({ events, title = "Audit feed",
           </button>
         )}
       </div>
-      <ul className="max-h-[420px] divide-y divide-border/60 overflow-y-auto">
+      {/* tabIndex+aria-label: the list is a scroll container, so it must be
+          keyboard-reachable and named (axe scrollable-region-focusable, WCAG 2.1.1). */}
+      <ul tabIndex={0} aria-label={title} className="max-h-[420px] divide-y divide-border/60 overflow-y-auto">
         {events.map((ev, i) => (
           <li key={i} className="px-5 py-3">
             <div className="flex items-start gap-3">

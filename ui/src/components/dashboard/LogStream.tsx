@@ -56,7 +56,9 @@ export function LogStream({ entries, title = "Live log stream", sourceLabel = "f
         </div>
       </div>
 
-      <ol className="max-h-[420px] divide-y divide-border/60 overflow-y-auto" aria-live="polite">
+      {/* tabIndex+aria-label: scroll container must be keyboard-reachable and
+          named (axe scrollable-region-focusable, WCAG 2.1.1). */}
+      <ol tabIndex={0} aria-label={title} className="max-h-[420px] divide-y divide-border/60 overflow-y-auto" aria-live="polite">
         {entries.map((e, i) => (
           <li key={i} className="log-line flex items-start gap-3 px-5 py-2">
             <span className="ts shrink-0 whitespace-nowrap font-mono">{e.timestamp}</span>

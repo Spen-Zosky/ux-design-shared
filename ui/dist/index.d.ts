@@ -18,12 +18,14 @@ import { HTMLMotionProps } from 'framer-motion';
 import { ColumnDef } from '@tanstack/react-table';
 import confettiLib from 'canvas-confetti';
 import { LottieComponentProps } from 'lottie-react';
-import { EChartsOption } from 'echarts';
+export { EChartsCard, EChartsCardProps, echartsPresets } from './entry-charts.js';
 import ReactMarkdown from 'react-markdown';
+export { MermaidDiagram } from './entry-markdown.js';
 import * as lucide_react from 'lucide-react';
+import 'echarts';
 
 declare const buttonVariants: (props?: ({
-    variant?: "default" | "secondary" | "outline" | "ghost" | "destructive" | "link" | null | undefined;
+    variant?: "default" | "link" | "secondary" | "outline" | "ghost" | "destructive" | null | undefined;
     size?: "sm" | "md" | "lg" | "icon" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface ButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
@@ -265,7 +267,7 @@ declare const CommandPalette: typeof CommandPaletteRoot & {
         ref?: React$1.Ref<HTMLDivElement>;
     } & {
         asChild?: boolean;
-    }, "asChild" | "key" | keyof React$1.HTMLAttributes<HTMLDivElement>>, "value" | "heading"> & {
+    }, "asChild" | "key" | keyof React$1.HTMLAttributes<HTMLDivElement>>, "heading" | "value"> & {
         heading?: React$1.ReactNode;
         value?: string;
         forceMount?: boolean;
@@ -869,7 +871,7 @@ declare function TiltCard({ children, className, intensity, ...props }: React$1.
 }): react_jsx_runtime.JSX.Element;
 
 declare const bannerVariants: (props?: ({
-    tone?: "destructive" | "info" | "success" | "warning" | "neutral" | null | undefined;
+    tone?: "neutral" | "destructive" | "info" | "success" | "warning" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface BannerProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProps<typeof bannerVariants> {
     title?: string;
@@ -894,78 +896,6 @@ interface LottiePlayerProps extends Omit<LottieComponentProps, 'animationData' |
     className?: string;
 }
 declare function LottiePlayer({ src, data, ariaLabel, className, ...rest }: LottiePlayerProps): react_jsx_runtime.JSX.Element;
-
-/**
- * EChartsCard — generic ECharts wrapper. Pass option object directly. Theme
- * follows tokens via CSS variables. (TIER 4 charts core)
- */
-interface EChartsCardProps {
-    option: EChartsOption;
-    height?: number | string;
-    loading?: boolean;
-    className?: string;
-    onEvents?: Record<string, (params: unknown) => void>;
-    ariaLabel?: string;
-}
-declare function EChartsCard({ option, height, loading, className, onEvents, ariaLabel, }: EChartsCardProps): react_jsx_runtime.JSX.Element;
-/**
- * Quick presets for common charts. Pass `data` shaped per preset.
- */
-declare const echartsPresets: {
-    readonly line: (data: {
-        x: string[];
-        series: {
-            name: string;
-            values: number[];
-        }[];
-    }) => EChartsOption;
-    readonly bar: (data: {
-        x: string[];
-        series: {
-            name: string;
-            values: number[];
-        }[];
-    }) => EChartsOption;
-    readonly pie: (data: {
-        name: string;
-        value: number;
-    }[]) => EChartsOption;
-    readonly heatmap: (data: {
-        x: string[];
-        y: string[];
-        values: [number, number, number][];
-    }) => EChartsOption;
-    readonly sankey: (data: {
-        nodes: {
-            name: string;
-        }[];
-        links: {
-            source: string;
-            target: string;
-            value: number;
-        }[];
-    }) => EChartsOption;
-    readonly funnel: (data: {
-        name: string;
-        value: number;
-    }[]) => EChartsOption;
-    readonly treemap: (data: {
-        name: string;
-        value: number;
-        children?: unknown[];
-    }[]) => EChartsOption;
-    readonly radar: (data: {
-        indicator: {
-            name: string;
-            max: number;
-        }[];
-        series: {
-            name: string;
-            value: number[];
-        }[];
-    }) => EChartsOption;
-    readonly gauge: (value: number, max?: number) => EChartsOption;
-};
 
 /**
  * Sparkline — inline tiny chart. Renders SVG polyline + optional area fill.
@@ -1368,22 +1298,6 @@ declare function MarkdownView({ content, className, components, }: {
     content: string;
     className?: string;
     components?: React$1.ComponentProps<typeof ReactMarkdown>['components'];
-}): react_jsx_runtime.JSX.Element;
-
-/**
- * MermaidDiagram — render mermaid source as SVG via data-URL image.
- *
- * Implementation: mermaid produces SVG markup which we encode as a data URL
- * and assign to an <img> src. This avoids any HTML injection path entirely
- * since the browser parses the SVG as an image (no script execution).
- *
- * Supports flowchart/sequence/class/state/ER/Gantt/Sankey diagrams.
- * (TIER 10)
- */
-declare function MermaidDiagram({ source, className, ariaLabel, }: {
-    source: string;
-    className?: string;
-    ariaLabel?: string;
 }): react_jsx_runtime.JSX.Element;
 
 declare const VARIANTS: {
@@ -2567,4 +2481,4 @@ declare function FieldGrid({ fields, testId, className, }: {
     className?: string;
 }): react_jsx_runtime.JSX.Element;
 
-export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, type AchievementBadgeProps, ActivityFeed, type ActivityFeedItem, ActivityRing, type ActivityRingProps, Admonition, type AdmonitionVariant, type AlertAction, AlertBanner, type AlertBannerProps, type AlertVariant, AnimatedNumber, AppShell, type AppShellNavItem, type AppShellProps, AppSwitcher, type AppSwitcherApp, type AuditEvent, AuditFeed, type AuditFeedProps, type AuditTone, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, type BannerProps, BentoCell, type BentoCellProps, BentoGrid, type BentoGridProps, type BrandIdentity, type BreadcrumbItem, Breadcrumbs, Button, type ButtonProps, type CalendarEvent, CalendarGrid, CapabilityRadar, type CapabilityRadarAxis, type CapabilityRadarProps, type CapabilityRadarSeries, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, type CareerArcProps, type CareerStage, type CareerStageStatus, Center, type ChatMessage, ChatProvider, type ChatProviderAdapter, type ChatRole, Chatbot, Checkbox, Cluster, type ColorModes, type ColorSystem, CommandPalette, type Comment, CommentThread, ConfettiButton, Cover, type CrossHairBindings, type DBSubItem, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, type DashboardFooterProps, DashboardHeader, type DashboardHeaderProps, type RbacRole as DashboardRbacRole, DashboardShell, type DashboardShellProps, DashboardSidebar, type DashboardSidebarProps, DataTable, type DataTableProps, DataTableWithCrossHair, type DataTableWithCrossHairProps, type DetailField, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, type DiffLine, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, EChartsCard, type EChartsCardProps, ESCOTreeNavigator, type ESCOTreeNavigatorProps, type ESCOTreeNode, type EffectsConfig, EmptyState, type EmptyStateProps, type EndpointRow, ErrorRateBreakdown, type ErrorRateBreakdownProps, ErrorState, type ErrorStateProps, FAB, type FABProps, FadeIn, FieldGrid, FileDropzone, type FileDropzoneProps, FilterBar, type FilterBarProps, type FilterChip, FormWizard, type FormWizardProps, type FormWizardStep, Frame, type GalleryImage, GlassCard, type GlassCardProps, GradientText, Grid, GroupToggle, type GroupToggleProps, type HeaderBreadcrumb, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, type HeuresysLogoBadgeProps, HeuresysMark, type HeuresysMarkProps, HeuresysWordmark, type HeuresysWordmarkProps, IbanInput, type IconographyConfig, ImageGallery, type IncidentItem, type IncidentSeverity, type IncidentStatus, IncidentTimeline, type IncidentTimelineProps, Input, type InputProps, IntegrationHealthPill, type IntegrationHealthPillProps, type IntegrationHealthTone, JsonTree, type KGEdge, KGGraphCanvas, type KGGraphCanvasProps, type KGNode, KPIStrip, type KPIStripProps, KanbanBoard, type KanbanCard, type KanbanColumn, KeyboardShortcutsModal, KgMiniGraph, type KgMiniGraphLegendItem, type KgMiniGraphProps, KpiCard, type KpiCardData, KpiRing, type KpiRingProps, type KpiRingThresholds, type KpiRingTone, LanguagePicker, LinearGauge, type LinearGaugeProps, LiveRegionProvider, type LogEntry, type LogLevel, LogStream, type LogStreamProps, LottiePlayer, type LottiePlayerProps, MarkdownView, Marquee, MegaMenu, type MegaMenuColumn, type MegaMenuTrigger, MermaidDiagram, MeshGradient, MobileBottomNav, type MobileNavItem, MoneyInput, type MoneyInputProps, type MotionConfig, type NavGroup, type NavItem, NetworkGraph, type NetworkGraphProps, NeumorphicCard, type NeumorphicCardProps, NoiseOverlay, type Notification, NotificationCenter, type OKLCH, OnboardingTour, OtpInput, type OtpInputProps, PALETTES, PageActions, type PageActionsProps, PageHeader, type PageHeaderProps, Pagination, type PaginationProps, PaletteDropdown, type PaletteIdx, type PalettePreset, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, type RBACMatrixProps, RadialGauge, type RadialGaugeProps, type RbacArea, type RbacAssignment, RbacMatrix, type RbacMatrixProps, type RbacPermissionLevel, type RbacRole$1 as RbacRole, type RbacRow, type RbacState, type SAPDeltaEntry, type SAPJobStatus, type SAPJobSummary, SAPSyncPanel, type SAPSyncPanelProps, SQLSlowQueryTable, type SQLSlowQueryTableProps, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, type ShortcutGroup, SignaturePadField, type SignaturePadFieldProps, Skeleton, SkillHeatmap, type SkillHeatmapAxis, type SkillHeatmapCell, type SkillHeatmapProps, SkipLink, SlideIn, type SocialLink, type SpacingLayout, Sparkline, type SparklineProps, Spinner, type SqlSlowRow, Stack, StaggerChildren, StaggerItem, StatsCard, type StatsCardProps, StatusBadge, type StatusBucket, StatusIcon, type StatusIconProps, StatusPill, type StatusPillTone, type StatusTone, Stepper, type StepperProps, type StepperStep, SuccessionCard, type SuccessionCardProps, type SuccessionReadiness, type SuccessionRisk, Switch, Switcher, type TabItem, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, type TenantRow as TenantFleetRow, TenantFleetTable, type TenantFleetTableProps, type TenantRow, type TenantStatus, type ThemeBuilderState, ThemeBuilderWizard, type ThemePreset, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, type TimeRangeOption, TimeRangeSelector, type TimeRangeSelectorProps, Timeline, type TimelineEvent, Toast, ToastAction, ToastClose, ToastDescription, type ToastProps, ToastProvider, ToastTitle, ToastViewport, type TocItem, type ToolCall, ToolCallView, type ToolResult, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, type TourStep, Typewriter, type Typography as TypographyConfig, type UserIdentity, type VideoCaption, type VideoChapter, VideoPlayer, type VideoPlayerProps, VoiceInput, WinLossSparkline, type WordmarkSize, type WordmarkVariant, applyPalette, attachCrossHair, badgeVariants, buttonVariants, cn, downloadAsFile, echartsPresets, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme };
+export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, type AchievementBadgeProps, ActivityFeed, type ActivityFeedItem, ActivityRing, type ActivityRingProps, Admonition, type AdmonitionVariant, type AlertAction, AlertBanner, type AlertBannerProps, type AlertVariant, AnimatedNumber, AppShell, type AppShellNavItem, type AppShellProps, AppSwitcher, type AppSwitcherApp, type AuditEvent, AuditFeed, type AuditFeedProps, type AuditTone, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, type BannerProps, BentoCell, type BentoCellProps, BentoGrid, type BentoGridProps, type BrandIdentity, type BreadcrumbItem, Breadcrumbs, Button, type ButtonProps, type CalendarEvent, CalendarGrid, CapabilityRadar, type CapabilityRadarAxis, type CapabilityRadarProps, type CapabilityRadarSeries, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, type CareerArcProps, type CareerStage, type CareerStageStatus, Center, type ChatMessage, ChatProvider, type ChatProviderAdapter, type ChatRole, Chatbot, Checkbox, Cluster, type ColorModes, type ColorSystem, CommandPalette, type Comment, CommentThread, ConfettiButton, Cover, type CrossHairBindings, type DBSubItem, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, type DashboardFooterProps, DashboardHeader, type DashboardHeaderProps, type RbacRole as DashboardRbacRole, DashboardShell, type DashboardShellProps, DashboardSidebar, type DashboardSidebarProps, DataTable, type DataTableProps, DataTableWithCrossHair, type DataTableWithCrossHairProps, type DetailField, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, type DiffLine, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, type ESCOTreeNavigatorProps, type ESCOTreeNode, type EffectsConfig, EmptyState, type EmptyStateProps, type EndpointRow, ErrorRateBreakdown, type ErrorRateBreakdownProps, ErrorState, type ErrorStateProps, FAB, type FABProps, FadeIn, FieldGrid, FileDropzone, type FileDropzoneProps, FilterBar, type FilterBarProps, type FilterChip, FormWizard, type FormWizardProps, type FormWizardStep, Frame, type GalleryImage, GlassCard, type GlassCardProps, GradientText, Grid, GroupToggle, type GroupToggleProps, type HeaderBreadcrumb, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, type HeuresysLogoBadgeProps, HeuresysMark, type HeuresysMarkProps, HeuresysWordmark, type HeuresysWordmarkProps, IbanInput, type IconographyConfig, ImageGallery, type IncidentItem, type IncidentSeverity, type IncidentStatus, IncidentTimeline, type IncidentTimelineProps, Input, type InputProps, IntegrationHealthPill, type IntegrationHealthPillProps, type IntegrationHealthTone, JsonTree, type KGEdge, KGGraphCanvas, type KGGraphCanvasProps, type KGNode, KPIStrip, type KPIStripProps, KanbanBoard, type KanbanCard, type KanbanColumn, KeyboardShortcutsModal, KgMiniGraph, type KgMiniGraphLegendItem, type KgMiniGraphProps, KpiCard, type KpiCardData, KpiRing, type KpiRingProps, type KpiRingThresholds, type KpiRingTone, LanguagePicker, LinearGauge, type LinearGaugeProps, LiveRegionProvider, type LogEntry, type LogLevel, LogStream, type LogStreamProps, LottiePlayer, type LottiePlayerProps, MarkdownView, Marquee, MegaMenu, type MegaMenuColumn, type MegaMenuTrigger, MeshGradient, MobileBottomNav, type MobileNavItem, MoneyInput, type MoneyInputProps, type MotionConfig, type NavGroup, type NavItem, NetworkGraph, type NetworkGraphProps, NeumorphicCard, type NeumorphicCardProps, NoiseOverlay, type Notification, NotificationCenter, type OKLCH, OnboardingTour, OtpInput, type OtpInputProps, PALETTES, PageActions, type PageActionsProps, PageHeader, type PageHeaderProps, Pagination, type PaginationProps, PaletteDropdown, type PaletteIdx, type PalettePreset, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, type RBACMatrixProps, RadialGauge, type RadialGaugeProps, type RbacArea, type RbacAssignment, RbacMatrix, type RbacMatrixProps, type RbacPermissionLevel, type RbacRole$1 as RbacRole, type RbacRow, type RbacState, type SAPDeltaEntry, type SAPJobStatus, type SAPJobSummary, SAPSyncPanel, type SAPSyncPanelProps, SQLSlowQueryTable, type SQLSlowQueryTableProps, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, type ShortcutGroup, SignaturePadField, type SignaturePadFieldProps, Skeleton, SkillHeatmap, type SkillHeatmapAxis, type SkillHeatmapCell, type SkillHeatmapProps, SkipLink, SlideIn, type SocialLink, type SpacingLayout, Sparkline, type SparklineProps, Spinner, type SqlSlowRow, Stack, StaggerChildren, StaggerItem, StatsCard, type StatsCardProps, StatusBadge, type StatusBucket, StatusIcon, type StatusIconProps, StatusPill, type StatusPillTone, type StatusTone, Stepper, type StepperProps, type StepperStep, SuccessionCard, type SuccessionCardProps, type SuccessionReadiness, type SuccessionRisk, Switch, Switcher, type TabItem, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, type TenantRow as TenantFleetRow, TenantFleetTable, type TenantFleetTableProps, type TenantRow, type TenantStatus, type ThemeBuilderState, ThemeBuilderWizard, type ThemePreset, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, type TimeRangeOption, TimeRangeSelector, type TimeRangeSelectorProps, Timeline, type TimelineEvent, Toast, ToastAction, ToastClose, ToastDescription, type ToastProps, ToastProvider, ToastTitle, ToastViewport, type TocItem, type ToolCall, ToolCallView, type ToolResult, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, type TourStep, Typewriter, type Typography as TypographyConfig, type UserIdentity, type VideoCaption, type VideoChapter, VideoPlayer, type VideoPlayerProps, VoiceInput, WinLossSparkline, type WordmarkSize, type WordmarkVariant, applyPalette, attachCrossHair, badgeVariants, buttonVariants, cn, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme };

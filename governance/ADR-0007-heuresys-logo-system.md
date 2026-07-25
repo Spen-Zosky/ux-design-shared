@@ -111,7 +111,9 @@ None. `HeuresysWordmark` + `HeuresysMark` already in production.
 ### Assets
 
 - Favicon set should be generated **from `HeuresysMark`** (the "y" alone) at 16/32/48/64/180/192/512 px, plus a 256×256 source PNG for store listings (App Store / Play Store / etc.). Outstanding TODO — not a blocker for brand v1 closure but should be added to the Tier 7 a11y / QA / asset checklist.
+  → **Tracciato** come cluster `Z-153` del piano «zero pendenze» di `heuresys-advanced` (`docs/superpowers/specs/2026-07-25-zero-pending-plan.md`, ondata W1): il sito in produzione non serve né favicon né `site.webmanifest`. Non è un TODO orfano.
 - Social media kit (OG image 1200×630, Twitter card, LinkedIn banner) should be generated from `HeuresysWordmark` at hero scale on `bg-foreground` (inverse-contrast) — same pattern used by `/showcase/landing-page` hero. Outstanding TODO.
+  → **Tracciato** come cluster `Z-152` dello stesso piano (5 refinement SK-1..SK-5, rigenerabili con `apps/web/scripts/generate-social-kit.mjs`).
 - Both asset bundles live under `@heuresys/ui/src/assets/brand/logo/` once generated, **not** under `candidates/`.
 
 ### Tests

@@ -39,7 +39,7 @@
 
 ### Tier 1: Data Viz
 - d3 7.9, echarts 6.0, recharts 3.8
-- cytoscape 3.33, reactflow 11.11
+- cytoscape 3.33
 - three.js + @react-three/*
 
 ### Tier 2: Forms
@@ -117,8 +117,8 @@ cd ui && npm list --depth=0 2>/dev/null | tail -20
 
 ## Note di Manutenzione
 
-- **Reverse dependency**: `ux-design-shared` deve rimanere **self-contained**, senza import da `services/*`
-- **Version lock**: `package-lock.json` va committato per garantire coerenza
+- **Reverse dependency**: `ux-design-shared` deve rimanere **self-contained**, senza import dai repo consumer (`heuresys-advanced` e successivi)
+- **Version lock**: `ui/pnpm-lock.yaml` va committato per garantire coerenza (pnpm è il package manager reale dell'ecosistema; `package-lock.json` resta in `.gitignore`)
 - **Type safety**: TypeScript 6.0.3 (strict mode) — aggiornamenti con cautela
 
 ---

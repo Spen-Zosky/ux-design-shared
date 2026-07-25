@@ -47,7 +47,9 @@ ux-design-shared/
 
 ### Data Visualization
 - `d3` 7.9, `echarts` 6.0, `recharts` 3.8
-- `cytoscape` 3.33, `reactflow` 11.11
+- `cytoscape` 3.33
+- esposte anche via subpath `@heuresys/ui/charts`, così un consumer che non fa grafici non
+  si porta dietro l'albero d3/echarts/recharts
 
 ### Forms & Validation
 - `react-hook-form` 7.74, `zod` 3.25
@@ -60,23 +62,34 @@ ux-design-shared/
 
 ## Uso in Altro Progetto
 
-Se vuoi usare `@heuresys/ui` in un altro repo:
+`@heuresys/ui` è **pubblicato su npm** e si consuma come una dipendenza qualsiasi. Il vecchio
+modello a symlink (`npm install ../../ux-design-shared/ui`, protocollo `link:`) è **ritirato**
+dalla migrazione X18: produceva due istanze di React nel grafo del consumer e rendeva il build
+dipendente da un path assoluto della macchina.
 
-**Opzione A: Local Development (npm workspaces)**
 ```bash
-# Nel tuo repo root package.json
-"workspaces": ["./node_modules/.heuresys-ui", "src/..."]
-
-# Symlink locale
-npm install ../../ux-design-shared/ui
+# Nel repo consumer
+pnpm add @heuresys/ui        # oggi: 0.1.9
 ```
 
-**Opzione B: NPM Publish (futuro)**
+Il consumer dichiara React di suo (`peerDependencies` qui: react, react-dom, @types/react,
+@types/react-dom) e aggiunge il path di scansione Tailwind verso `node_modules/@heuresys/ui/dist`.
+
+**Rilasciare una nuova versione** (l'ordine conta — un publish senza push lascia npm avanti
+rispetto a GitHub, che è esattamente il buco chiuso nel S1030):
+
 ```bash
-# Quando pronto, publish a registry privato/pubblico
-cd ui && npm publish --access public
-# Poi: npm install @heuresys/ui
+cd ui
+npm run build                # tsup -> dist/
+npm version patch|minor      # bump in ui/package.json
+npm publish --access public
+git push origin main         # <-- il sorgente della release DEVE seguire il publish
 ```
+
+Poi nel consumer: bump della dipendenza + `pnpm install`.
+
+**Subpath disponibili**: `.` (barrel), `./charts`, `./markdown`, `./styles`,
+`./brand/candidates`, `./assets/brand/*`.
 
 ## Commands
 

@@ -27,6 +27,7 @@
       "require": "./dist/entry-markdown.cjs"
     },
     "./styles": "./src/styles/globals.css",
+    "./theme": "./src/styles/theme-heuresys.css",
     "./brand/candidates": "./src/components/brand/candidates/index.ts",
     "./assets/brand/*": "./src/assets/brand/*"
   },

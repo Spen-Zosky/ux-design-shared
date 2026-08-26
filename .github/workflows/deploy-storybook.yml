@@ -18,24 +18,85 @@ jobs:
   build:
     name: Build Storybook
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: ui
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          node-version: "20"
+          fetch-depth: 1
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      # pnpm, non npm. Il repo ha ui/pnpm-lock.yaml (lockfileVersion 9.0) e
+      # node_modules risolto da pnpm; il workflow precedente installava con
+      # `npm install --legacy-peer-deps`, che quel lockfile lo ignora del tutto:
+      # la vetrina pubblicata poteva quindi essere costruita con versioni diverse
+      # da quelle di sviluppo. Peggio, --legacy-peer-deps silenzia proprio i
+      # conflitti di peer dependency su React - l'errore che un design system
+      # deve sorvegliare per primo (due istanze di React nel grafo del consumer).
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
+        with:
+          version: 9.15.0
+
+      # 22, non 20: una dipendenza transitiva (camera-controls via three.js)
+      # richiede Node >=22. Qui non c'e' engine-strict, quindi con Node 20 non
+      # fallisce con un errore leggibile: passa e si rompe in modo oscuro. La
+      # stessa rottura e' documentata nel workflow showcase di heuresys-advanced
+      # (2026-05-24, quando la dipendenza ha alzato il proprio campo engines).
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "22"
+
+      - name: Install (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      # Cancelli prima della pubblicazione. Finche' la libreria aveva un solo
+      # consumatore il rischio era personale; ora che piu' prodotti dipendono
+      # dalla stessa release, un difetto pubblicato li raggiunge tutti.
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Unit tests
+        run: pnpm run test
 
       - name: Build Storybook static site
-        run: npm run build-storybook
+        run: pnpm run build-storybook
+
+      # Cancello anti-vetrina-spenta. Aggiunto il 2026-08-26 dopo aver scoperto
+      # che Storybook veniva pubblicato SENZA Tailwind: il plugin non era
+      # registrato nella pipeline Vite, il CSS emesso conteneva 112 regole e
+      # nessuna utility (mancavano .bg-card e .text-danger, ma anche .flex e
+      # .p-4) e il deploy usciva verde lo stesso. Un build che non produce
+      # utility non e' un build riuscito: qui si ferma.
+      - name: Verify the emitted CSS actually contains Tailwind output
+        run: |
+          set -euo pipefail
+          css=$(find storybook-static -name '*.css' | tr '\n' ' ')
+          [ -n "$css" ] || { echo "::error::nessun CSS emesso da Storybook"; exit 1; }
+          fail=0
+          # Tailwind ha davvero compilato?
+          grep -qF -- '@property --tw' $css || { echo "::error::nessun @property --tw-*: Tailwind non ha compilato il foglio"; fail=1; }
+          # utility di impaginazione e utility legate ai token di marca
+          for c in .flex .grid .p-4 .bg-card .bg-background .text-foreground .border-border .text-danger .rounded-card; do
+            grep -qF -- "$c" $css || { echo "::error::utility mancante nel CSS pubblicato: $c"; fail=1; }
+          done
+          # i token dietro le utility devono esistere, o la regola c'e' ma e' inerte
+          for t in --background --card --foreground --border --primary --danger; do
+            grep -qE -- "$t:" $css || { echo "::error::token non definito nel CSS pubblicato: $t"; fail=1; }
+          done
+          [ "$fail" -eq 0 ] && echo "OK - Tailwind compilato, utility e token presenti"
+          exit $fail
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # NB: le tre action ufficiali di Pages restano ancorate al tag maggiore.
+      # Le altre sono ancorate all'hash del commit (pratica gia' in uso su
+      # heuresys-advanced); per queste non avevo un hash verificato e non l'ho
+      # inventato: da fissare quando lo si controlla su GitHub.
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

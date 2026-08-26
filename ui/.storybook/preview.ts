@@ -1,7 +1,10 @@
 import type { Preview } from "@storybook/react";
 import { withThemeByClassName } from "@storybook/addon-themes";
 import { initialize, mswLoader } from "msw-storybook-addon";
-import "../src/styles/globals.css";
+// Un solo entry CSS: base della libreria + tema di marca, uniti in preview.css.
+// Vedi il commento in quel file: separarli lascerebbe Tailwind cieco ai token
+// e le utility di superficie non verrebbero generate affatto.
+import "./preview.css";
 
 // Use a page-relative SW URL so MSW works both at the root in dev
 // (http://localhost:6006/) and under a subpath in deploy

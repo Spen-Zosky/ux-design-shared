@@ -1,0 +1,34 @@
+/* .storybook/preview.css
+ *
+ * Foglio di stile UNICO di Storybook: base della libreria + tema di marca, in
+ * quest'ordine. Sta in un file solo perche' in Tailwind 4 le utility sono
+ * generate dal foglio che contiene `@import "tailwindcss"`, e solo con i
+ * `@theme` che quel medesimo foglio vede: importare i due CSS separatamente da
+ * `preview.ts` lascerebbe cieco quello che genera le utility.
+ *
+ * COSA CHIUDE (misurato sul CSS emesso, 2026-08-26).
+ *
+ * 1. Storybook non aveva Tailwind affatto. Il plugin `@tailwindcss/vite` era
+ *    installato ma mai registrato nella pipeline Vite (vedi `viteFinal` in
+ *    main.ts): `@import "tailwindcss"` restava un import CSS qualunque e nel
+ *    bundle finiva `@layer theme{@theme default{...}}` non compilato. Risultato:
+ *    112 regole, zero utility — mancavano `.bg-card` e `.text-danger`, ma anche
+ *    `.flex` e `.p-4`. Dopo la correzione: 1227 regole, tutte presenti.
+ *
+ * 2. Mancavano i token di superficie. `globals.css` per contratto riempie solo
+ *    cio' che nessun consumatore fornisce e lascia al progetto marca e
+ *    superfici: `--background`, `--card`, `--foreground`, `--border`, `--muted`
+ *    non erano definiti da nessuna parte. Dal 2026-08-26 il tema di marca vive
+ *    nella libreria (`src/styles/theme-heuresys.css`, esposto come
+ *    `@heuresys/ui/theme`), quindi Storybook mostra i componenti con gli stessi
+ *    colori che avranno nei prodotti.
+ */
+
+@import "../src/styles/globals.css";
+@import "../src/styles/theme-heuresys.css";
+
+/* Sorgenti da scansionare, dichiarati esplicitamente. Con il plugin attivo
+ * Tailwind saprebbe dedurli da solo, ma la deduzione parte dalla cartella del
+ * foglio che importa `tailwindcss` — qui `src/styles/`, che contiene solo CSS.
+ * Meglio dirlo che dipendere da un'euristica. */
+@source "../src/**/*.{ts,tsx}";

@@ -24,7 +24,7 @@ export default defineConfig({
   expect: { timeout: 10_000 },
 
   use: {
-    baseURL: "http://localhost:6006",
+    baseURL: "http://localhost:6007",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
@@ -37,8 +37,17 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "pnpm run storybook -- --ci --quiet",
-    url: "http://localhost:6006",
+    // NON "pnpm run storybook -- --ci --quiet": su Windows il "--" letterale
+    // finisce passato come argomento reale a `storybook dev` (invece di
+    // essere il separatore pnpm/npm), che poi si rifiuta con "too many
+    // arguments for 'dev'". Stesso bug già trovato e fissato nel worktree
+    // del piano Header (2026-09-03) — non ancora backportato su main, quindi
+    // riappare qui in un worktree fresco. `pnpm exec` chiama il binario
+    // direttamente, un solo livello di parsing shell.
+    // Porta 6007 (non 6006): un altro worktree di questa stessa sessione
+    // (piano Header) ha già un server Storybook attivo su 6006.
+    command: "pnpm exec storybook dev -p 6007 --ci --quiet",
+    url: "http://localhost:6007",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

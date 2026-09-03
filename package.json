@@ -12,18 +12,18 @@
   },
   "engines": {
     "node": ">=20.0.0",
-    "npm": ">=10.0.0"
+    "pnpm": ">=9.0.0"
   },
   "scripts": {
-    "install:deps": "npm install --prefer-offline",
-    "dev": "cd ui && npm run dev",
-    "storybook": "cd ui && npm run storybook",
-    "build-storybook": "cd ui && npm run build-storybook",
-    "typecheck": "cd ui && npm run typecheck",
-    "test": "cd ui && npm run test",
-    "test:watch": "cd ui && npm run test:watch",
-    "test:coverage": "cd ui && npm run test:coverage",
-    "clean": "cd ui && npm run clean && rm -rf node_modules"
+    "install:deps": "cd ui && pnpm install --frozen-lockfile",
+    "dev": "cd ui && pnpm run dev",
+    "storybook": "cd ui && pnpm run storybook",
+    "build-storybook": "cd ui && pnpm run build-storybook",
+    "typecheck": "cd ui && pnpm run typecheck",
+    "test": "cd ui && pnpm run test",
+    "test:watch": "cd ui && pnpm run test:watch",
+    "test:coverage": "cd ui && pnpm run test:coverage",
+    "clean": "cd ui && pnpm run clean && rm -rf node_modules"
   },
   "workspaces": [
     "ui"

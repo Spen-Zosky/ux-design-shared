@@ -5,18 +5,23 @@ Questo è uno snapshot **standalone** della libreria `@heuresys/ui` estratto dal
 ## Quick Start
 
 ```bash
-# 1. Install dependencies
-npm install
+# 1. Install dependencies — pnpm, non npm: il repo committa ui/pnpm-lock.yaml,
+#    che è il grafo di dipendenze testato. `npm install` lo ignora e risolve
+#    da solo i range aperti (es. storybook ^10.3.6 → può prendere 10.6.0),
+#    che possono rompere in modo criptico (visto su Windows con
+#    msw-storybook-addon + ERR_PACKAGE_PATH_NOT_EXPORTED).
+cd ui
+pnpm install --frozen-lockfile
 
 # 2. Run Storybook (vetrina componenti)
-npm run storybook
+pnpm run storybook
 # → http://localhost:6006
 
 # 3. Run tests
-npm run test
+pnpm run test
 
 # 4. Type check
-npm run typecheck
+pnpm run typecheck
 ```
 
 ## Struttura
@@ -95,12 +100,12 @@ Poi nel consumer: bump della dipendenza + `pnpm install`.
 
 | Command | Scopo |
 |---------|-------|
-| `npm run dev` | Storybook dev (HMR) |
-| `npm run build-storybook` | Build statico Storybook |
-| `npm run typecheck` | TypeScript type check |
-| `npm run test` | Vitest unit tests |
-| `npm run test:coverage` | Coverage report |
-| `npm run clean` | Pulisci build artifacts |
+| `pnpm run dev` | Storybook dev (HMR) |
+| `pnpm run build-storybook` | Build statico Storybook |
+| `pnpm run typecheck` | TypeScript type check |
+| `pnpm run test` | Vitest unit tests |
+| `pnpm run test:coverage` | Coverage report |
+| `pnpm run clean` | Pulisci build artifacts |
 
 ## API Stability
 
@@ -113,7 +118,7 @@ Breaking changes → Semantic versioning + changelog
 ## Accessibility
 
 - WCAG 2.2 AA compliance (jest-axe audit)
-- Storybook a11y addon (`npm run storybook`)
+- Storybook a11y addon (`pnpm run storybook`)
 
 ## Testing
 
@@ -124,25 +129,31 @@ Breaking changes → Semantic versioning + changelog
 
 ## Troubleshooting
 
-### `npm install` fallisce
+### `pnpm install` fallisce
 ```bash
-npm cache clean --force
-rm -rf node_modules package-lock.json
-npm install
+pnpm store prune
+rm -rf node_modules
+pnpm install --frozen-lockfile
 ```
 
 ### Storybook non parte
 ```bash
-npm run clean
-npm install
-npm run dev
+pnpm run clean
+rm -rf node_modules
+pnpm install --frozen-lockfile
+pnpm run dev
 ```
+Se l'errore è `ERR_PACKAGE_PATH_NOT_EXPORTED` o simili su un pacchetto di
+`node_modules`, quasi sempre significa che l'installazione non ha usato
+`ui/pnpm-lock.yaml` (es. è stato lanciato `npm install` invece di `pnpm
+install`, o esiste ancora un `package-lock.json` locale): cancella
+`node_modules` e reinstalla con `pnpm install --frozen-lockfile`.
 
 ### Type errors dopo update
 ```bash
-npm run typecheck
+pnpm run typecheck
 # Se fallisce, verifica TypeScript version (6.0.3 richiesta)
-npm ls typescript
+pnpm ls typescript
 ```
 
 ## Maintenance

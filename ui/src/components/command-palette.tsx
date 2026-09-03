@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Command } from 'cmdk';
 import { Search } from 'lucide-react';
-import { Dialog, DialogContent } from './dialog';
+import { Dialog, DialogContent, DialogTitle } from './dialog';
 import { cn } from '../lib/cn';
 
 /**
@@ -50,6 +50,10 @@ function CommandPaletteRoot({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="overflow-hidden p-0" showCloseButton={false}>
+        {/* Radix richiede un DialogTitle per l'accessibilità screen-reader anche
+            quando il dialog non ha un'intestazione visibile — il search input
+            già comunica lo scopo agli utenti vedenti. */}
+        <DialogTitle className="sr-only">Command palette</DialogTitle>
         <Command className="rounded-lg border-none">
           <div className="flex items-center border-b border-border px-3">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />

@@ -14,11 +14,13 @@ export interface HeaderBreadcrumbTrailProps {
 }
 
 export function HeaderBreadcrumbTrail({ items }: HeaderBreadcrumbTrailProps) {
+  if (!items || items.length === 0) return null;
+
   return (
     <>
       <span className="text-muted-foreground/40">/</span>
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-foreground">
-        {items?.map((b, i) => {
+        {items.map((b, i) => {
           const isLast = i === items.length - 1;
           return (
             <span key={i} className="flex items-center gap-2">

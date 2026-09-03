@@ -37,8 +37,13 @@ export const WithClickHandler: Story = {
 };
 
 export const Empty: Story = {
-  args: { items: [] },
+  render: () => (
+    <div className="text-xs text-muted-foreground italic p-2">
+      (nessun breadcrumb — il componente non renderizza nulla)
+      <HeaderBreadcrumbTrail items={[]} />
+    </div>
+  ),
   parameters: {
-    docs: { description: { story: 'Senza breadcrumb il componente non renderizza nulla (return null) — comportamento intenzionale, non un errore.' } },
+    docs: { description: { story: 'Senza breadcrumb il componente non renderizza nulla (return null) — comportamento intenzionale, non un errore. Questo wrapper esiste solo per rendere la story visibile in Storybook.' } },
   },
 };

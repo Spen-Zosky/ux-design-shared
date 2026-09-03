@@ -23,6 +23,11 @@ storybook-static/
 # Testing
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+ui/e2e/.story-index.json
 
 # Environment
 .env

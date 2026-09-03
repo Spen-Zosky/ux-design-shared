@@ -1,0 +1,13 @@
+# Consente a pnpm >=10 di eseguire gli script di build (postinstall) di
+# questi due pacchetti senza chiedere un'approvazione interattiva a ogni
+# installazione. Entrambi sono legittimi e necessari:
+# - esbuild: il postinstall scarica il binario nativo per la piattaforma
+# - msw: il postinstall genera public/mockServiceWorker.js (già presente
+#   nel repo, ma il pacchetto lo rigenera/verifica)
+# Senza questo, `pnpm install` emette [ERR_PNPM_IGNORED_BUILDS] e un
+# successivo `pnpm run <script>` può fallire in ambienti non interattivi
+# (niente TTY per il prompt di `pnpm approve-builds`) con
+# [ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY] o simili.
+allowBuilds:
+  esbuild: true
+  msw: true

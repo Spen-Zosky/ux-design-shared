@@ -69,7 +69,7 @@ dipendente da un path assoluto della macchina.
 
 ```bash
 # Nel repo consumer
-pnpm add @heuresys/ui        # oggi: 0.1.9
+pnpm add @heuresys/ui        # oggi: 1.0.0
 ```
 
 Il consumer dichiara React di suo (`peerDependencies` qui: react, react-dom, @types/react,
@@ -154,4 +154,4 @@ npm ls typescript
 
 **Fonte**: `D:\evo.heuresys.com\packages\ui` (maintained in heuresys-evo)  
 **Last Extracted**: 2026-05-16  
-**Version**: @heuresys/ui@0.0.0 (snapshot)
+**Version**: @heuresys/ui@1.0.0 (pubblicata su npm il 2026-08-26 — verifica sempre con `npm view @heuresys/ui version`, questo file non è la fonte di verità)

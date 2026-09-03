@@ -41,7 +41,7 @@ export const Legacy: Story = {
     docs: {
       description: {
         story:
-          'Configurazione equivalente a com\'era prima del 2026-09-03: nessuna delle 3 nuove prop passata → hamburger e ⌘K restano visivamente presenti ma non aprono nulla, user identity è la card statica (non il dropdown). Nessuna regressione rispetto al comportamento di produzione attuale.',
+          'Configurazione equivalente a com\'era prima del 2026-09-03: nessuna delle 3 nuove prop passata → hamburger non apre nulla (nessun mobileNav), ma ⌘K/il trigger di ricerca ora aprono sempre la command palette (vuota, senza commandPaletteContent) — wiring introdotto in questo branch. User identity è la card statica (non il dropdown).',
       },
     },
   },

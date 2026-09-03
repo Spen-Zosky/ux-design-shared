@@ -4,7 +4,7 @@ import * as React from 'react';
 import { cn } from '../../lib/cn';
 import { HeuresysWordmark } from '../wordmark';
 import { PaletteDropdown } from './PaletteDropdown';
-import { CommandPalette } from '../command-palette';
+import { CommandPalette, useGlobalCmdK } from '../command-palette';
 import {
   HeaderMenuTrigger,
   HeaderBreadcrumbTrail,
@@ -48,7 +48,10 @@ export interface DashboardHeaderProps {
   onOpenMenu?: () => void;
   onOpenCommandPalette?: () => void;
   className?: string;
+  /** Override the default wordmark logo with a custom node (e.g. the canonical
+   *  two-color SVG inline used in the SUPERUSER prototype). */
   logo?: React.ReactNode;
+  /** Optional trailing badge next to the logo (e.g. "advanced" product chip). */
   logoBadge?: React.ReactNode;
   leftExtras?: React.ReactNode;
   rightExtras?: React.ReactNode;
@@ -95,10 +98,12 @@ export function DashboardHeader({
     if (mobileNav) setDrawerOpen(true);
   }
 
-  function handleOpenCommandPalette() {
+  const handleOpenCommandPalette = React.useCallback(() => {
     onOpenCommandPalette?.();
     setPaletteOpen(true);
-  }
+  }, [onOpenCommandPalette]);
+
+  useGlobalCmdK(handleOpenCommandPalette);
 
   return (
     <header
@@ -143,7 +148,12 @@ export function DashboardHeader({
         {rightExtras}
       </div>
 
-      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} placeholder="Cerca tenant, log, audit…">
+      <CommandPalette
+        open={paletteOpen}
+        onOpenChange={setPaletteOpen}
+        placeholder="Cerca tenant, log, audit…"
+        empty="Nessun comando configurato"
+      >
         {commandPaletteContent}
       </CommandPalette>
 

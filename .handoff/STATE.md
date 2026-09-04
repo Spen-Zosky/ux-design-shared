@@ -10,8 +10,8 @@ il lavoro successivo è stato messo a piano invece che eseguito.
 ## Priorità
 
 1. **Audit QA di Storybook + hardening** — piano pronto ed eseguibile, da sessione fresca.
-   `docs/superpowers/plans/2026-09-04-storybook-qa-audit-e-hardening.md`, branch
-   `docs/storybook-qa-plan` (non mergiato). 5 task di audit + 10 di correzione + 3 di rilascio.
+   `docs/superpowers/plans/2026-09-04-storybook-qa-audit-e-hardening.md`, **su main**.
+   5 task di audit + 10 di correzione + 3 di rilascio.
    Ordine obbligato: **B1 prima di A3**. Effort: alto, ciclo dedicato.
 2. **Rilascio 1.1.0** — task C2 del piano, dopo l'audit. `ui/package.json` è ancora a 1.0.0 e
    `ui/dist` (tracciato) non è stato rigenerato: le correzioni **non raggiungono i consumer**

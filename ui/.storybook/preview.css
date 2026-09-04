@@ -32,3 +32,21 @@
  * foglio che importa `tailwindcss` — qui `src/styles/`, che contiene solo CSS.
  * Meglio dirlo che dipendere da un'euristica. */
 @source "../src/**/*.{ts,tsx}";
+
+/* Dipingi la superficie della canvas con i token del tema.
+ *
+ * MISURATO (sonda Playwright, 2026-09-04): il tema scuro *funziona* — la classe
+ * `dark` arriva su <html> e i token ribaltano (--background #FAFBFD -> #0D1017)
+ * — ma `html`, `body` e `.sb-show-main` restavano a `rgba(0,0,0,0)` in ENTRAMBI
+ * i temi. Nessuno dipingeva la finestra di rendering, quindi si vedeva sempre il
+ * bianco di default del browser: il difetto che Enzo ha riportato scorrendo la
+ * vetrina a mano.
+ *
+ * Nota: `.sb-show-main` e' il contenitore della canvas dentro l'iframe di
+ * preview; html/body da soli non bastano quando il layout e' `padded`. */
+html,
+body,
+.sb-show-main {
+  background-color: var(--background);
+  color: var(--foreground);
+}

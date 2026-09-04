@@ -4,7 +4,10 @@ import { NeumorphicCard } from './neumorphic-card';
 const meta: Meta<typeof NeumorphicCard> = {
   title: 'Components/NeumorphicCard',
   component: NeumorphicCard,
-  parameters: { layout: 'padded', backgrounds: { default: 'paper' } },
+  // `backgrounds: { default: 'paper' }` rimosso: puntava a un valore della
+  // config `backgrounds` che, misurato, non dipingeva nulla. La superficie la
+  // governa il tema (vedi preview.css).
+  parameters: { layout: 'padded' },
   tags: ['autodocs'],
   argTypes: { elevation: { control: 'select', options: ['raised', 'pressed', 'flat'] } },
 };

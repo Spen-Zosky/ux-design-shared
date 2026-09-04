@@ -17,14 +17,12 @@ initialize({
 
 const preview: Preview = {
   parameters: {
-    backgrounds: {
-      default: "light",
-      values: [
-        { name: "light", value: "#ffffff" },
-        { name: "dark", value: "#0a0a0a" },
-        { name: "paper", value: "#fafaf7" },
-      ],
-    },
+    // `backgrounds` RIMOSSO deliberatamente (2026-09-04). Dichiarava tre valori
+    // hardcoded (#ffffff, #0a0a0a, #fafaf7) e `default: "light"`, ma misurato
+    // con una sonda Playwright non dipingeva nulla: configurazione morta, e per
+    // giunta cieca ai token di marca — quei tre esadecimali non sono nessuno
+    // dei nostri `--background`. La superficie ora la governa il tema, che e'
+    // l'unica fonte di verita': vedi la regola su html/body in preview.css.
     controls: {
       matchers: { color: /(background|color)$/i, date: /Date$/i },
       expanded: true,

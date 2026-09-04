@@ -37,7 +37,14 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: "pnpm run storybook -- --ci --quiet",
+    // NON "pnpm run storybook -- --ci --quiet": su Windows il "--" letterale
+    // finisce passato come argomento reale a `storybook dev` (invece di
+    // essere il separatore pnpm/npm), che poi si rifiuta con "too many
+    // arguments for 'dev'". Mai esercitato finché il dev server era già
+    // acceso a mano (reuseExistingServer lo bypassava) — scoperto avviando
+    // il webServer da zero per la prima volta (2026-09-03). `pnpm exec`
+    // chiama il binario direttamente, un solo livello di parsing shell.
+    command: "pnpm exec storybook dev -p 6006 --ci --quiet",
     url: "http://localhost:6006",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

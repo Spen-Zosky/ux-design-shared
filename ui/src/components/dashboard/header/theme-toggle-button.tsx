@@ -1,14 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { useTheme } from '../../theme-provider';
+import { useThemeOptional } from '../../theme-provider';
 
 export function HeaderThemeToggle() {
-  const { resolved, setTheme } = useTheme();
-  const isDark = resolved === 'dark';
+  // Volutamente la variante opzionale: senza ThemeProvider questo pulsante
+  // diventa inerte, invece di abbattere l'header che lo contiene e con esso
+  // l'intera pagina. Vedi il commento su useThemeOptional.
+  const theme = useThemeOptional();
+  const isDark = theme?.resolved === 'dark';
+  const disabled = theme === null;
 
   function toggle() {
-    setTheme(isDark ? 'light' : 'dark');
+    theme?.setTheme(isDark ? 'light' : 'dark');
   }
 
   return (
@@ -16,8 +20,10 @@ export function HeaderThemeToggle() {
       id="js-theme-toggle"
       type="button"
       aria-label="Alterna tema chiaro/scuro"
+      disabled={disabled}
+      title={disabled ? 'Tema non disponibile: manca ThemeProvider' : undefined}
       onClick={toggle}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-muted-foreground disabled:hover:border-border"
     >
       <svg
         className="h-4 w-4 [.dark_&]:hidden"

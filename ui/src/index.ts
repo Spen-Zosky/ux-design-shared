@@ -372,6 +372,24 @@ export {
   type UserIdentity,
 } from './components/dashboard/DashboardHeader';
 export {
+  HeaderMenuTrigger,
+  type HeaderMenuTriggerProps,
+  HeaderBreadcrumbTrail,
+  type HeaderBreadcrumbTrailProps,
+  HeaderSearchTrigger,
+  type HeaderSearchTriggerProps,
+  HeaderLanguageSwitcher,
+  type HeaderLanguageSwitcherProps,
+  HeaderThemeToggle,
+  HeaderUserIdentity,
+  type HeaderUserIdentityProps,
+  HeaderUserMenu,
+  type HeaderUserMenuProps,
+  type HeaderUserMenuTenant,
+  HeaderMobileDrawer,
+  type HeaderMobileDrawerProps,
+} from './components/dashboard/header';
+export {
   DashboardSidebar,
   type DashboardSidebarProps,
   type NavGroup,

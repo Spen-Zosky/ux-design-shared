@@ -121,7 +121,7 @@ async function waitUntilReallyReady(baseURL: string): Promise<void> {
     // eslint-disable-next-line no-console
     console.log(
       `[global-setup] vetrina pronta in ${((Date.now() - started) / 1000).toFixed(1)}s ` +
-        `(${storiesInIndex()} story nell'indice)`,
+        `(${storiesInIndex()} voci nell'indice: story piu' pagine di documentazione)`,
     );
   } finally {
     await browser.close();

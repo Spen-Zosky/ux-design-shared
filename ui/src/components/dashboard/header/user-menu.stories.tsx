@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { HeaderUserMenu } from './user-menu';
 
 const meta: Meta<typeof HeaderUserMenu> = {
-  title: 'Header/User Menu',
+  title: 'Layout/Header/User Menu',
   component: HeaderUserMenu,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

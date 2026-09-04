@@ -32,7 +32,37 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ["Welcome", "Foundations", "Components", ["*", "All"], "Recipes", "*"],
+        // MISURATO il 2026-09-04: l'ordine precedente elencava tre gruppi che
+        // NON ESISTONO — "Welcome", "Foundations", "Recipes" — e non nominava
+        // nessuno dei gruppi reali tranne "Components". Il risultato era una
+        // sidebar ordinata di fatto a caso, che e' una delle ragioni per cui la
+        // vetrina risultava poco leggibile.
+        //
+        // L'ordine qui sotto va dal generale al particolare, come lo leggerebbe
+        // qualcuno che scopre il design system: prima l'identita' di marca, poi
+        // il guscio di pagina, poi i mattoni, poi i domini specialistici, e in
+        // fondo gli strumenti. Il "*" finale raccoglie qualunque gruppo nuovo
+        // senza farlo sparire in cima.
+        order: [
+          "Brand",
+          "Layout",
+          "Components",
+          "Forms",
+          "Charts",
+          "Dashboard",
+          "Markdown",
+          "Files",
+          "Media",
+          "Collab",
+          "AI",
+          "I18n",
+          "A11y",
+          "Utility",
+          "Marketing",
+          "XR",
+          "Devtools",
+          "*",
+        ],
       },
     },
     layout: "padded",

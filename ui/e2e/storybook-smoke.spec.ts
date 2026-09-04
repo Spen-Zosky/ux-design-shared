@@ -34,6 +34,28 @@ const CONSOLE_ERROR_ALLOWLIST: RegExp[] = [
   // nessuna voce ad oggi — ogni [error] in console è trattato come reale
 ];
 
+/**
+ * Eccezioni legate a UNA story precisa, non all'intera suite.
+ *
+ * Una allowlist globale spegnerebbe lo stesso messaggio ovunque, e un 404 vero
+ * altrove passerebbe inosservato. Qui la chiave è l'id della story, così
+ * l'eccezione vale dove è motivata e in nessun altro posto.
+ */
+const CONSOLE_ERROR_ALLOWLIST_BY_STORY: Record<string, RegExp[]> = {
+  // La story punta deliberatamente a `/this-does-not-exist.json` per mostrare
+  // il placeholder quando la sorgente non si carica: il 404 È il soggetto del
+  // test, non un difetto.
+  //
+  // Perché non si vedeva prima: con `storybook dev` Vite risponde 200 con
+  // l'HTML dell'applicazione a qualunque percorso sconosciuto, quindi la
+  // richiesta non falliva mai davvero e la story non provava un bel niente.
+  // Il server statico risponde 404 come farebbe un server reale, e il caso
+  // dichiarato dalla story ha cominciato a verificarsi sul serio.
+  "components-lottieplayer--placeholder-while-loading": [
+    /Failed to load resource: the server responded with a status of 404/,
+  ],
+};
+
 const stories: StoryIndexEntry[] = JSON.parse(fs.readFileSync(STORY_INDEX_FILE, "utf-8"));
 
 for (const story of stories) {
@@ -41,10 +63,13 @@ for (const story of stories) {
     const consoleErrors: string[] = [];
     const pageErrors: string[] = [];
 
+    const perStoryAllowed = CONSOLE_ERROR_ALLOWLIST_BY_STORY[story.id] ?? [];
+
     page.on("console", (msg: ConsoleMessage) => {
       if (msg.type() !== "error") return;
       const text = msg.text();
       if (CONSOLE_ERROR_ALLOWLIST.some((rx) => rx.test(text))) return;
+      if (perStoryAllowed.some((rx) => rx.test(text))) return;
       consoleErrors.push(text);
     });
     page.on("pageerror", (err: Error) => pageErrors.push(err.message));

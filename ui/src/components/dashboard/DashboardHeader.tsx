@@ -23,7 +23,7 @@ import {
  * DashboardHeader — full composition.
  * Spec: docs/06_header_specification.md (extended);
  * docs/superpowers/specs/2026-09-03-header-storybook-taxonomy.md (riorganizzazione + consolidamento).
- * Storybook: ogni sotto-elemento ha una story propria sotto il gruppo `Header/`.
+ * Storybook: ogni sotto-elemento ha una story propria sotto `Layout/Header/`.
  *
  * Slots:
  *   left:        hamburger (→ drawer mobile) | logo | breadcrumb

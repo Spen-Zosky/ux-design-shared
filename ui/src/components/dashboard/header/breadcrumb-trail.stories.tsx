@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { HeaderBreadcrumbTrail, type HeaderBreadcrumb } from './breadcrumb-trail';
 
 const meta: Meta<typeof HeaderBreadcrumbTrail> = {
-  title: 'Header/Breadcrumb Trail',
+  title: 'Layout/Header/Breadcrumb Trail',
   component: HeaderBreadcrumbTrail,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

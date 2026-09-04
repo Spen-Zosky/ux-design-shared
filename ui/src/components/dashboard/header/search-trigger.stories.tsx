@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { HeaderSearchTrigger } from './search-trigger';
 
 const meta: Meta<typeof HeaderSearchTrigger> = {
-  title: 'Header/Search Trigger',
+  title: 'Layout/Header/Search Trigger',
   component: HeaderSearchTrigger,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

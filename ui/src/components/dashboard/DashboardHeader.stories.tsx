@@ -5,7 +5,7 @@ import { ThemeProvider } from '../theme-provider';
 import { Home, Users } from 'lucide-react';
 
 const meta: Meta<typeof DashboardHeader> = {
-  title: 'Header/Dashboard Header (Complete)',
+  title: 'Layout/Header/Dashboard Header (Complete)',
   component: DashboardHeader,
   parameters: { layout: 'fullscreen' },
   tags: ['autodocs'],
@@ -18,7 +18,7 @@ const meta: Meta<typeof DashboardHeader> = {
   // DashboardHeader compone HeaderThemeToggle (Task 10), che chiama useTheme()
   // e lancia se montato fuori da un ThemeProvider — a differenza dell'app reale
   // (dove ThemeProvider avvolge la root), Storybook monta ogni story isolata.
-  // Stesso pattern già usato da Header/Theme Toggle
+  // Stesso pattern già usato da Layout/Header/Theme Toggle (nel guscio)
   // (src/components/dashboard/header/theme-toggle-button.stories.tsx).
   decorators: [
     (Story) => (

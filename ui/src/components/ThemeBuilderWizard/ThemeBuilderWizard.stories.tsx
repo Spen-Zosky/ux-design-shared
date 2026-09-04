@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ThemeBuilderWizard } from './ThemeBuilderWizard';
 
 const meta: Meta<typeof ThemeBuilderWizard> = {
-  title: 'ThemeBuilderWizard/ThemeBuilderWizard',
+  title: 'Devtools/Theme Builder Wizard',
   component: ThemeBuilderWizard,
   parameters: { layout: 'fullscreen' },
   tags: ['autodocs'],

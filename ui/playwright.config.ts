@@ -8,6 +8,21 @@ import { defineConfig, devices } from "@playwright/test";
  * gira già su :6006 (dev locale, come oggi) viene riusata invece di aprirne
  * una seconda — `reuseExistingServer` è true fuori da CI.
  */
+/**
+ * Due modi di servire la vetrina, scelti con una variabile d'ambiente.
+ *
+ * `SB_STATIC=1` fa girare la suite contro `storybook-static` invece che contro
+ * il dev server. Non è una comodità: con `storybook dev` Vite compila i moduli
+ * su richiesta, e sotto più worker quelle compilazioni si accavallano facendo
+ * scadere story che non hanno alcun difetto — otto occorrenze misurate nello
+ * stesso ciclo. Il build statico compila tutto in anticipo.
+ *
+ * Il confronto misurato sta in
+ * docs/superpowers/reference/2026-09-04-prestazioni-vetrina.md.
+ */
+const STATIC = !!process.env.SB_STATIC;
+const PORT = STATIC ? 6007 : 6006;
+
 export default defineConfig({
   testDir: "./e2e",
   globalSetup: "./e2e/global-setup.ts",
@@ -24,7 +39,7 @@ export default defineConfig({
   expect: { timeout: 10_000 },
 
   use: {
-    baseURL: "http://localhost:6006",
+    baseURL: `http://localhost:${PORT}`,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
@@ -44,8 +59,10 @@ export default defineConfig({
     // acceso a mano (reuseExistingServer lo bypassava) — scoperto avviando
     // il webServer da zero per la prima volta (2026-09-03). `pnpm exec`
     // chiama il binario direttamente, un solo livello di parsing shell.
-    command: "pnpm exec storybook dev -p 6006 --ci --quiet",
-    url: "http://localhost:6006",
+    command: STATIC
+      ? "node e2e/serve-static.mjs 6007"
+      : "pnpm exec storybook dev -p 6006 --ci --quiet",
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

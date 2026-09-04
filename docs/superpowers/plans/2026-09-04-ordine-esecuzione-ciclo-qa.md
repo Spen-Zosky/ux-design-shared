@@ -56,10 +56,10 @@ Legenda stato: `da fare` · `in corso` · `fatto` · `bloccato (chi/cosa)`.
 |---|---|---|---|---|
 | B1 | Canvas dipinta dai token; via la config morta di `backgrounds` | io | sonda: `body` = `#FAFBFD` in chiaro e `#0D1017` in scuro, output conservato | **fatto** — `5fbb201`, misura prima/dopo conservata |
 | B2 | Il fallimento dello smoke test riporta il messaggio vero | io | un fallimento indotto stampa `errorText` da `.sb-errordisplay` | **fatto** — piu' un test permanente che protegge la diagnosi stessa |
-| B6+B10.1 | Cancello di prontezza; misura freddo/caldo e build statico | io | suite completa verde **due volte di fila**; i due tempi riportati | da fare — spostato **dopo** B3+B4 (vedi nota d'ordine) |
+| B6+B10.1 | Cancello di prontezza; misura freddo/caldo e build statico | io | suite completa verde **due volte di fila**; i due tempi riportati | **fatto** — statico 381/381 due volte, 3,3 min contro 6,5; scoperto un build silenziosamente incompleto |
 | B3 | Classi Tailwind interpolate → mappa statica, + caccia esaustiva nel repo | io | le regole esistono nel CSS compilato; elenco completo delle occorrenze con file:riga | **fatto** — 22 occorrenze in 11 file (il piano ne stimava 2); zero residui |
 | B4 | Accessibilità sistemica: censimento rifatto, rampa `-ink` estesa | io | tabella prima/dopo; nessun testo sotto 4.5:1, nessuna icona sotto 3:1 | **fatto** — 27 sostituzioni in 14 file; 54/54 combinazioni AA |
-| B7 | `useTheme` senza provider: degrado invece di crash | io | test che monta `DashboardHeader` senza provider e asserisce il comportamento scelto | da fare |
+| B7 | `useTheme` senza provider: degrado invece di crash | io | test che monta `DashboardHeader` senza provider e asserisce il comportamento scelto | **fatto** — `1dab478`, Vitest 119/119 |
 
 ### Fase 2 — struttura, prima di fotografare la vetrina
 
@@ -120,6 +120,12 @@ sola**, e non si traveste mai da pendenza del ciclo.
 - **`pnpm` non funziona da Git Bash** su questa macchina: corepack risolve un path mangled
   (`D:\c
 odejs\…`) e muore. Solo PowerShell. Già registrato fra le assunzioni.
+- **Le pagine autodocs potrebbero non esistere affatto.** `index.json` contiene 380 entry, **tutte
+  di tipo `story` e nessuna di tipo `docs`**, benché `tags: ["autodocs"]` sia dichiarato globalmente
+  in `preview.ts`. Il piano d'origine assume che ogni componente abbia la sua pagina Docs (task A2
+  Step 5) e cita un difetto specifico dentro una di esse. Da verificare con Playwright prima di
+  scrivere quella parte dell'audit: se le autodocs non vengono generate, A2 Step 5 non ha oggetto e
+  il difetto citato non esiste in quella forma.
 - **KPIStrip e ErrorRateBreakdown costruiscono `var(--${tone})` in uno stile inline.** Non è il
   difetto B3 — le custom property esistono a runtime e funzionano — ma condivide la stessa fragilità:
   un tono fuori elenco produce una variabile inesistente invece di un errore. Non toccato.

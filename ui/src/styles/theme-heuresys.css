@@ -56,6 +56,13 @@
   --color-warning: var(--warning);
   --color-danger: var(--danger);
   --color-info: var(--info);
+  /* Rampa "ink": testo su sfondo /10 (chip traslucidi) ha bisogno di piu'
+     contrasto del token pieno usato su --card. Vedi FIX 1 (S952-follow-up)
+     nel report della fix wave 2026-09-03 per la misura. */
+  --color-success-ink: var(--success-ink);
+  --color-warning-ink: var(--warning-ink);
+  --color-danger-ink: var(--danger-ink);
+  --color-info-ink: var(--info-ink);
 
   --radius-card: 1rem;
   --radius-control: 0.5rem;
@@ -92,6 +99,14 @@
   --warning: #B45309;
   --danger: #DC2626;
   --info: #2563EB;
+  /* Rampa "ink" (gradino -800 della stessa tinta): usata come colore testo sui
+     chip a tinta 10% (StatusPill) invece del token pieno sopra. Il token pieno
+     su bg/10 composito su --card bianco non raggiunge 4.5:1 AA per testo
+     piccolo (es. success #16A34A -> 2.95:1); l'ink e' scurito apposta. */
+  --success-ink: #166534;
+  --warning-ink: #92400E;
+  --danger-ink:  #991B1B;
+  --info-ink:    #1E40AF;
   --color-icon-info: #2563EB;
   --color-icon-success: #16A34A;
   --color-icon-warning: #B45309;
@@ -133,6 +148,14 @@
      quello darebbe ~4.0:1, mentre l'ambra originale rende 8.3:1. */
   --warning: #F59E0B !important;
   --color-icon-warning: #F59E0B !important;
+  /* Rampa "ink" in dark: qui coincide col semantico pieno gia' in uso sopra,
+     che su --card scuro passa gia' AA (vedi commento sopra) — niente gradino
+     ulteriore serve, a differenza del light dove /10 su card bianca esige
+     un ink piu' scuro del token pieno. */
+  --success-ink: #22C55E !important;
+  --warning-ink: #F59E0B !important;
+  --danger-ink:  #F87171 !important;
+  --info-ink:    #60A5FA !important;
   /* a11y AA: la libreria fissa --color-primary-fg quasi-bianco; sul primary
      dark #5E9DF5 sarebbe 2.68:1. L'inchiostro scuro porta a 6.5:1 mantenendo
      il chip blu di marca (in light resta bianco su #2563EB, 5.2:1). */

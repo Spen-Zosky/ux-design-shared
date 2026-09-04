@@ -9,19 +9,24 @@ import type { ReactNode } from "react";
  */
 export type StatusPillTone = "success" | "warning" | "danger" | "info" | "neutral";
 
-// AA-compliant, THEME-INDEPENDENT opaque chips. Status tones are SEMANTIC (fixed), not
+// AA-compliant, token-driven translucent chips. Status tones are SEMANTIC (fixed), not
 // palette-driven — the PaletteDropdown reskins only --palette-1..4.
 // IMPORTANT: do NOT use Tailwind `dark:` variants here — consumers toggle dark mode via the
 // `.dark` CLASS (ThemeProvider + CSS-var tokens), but Tailwind 4's default `dark:` variant is
 // `@media (prefers-color-scheme: dark)` (NOT class-based), so `dark:` utilities fire off the OS
 // scheme regardless of the app theme and break the other theme (heuresys S952: a `dark:`-based
-// fix rendered light-green text on near-white in light mode → ratio 1.22). Opaque light-tint bg
-// + dark same-hue text reads correctly on BOTH the light and the dark card, measuring >=6 either way.
+// fix rendered light-green text on near-white in light mode → ratio 1.22). That incident is why
+// text color here is never the semantic token directly: bg-X/10 (a 10%-tint chip over --card)
+// needs more contrast than the full token provides on light mode's white card (e.g. success
+// #16A34A over the composite bg measures 2.95:1, well under the 4.5:1 AA floor for text this
+// small). Each tone therefore has a dedicated "-ink" token — the -800 step of the same hue in
+// light, and the already-AA semantic value in dark (see theme-heuresys.css) — verified >=4.5:1
+// in both themes with .superpowers/sdd/2026-09-03-architectural-decisions-components/verify-contrast.mjs.
 const TONE_CLASS: Record<StatusPillTone, string> = {
-  success: "border-green-200 bg-green-100 text-green-800",
-  warning: "border-amber-200 bg-amber-100 text-amber-800",
-  danger: "border-red-200 bg-red-100 text-red-800",
-  info: "border-blue-200 bg-blue-100 text-blue-800",
+  success: "border-success/30 bg-success/10 text-success-ink",
+  warning: "border-warning/30 bg-warning/10 text-warning-ink",
+  danger: "border-danger/30 bg-danger/10 text-danger-ink",
+  info: "border-info/30 bg-info/10 text-info-ink",
   neutral: "border-border bg-muted text-muted-foreground",
 };
 

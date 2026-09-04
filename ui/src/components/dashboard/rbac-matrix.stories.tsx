@@ -3,9 +3,17 @@ import { useState } from 'react';
 import { RbacMatrix, type RbacAssignment, type RbacPermissionLevel } from './rbac-matrix';
 
 const meta: Meta<typeof RbacMatrix> = {
-  title: 'Dashboard/RbacMatrix',
+  title: 'Dashboard/RbacMatrix (Interactive Editor)',
   component: RbacMatrix,
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'Editor interattivo per assegnare permessi (ruolo × area, click per ciclare none → read → write → admin → owner). NON è lo stesso componente di Dashboard/RBACMatrix (Production Report) (nomi quasi identici, scopi diversi: quello è un report di sola lettura con export CSV agganciato a dati live in produzione, questo è un editor per modificare le assegnazioni). Vedi entrambe le story per la distinzione.',
+      },
+    },
+  },
 };
 export default meta;
 

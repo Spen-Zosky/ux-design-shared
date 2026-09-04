@@ -45,6 +45,17 @@ info:    "border-info/30 bg-info/10 text-info"
 ```
 `neutral` resta invariato (già token-driven: `border-border bg-muted text-muted-foreground`).
 
+> **Correzione (2026-09-04, revisione finale)**: le classi qui sopra, applicate alla lettera, **rompono il contrasto WCAG AA**. Il testo della pill è `text-[10px]` maiuscolo, quindi la soglia è 4.5:1, e sopra uno sfondo tinto al 10% i token pieni danno 2.95:1 (success), 3.81 (danger), 4.38 (warning), 4.50 (info) in tema chiaro — contro i 6.4–7.2:1 delle vecchie coppie hardcoded. Due errori di questo piano: **(a)** la riga 24 cita `ui/src/styles/tokens.css` come prova che i token esistono, ma quel file è un template mai importato a runtime (lo dice `globals.css:10`) — il tema vero è `ui/src/styles/theme-heuresys.css`; **(b)** «StatusIcon fa già questo correttamente» è una falsa equivalenza: `StatusIcon` colora un'**icona** (soglia 3:1), qui si colora **testo** (4.5:1).
+>
+> La versione corretta, applicata in esecuzione, usa una rampa `-ink` per tema (`--success-ink` … `--info-ink`, aggiunte a `theme-heuresys.css` e mappate in `@theme inline`) — cioè promuove a token proprio la tinta scura che il vecchio codice aveva hardcoded, invece di tornare ai colori fissi:
+> ```ts
+> success: "border-success/30 bg-success/10 text-success-ink"
+> warning: "border-warning/30 bg-warning/10 text-warning-ink"
+> danger:  "border-danger/30 bg-danger/10 text-danger-ink"
+> info:    "border-info/30 bg-info/10 text-info-ink"
+> ```
+> Nota anche che `danger` usa `--danger` (token di marca) e non `--destructive`, che è un fallback fisso della libreria e non segue il tema. Contrasti misurati dopo la correzione: 5.68–7.57:1 su tutti e 5 i toni in entrambi i temi.
+
 - [ ] **Step 3: Verifica visiva — nessuna regressione percepibile**
 
 Run: `cd ui && pnpm run storybook`, apri la story di StatusPill (Task 1.3 sotto, va creata prima per poter verificare) in entrambi i temi (light/dark, toggle in alto nella toolbar Storybook) — i colori devono restare visivamente equivalenti (stesso hue, ora derivato dal token invece che hardcoded), non ci deve essere un cambio percepibile a occhio.
@@ -211,7 +222,9 @@ export const Default: Story = {
 ### Fatto verificato — conflitto a 3 vie
 - Commento nel sorgente (`DataTableWithCrossHair.tsx:14-16`): "usa `data-table.tsx` **invece** di questo, per tabelle vere; questo è per showcase/HTML grezzo" → li presenta come **alternativi**.
 - Contratto ufficiale (`brand-component-contract.md:22`): "**wrap** DataTable **in** DataTableWithCrossHair" → li presenta come da usare **insieme**.
-- Uso reale (2 consumer verificati): **nessuno dei due annida `DataTable` dentro `DataTableWithCrossHair`** — entrambi costruiscono `<table>` HTML a mano e lo passano come `children`. Il comportamento reale conferma il commento del sorgente, non il contratto.
+- Uso reale (2 consumer verificati): **nessuno dei due annida `DataTable` dentro `DataTableWithCrossHair`** — entrambi passano markup di tabella grezzo come `children`. Il comportamento reale conferma il commento del sorgente, non il contratto.
+
+> **Correzione (2026-09-04, in fase di esecuzione)**: la riga qui sopra diceva originariamente che i consumer «costruiscono `<table>` HTML a mano e lo passano come `children`». È impreciso e, preso alla lettera, produrrebbe markup invalido: `DataTableWithCrossHair` renderizza **già** il proprio `<table>` attorno ai children (`<table ref={tableRef}>{children}</table>`), quindi i consumer passano `<thead>`/`<tbody>` **direttamente**, non un `<table>` annidato. Verificato su `heuresys-advanced/apps/web/src/components/data-table-panel.tsx:133-143` e `heuresys-advanced/apps/web/src/app/showcase/tables/page.tsx:41-53` (repo esterno) — non su `TenantFleetTable.tsx`/`SQLSlowQueryTable.tsx`/`RBACMatrix.tsx`, che sono componenti di questo stesso design system, non consumer. L'affermazione portante — nessun consumer annida un `DataTable` TanStack — resta vera; il codice della story qui sotto è stato corretto di conseguenza in fase di esecuzione.
 
 ### Decisione
 Non è compito di questo piano decidere se il contratto va corretto o se i consumer vanno migrati verso il pattern annidato (decisione architetturale che coinvolge `heuresys-advanced`, fuori scope). Questo piano **documenta la realtà verificata** nella story — la story deve riflettere come il componente è davvero usato oggi, non come la doc dice che dovrebbe essere usato, altrimenti la story stessa diventa un'altra fonte di confusione.

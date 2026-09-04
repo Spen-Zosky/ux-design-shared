@@ -4,7 +4,7 @@ import { Shield, UserPlus, AlertTriangle } from 'lucide-react';
 import { AuditFeed, type AuditEvent } from './AuditFeed';
 
 const meta: Meta<typeof AuditFeed> = {
-  title: 'Components/AuditFeed',
+  title: 'Dashboard/AuditFeed',
   component: AuditFeed,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],

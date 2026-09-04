@@ -3,10 +3,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { IncidentTimeline } from './IncidentTimeline';
 
 const meta: Meta<typeof IncidentTimeline> = {
-  title: 'Components/IncidentTimeline',
+  title: 'Dashboard/IncidentTimeline',
   component: IncidentTimeline,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],
+  argTypes: { onViewFullLog: { action: 'viewFullLog' } },
 };
 export default meta;
 type Story = StoryObj<typeof IncidentTimeline>;

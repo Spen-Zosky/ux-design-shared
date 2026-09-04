@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { LogStream } from './LogStream';
 
 const meta: Meta<typeof LogStream> = {
-  title: 'Components/LogStream',
+  title: 'Dashboard/LogStream',
   component: LogStream,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],

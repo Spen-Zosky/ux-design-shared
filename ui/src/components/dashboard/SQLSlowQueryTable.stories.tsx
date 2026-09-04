@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SQLSlowQueryTable } from './SQLSlowQueryTable';
 
 const meta: Meta<typeof SQLSlowQueryTable> = {
-  title: 'Components/SQLSlowQueryTable',
+  title: 'Dashboard/SQLSlowQueryTable',
   component: SQLSlowQueryTable,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],

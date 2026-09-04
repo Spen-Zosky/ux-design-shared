@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DBSupervisorSidebar } from './DBSupervisorSidebar';
 
 const meta: Meta<typeof DBSupervisorSidebar> = {
-  title: 'Components/DBSupervisorSidebar',
+  title: 'Dashboard/DBSupervisorSidebar',
   component: DBSupervisorSidebar,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],

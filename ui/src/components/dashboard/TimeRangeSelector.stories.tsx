@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TimeRangeSelector } from './TimeRangeSelector';
 
 const meta: Meta<typeof TimeRangeSelector> = {
-  title: 'Components/TimeRangeSelector',
+  title: 'Dashboard/TimeRangeSelector',
   component: TimeRangeSelector,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

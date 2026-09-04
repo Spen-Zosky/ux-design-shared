@@ -3,10 +3,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ErrorRateBreakdown } from './ErrorRateBreakdown';
 
 const meta: Meta<typeof ErrorRateBreakdown> = {
-  title: 'Components/ErrorRateBreakdown',
+  title: 'Dashboard/ErrorRateBreakdown',
   component: ErrorRateBreakdown,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],
+  argTypes: { onViewAll: { action: 'viewAll' } },
 };
 export default meta;
 type Story = StoryObj<typeof ErrorRateBreakdown>;

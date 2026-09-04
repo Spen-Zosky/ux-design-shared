@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AlertBanner } from './AlertBanner';
 
 const meta: Meta<typeof AlertBanner> = {
-  title: 'Components/AlertBanner',
+  title: 'Dashboard/AlertBanner',
   component: AlertBanner,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],

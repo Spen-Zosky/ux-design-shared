@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { PageActions } from './PageActions';
 
 const meta: Meta<typeof PageActions> = {
-  title: 'Components/PageActions',
+  title: 'Dashboard/PageActions',
   component: PageActions,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

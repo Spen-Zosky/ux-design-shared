@@ -9,9 +9,9 @@ Generato meccanicamente (grep, non stima): 120 componenti sorgente in `ui/src/co
 - **72** sono completamente orfani — zero uso in entrambi i consumer (60%)
   - di cui **68 hanno comunque una story** (documentati, semplicemente non ancora scelti da nessun team prodotto — normale in un design system)
   - di cui **4 non hanno né story né uso**: `GroupToggle`, `ESCOTreeNavigator`, `KGGraphCanvas`, `SAPSyncPanel` — candidati a verifica (codice sperimentale abbandonato, o feature futura mai partita)
-- **22 componenti sono usati in produzione MA senza alcuna story** — priorità più alta, sono gli stessi che avete già iniziato a vedere con Header/Footer/Sidebar/Shell
+- **23 componenti sono usati in produzione MA senza alcuna story** — priorità più alta, sono gli stessi che avete già iniziato a vedere con Header/Footer/Sidebar/Shell
 
-## Priorità 1 — usati in produzione, senza story (22)
+## Priorità 1 — usati in produzione, senza story (23)
 
 | Componente | Story | Advanced | Datastore |
 |---|---|---|---|
@@ -48,7 +48,7 @@ Generato meccanicamente (grep, non stima): 120 componenti sorgente in `ui/src/co
 | `KGGraphCanvas` | ❌ | 0 | 0 |
 | `SAPSyncPanel` | ❌ | 0 | 0 |
 
-## Il resto — 94 componenti con story (72 orfani ma documentati, 22 usati e documentati)
+## Il resto — 93 componenti con story (68 orfani ma documentati, 25 usati e documentati)
 
 | Componente | Story | Advanced | Datastore |
 |---|---|---|---|

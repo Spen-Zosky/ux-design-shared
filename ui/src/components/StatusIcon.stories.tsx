@@ -16,6 +16,11 @@ const meta: Meta<typeof StatusIcon> = {
 export default meta;
 type Story = StoryObj<typeof StatusIcon>;
 
-export const Success: Story = { args: { icon: ShieldCheck, tone: 'success' } };
+export const Success: Story = {
+  args: { icon: ShieldCheck, tone: 'success' },
+  parameters: {
+    docs: { description: { story: 'Nessun uso in pagine prodotto reali — l\'unico impiego verificato è la pagina demo /showcase/icons di heuresys-advanced, essa stessa vetrina del design system. Questa story ne prende il posto come riferimento.' } },
+  },
+};
 export const Warning: Story = { args: { icon: Wifi, tone: 'warning' } };
 export const Danger: Story = { args: { icon: Database, tone: 'danger' } };

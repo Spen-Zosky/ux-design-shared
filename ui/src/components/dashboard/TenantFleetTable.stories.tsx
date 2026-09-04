@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TenantFleetTable } from './TenantFleetTable';
 
 const meta: Meta<typeof TenantFleetTable> = {
-  title: 'Components/TenantFleetTable',
+  title: 'Dashboard/TenantFleetTable',
   component: TenantFleetTable,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],

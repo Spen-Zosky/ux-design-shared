@@ -31,7 +31,7 @@ export const Assembled: Story = {
     docs: {
       description: {
         story:
-          'Il "contenitore Dashboard" che orchestra Header/Sidebar/Footer/children — puro layout a griglia, nessuna logica propria. Ogni slot è popolato qui con i sotto-componenti già documentati sotto Header/ e Layout/*.',
+          'Il "contenitore Dashboard" che orchestra Header/Sidebar/Footer/children — puro layout a griglia, nessuna logica propria. Ogni slot è popolato qui con i sotto-componenti documentati sotto Layout/* (Header/ arriverà da un piano separato).',
       },
     },
   },

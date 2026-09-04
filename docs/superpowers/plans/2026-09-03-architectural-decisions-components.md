@@ -211,7 +211,9 @@ export const Default: Story = {
 ### Fatto verificato — conflitto a 3 vie
 - Commento nel sorgente (`DataTableWithCrossHair.tsx:14-16`): "usa `data-table.tsx` **invece** di questo, per tabelle vere; questo è per showcase/HTML grezzo" → li presenta come **alternativi**.
 - Contratto ufficiale (`brand-component-contract.md:22`): "**wrap** DataTable **in** DataTableWithCrossHair" → li presenta come da usare **insieme**.
-- Uso reale (2 consumer verificati): **nessuno dei due annida `DataTable` dentro `DataTableWithCrossHair`** — entrambi costruiscono `<table>` HTML a mano e lo passano come `children`. Il comportamento reale conferma il commento del sorgente, non il contratto.
+- Uso reale (2 consumer verificati): **nessuno dei due annida `DataTable` dentro `DataTableWithCrossHair`** — entrambi passano markup di tabella grezzo come `children`. Il comportamento reale conferma il commento del sorgente, non il contratto.
+
+> **Correzione (2026-09-04, in fase di esecuzione)**: la riga qui sopra diceva originariamente che i consumer «costruiscono `<table>` HTML a mano e lo passano come `children`». È impreciso e, preso alla lettera, produrrebbe markup invalido: `DataTableWithCrossHair` renderizza **già** il proprio `<table>` attorno ai children (`<table ref={tableRef}>{children}</table>`), quindi i consumer passano `<thead>`/`<tbody>` **direttamente**, non un `<table>` annidato. Verificato su `TenantFleetTable.tsx:86-146` e `SQLSlowQueryTable.tsx:56-109`. L'affermazione portante — nessun consumer annida un `DataTable` TanStack — resta vera; il codice della story qui sotto è stato corretto di conseguenza in fase di esecuzione.
 
 ### Decisione
 Non è compito di questo piano decidere se il contratto va corretto o se i consumer vanno migrati verso il pattern annidato (decisione architetturale che coinvolge `heuresys-advanced`, fuori scope). Questo piano **documenta la realtà verificata** nella story — la story deve riflettere come il componente è davvero usato oggi, non come la doc dice che dovrebbe essere usato, altrimenti la story stessa diventa un'altra fonte di confusione.

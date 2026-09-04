@@ -22,7 +22,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Griglia responsive di 2-5 card (11 usi reali in produzione, l\'11° componente più adottato del design system). Distinzione ufficiale da Components/StatsCard (già documentato con la propria story): StatsCard è per UNA metrica singola con count-up animato e trend badge; KPIStrip è per una RIGA di 2-5 metriche senza animazione ma con `body` slot libero e footer configurabile per riga. Non sono duplicati — sono varianti complementari (brand-component-contract.md:20-21).',
+          'Griglia responsive di 2-5 card (11 usi reali in produzione, l\'11° componente più adottato del design system). Distinzione ufficiale da Components/StatsCard (già documentato con la propria story): StatsCard è per UNA metrica singola con count-up animato e trend badge; KPIStrip è per una RIGA di 2-5 metriche senza animazione ma con `body` slot libero e footer configurabile per riga. Non sono duplicati — sono varianti complementari (heuresys-advanced/docs/architecture/brand-component-contract.md:20-21, repo esterno).',
       },
     },
   },

@@ -26,7 +26,7 @@ export const RawHtmlTable: Story = {
     docs: {
       description: {
         story:
-          'Pattern verificato come REALMENTE usato in produzione (2026-09-03): frammenti HTML grezzi (<thead>/<tbody>) passati come children — il componente stesso renderizza già il <table> che li avvolge — non il componente DataTable (TanStack) annidato al suo interno. Nota di governance: il commento nel codice sorgente di questo componente dice che i due sono alternativi; il contratto ufficiale del design system (brand-component-contract.md:22) dice che andrebbero annidati — nessun consumer verificato (TenantFleetTable.tsx, SQLSlowQueryTable.tsx, RBACMatrix.tsx) segue quest\'ultimo pattern. Questa story documenta la realtà, non entrambe le versioni della doc.',
+          'Pattern verificato come REALMENTE usato in produzione (2026-09-03): frammenti HTML grezzi (<thead>/<tbody>) passati come children — il componente stesso renderizza già il <table> che li avvolge — non il componente DataTable (TanStack) annidato al suo interno. Nota di governance: il commento nel codice sorgente di questo componente dice che i due sono alternativi; il contratto ufficiale del design system (heuresys-advanced/docs/architecture/brand-component-contract.md:22, repo esterno) dice che andrebbero annidati — nessun consumer verificato (TenantFleetTable.tsx, SQLSlowQueryTable.tsx, RBACMatrix.tsx) segue quest\'ultimo pattern. Questa story documenta la realtà, non entrambe le versioni della doc.',
       },
     },
   },

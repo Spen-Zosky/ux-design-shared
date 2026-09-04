@@ -18,10 +18,10 @@ export type StatusPillTone = "success" | "warning" | "danger" | "info" | "neutra
 // fix rendered light-green text on near-white in light mode → ratio 1.22). Opaque light-tint bg
 // + dark same-hue text reads correctly on BOTH the light and the dark card, measuring >=6 either way.
 const TONE_CLASS: Record<StatusPillTone, string> = {
-  success: "border-green-200 bg-green-100 text-green-800",
-  warning: "border-amber-200 bg-amber-100 text-amber-800",
-  danger: "border-red-200 bg-red-100 text-red-800",
-  info: "border-blue-200 bg-blue-100 text-blue-800",
+  success: "border-success/30 bg-success/10 text-success",
+  warning: "border-warning/30 bg-warning/10 text-warning",
+  danger: "border-destructive/30 bg-destructive/10 text-destructive",
+  info: "border-info/30 bg-info/10 text-info",
   neutral: "border-border bg-muted text-muted-foreground",
 };
 

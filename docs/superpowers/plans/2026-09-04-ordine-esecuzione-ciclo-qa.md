@@ -65,9 +65,18 @@ Legenda stato: `da fare` · `in corso` · `fatto` · `bloccato (chi/cosa)`.
 
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
-| A1 | Driver della UI manager (`openManager`, `expandAllGroups`, …) | io | `manager-navigation` verde; sidebar e `index.json` combaciano o le differenze sono elencate | da fare |
-| B8 | Tassonomia e ordinamento della sidebar | io, su assunzione dichiarata | `storySort.order` elenca solo gruppi esistenti; famiglia del guscio in una casa sola; omonimie disambiguate | da fare |
-| B9 | Struttura: orfani, duplicati, documenti che mentono sui conteggi | io; le rimozioni le autorizza Enzo | documento con i tre incroci; ogni conteggio porta la data di validità | da fare |
+| A1 | Driver della UI manager (`openManager`, `expandAllGroups`, …) | io | `manager-navigation` verde; sidebar e `index.json` combaciano o le differenze sono elencate | **fatto** — 2/2 verdi, 504 voci combaciano una a una |
+| B8 | Tassonomia e ordinamento della sidebar | io, su assunzione dichiarata | `storySort.order` elenca solo gruppi esistenti; famiglia del guscio in una casa sola; omonimie disambiguate | **fatto** — 17 gruppi invece di 19; Layout da 6 a 36 voci |
+| B9 | Struttura: orfani, duplicati, documenti che mentono sui conteggi | io; le rimozioni le autorizza Enzo | documento con i tre incroci; ogni conteggio porta la data di validità | **fatto** — 4 orfani pubblici (il piano ne dava 1); rimozioni **proposte**, non eseguite |
+
+**Voce aggiunta in corsa su decisione di Enzo** — non è una scoperta travestita da pendenza, è un
+mandato nuovo: `@storybook/addon-docs` non era installato, quindi le pagine di documentazione non
+esistevano. Enzo ha scelto di installarlo e documentare. L'indice passa da 380 a 504 voci, e l'audit
+di Fase 3 ha ora 124 pagine in più da coprire.
+
+| id | cosa | chi | fatto significa | stato |
+|---|---|---|---|---|
+| B11 | Autodocs: addon installato, suite estesa alle pagine docs | io | l'indice porta voci di tipo `docs` e la suite le verifica | **fatto** — 124 pagine, 507/507 verdi |
 
 ### Fase 3 — audit, su una vetrina già sanata
 

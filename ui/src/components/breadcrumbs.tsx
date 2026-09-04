@@ -11,6 +11,18 @@ export interface BreadcrumbItem {
 /**
  * Breadcrumbs advanced — collapses to ellipsis when items > maxItems.
  * (TIER 1)
+ *
+ * NON e' l'unico renderer di breadcrumb della libreria. `HeaderBreadcrumbTrail`
+ * (dashboard/header/breadcrumb-trail.tsx) fa la stessa cosa in 58 righe contro
+ * queste 114: separatore "/" fisso, nessun collasso, nessun `maxItems`. Nasce
+ * per la barra del guscio, dove la catena e' corta per costruzione.
+ *
+ * Quale usare: **questo** ovunque la catena possa allungarsi o servano un
+ * separatore diverso e il collasso; quello dell'header solo dentro
+ * DashboardHeader. I due condividono il tipo `BreadcrumbItem`, unificato il
+ * 2026-09-03, ma sono rimasti due implementazioni distinte — annotato nel
+ * censimento 2026-09-04-struttura-design-system.md fra le duplicazioni per
+ * funzione, in attesa di una decisione su quale delle due sopravviva.
  */
 export function Breadcrumbs({
   items,

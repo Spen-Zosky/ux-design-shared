@@ -44,7 +44,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Report di sola lettura con celle tri-state (granted/scoped/denied) ed export CSV, agganciato a dati live in produzione (SystemHealthLive.tsx, route PLATFORM_ADMIN). NON è lo stesso componente di Dashboard/RbacMatrix (Interactive Editor) (nomi quasi identici, scopi diversi: quello è un editor per assegnare permessi, questo è un report per monitorarli). Vedi entrambe le story per la distinzione.',
+          'Report di sola lettura con celle tri-state (granted/scoped/denied) ed export CSV, agganciato a dati live in produzione (SystemHealthLive.tsx, route PLATFORM_ADMIN). Il tri-state è una capacità del componente: l\'endpoint attuale produce solo granted/denied (existence-only), "scoped" non è derivabile dai dati live di oggi ed è mostrato qui a scopo dimostrativo. NON è lo stesso componente di Dashboard/RbacMatrix (Interactive Editor) (nomi quasi identici, scopi diversi: quello è un editor per assegnare permessi, questo è un report per monitorarli). Vedi entrambe le story per la distinzione.',
       },
     },
   },

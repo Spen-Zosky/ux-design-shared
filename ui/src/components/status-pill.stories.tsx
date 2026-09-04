@@ -28,7 +28,7 @@ export const AllTones: Story = {
     docs: {
       description: {
         story:
-          'Il componente più usato di tutto il design system (54 file in produzione, verificato 2026-09-03) — non era ancora nel contratto ufficiale dei componenti canonici, ora promosso esplicitamente. Dal 2026-09-03 usa design token invece di colori Tailwind hardcoded.',
+          'Il componente più usato di tutto il design system (57 file che referenziano StatusPill/StatusBadge in heuresys-advanced — esclusi node_modules, il bundle ux-design, story e test — di cui 37 li renderizzano davvero, più 1 file in heuresys-datastore; verificato 2026-09-03). Non era ancora nel contratto ufficiale dei componenti canonici: la promozione è proposta in questo ciclo, l\'aggiornamento del contratto (brand-component-contract.md, in heuresys-advanced, repo esterno) è tracciato a parte. Dal 2026-09-03 usa design token invece di colori Tailwind hardcoded.',
       },
     },
   },
@@ -46,7 +46,7 @@ export const AutoTone_StatusBadge: Story = {
     docs: {
       description: {
         story:
-          'StatusBadge = StatusPill + statusTone(value) automatico. statusTone() riconosce ~30 stringhe note (ACTIVE/FILLED/APPROVED/...) — un valore non riconosciuto ("unrecognized-value") ricade silenziosamente su tone="neutral". Verificato nei consumer reali: valori come "difficulty"/"readiness" (non stati in senso stretto) cadono sempre su neutral.',
+          'StatusBadge = StatusPill + statusTone(value) automatico. statusTone() riconosce 37 stringhe note (10+9+9+9, tra ACTIVE/FILLED/APPROVED/...) — un valore non riconosciuto ("unrecognized-value") ricade silenziosamente su tone="neutral". Nei consumer reali, valori come "difficulty"/"readiness" non sono coperti dalle liste note: l\'esito dipende dal valore concreto, non cade sempre su neutral — un "difficulty" nullo cade nella guardia falsy di StatusBadge e rende un trattino "—", non una pill; "readinessLevel" è stringa libera da DB senza enum, e valori plausibili come HIGH/MEDIUM/REVIEW mappano su warning.',
       },
     },
   },

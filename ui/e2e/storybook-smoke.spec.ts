@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { test, expect, type ConsoleMessage } from "@playwright/test";
 import { STORY_INDEX_FILE } from "./global-setup";
+import { describeStoryFailure } from "./lib/error-ui";
 
 /**
  * Smoke test: ogni story pubblicata da Storybook deve renderizzare senza
@@ -64,7 +65,24 @@ for (const story of stories) {
     // verificati il 2026-09-03).
     const root = page.locator("#storybook-root");
     await expect(root).toBeAttached();
-    await expect(root.locator(":scope > *")).not.toHaveCount(0);
+
+    // L'assertion resta dentro un try perché deve conservare il proprio
+    // retry: sostituirla con un `count()` secco toglierebbe l'attesa e
+    // introdurrebbe flakiness proprio dove serve stabilità. Quello che
+    // aggiungiamo è solo la DIAGNOSI: quando il fallimento è ormai certo,
+    // andiamo a leggere la ragione dove Storybook la scrive davvero — fuori
+    // da #storybook-root, in .sb-nopreview / .sb-errordisplay (misurato il
+    // 2026-09-04). Senza questa lettura il messaggio era "expected not 0,
+    // received 0", che non dice nulla su cosa si sia rotto.
+    try {
+      await expect(root.locator(":scope > *")).not.toHaveCount(0);
+    } catch (cause) {
+      const detail = await describeStoryFailure(page);
+      throw new Error(
+        `"${story.title} › ${story.name}" non ha montato nulla in #storybook-root.\n${detail}`,
+        { cause },
+      );
+    }
 
     const issues = [...pageErrors, ...consoleErrors];
     expect(issues, `Errori in "${story.title} › ${story.name}":\n  - ${issues.join("\n  - ")}`).toEqual([]);

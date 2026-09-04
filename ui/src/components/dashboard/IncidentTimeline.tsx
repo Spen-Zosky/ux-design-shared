@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { toneClasses } from "../../lib/tone-classes";
 
 /**
  * Incident timeline — ol space-y with vertical chain + ring dots.
@@ -53,7 +54,7 @@ export function IncidentTimeline({ items, title = "Incident timeline",
           const isResolved = it.status === "RESOLVED";
           return (
             <li key={i} className="relative">
-              <span className={`absolute -left-[27px] mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-${sevTone} ring-4 ring-${sevTone}/20`}>
+              <span className={`absolute -left-[27px] mt-0.5 flex h-4 w-4 items-center justify-center rounded-full ring-4 ${toneClasses(sevTone, "muted").solid} ${toneClasses(sevTone, "muted").ring20}`}>
                 {isResolved ? (
                   <svg className="h-2.5 w-2.5 text-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <polyline points="20 6 9 17 4 12" />
@@ -64,7 +65,7 @@ export function IncidentTimeline({ items, title = "Incident timeline",
               </span>
               <div className="flex items-baseline justify-between gap-2">
                 <span className="text-sm font-semibold text-foreground">{it.title}</span>
-                <span className={`rounded-sm bg-${statusTone}/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-${statusTone}`}>
+                <span className={`rounded-sm px-1.5 py-0.5 font-mono text-[10px] font-semibold ${toneClasses(statusTone, "muted").tint15} ${toneClasses(statusTone, "muted").textOnTint}`}>
                   {it.severity} · {it.status}
                 </span>
               </div>
@@ -89,7 +90,7 @@ export function IncidentTimeline({ items, title = "Incident timeline",
 function SeverityPill({ sev, count }: { sev: IncidentSeverity; count: number }) {
   const tone = SEVERITY_TONE[sev];
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full bg-${tone}/15 px-2 py-0.5 font-mono font-medium text-${tone}`}>
+    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono font-medium ${toneClasses(tone, "muted").tint15} ${toneClasses(tone, "muted").textOnTint}`}>
       {sev}·{count}
     </span>
   );

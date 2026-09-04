@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { TONE } from "../../lib/tone-classes";
 
 /**
  * KPI strip — 5-card horizontal grid with sparklines.
@@ -44,8 +45,9 @@ export function KpiCard(props: KpiCardData) {
             {unit && <span className="text-sm text-muted-foreground">{unit}</span>}
           </div>
         </div>
+        {/* Icona su tinta 10%: classi intere e rampa ink (soglia grafica 3:1). */}
         {icon && (
-          <span className={`inline-flex h-7 w-7 items-center justify-center rounded-control bg-${iconTone}/10 text-${iconTone}`}>
+          <span className={`inline-flex h-7 w-7 items-center justify-center rounded-control ${TONE[iconTone].tint10} ${TONE[iconTone].textOnTint}`}>
             {icon}
           </span>
         )}

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { toneClasses } from "../../lib/tone-classes";
 
 /**
  * Error rate breakdown — stacked status bar + top erroring endpoints.
@@ -64,7 +65,7 @@ export function ErrorRateBreakdown({ overallRate, overallUnit = "%", overallDelt
             <div className="num text-xl font-semibold text-foreground">{overallRate}<span className="text-sm text-muted-foreground">{overallUnit}</span></div>
           </div>
           {overallDelta && (
-            <div className={`rounded-control bg-${overallDeltaTone}/10 px-2 py-1 font-mono text-[10px] font-medium text-${overallDeltaTone}`}>{overallDelta}</div>
+            <div className={`rounded-control px-2 py-1 font-mono text-[10px] font-medium ${toneClasses(overallDeltaTone, "warning").tint10} ${toneClasses(overallDeltaTone, "warning").textOnTint}`}>{overallDelta}</div>
           )}
         </div>
       </div>
@@ -104,11 +105,11 @@ export function ErrorRateBreakdown({ overallRate, overallUnit = "%", overallDelt
                 </span>
                 {e.scope && <span className="ml-2 font-mono text-[10px] text-muted-foreground">{e.scope}</span>}
               </div>
-              <span className={`rounded-sm bg-${e.statusTone}/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-${e.statusTone}`}>
+              <span className={`rounded-sm px-1.5 py-0.5 font-mono text-[10px] font-semibold ${toneClasses(e.statusTone, "muted").tint15} ${toneClasses(e.statusTone, "muted").textOnTint}`}>
                 {e.statusBadge}
               </span>
               <EndpointSparkline values={e.sparkline} tone={e.sparklineTone} />
-              {e.delta && <span className={`num text-right font-mono text-[10px] text-${e.deltaTone ?? "muted-foreground"}`}>{e.delta}</span>}
+              {e.delta && <span className={`num text-right font-mono text-[10px] ${toneClasses(e.deltaTone, "muted").text}`}>{e.delta}</span>}
             </li>
           ))}
         </ul>

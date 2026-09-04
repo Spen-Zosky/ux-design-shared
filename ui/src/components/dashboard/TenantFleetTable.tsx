@@ -1,4 +1,5 @@
 import { DataTableWithCrossHair } from "./DataTableWithCrossHair";
+import { toneClasses } from "../../lib/tone-classes";
 
 /**
  * Tenant fleet table — cross-tenant operational status.
@@ -104,7 +105,7 @@ export function TenantFleetTable({
                 <tr key={r.code}>
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
-                      <span className={`inline-flex h-8 w-8 items-center justify-center rounded-md bg-${r.initialsTone}/15 font-mono text-xs font-semibold text-${r.initialsTone}`}>
+                      <span className={`inline-flex h-8 w-8 items-center justify-center rounded-md font-mono text-xs font-semibold ${toneClasses(r.initialsTone, "palette-1").tint15} ${toneClasses(r.initialsTone, "palette-1").textOnTint}`}>
                         {r.initials}
                       </span>
                       <div>
@@ -114,8 +115,8 @@ export function TenantFleetTable({
                     </div>
                   </td>
                   <td className="px-3 py-3">
-                    <span className={`inline-flex items-center gap-1.5 rounded-full bg-${st.tone}/10 px-2 py-0.5 text-xs font-medium text-${st.tone}`}>
-                      <span className={`h-1.5 w-1.5 rounded-full bg-${st.tone}`} />
+                    <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${toneClasses(st.tone, "muted").tint10} ${toneClasses(st.tone, "muted").textOnTint}`}>
+                      <span className={`h-1.5 w-1.5 rounded-full ${toneClasses(st.tone, "muted").solid}`} />
                       {st.label}
                     </span>
                   </td>
@@ -126,7 +127,7 @@ export function TenantFleetTable({
                   <td className="px-3 py-3">
                     <div className="flex items-center gap-2">
                       <div className="h-1.5 w-20 overflow-hidden rounded-full bg-border">
-                        <div className={`h-full bg-${pt}`} style={{ width: `${r.poolUtilPct}%` }} />
+                        <div className={`h-full ${toneClasses(pt, "muted").solid}`} style={{ width: `${r.poolUtilPct}%` }} />
                       </div>
                       <span className="num font-mono text-[10px] text-muted-foreground">{r.poolUtilPct}%</span>
                     </div>

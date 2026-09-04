@@ -47,18 +47,18 @@ Legenda stato: `da fare` · `in corso` · `fatto` · `bloccato (chi/cosa)`.
 
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
-| 0.1 | Baseline riverificato su `main` c977df5 | io | install, typecheck, vitest, build, e2e eseguiti; numeri a confronto con quelli dichiarati nell'handoff | in corso |
+| 0.1 | Baseline riverificato su `main` c977df5 | io | install, typecheck, vitest, build, e2e eseguiti; numeri a confronto con quelli dichiarati nell'handoff | **fatto** — typecheck pulito, Vitest 116/116, build pulita, Playwright 381/381 a caldo (6,7 min) |
 | 0.2 | Igiene git: 3 worktree residui + 3 branch locali morti | Enzo autorizza, io eseguo | `git worktree list` mostra solo la radice; i branch `integration-dryrun`, `fix-shell-decorator`, `verify-main` non esistono più | bloccato (conferma di Enzo — sono cancellazioni) |
 
 ### Fase 1 — correzioni che devono precedere le misure
 
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
-| B1 | Canvas dipinta dai token; via la config morta di `backgrounds` | io | sonda: `body` = `#FAFBFD` in chiaro e `#0D1017` in scuro, output conservato | da fare |
-| B2 | Il fallimento dello smoke test riporta il messaggio vero | io | un fallimento indotto stampa `errorText` da `.sb-errordisplay` | da fare |
-| B6+B10.1 | Cancello di prontezza; misura freddo/caldo e build statico | io | suite completa verde **due volte di fila**; i due tempi riportati | da fare |
-| B3 | Classi Tailwind interpolate → mappa statica, + caccia esaustiva nel repo | io | le regole esistono nel CSS compilato; elenco completo delle occorrenze con file:riga | da fare |
-| B4 | Accessibilità sistemica: censimento rifatto, rampa `-ink` estesa | io | tabella prima/dopo; nessun testo sotto 4.5:1, nessuna icona sotto 3:1 | da fare |
+| B1 | Canvas dipinta dai token; via la config morta di `backgrounds` | io | sonda: `body` = `#FAFBFD` in chiaro e `#0D1017` in scuro, output conservato | **fatto** — `5fbb201`, misura prima/dopo conservata |
+| B2 | Il fallimento dello smoke test riporta il messaggio vero | io | un fallimento indotto stampa `errorText` da `.sb-errordisplay` | **fatto** — piu' un test permanente che protegge la diagnosi stessa |
+| B6+B10.1 | Cancello di prontezza; misura freddo/caldo e build statico | io | suite completa verde **due volte di fila**; i due tempi riportati | da fare — spostato **dopo** B3+B4 (vedi nota d'ordine) |
+| B3 | Classi Tailwind interpolate → mappa statica, + caccia esaustiva nel repo | io | le regole esistono nel CSS compilato; elenco completo delle occorrenze con file:riga | **fatto** — 22 occorrenze in 11 file (il piano ne stimava 2); zero residui |
+| B4 | Accessibilità sistemica: censimento rifatto, rampa `-ink` estesa | io | tabella prima/dopo; nessun testo sotto 4.5:1, nessuna icona sotto 3:1 | **fatto** — 27 sostituzioni in 14 file; 54/54 combinazioni AA |
 | B7 | `useTheme` senza provider: degrado invece di crash | io | test che monta `DashboardHeader` senza provider e asserisce il comportamento scelto | da fare |
 
 ### Fase 2 — struttura, prima di fotografare la vetrina
@@ -102,7 +102,24 @@ Legenda stato: `da fare` · `in corso` · `fatto` · `bloccato (chi/cosa)`.
 3. **`pnpm` gira solo da PowerShell** su questa macchina — in Git Bash corepack risolve un path
    mangled (`D:\c\nodejs\…`) e muore. Misurato oggi. Ogni comando pnpm di questo ciclo passa da lì.
 
+## Nota d'ordine — uno scambio dentro la Fase 1
+
+**B6 e B10.1 sono stati spostati dopo B3+B4.** Le misure di prontezza e di tempo freddo/caldo hanno
+senso sullo stato di codice più vicino a quello finale: prenderle prima di cambiare quattordici
+componenti avrebbe voluto dire rifarle. L'ordine fra le fasi non cambia — restano entrambi prima
+dell'audit di Fase 3, che è il motivo per cui erano stati anticipati.
+
 ## Registro delle scoperte — fuori da questo ciclo
 
-Vuoto all'apertura. Ciò che emergerà e non appartiene alle righe qui sopra si annota qui, si presenta
-a Enzo **una volta sola**, e non si travestirà mai da pendenza del ciclo.
+Ciò che emerge e non appartiene alle righe qui sopra si annota qui, si presenta a Enzo **una volta
+sola**, e non si traveste mai da pendenza del ciclo.
+
+- **`verify-contrast.mjs` non era mai stato committato.** L'handoff lo dava «in repo»: viveva invece
+  solo dentro il worktree `fix+architectural-decisions`, non tracciato. Rimuovere quel worktree lo
+  avrebbe cancellato. Ora è in repo, generalizzato, come `ui/scripts/verify-contrast.mjs`.
+- **`pnpm` non funziona da Git Bash** su questa macchina: corepack risolve un path mangled
+  (`D:\c
+odejs\…`) e muore. Solo PowerShell. Già registrato fra le assunzioni.
+- **KPIStrip e ErrorRateBreakdown costruiscono `var(--${tone})` in uno stile inline.** Non è il
+  difetto B3 — le custom property esistono a runtime e funzionano — ma condivide la stessa fragilità:
+  un tono fuori elenco produce una variabile inesistente invece di un errore. Non toccato.

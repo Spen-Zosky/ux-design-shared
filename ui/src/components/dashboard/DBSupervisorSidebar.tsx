@@ -40,7 +40,7 @@ export function DBSupervisorSidebar() {
           </svg>
           <span className="nav-label truncate">DB Supervisor</span>
         </span>
-        <span className="nav-aux inline-flex items-center gap-0.5 rounded-sm bg-palette-2/15 px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-palette-2"
+        <span className="nav-aux inline-flex items-center gap-0.5 rounded-sm bg-palette-2/15 px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-palette-2-ink"
               title="Apre pagina con tabs dedicate per ogni oggetto DBMS">
           <svg className="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <rect x="3" y="4" width="18" height="4" />

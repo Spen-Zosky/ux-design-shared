@@ -155,7 +155,7 @@ function NavItemRow({ item, collapsed }: { item: AppShellNavItem; collapsed: boo
         aria-expanded={hasChildren ? open : undefined}
         className={cn(
           'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors',
-          item.active ? 'bg-primary/10 font-medium text-primary' : 'text-foreground hover:bg-accent'
+          item.active ? 'bg-primary/10 font-medium text-primary-ink' : 'text-foreground hover:bg-accent'
         )}
         title={collapsed ? item.label : undefined}
       >

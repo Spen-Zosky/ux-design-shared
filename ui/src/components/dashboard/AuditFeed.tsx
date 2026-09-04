@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { TONE } from "../../lib/tone-classes";
 
 /**
  * Audit feed — ul divide-y of icon-wrapped events.
@@ -44,7 +45,11 @@ export function AuditFeed({ events, title = "Audit feed",
         {events.map((ev, i) => (
           <li key={i} className="px-5 py-3">
             <div className="flex items-start gap-3">
-              <span className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-${ev.tone}/15 text-${ev.tone}`}>
+              {/* Pastiglia dell'icona: classi intere dal modulo dei toni, e
+                  rampa ink perche' il segno grafico sta su una tinta dello
+                  stesso tono (soglia 3:1, che il token pieno non regge per
+                  success: 2,78:1 misurati). */}
+              <span className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${TONE[ev.tone].tint15} ${TONE[ev.tone].textOnTint}`}>
                 {ev.icon}
               </span>
               <div className="min-w-0">

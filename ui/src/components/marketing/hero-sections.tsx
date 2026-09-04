@@ -30,7 +30,7 @@ export function HeroSplit({
     <section className={cn('grid items-center gap-8 py-16 lg:grid-cols-2 lg:py-24', className)}>
       <div className="space-y-5">
         {eyebrow ? (
-          <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary-ink">
             {eyebrow}
           </span>
         ) : null}

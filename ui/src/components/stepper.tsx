@@ -56,7 +56,7 @@ export function Stepper({
               className={cn(
                 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-medium transition-colors',
                 completed && 'border-primary bg-primary text-primary-fg',
-                active && 'border-primary bg-primary/10 text-primary',
+                active && 'border-primary bg-primary/10 text-primary-ink',
                 !completed && !active && 'border-border bg-background text-muted-fg',
                 clickable && 'cursor-pointer hover:opacity-80'
               )}

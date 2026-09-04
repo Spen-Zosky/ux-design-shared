@@ -8,9 +8,9 @@ import { cn } from '../lib/cn';
 const bannerVariants = cva('relative flex items-start gap-3 rounded-md border p-3 text-sm', {
   variants: {
     tone: {
-      info: 'border-info/40 bg-info/10 text-info',
-      success: 'border-success/40 bg-success/10 text-success',
-      warning: 'border-warning/40 bg-warning/10 text-warning',
+      info: 'border-info/40 bg-info/10 text-info-ink',
+      success: 'border-success/40 bg-success/10 text-success-ink',
+      warning: 'border-warning/40 bg-warning/10 text-warning-ink',
       destructive: 'border-destructive/40 bg-destructive/10 text-destructive',
       neutral: 'border-border bg-muted/30 text-foreground',
     },

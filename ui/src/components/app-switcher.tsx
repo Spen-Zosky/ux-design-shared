@@ -72,7 +72,7 @@ export function AppSwitcher({
                   title={a.description ?? a.name}
                   className="flex flex-col items-center gap-1.5 rounded-md p-3 text-center text-xs hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary-ink">
                     {a.icon}
                   </span>
                   <span className="truncate text-foreground">{a.name}</span>

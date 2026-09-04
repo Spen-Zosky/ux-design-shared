@@ -1,4 +1,5 @@
 import { DataTableWithCrossHair } from "./DataTableWithCrossHair";
+import { toneClasses } from "../../lib/tone-classes";
 
 /**
  * RBAC permissions matrix — sticky first column + tri-state cells.
@@ -38,7 +39,7 @@ export function RBACMatrix({ roles, rows, lastReload, totalMappings, totalRoles,
       <article className="overflow-hidden rounded-card border border-border bg-card shadow-card">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
           <div className="flex items-center gap-3">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-control bg-palette-1/15 text-palette-1">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-control bg-palette-1/15 text-palette-1-ink">
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -75,7 +76,7 @@ export function RBACMatrix({ roles, rows, lastReload, totalMappings, totalRoles,
                 const lines = (role.label ?? role.code).split(/[_\s]+/);
                 return (
                   <th key={role.code} className="px-2 py-3 text-center">
-                    <span className={`block text-${role.tone}`}>
+                    <span className={`block ${toneClasses(role.tone, "muted").text}`}>
                       {lines.map((l, i) => <span key={i} className="block">{l}</span>)}
                     </span>
                   </th>
@@ -112,8 +113,8 @@ export function RBACMatrix({ roles, rows, lastReload, totalMappings, totalRoles,
 function Legend() {
   return (
     <div className="flex items-center gap-2 text-[11px]">
-      <span className="inline-flex items-center gap-1"><span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-success/20 text-success"><svg className="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg></span><span className="text-muted-foreground">granted</span></span>
-      <span className="inline-flex items-center gap-1"><span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-warning/20 text-warning font-mono text-[9px] font-bold">◐</span><span className="text-muted-foreground">scoped</span></span>
+      <span className="inline-flex items-center gap-1"><span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-success/20 text-success-ink"><svg className="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg></span><span className="text-muted-foreground">granted</span></span>
+      <span className="inline-flex items-center gap-1"><span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-warning/20 text-warning-ink font-mono text-[9px] font-bold">◐</span><span className="text-muted-foreground">scoped</span></span>
       <span className="inline-flex items-center gap-1"><span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-muted text-muted-foreground/60">·</span><span className="text-muted-foreground">denied</span></span>
     </div>
   );
@@ -121,12 +122,12 @@ function Legend() {
 
 function Cell({ state, title }: { state: RbacState; title?: string }) {
   if (state === "granted") return (
-    <span className="mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-success/20 text-success">
+    <span className="mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-success/20 text-success-ink">
       <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
     </span>
   );
   if (state === "scoped") return (
-    <span className="mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-warning/20 text-warning" title={title}>
+    <span className="mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-warning/20 text-warning-ink" title={title}>
       <span className="font-mono text-[10px] font-bold">◐</span>
     </span>
   );

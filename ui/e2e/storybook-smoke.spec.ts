@@ -23,6 +23,8 @@ type StoryIndexEntry = {
   id: string;
   title: string;
   name: string;
+  /** "story" oppure "docs": cambia il contenitore in cui Storybook rende. */
+  type?: string;
 };
 
 // Rumore noto e innocuo che non deve far fallire il cancello: aggiungere qui
@@ -51,7 +53,13 @@ for (const story of stories) {
     // (es. Toast › Interactive Trigger) che non azzerano mai il traffico di
     // rete, facendo scadere il timeout senza che ci sia nessun problema
     // reale — misurato qui il 2026-09-03.
-    await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
+    //
+    // Le pagine di documentazione rendono in un contenitore diverso e vanno
+    // aperte in `viewMode=docs`: aprirle come story darebbe una pagina vuota
+    // senza che nulla sia rotto.
+    const isDocs = (story.type ?? "story") === "docs";
+    const viewMode = isDocs ? "docs" : "story";
+    await page.goto(`/iframe.html?id=${story.id}&viewMode=${viewMode}`);
 
     // Il renderer di Storybook monta ogni story in questo contenitore.
     // Si controlla la presenza di un elemento figlio nel DOM, non che sia
@@ -63,7 +71,10 @@ for (const story of stories) {
     // componente che non si monta) resta catturato da questo count() più
     // dal listener su console/pageerror qui sotto (falsi positivi
     // verificati il 2026-09-03).
-    const root = page.locator("#storybook-root");
+    // #storybook-root per le story, #storybook-docs per le pagine di
+    // documentazione: sono due contenitori distinti, entrambi sempre presenti
+    // nel DOM, e solo quello pertinente si riempie.
+    const root = page.locator(isDocs ? "#storybook-docs" : "#storybook-root");
     await expect(root).toBeAttached();
 
     // L'assertion resta dentro un try perché deve conservare il proprio
@@ -79,7 +90,9 @@ for (const story of stories) {
     } catch (cause) {
       const detail = await describeStoryFailure(page);
       throw new Error(
-        `"${story.title} › ${story.name}" non ha montato nulla in #storybook-root.\n${detail}`,
+        `"${story.title} › ${story.name}" non ha montato nulla in ${
+          isDocs ? "#storybook-docs" : "#storybook-root"
+        }.\n${detail}`,
         { cause },
       );
     }

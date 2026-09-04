@@ -39,10 +39,20 @@ async function globalSetup(config: FullConfig) {
   }
   const index = (await res.json()) as StoryIndex;
   const entries = Object.values(index.entries ?? index.stories ?? {});
-  const stories = entries.filter((e) => (e.type ?? "story") === "story");
+
+  // Story E pagine di documentazione. Fino al 2026-09-04 qui si filtravano le
+  // sole `story`, ed era corretto: le pagine docs NON ESISTEVANO, perche'
+  // mancava `@storybook/addon-docs` e il `tags: ["autodocs"]` di preview.ts non
+  // produceva nulla. Ora che l'addon c'e', l'indice porta 380 story piu' 124
+  // pagine di documentazione, e lasciarle fuori vorrebbe dire non guardare un
+  // quarto della vetrina.
+  const stories = entries.filter((e) => {
+    const type = e.type ?? "story";
+    return type === "story" || type === "docs";
+  });
 
   if (stories.length === 0) {
-    throw new Error("index.json non contiene nessuna story: controllo bloccato prima di partire");
+    throw new Error("index.json non contiene nessuna voce: controllo bloccato prima di partire");
   }
 
   fs.writeFileSync(STORY_INDEX_FILE, JSON.stringify(stories, null, 2));

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "permissions": {
+    "allow": [
+      "Bash(pnpm *)",
+      "PowerShell(pnpm *)",
+      "Bash(node *)",
+      "PowerShell(node *)",
+      "Bash(npx *)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git show*)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch*)",
+      "Bash(git worktree*)",
+      "Bash(git rev-list*)",
+      "Bash(git rev-parse*)",
+      "Bash(git checkout *)",
+      "Bash(git merge --ff-only*)",
+      "Bash(git ls-tree*)",
+      "Bash(git ls-files*)",
+      "PowerShell(git *)",
+      "Bash(curl -s http://localhost:*)",
+      "Bash(curl -s -o /dev/null*)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(sed -n *)",
+      "Bash(grep *)",
+      "Bash(ls *)",
+      "Bash(echo *)",
+      "Bash(find *)",
+      "Bash(wc *)",
+      "Bash(du *)",
+      "Read(//c/Users/enzospenuso/AppData/Local/Temp/claude/**)",
+      "Read(//c/Users/ENZOSP~1/AppData/Local/Temp/claude/**)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(rm -rf *)"
+    ]
+  }
+}

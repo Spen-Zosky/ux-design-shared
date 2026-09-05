@@ -82,12 +82,12 @@ di Fase 3 ha ora 124 pagine in più da coprire.
 
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
-| A2 | Giro completo: ogni voce cliccata dalla sidebar + autodocs | io | un test per voce, screenshot per tutte, fallimenti classificati (a)/(b)/(c) con prova | da fare |
-| A3 | Ogni voce nei due temi, col pixel che cambia davvero | io | 4 asserzioni per voce; elenco esplicito delle insensibili al tema | da fare |
-| A4 | Ogni Control produce un effetto visibile, col tipo giusto | io | inventario dei controlli; disallineamenti con file:riga | da fare |
-| B5 | `addon-a11y` da decorativo a cancello | io propongo la soglia | inventario axe completo nei due temi, per gravità | da fare |
-| B10.2 | Ottimizzare solo dove i numeri indicano | io | prima/dopo riportati | da fare |
-| A5 | Report unico in italiano piano | io | apre col verdetto e i numeri; elenchi di esclusione allegati per intero | da fare |
+| A2 | Giro completo: ogni voce cliccata dalla sidebar + autodocs | io | un test per voce, screenshot per tutte, fallimenti classificati (a)/(b)/(c) con prova | **fatto** — 505 voci; i 3 rossi erano errori attesi per progetto, ora dichiarati |
+| A3 | Ogni voce nei due temi, col pixel che cambia davvero | io | 4 asserzioni per voce; elenco esplicito delle insensibili al tema | **fatto** — 504/504; l'elenco delle insensibili resta VUOTO |
+| A4 | Ogni Control produce un effetto visibile, col tipo giusto | io | inventario dei controlli; disallineamenti con file:riga | **fatto** — 568 controlli, 109 inerti, 0 disallineati |
+| B5 | `addon-a11y` da decorativo a cancello | io propongo la soglia | inventario axe completo nei due temi, per gravità | **fatto** — 441 violazioni; soglia proposta critical+serious, da accendere DOPO la correzione di massa |
+| B10.2 | Ottimizzare solo dove i numeri indicano | io | prima/dopo riportati | **fatto — nessun intervento**: i numeri non indicano nulla da correggere; il file più pesante dopo i grafici è `zxcvbn` col suo dizionario, che è il suo modo di funzionare |
+| A5 | Report unico in italiano piano | io | apre col verdetto e i numeri; elenchi di esclusione allegati per intero | **fatto** — `2026-09-05-report-audit-vetrina.md` |
 
 ### Fase 4 — rilascio
 

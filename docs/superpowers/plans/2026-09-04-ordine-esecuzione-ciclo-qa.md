@@ -48,7 +48,7 @@ Legenda stato: `da fare` · `in corso` · `fatto` · `bloccato (chi/cosa)`.
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
 | 0.1 | Baseline riverificato su `main` c977df5 | io | install, typecheck, vitest, build, e2e eseguiti; numeri a confronto con quelli dichiarati nell'handoff | **fatto** — typecheck pulito, Vitest 116/116, build pulita, Playwright 381/381 a caldo (6,7 min) |
-| 0.2 | Igiene git: 3 worktree residui + 3 branch locali morti | Enzo autorizza, io eseguo | `git worktree list` mostra solo la radice; i branch `integration-dryrun`, `fix-shell-decorator`, `verify-main` non esistono più | bloccato (conferma di Enzo — sono cancellazioni) |
+| 0.2 | Igiene git: 3 worktree residui + 3 branch locali morti | Enzo autorizza, io eseguo | `git worktree list` mostra solo la radice; i branch `integration-dryrun`, `fix-shell-decorator`, `verify-main` non esistono più | **fatto** — autorizzato il 2026-09-05; 95 file di `.superpowers/sdd/` archiviati PRIMA della cancellazione |
 
 ### Fase 1 — correzioni che devono precedere le misure
 
@@ -135,6 +135,15 @@ odejs\…`) e muore. Solo PowerShell. Già registrato fra le assunzioni.
   Step 5) e cita un difetto specifico dentro una di esse. Da verificare con Playwright prima di
   scrivere quella parte dell'audit: se le autodocs non vengono generate, A2 Step 5 non ha oggetto e
   il difetto citato non esiste in quella forma.
+- **I worktree contenevano 95 file ignorati da git.** `.superpowers/sdd/` in ciascuno dei tre —
+  report di batch, brief, `progress.md` e i diff di review delle tre PR: la memoria di *come* quel
+  lavoro e' stato fatto, invisibile a `git status` perche' ignorata. Archiviati in
+  `C:\Users\enzospenuso\Claude Desktop\ciclo-qa-hardening_20260905\archivio-worktree` prima di cancellare.
+  E' la seconda volta in questo ciclo che un file prezioso viveva solo dentro un worktree.
+- **Cinque branch locali restano, tutti interamente dentro `origin/main`**:
+  `docs/design-system-taxonomy-planning`, `docs/storybook-qa-plan`, `feat/priority1-simple-stories`,
+  `refactor/header-storybook-taxonomy`, `worktree-fix+architectural-decisions`. Non li ho toccati:
+  l'autorizzazione riguardava i tre morti nominati nell'handoff.
 - **KPIStrip e ErrorRateBreakdown costruiscono `var(--${tone})` in uno stile inline.** Non è il
   difetto B3 — le custom property esistono a runtime e funzionano — ma condivide la stessa fragilità:
   un tono fuori elenco produce una variabile inesistente invece di un errore. Non toccato.

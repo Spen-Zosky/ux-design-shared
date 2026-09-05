@@ -1,56 +1,60 @@
 # Stato — ux-design-shared
 
-## Ultima sessione (2026-09-04)
+## Ultima sessione (2026-09-05)
 
-Chiuso il ciclo di riorganizzazione della vetrina Storybook: tre PR mergiate su main
-(header consolidato, 17 componenti resi visibili, 4 decisioni architetturali). Enzo ha poi
-scorso la vetrina a mano e trovato criticità diffuse, quindi il rilascio è stato fermato e
-il lavoro successivo è stato messo a piano invece che eseguito.
+Eseguito per intero il ciclo di audit QA e hardening: la vetrina è stata verificata voce per
+voce nei due temi, i difetti diagnosticati sono stati corretti, e la libreria è stata
+pubblicata e adottata dal consumer. Il tema scuro che non si vedeva aveva una causa precisa
+— nessuno dipingeva la superficie di rendering — ed è chiusa. Restano due debiti misurati e
+non affrontati, entrambi cicli a sé.
 
 ## Priorità
 
-1. **Audit QA di Storybook + hardening** — piano pronto ed eseguibile, da sessione fresca.
-   `docs/superpowers/plans/2026-09-04-storybook-qa-audit-e-hardening.md`, **su main**.
-   5 task di audit + 10 di correzione + 3 di rilascio.
-   Ordine obbligato: **B1 prima di A3**. Effort: alto, ciclo dedicato.
-2. **Rilascio 1.1.0** — task C2 del piano, dopo l'audit. `ui/package.json` è ancora a 1.0.0 e
-   `ui/dist` (tracciato) non è stato rigenerato: le correzioni **non raggiungono i consumer**
-   finché non si pubblica. Bloccato su credenziali, vedi domanda aperta 1.
-3. **Contratto in heuresys-advanced** — testo pronto nel corpo della PR #7, da applicare
-   nell'altro repo (riga 23 di `docs/architecture/brand-component-contract.md`).
+1. **Correzione di massa dell'accessibilità** — 441 violazioni inventariate (76 critical,
+   269 serious), con il piano già scritto: partire da `KanbanBoard`, che da solo ne raccoglie
+   32, e dalle pagine di documentazione. Il cancello axe si accende **solo alla fine**, quando
+   il numero da difendere è zero. Riferimento:
+   `docs/superpowers/reference/2026-09-05-inventario-accessibilita.md`. Effort: alto.
+2. **I 95 controlli inerti** — comandi che la vetrina espone e che, cambiati, non producono
+   effetto: quasi sempre story con un `render:` proprio che ignora gli args. Tre strade per
+   ciascuno (far usare gli args, nascondere il controllo, dichiararlo), da scegliere caso per
+   caso. Riferimento: `2026-09-05-inventario-controls.md`. Effort: medio.
+3. **I 4 orfani pubblici** — `GroupToggle`, `esco-tree-navigator`, `kg-graph-canvas`,
+   `sap-sync-panel`: esportati dal barrel, senza story, senza un solo utilizzatore nei
+   consumer. Proposti e non rimossi. Riferimento: `2026-09-04-struttura-design-system.md`.
+   Effort: basso, ma serve una decisione di Enzo.
 
 ## Domande aperte
 
-1. **npm non è autenticato su questa macchina** (`npm whoami` → 401, nessun `.npmrc`, nessun
-   `NPM_TOKEN`). La pubblicazione richiede un `npm login` fatto da Enzo: non delegabile.
-2. **Il fix delle classi Tailwind interpolate va prima o dopo il merge?** Ormai mergiato: la
-   PR #5 ha portato su main due componenti pubblici con `bg-${roleTone}/20`, classe che
-   Tailwind non genera affatto (provato sul CSS compilato del consumer). Task B3.
-3. **Tassonomia del guscio**: 10 story `Header/*` contro 3 `Layout/*` per la stessa famiglia.
-   Task B8 chiede a Enzo dove deve stare prima di spostare.
+1. **Che fine fanno i 4 orfani?** Toglierli dal barrel mantenendo i file (reversibile, la mia
+   raccomandazione), dare loro una story, o cancellarli. Tre dei quattro nomi suggeriscono
+   lavoro di dominio: solo Enzo sa se sono in corso o residui.
+2. **Quando si accende il cancello a11y?** La soglia proposta è `critical` + `serious`.
+   Accesa oggi renderebbe la suite rossa in permanenza: va accesa dopo la correzione di massa,
+   non prima.
 
-## Verifica del baseline
+## Verifica
 
 ```bash
 cd ui
 pnpm install --frozen-lockfile
-pnpm run typecheck      # atteso: pulito
-pnpm run test           # atteso: 116/116
-pnpm run build          # atteso: pulito; poi `git checkout -- ui/dist` (è tracciato)
-pnpm run test:e2e       # atteso: 380 story, ~379 verdi
+pnpm run typecheck        # atteso: pulito
+pnpm run test             # atteso: 119/119
+pnpm run build            # atteso: pulita; poi `git checkout -- ui/dist` (è tracciato)
+pnpm run build-storybook  # atteso: 504 voci (380 story + 124 docs)
+SB_STATIC=1 pnpm run test:e2e   # regressione, ~9 min, atteso 507/507
+SB_STATIC=1 pnpm run test:audit # i 4 audit completi, ~88 min: solo quando serve
 ```
 
-Misurato il 2026-09-04 su main `633e50c`: typecheck pulito, Vitest 116/116, build pulita,
-Playwright **379/380** — l'unico fallimento (`Components/Card › Default`) passa in 1,6s
-rieseguito isolato con `--workers=1`. È flakiness da avvio a freddo, **sesta occorrenza** di
-questa classe nel ciclo (Toast, ThreeScene, Accordion, LottiePlayer, Button+VideoPlayer,
-Card): non è una regressione, ed è la ragione del task B6.
+Misurato il 2026-09-05 su `main` `a88cefa`: typecheck pulito, Vitest 119/119, `test:e2e`
+507/507 in 9,0 min. `@heuresys/ui` è a **1.1.0** in `package.json` e sul registry.
 
 ## Note
 
-- Materiale d'avvio per la sessione fresca, con todo e artefatti di misura:
-  `C:\Users\enzospenuso\Claude Desktop\storybook-qa-audit_20260904\AVVIA-QUI.md`
-- Il browser in-app non registra il service worker di MSW: le story che ne dipendono vi
-  appaiono rotte pur funzionando. Diagnosticare sempre con Playwright.
-- Branch locali di lavoro da buttare: `integration-dryrun`, `fix-shell-decorator`,
-  `verify-main`.
+- **`pnpm` non funziona in Git Bash** su questa macchina: corepack risolve un path mangled e
+  muore. Solo PowerShell. Costa tempo scoprirlo da capo.
+- **La suite gira contro la vetrina statica** (`SB_STATIC=1`), non contro il dev server: è ciò
+  che ha eliminato la flakiness. E `storybook build` riparte sempre da zero, perché la cache
+  non invalidata produceva una vetrina con 25 story in meno, in silenzio.
+- Il contratto in `heuresys-advanced` è stato applicato e mergiato (PR #81), e quel progetto
+  usa la 1.1.0. **Non si scrive su quel repo** se non su istruzione esplicita di Enzo.

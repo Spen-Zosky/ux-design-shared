@@ -64,7 +64,7 @@ function scriviEsiti(id: string, esiti: Esito[]): void {
   fs.writeFileSync(path.join(OUT_DIR, `${id}.json`), JSON.stringify(esiti, null, 2));
 }
 
-test.describe("i Controls producono effetti visibili", () => {
+test.describe("i Controls producono effetti visibili @audit", () => {
   for (const entry of storie) {
     test(`${entry.title} › ${entry.name}`, async ({ page }) => {
       test.setTimeout(120_000);

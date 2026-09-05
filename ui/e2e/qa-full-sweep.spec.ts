@@ -79,7 +79,7 @@ const CONSOLE_ERROR_ATTESI: Record<string, RegExp[]> = {
   ],
 };
 
-test.describe("giro completo della vetrina", () => {
+test.describe("giro completo della vetrina @audit", () => {
   for (const entry of entries) {
     const isDocs = (entry.type ?? "story") === "docs";
 
@@ -170,7 +170,7 @@ for (const e of entries) {
   if (!primaVoceDelGruppo.has(g) && (e.type ?? "story") === "story") primaVoceDelGruppo.set(g, e);
 }
 
-test.describe("il click funziona in ogni gruppo", () => {
+test.describe("il click funziona in ogni gruppo @audit", () => {
   test.setTimeout(240_000);
 
   test(`una voce cliccata a mano in ciascuno dei ${gruppi.length} gruppi`, async ({ page }) => {

@@ -49,7 +49,7 @@ type Violazione = {
   nodi: number;
 };
 
-test.describe("inventario di accessibilità", () => {
+test.describe("inventario di accessibilità @audit", () => {
 
   for (const entry of entries) {
     const isDocs = (entry.type ?? "story") === "docs";

@@ -127,7 +127,7 @@ async function attendiAlberoStabile(
   return precedente;
 }
 
-test.describe("il tema scuro, su ogni voce", () => {
+test.describe("il tema scuro, su ogni voce @audit", () => {
   for (const entry of entries) {
     const isDocs = (entry.type ?? "story") === "docs";
 

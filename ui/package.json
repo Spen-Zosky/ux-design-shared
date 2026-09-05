@@ -53,7 +53,9 @@
     "test:coverage": "vitest run --coverage",
     "clean": "node scripts/clean.mjs",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test --grep-invert \"@audit\"",
+    "test:e2e:all": "playwright test",
+    "test:audit": "playwright test --grep \"@audit\"",
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {

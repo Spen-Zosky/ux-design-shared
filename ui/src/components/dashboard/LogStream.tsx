@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { TONE, toneClasses } from "../../lib/tone-classes";
 
 /**
  * Live log stream — tailing ol with .log-line items.
@@ -63,7 +64,7 @@ export function LogStream({ entries, title = "Live log stream", sourceLabel = "f
           <li key={i} className="log-line flex items-start gap-3 px-5 py-2">
             <span className="ts shrink-0 whitespace-nowrap font-mono">{e.timestamp}</span>
             <span className={`lvl-${e.level} shrink-0 font-mono font-semibold`}>{e.level.toUpperCase().padEnd(5)}</span>
-            <span className={`shrink-0 rounded-sm bg-${e.sourceTone ?? "palette-1"}/15 px-1.5 font-mono text-[10px] text-${e.sourceTone ?? "palette-1"}`}>{e.source}</span>
+            <span className={`shrink-0 rounded-sm px-1.5 font-mono text-[10px] ${toneClasses(e.sourceTone, "palette-1").tint15} ${toneClasses(e.sourceTone, "palette-1").textOnTint}`}>{e.source}</span>
             <span className="text-foreground">{e.message} {e.meta && <span className="text-muted-foreground">{e.meta}</span>}</span>
           </li>
         ))}
@@ -72,7 +73,7 @@ export function LogStream({ entries, title = "Live log stream", sourceLabel = "f
       <div className="flex items-center justify-between border-t border-border px-5 py-2.5 font-mono text-[10px] text-muted-foreground">
         <span>tailing · {entries.length}{totalCount != null ? ` / ${totalCount}` : ""} lines · {windowLabel}</span>
         <span className="inline-flex items-center gap-1.5">
-          <span className={`h-1.5 w-1.5 rounded-full bg-${connected ? "success" : "danger"} pulse-dot`} />
+          <span className={`h-1.5 w-1.5 rounded-full pulse-dot ${connected ? TONE.success.solid : TONE.danger.solid}`} />
           {connected ? "connected" : "disconnected"}
         </span>
       </div>

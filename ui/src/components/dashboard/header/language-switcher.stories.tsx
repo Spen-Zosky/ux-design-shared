@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { HeaderLanguageSwitcher } from './language-switcher';
 
 const meta: Meta<typeof HeaderLanguageSwitcher> = {
-  title: 'Header/Language Switcher',
+  title: 'Layout/Header/Language Switcher',
   component: HeaderLanguageSwitcher,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

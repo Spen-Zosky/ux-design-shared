@@ -73,10 +73,37 @@ export function ThemeProvider({
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
+/**
+ * Il tema, preteso.
+ *
+ * Resta una dipendenza dura, e va bene cosi' per chi governa davvero il tema:
+ * un componente che legge `resolved` per decidere cosa disegnare, montato senza
+ * provider, produrrebbe silenziosamente il tema sbagliato — meglio un'eccezione
+ * subito.
+ */
 export function useTheme(): ThemeContextValue {
   const ctx = React.useContext(ThemeContext);
   if (!ctx) {
     throw new Error('useTheme must be used within ThemeProvider');
   }
   return ctx;
+}
+
+/**
+ * Il tema, se c'e'.
+ *
+ * Serve ai componenti in cui il tema e' un ACCESSORIO e non la ragione
+ * d'esistere: il pulsante di commutazione, per esempio. Il caso e' reale — la
+ * story di `DashboardShell` e' rimasta bianca finche' non le e' stato aggiunto
+ * un decorator, perche' l'header monta il toggle e il toggle pretendeva il
+ * provider: un intero guscio di pagina abbattuto da un pulsante.
+ *
+ * In produzione il provider c'e' sempre (verificato in entrambi i consumatori,
+ * `AppProviders.tsx:30` e `providers.tsx:42`), ma un consumatore futuro che
+ * montasse `DashboardHeader` senza avrebbe un crash invece di un degrado. Un
+ * pulsante di tema inerte e' un difetto minore; una pagina che non renderizza
+ * non lo e'.
+ */
+export function useThemeOptional(): ThemeContextValue | null {
+  return React.useContext(ThemeContext);
 }

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { PaletteDropdown } from './PaletteDropdown';
 
 const meta: Meta<typeof PaletteDropdown> = {
-  title: 'Header/Palette Switcher',
+  title: 'Layout/Header/Palette Switcher',
   component: PaletteDropdown,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

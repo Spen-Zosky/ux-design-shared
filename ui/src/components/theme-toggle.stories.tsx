@@ -3,9 +3,17 @@ import { ThemeToggle } from './theme-toggle';
 import { ThemeProvider } from './theme-provider';
 
 const meta: Meta<typeof ThemeToggle> = {
-  title: 'Components/ThemeToggle',
+  title: 'Components/ThemeToggle (autonomo)',
   component: ThemeToggle,
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Toggle di tema **autonomo**, da usare fuori dal guscio di pagina: cicla chiaro → scuro → sistema e mostra l’etichetta dello stato. Non confonderlo con **Layout/Header/Theme Toggle (nel guscio)**, che è il pulsante icona montato dentro DashboardHeader: quello ha una sola icona, non espone l’opzione "sistema", e degrada a pulsante inerte quando manca il ThemeProvider invece di far cadere l’header.',
+      },
+    },
+  },
   tags: ['autodocs'],
 };
 export default meta;

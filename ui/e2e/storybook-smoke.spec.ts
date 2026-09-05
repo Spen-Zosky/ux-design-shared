@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { test, expect, type ConsoleMessage } from "@playwright/test";
 import { STORY_INDEX_FILE } from "./global-setup";
+import { describeStoryFailure } from "./lib/error-ui";
 
 /**
  * Smoke test: ogni story pubblicata da Storybook deve renderizzare senza
@@ -22,6 +23,8 @@ type StoryIndexEntry = {
   id: string;
   title: string;
   name: string;
+  /** "story" oppure "docs": cambia il contenitore in cui Storybook rende. */
+  type?: string;
 };
 
 // Rumore noto e innocuo che non deve far fallire il cancello: aggiungere qui
@@ -31,6 +34,28 @@ const CONSOLE_ERROR_ALLOWLIST: RegExp[] = [
   // nessuna voce ad oggi — ogni [error] in console è trattato come reale
 ];
 
+/**
+ * Eccezioni legate a UNA story precisa, non all'intera suite.
+ *
+ * Una allowlist globale spegnerebbe lo stesso messaggio ovunque, e un 404 vero
+ * altrove passerebbe inosservato. Qui la chiave è l'id della story, così
+ * l'eccezione vale dove è motivata e in nessun altro posto.
+ */
+const CONSOLE_ERROR_ALLOWLIST_BY_STORY: Record<string, RegExp[]> = {
+  // La story punta deliberatamente a `/this-does-not-exist.json` per mostrare
+  // il placeholder quando la sorgente non si carica: il 404 È il soggetto del
+  // test, non un difetto.
+  //
+  // Perché non si vedeva prima: con `storybook dev` Vite risponde 200 con
+  // l'HTML dell'applicazione a qualunque percorso sconosciuto, quindi la
+  // richiesta non falliva mai davvero e la story non provava un bel niente.
+  // Il server statico risponde 404 come farebbe un server reale, e il caso
+  // dichiarato dalla story ha cominciato a verificarsi sul serio.
+  "components-lottieplayer--placeholder-while-loading": [
+    /Failed to load resource: the server responded with a status of 404/,
+  ],
+};
+
 const stories: StoryIndexEntry[] = JSON.parse(fs.readFileSync(STORY_INDEX_FILE, "utf-8"));
 
 for (const story of stories) {
@@ -38,10 +63,13 @@ for (const story of stories) {
     const consoleErrors: string[] = [];
     const pageErrors: string[] = [];
 
+    const perStoryAllowed = CONSOLE_ERROR_ALLOWLIST_BY_STORY[story.id] ?? [];
+
     page.on("console", (msg: ConsoleMessage) => {
       if (msg.type() !== "error") return;
       const text = msg.text();
       if (CONSOLE_ERROR_ALLOWLIST.some((rx) => rx.test(text))) return;
+      if (perStoryAllowed.some((rx) => rx.test(text))) return;
       consoleErrors.push(text);
     });
     page.on("pageerror", (err: Error) => pageErrors.push(err.message));
@@ -50,7 +78,13 @@ for (const story of stories) {
     // (es. Toast › Interactive Trigger) che non azzerano mai il traffico di
     // rete, facendo scadere il timeout senza che ci sia nessun problema
     // reale — misurato qui il 2026-09-03.
-    await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
+    //
+    // Le pagine di documentazione rendono in un contenitore diverso e vanno
+    // aperte in `viewMode=docs`: aprirle come story darebbe una pagina vuota
+    // senza che nulla sia rotto.
+    const isDocs = (story.type ?? "story") === "docs";
+    const viewMode = isDocs ? "docs" : "story";
+    await page.goto(`/iframe.html?id=${story.id}&viewMode=${viewMode}`);
 
     // Il renderer di Storybook monta ogni story in questo contenitore.
     // Si controlla la presenza di un elemento figlio nel DOM, non che sia
@@ -62,9 +96,31 @@ for (const story of stories) {
     // componente che non si monta) resta catturato da questo count() più
     // dal listener su console/pageerror qui sotto (falsi positivi
     // verificati il 2026-09-03).
-    const root = page.locator("#storybook-root");
+    // #storybook-root per le story, #storybook-docs per le pagine di
+    // documentazione: sono due contenitori distinti, entrambi sempre presenti
+    // nel DOM, e solo quello pertinente si riempie.
+    const root = page.locator(isDocs ? "#storybook-docs" : "#storybook-root");
     await expect(root).toBeAttached();
-    await expect(root.locator(":scope > *")).not.toHaveCount(0);
+
+    // L'assertion resta dentro un try perché deve conservare il proprio
+    // retry: sostituirla con un `count()` secco toglierebbe l'attesa e
+    // introdurrebbe flakiness proprio dove serve stabilità. Quello che
+    // aggiungiamo è solo la DIAGNOSI: quando il fallimento è ormai certo,
+    // andiamo a leggere la ragione dove Storybook la scrive davvero — fuori
+    // da #storybook-root, in .sb-nopreview / .sb-errordisplay (misurato il
+    // 2026-09-04). Senza questa lettura il messaggio era "expected not 0,
+    // received 0", che non dice nulla su cosa si sia rotto.
+    try {
+      await expect(root.locator(":scope > *")).not.toHaveCount(0);
+    } catch (cause) {
+      const detail = await describeStoryFailure(page);
+      throw new Error(
+        `"${story.title} › ${story.name}" non ha montato nulla in ${
+          isDocs ? "#storybook-docs" : "#storybook-root"
+        }.\n${detail}`,
+        { cause },
+      );
+    }
 
     const issues = [...pageErrors, ...consoleErrors];
     expect(issues, `Errori in "${story.title} › ${story.name}":\n  - ${issues.join("\n  - ")}`).toEqual([]);

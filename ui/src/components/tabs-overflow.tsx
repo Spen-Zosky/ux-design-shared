@@ -101,7 +101,7 @@ export function TabsOverflow({
                     disabled={it.disabled}
                     className={cn(
                       'block w-full rounded-sm px-2 py-1.5 text-left text-sm hover:bg-accent',
-                      value === it.id && 'bg-primary/10 text-primary'
+                      value === it.id && 'bg-primary/10 text-primary-ink'
                     )}
                   >
                     {it.label}

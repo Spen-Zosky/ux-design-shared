@@ -4,7 +4,7 @@ import { HeaderMobileDrawer } from './mobile-drawer';
 import { Button } from '../../Button';
 
 const meta: Meta<typeof HeaderMobileDrawer> = {
-  title: 'Header/Mobile Drawer',
+  title: 'Layout/Header/Mobile Drawer',
   component: HeaderMobileDrawer,
   parameters: { layout: 'fullscreen' },
   tags: ['autodocs'],
@@ -35,7 +35,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Componente controllato (open/onOpenChange), collegato all\'hamburger di DashboardHeader (Header/Dashboard Header (Complete)). Il contenuto qui è un esempio minimo — in produzione il consumer passa lo stesso nodo React già usato per la sidebar desktop.',
+          'Componente controllato (open/onOpenChange), collegato all\'hamburger di DashboardHeader (Layout/Header/Dashboard Header (Complete)). Il contenuto qui è un esempio minimo — in produzione il consumer passa lo stesso nodo React già usato per la sidebar desktop.',
       },
     },
   },

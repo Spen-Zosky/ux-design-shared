@@ -11,7 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from '../../dropdown-menu';
-import type { UserIdentity } from './user-identity-card';
+import { ROLE_TONE_FALLBACK, type UserIdentity } from './user-identity-card';
+import { toneClasses } from '../../../lib/tone-classes';
 
 export interface HeaderUserMenuTenant {
   id: string;
@@ -39,6 +40,9 @@ export function HeaderUserMenu({
   if (!user) return null;
 
   const showTenantSwitch = (tenants?.length ?? 0) >= 2;
+  // Stesso ripiego di HeaderUserIdentity: i due componenti mostrano lo stesso
+  // utente e devono colorarlo allo stesso modo.
+  const tone = toneClasses(user.roleTone, ROLE_TONE_FALLBACK);
 
   return (
     <DropdownMenu>
@@ -49,17 +53,13 @@ export function HeaderUserMenu({
           className="ml-1 flex items-center gap-2 rounded-control border border-border bg-card px-2 py-1.5 transition hover:bg-accent hover:border-foreground/30"
         >
           <Avatar className="h-7 w-7">
-            <AvatarFallback
-              className={`text-xs font-semibold bg-${user.roleTone ?? 'palette-3'}/20 text-${user.roleTone ?? 'palette-3'}`}
-            >
+            <AvatarFallback className={`text-xs font-semibold ${tone.tint20} ${tone.textOnTint}`}>
               {user.initials}
             </AvatarFallback>
           </Avatar>
           <div className="hidden flex-col leading-tight text-left sm:flex">
             <span className="text-xs font-medium text-foreground">{user.username}</span>
-            <span
-              className={`font-mono text-[10px] uppercase tracking-wider text-${user.roleTone ?? 'warning'}`}
-            >
+            <span className={`font-mono text-[10px] uppercase tracking-wider ${tone.text}`}>
               {user.role}
             </span>
           </div>

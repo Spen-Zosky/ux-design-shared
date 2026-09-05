@@ -23,7 +23,7 @@ export {
 export { cn } from './lib/cn';
 
 // B7 base
-export { ThemeProvider, useTheme } from './components/theme-provider';
+export { ThemeProvider, useTheme, useThemeOptional } from './components/theme-provider';
 export { ThemeToggle } from './components/theme-toggle';
 export {
   Dialog,

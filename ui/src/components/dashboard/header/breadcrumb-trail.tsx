@@ -13,6 +13,16 @@ export interface HeaderBreadcrumbTrailProps {
   items?: HeaderBreadcrumb;
 }
 
+/**
+ * Renderer di breadcrumb SEMPLIFICATO, pensato per la barra del guscio:
+ * separatore "/" fisso, nessun collasso, nessun `maxItems`.
+ *
+ * Per tutto il resto esiste `Breadcrumbs` (components/breadcrumbs.tsx), piu'
+ * capace: separatore configurabile e collasso a ellissi quando la catena supera
+ * `maxItems`. I due condividono il tipo `BreadcrumbItem` ma non
+ * l'implementazione.
+ */
+
 export function HeaderBreadcrumbTrail({ items }: HeaderBreadcrumbTrailProps) {
   if (!items || items.length === 0) return null;
 

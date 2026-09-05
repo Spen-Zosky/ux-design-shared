@@ -7,6 +7,14 @@ const config: StorybookConfig = {
     "../src/**/*.mdx",
   ],
   addons: [
+    // MISURATO il 2026-09-04: senza questo addon il `tags: ["autodocs"]`
+    // dichiarato globalmente in preview.ts non produceva NULLA. L'indice
+    // conteneva 380 voci, tutte di tipo "story" e nessuna di tipo "docs";
+    // aprire `?id=<componente>--docs` rispondeva "Couldn't find story
+    // matching". Da Storybook 8 la documentazione automatica vive in un addon
+    // separato, e qui non era mai stato installato: il tag c'era, la pagina
+    // no. Un design system che si crede documentato e non lo e'.
+    "@storybook/addon-docs",
     "@storybook/addon-a11y",
     "@storybook/addon-themes",
     "msw-storybook-addon",

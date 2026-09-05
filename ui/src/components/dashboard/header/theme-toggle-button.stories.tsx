@@ -3,9 +3,17 @@ import { HeaderThemeToggle } from './theme-toggle-button';
 import { ThemeProvider } from '../../theme-provider';
 
 const meta: Meta<typeof HeaderThemeToggle> = {
-  title: 'Header/Theme Toggle',
+  title: 'Layout/Header/Theme Toggle (nel guscio)',
   component: HeaderThemeToggle,
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'Pulsante icona del tema **montato dentro DashboardHeader**. Non confonderlo con **Components/ThemeToggle (autonomo)**, che è il toggle a sé stante con le tre modalità (chiaro / scuro / sistema) e l’etichetta testuale. Questo ne espone due sole e, senza ThemeProvider, resta al suo posto disabilitato invece di far cadere l’header che lo contiene.',
+      },
+    },
+  },
   tags: ['autodocs'],
   decorators: [
     (Story) => (

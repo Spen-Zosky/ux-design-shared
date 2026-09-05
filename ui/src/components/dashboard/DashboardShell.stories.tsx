@@ -14,7 +14,7 @@ const meta: Meta<typeof DashboardShell> = {
   // useTheme() e lancia se montato fuori da un ThemeProvider. Nell'app reale il
   // provider avvolge la root (verificato in entrambi i consumer), ma Storybook
   // monta ogni story isolata. Stesso decorator già usato da
-  // Header/Dashboard Header (Complete) e Header/Theme Toggle.
+  // Layout/Header/Dashboard Header (Complete) e Layout/Header/Theme Toggle.
   decorators: [
     (Story) => (
       <ThemeProvider>
@@ -44,7 +44,7 @@ export const Assembled: Story = {
     docs: {
       description: {
         story:
-          'Il "contenitore Dashboard" che orchestra Header/Sidebar/Footer/children — puro layout a griglia, nessuna logica propria. Ogni slot è popolato qui con i sotto-componenti documentati sotto Layout/* (Header/ arriverà da un piano separato).',
+          'Il "contenitore Dashboard" che orchestra Header/Sidebar/Footer/children — puro layout a griglia, nessuna logica propria. Ogni slot è popolato qui con i sotto-componenti documentati sotto Layout/*, header compreso: dal 2026-09-04 vivono tutti sotto Layout/Header/, che prima era un gruppo separato di primo livello.',
       },
     },
   },

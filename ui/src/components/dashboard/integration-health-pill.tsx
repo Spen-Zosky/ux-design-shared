@@ -7,10 +7,10 @@ const pillVariants = cva(
   {
     variants: {
       tone: {
-        ok: 'border-success bg-success/15 text-success',
-        warn: 'border-warning bg-warning/15 text-warning',
+        ok: 'border-success bg-success/15 text-success-ink',
+        warn: 'border-warning bg-warning/15 text-warning-ink',
         down: 'border-destructive bg-destructive/15 text-destructive',
-        info: 'border-primary bg-primary/15 text-primary',
+        info: 'border-primary bg-primary/15 text-primary-ink',
       },
     },
     defaultVariants: { tone: 'ok' },

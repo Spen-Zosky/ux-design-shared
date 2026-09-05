@@ -1,6 +1,6 @@
 {
   "name": "@heuresys/ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Heuresys UI — design system + dashboard components (Tier 1-16)",
   "license": "PROPRIETARY",
@@ -36,7 +36,8 @@
     "src/styles",
     "src/components/brand/candidates",
     "src/assets/brand",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsup",
@@ -44,15 +45,17 @@
     "publish:release": "npm publish",
     "storybook": "storybook dev -p 6006",
     "dev": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "pnpm run clean && storybook build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"src/components/**/*.{ts,tsx}\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "clean": "rimraf storybook-static node_modules/.cache",
+    "clean": "node scripts/clean.mjs",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test --grep-invert \"@audit\"",
+    "test:e2e:all": "playwright test",
+    "test:audit": "playwright test --grep \"@audit\"",
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
@@ -156,9 +159,11 @@
     }
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.39.4",
     "@playwright/test": "^1.62.1",
     "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/addon-docs": "10.3.6",
     "@storybook/addon-themes": "^10.3.6",
     "@storybook/react-vite": "10.3.6",
     "@tailwindcss/vite": "4.2.4",

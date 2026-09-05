@@ -3,16 +3,16 @@ import { Info, AlertTriangle, Lightbulb, AlertCircle, BookOpen, Quote } from 'lu
 import { cn } from '../../lib/cn';
 
 const VARIANTS = {
-  info: { icon: Info, label: 'Info', className: 'border-info/40 bg-info/10 text-info' },
+  info: { icon: Info, label: 'Info', className: 'border-info/40 bg-info/10 text-info-ink' },
   warning: {
     icon: AlertTriangle,
     label: 'Warning',
-    className: 'border-warning/40 bg-warning/10 text-warning',
+    className: 'border-warning/40 bg-warning/10 text-warning-ink',
   },
   tip: {
     icon: Lightbulb,
     label: 'Tip',
-    className: 'border-success/40 bg-success/10 text-success',
+    className: 'border-success/40 bg-success/10 text-success-ink',
   },
   danger: {
     icon: AlertCircle,

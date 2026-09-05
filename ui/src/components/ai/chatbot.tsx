@@ -57,7 +57,7 @@ export function Chatbot({ className }: { className?: string }) {
                   ? 'bg-primary text-primary-fg'
                   : m.role === 'assistant'
                     ? 'bg-muted text-foreground'
-                    : 'bg-warning/10 text-warning border border-warning/30'
+                    : 'bg-warning/10 text-warning-ink border border-warning/30'
               )}
             >
               {m.role === 'assistant' ? (

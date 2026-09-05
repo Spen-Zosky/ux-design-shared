@@ -134,7 +134,7 @@ function renderMentions(body: string): React.ReactNode {
   const parts = body.split(/(@\w+)/g);
   return parts.map((p, i) =>
     p.startsWith('@') ? (
-      <span key={i} className="rounded bg-primary/10 px-1 font-medium text-primary">
+      <span key={i} className="rounded bg-primary/10 px-1 font-medium text-primary-ink">
         {p}
       </span>
     ) : (

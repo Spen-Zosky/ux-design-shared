@@ -1,6 +1,6 @@
 'use strict';
 
-var React53 = require('react');
+var React5 = require('react');
 var reactSlot = require('@radix-ui/react-slot');
 var classVarianceAuthority = require('class-variance-authority');
 var clsx = require('clsx');
@@ -63,7 +63,7 @@ function _interopNamespace(e) {
   return Object.freeze(n);
 }
 
-var React53__namespace = /*#__PURE__*/_interopNamespace(React53);
+var React5__namespace = /*#__PURE__*/_interopNamespace(React5);
 var ToastPrimitive__namespace = /*#__PURE__*/_interopNamespace(ToastPrimitive);
 var DialogPrimitive__namespace = /*#__PURE__*/_interopNamespace(DialogPrimitive);
 var Dropdown__namespace = /*#__PURE__*/_interopNamespace(Dropdown);
@@ -117,14 +117,14 @@ var buttonVariants = classVarianceAuthority.cva(
     defaultVariants: { variant: "default", size: "md" }
   }
 );
-var Button = React53__namespace.forwardRef(
+var Button = React5__namespace.forwardRef(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? reactSlot.Slot : "button";
     return /* @__PURE__ */ jsxRuntime.jsx(Comp, { ref, className: cn(buttonVariants({ variant, size, className })), ...props });
   }
 );
 Button.displayName = "Button";
-var Card = React53__namespace.forwardRef(
+var Card = React5__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
     "div",
     {
@@ -135,23 +135,23 @@ var Card = React53__namespace.forwardRef(
   )
 );
 Card.displayName = "Card";
-var CardHeader = React53__namespace.forwardRef(
+var CardHeader = React5__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { ref, className: cn("flex flex-col gap-1.5 p-6", className), ...props })
 );
 CardHeader.displayName = "CardHeader";
-var CardTitle = React53__namespace.forwardRef(
+var CardTitle = React5__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("h3", { ref, className: cn("text-lg font-semibold leading-none tracking-tight", className), ...props })
 );
 CardTitle.displayName = "CardTitle";
-var CardDescription = React53__namespace.forwardRef(
+var CardDescription = React5__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("p", { ref, className: cn("text-sm text-muted-foreground", className), ...props })
 );
 CardDescription.displayName = "CardDescription";
-var CardContent = React53__namespace.forwardRef(
+var CardContent = React5__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { ref, className: cn("p-6 pt-0", className), ...props })
 );
 CardContent.displayName = "CardContent";
-var CardFooter = React53__namespace.forwardRef(
+var CardFooter = React5__namespace.forwardRef(
   ({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { ref, className: cn("flex items-center p-6 pt-0", className), ...props })
 );
 CardFooter.displayName = "CardFooter";
@@ -173,7 +173,7 @@ var inputVariants = classVarianceAuthority.cva(
   }
 );
 var inputIdCounter = 0;
-var Input = React53__namespace.forwardRef(
+var Input = React5__namespace.forwardRef(
   ({
     className,
     variant,
@@ -186,7 +186,7 @@ var Input = React53__namespace.forwardRef(
     id: providedId,
     ...props
   }, ref) => {
-    const generatedId = React53__namespace.useId ? React53__namespace.useId() : `heur-input-${++inputIdCounter}`;
+    const generatedId = React5__namespace.useId ? React5__namespace.useId() : `heur-input-${++inputIdCounter}`;
     const id = providedId ?? generatedId;
     const helperId = helperText || errorText ? `${id}-helper` : void 0;
     const effectiveVariant = errorText ? "error" : variant;
@@ -212,7 +212,7 @@ var Input = React53__namespace.forwardRef(
 );
 Input.displayName = "Input";
 var ToastProvider = ToastPrimitive__namespace.Provider;
-var ToastViewport = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastViewport = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitive__namespace.Viewport,
   {
     ref,
@@ -236,7 +236,7 @@ var toastVariants = classVarianceAuthority.cva(
     defaultVariants: { variant: "default" }
   }
 );
-var Toast = React53__namespace.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var Toast = React5__namespace.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitive__namespace.Root,
   {
     ref,
@@ -245,11 +245,11 @@ var Toast = React53__namespace.forwardRef(({ className, variant, ...props }, ref
   }
 ));
 Toast.displayName = ToastPrimitive__namespace.Root.displayName;
-var ToastTitle = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(ToastPrimitive__namespace.Title, { ref, className: cn("text-sm font-semibold", className), ...props }));
+var ToastTitle = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(ToastPrimitive__namespace.Title, { ref, className: cn("text-sm font-semibold", className), ...props }));
 ToastTitle.displayName = ToastPrimitive__namespace.Title.displayName;
-var ToastDescription = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(ToastPrimitive__namespace.Description, { ref, className: cn("text-sm opacity-90", className), ...props }));
+var ToastDescription = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(ToastPrimitive__namespace.Description, { ref, className: cn("text-sm opacity-90", className), ...props }));
 ToastDescription.displayName = ToastPrimitive__namespace.Description.displayName;
-var ToastClose = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastClose = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitive__namespace.Close,
   {
     ref,
@@ -260,7 +260,7 @@ var ToastClose = React53__namespace.forwardRef(({ className, ...props }, ref) =>
   }
 ));
 ToastClose.displayName = ToastPrimitive__namespace.Close.displayName;
-var ToastAction = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var ToastAction = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   ToastPrimitive__namespace.Action,
   {
     ref,
@@ -272,7 +272,7 @@ var ToastAction = React53__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 ToastAction.displayName = ToastPrimitive__namespace.Action.displayName;
-var ThemeContext = React53__namespace.createContext(null);
+var ThemeContext = React5__namespace.createContext(null);
 var STORAGE_KEY = "heuresys-theme";
 function resolveTheme(theme) {
   if (theme === "system") {
@@ -292,18 +292,18 @@ function ThemeProvider({
   children,
   defaultTheme = "system"
 }) {
-  const [theme, setThemeState] = React53__namespace.useState(() => {
+  const [theme, setThemeState] = React5__namespace.useState(() => {
     if (typeof window === "undefined") return defaultTheme;
     const stored = window.localStorage.getItem(STORAGE_KEY);
     return stored ?? defaultTheme;
   });
-  const [resolved, setResolved] = React53__namespace.useState(() => resolveTheme(theme));
-  React53__namespace.useEffect(() => {
+  const [resolved, setResolved] = React5__namespace.useState(() => resolveTheme(theme));
+  React5__namespace.useEffect(() => {
     const next = resolveTheme(theme);
     setResolved(next);
     applyTheme(next);
   }, [theme]);
-  React53__namespace.useEffect(() => {
+  React5__namespace.useEffect(() => {
     if (theme !== "system" || typeof window === "undefined") return;
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
@@ -314,19 +314,22 @@ function ThemeProvider({
     mql.addEventListener("change", handler);
     return () => mql.removeEventListener("change", handler);
   }, [theme]);
-  const setTheme = React53__namespace.useCallback((t) => {
+  const setTheme = React5__namespace.useCallback((t) => {
     setThemeState(t);
     if (typeof window !== "undefined") window.localStorage.setItem(STORAGE_KEY, t);
   }, []);
-  const value = React53__namespace.useMemo(() => ({ theme, resolved, setTheme }), [theme, resolved, setTheme]);
+  const value = React5__namespace.useMemo(() => ({ theme, resolved, setTheme }), [theme, resolved, setTheme]);
   return /* @__PURE__ */ jsxRuntime.jsx(ThemeContext.Provider, { value, children });
 }
 function useTheme() {
-  const ctx = React53__namespace.useContext(ThemeContext);
+  const ctx = React5__namespace.useContext(ThemeContext);
   if (!ctx) {
     throw new Error("useTheme must be used within ThemeProvider");
   }
   return ctx;
+}
+function useThemeOptional() {
+  return React5__namespace.useContext(ThemeContext);
 }
 var order = ["light", "dark", "system"];
 function ThemeToggle({ className }) {
@@ -354,7 +357,7 @@ var Dialog = DialogPrimitive__namespace.Root;
 var DialogTrigger = DialogPrimitive__namespace.Trigger;
 var DialogClose = DialogPrimitive__namespace.Close;
 var DialogPortal = DialogPrimitive__namespace.Portal;
-var DialogOverlay = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DialogOverlay = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Overlay,
   {
     ref,
@@ -366,7 +369,7 @@ var DialogOverlay = React53__namespace.forwardRef(({ className, ...props }, ref)
   }
 ));
 DialogOverlay.displayName = DialogPrimitive__namespace.Overlay.displayName;
-var DialogContent = React53__namespace.forwardRef(({ className, children, showCloseButton = true, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(DialogPortal, { children: [
+var DialogContent = React5__namespace.forwardRef(({ className, children, showCloseButton = true, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(DialogPortal, { children: [
   /* @__PURE__ */ jsxRuntime.jsx(DialogOverlay, {}),
   /* @__PURE__ */ jsxRuntime.jsxs(
     DialogPrimitive__namespace.Content,
@@ -400,7 +403,7 @@ function DialogFooter({ className, ...props }) {
     }
   );
 }
-var DialogTitle = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DialogTitle = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Title,
   {
     ref,
@@ -409,7 +412,7 @@ var DialogTitle = React53__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 DialogTitle.displayName = DialogPrimitive__namespace.Title.displayName;
-var DialogDescription = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DialogDescription = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   DialogPrimitive__namespace.Description,
   {
     ref,
@@ -423,7 +426,7 @@ var DropdownMenuTrigger = Dropdown__namespace.Trigger;
 var DropdownMenuGroup = Dropdown__namespace.Group;
 var DropdownMenuSub = Dropdown__namespace.Sub;
 var DropdownMenuRadioGroup = Dropdown__namespace.RadioGroup;
-var DropdownMenuSubTrigger = React53__namespace.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var DropdownMenuSubTrigger = React5__namespace.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   Dropdown__namespace.SubTrigger,
   {
     ref,
@@ -440,7 +443,7 @@ var DropdownMenuSubTrigger = React53__namespace.forwardRef(({ className, inset, 
   }
 ));
 DropdownMenuSubTrigger.displayName = Dropdown__namespace.SubTrigger.displayName;
-var DropdownMenuSubContent = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuSubContent = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   Dropdown__namespace.SubContent,
   {
     ref,
@@ -452,7 +455,7 @@ var DropdownMenuSubContent = React53__namespace.forwardRef(({ className, ...prop
   }
 ));
 DropdownMenuSubContent.displayName = Dropdown__namespace.SubContent.displayName;
-var DropdownMenuContent = React53__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(Dropdown__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuContent = React5__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(Dropdown__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
   Dropdown__namespace.Content,
   {
     ref,
@@ -465,7 +468,7 @@ var DropdownMenuContent = React53__namespace.forwardRef(({ className, sideOffset
   }
 ) }));
 DropdownMenuContent.displayName = Dropdown__namespace.Content.displayName;
-var DropdownMenuItem = React53__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var DropdownMenuItem = React5__namespace.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   Dropdown__namespace.Item,
   {
     ref,
@@ -478,7 +481,7 @@ var DropdownMenuItem = React53__namespace.forwardRef(({ className, inset, ...pro
   }
 ));
 DropdownMenuItem.displayName = Dropdown__namespace.Item.displayName;
-var DropdownMenuCheckboxItem = React53__namespace.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var DropdownMenuCheckboxItem = React5__namespace.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   Dropdown__namespace.CheckboxItem,
   {
     ref,
@@ -495,7 +498,7 @@ var DropdownMenuCheckboxItem = React53__namespace.forwardRef(({ className, child
   }
 ));
 DropdownMenuCheckboxItem.displayName = Dropdown__namespace.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React53__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
+var DropdownMenuRadioItem = React5__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
   Dropdown__namespace.RadioItem,
   {
     ref,
@@ -524,7 +527,7 @@ function DropdownMenuLabel({
     }
   );
 }
-var DropdownMenuSeparator = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(Dropdown__namespace.Separator, { ref, className: cn("-mx-1 my-1 h-px bg-border", className), ...props }));
+var DropdownMenuSeparator = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(Dropdown__namespace.Separator, { ref, className: cn("-mx-1 my-1 h-px bg-border", className), ...props }));
 DropdownMenuSeparator.displayName = Dropdown__namespace.Separator.displayName;
 function DropdownMenuShortcut({
   className,
@@ -535,7 +538,7 @@ function DropdownMenuShortcut({
 var Popover = PopoverPrimitive__namespace.Root;
 var PopoverTrigger = PopoverPrimitive__namespace.Trigger;
 var PopoverAnchor = PopoverPrimitive__namespace.Anchor;
-var PopoverContent = React53__namespace.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
+var PopoverContent = React5__namespace.forwardRef(({ className, align = "center", sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(PopoverPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
   PopoverPrimitive__namespace.Content,
   {
     ref,
@@ -552,7 +555,7 @@ PopoverContent.displayName = PopoverPrimitive__namespace.Content.displayName;
 var TooltipProvider = TooltipPrimitive__namespace.Provider;
 var Tooltip = TooltipPrimitive__namespace.Root;
 var TooltipTrigger = TooltipPrimitive__namespace.Trigger;
-var TooltipContent = React53__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(TooltipPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
+var TooltipContent = React5__namespace.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(TooltipPrimitive__namespace.Portal, { children: /* @__PURE__ */ jsxRuntime.jsx(
   TooltipPrimitive__namespace.Content,
   {
     ref,
@@ -566,7 +569,7 @@ var TooltipContent = React53__namespace.forwardRef(({ className, sideOffset = 4,
 ) }));
 TooltipContent.displayName = TooltipPrimitive__namespace.Content.displayName;
 var Tabs = TabsPrimitive__namespace.Root;
-var TabsList = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TabsList = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.List,
   {
     ref,
@@ -578,7 +581,7 @@ var TabsList = React53__namespace.forwardRef(({ className, ...props }, ref) => /
   }
 ));
 TabsList.displayName = TabsPrimitive__namespace.List.displayName;
-var TabsTrigger = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TabsTrigger = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.Trigger,
   {
     ref,
@@ -590,7 +593,7 @@ var TabsTrigger = React53__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 TabsTrigger.displayName = TabsPrimitive__namespace.Trigger.displayName;
-var TabsContent = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var TabsContent = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   TabsPrimitive__namespace.Content,
   {
     ref,
@@ -603,7 +606,7 @@ var TabsContent = React53__namespace.forwardRef(({ className, ...props }, ref) =
 ));
 TabsContent.displayName = TabsPrimitive__namespace.Content.displayName;
 var Accordion = AccordionPrimitive__namespace.Root;
-var AccordionItem = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AccordionItem = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AccordionPrimitive__namespace.Item,
   {
     ref,
@@ -612,7 +615,7 @@ var AccordionItem = React53__namespace.forwardRef(({ className, ...props }, ref)
   }
 ));
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React53__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(AccordionPrimitive__namespace.Header, { className: "flex", children: /* @__PURE__ */ jsxRuntime.jsxs(
+var AccordionTrigger = React5__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(AccordionPrimitive__namespace.Header, { className: "flex", children: /* @__PURE__ */ jsxRuntime.jsxs(
   AccordionPrimitive__namespace.Trigger,
   {
     ref,
@@ -634,7 +637,7 @@ var AccordionTrigger = React53__namespace.forwardRef(({ className, children, ...
   }
 ) }));
 AccordionTrigger.displayName = AccordionPrimitive__namespace.Trigger.displayName;
-var AccordionContent = React53__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AccordionContent = React5__namespace.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AccordionPrimitive__namespace.Content,
   {
     ref,
@@ -644,7 +647,7 @@ var AccordionContent = React53__namespace.forwardRef(({ className, children, ...
   }
 ));
 AccordionContent.displayName = AccordionPrimitive__namespace.Content.displayName;
-var Checkbox = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var Checkbox = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   CheckboxPrimitive__namespace.Root,
   {
     ref,
@@ -657,7 +660,7 @@ var Checkbox = React53__namespace.forwardRef(({ className, ...props }, ref) => /
   }
 ));
 Checkbox.displayName = CheckboxPrimitive__namespace.Root.displayName;
-var Switch = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var Switch = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   SwitchPrimitive__namespace.Root,
   {
     ref,
@@ -677,7 +680,7 @@ var Switch = React53__namespace.forwardRef(({ className, ...props }, ref) => /* 
   }
 ));
 Switch.displayName = SwitchPrimitive__namespace.Root.displayName;
-var Avatar = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var Avatar = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Root,
   {
     ref,
@@ -686,7 +689,7 @@ var Avatar = React53__namespace.forwardRef(({ className, ...props }, ref) => /* 
   }
 ));
 Avatar.displayName = AvatarPrimitive__namespace.Root.displayName;
-var AvatarImage = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AvatarImage = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Image,
   {
     ref,
@@ -695,7 +698,7 @@ var AvatarImage = React53__namespace.forwardRef(({ className, ...props }, ref) =
   }
 ));
 AvatarImage.displayName = AvatarPrimitive__namespace.Image.displayName;
-var AvatarFallback = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var AvatarFallback = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   AvatarPrimitive__namespace.Fallback,
   {
     ref,
@@ -712,7 +715,7 @@ function AvatarGroup({
   max = 5,
   className
 }) {
-  const arr = React53__namespace.Children.toArray(children);
+  const arr = React5__namespace.Children.toArray(children);
   const visible = arr.slice(0, max);
   const overflow = arr.length - visible.length;
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("flex items-center -space-x-2", className), children: [
@@ -996,7 +999,7 @@ var StaggerItem = ({ children, ...rest }) => /* @__PURE__ */ jsxRuntime.jsx(
   }
 );
 function useGlobalCmdK(callback) {
-  React53__namespace.useEffect(() => {
+  React5__namespace.useEffect(() => {
     function onKey(e) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -1014,24 +1017,27 @@ function CommandPaletteRoot({
   empty = "No results.",
   children
 }) {
-  return /* @__PURE__ */ jsxRuntime.jsx(Dialog, { open, onOpenChange, children: /* @__PURE__ */ jsxRuntime.jsx(DialogContent, { className: "overflow-hidden p-0", showCloseButton: false, children: /* @__PURE__ */ jsxRuntime.jsxs(cmdk.Command, { className: "rounded-lg border-none", children: [
-    /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center border-b border-border px-3", children: [
-      /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50", "aria-hidden": "true" }),
-      /* @__PURE__ */ jsxRuntime.jsx(
-        cmdk.Command.Input,
-        {
-          placeholder,
-          className: "flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-fg disabled:cursor-not-allowed disabled:opacity-50"
-        }
-      )
-    ] }),
-    /* @__PURE__ */ jsxRuntime.jsxs(cmdk.Command.List, { className: "max-h-[300px] overflow-y-auto overflow-x-hidden", children: [
-      /* @__PURE__ */ jsxRuntime.jsx(cmdk.Command.Empty, { className: "py-6 text-center text-sm text-muted-fg", children: empty }),
-      children
+  return /* @__PURE__ */ jsxRuntime.jsx(Dialog, { open, onOpenChange, children: /* @__PURE__ */ jsxRuntime.jsxs(DialogContent, { className: "overflow-hidden p-0", showCloseButton: false, children: [
+    /* @__PURE__ */ jsxRuntime.jsx(DialogTitle, { className: "sr-only", children: "Command palette" }),
+    /* @__PURE__ */ jsxRuntime.jsxs(cmdk.Command, { className: "rounded-lg border-none", children: [
+      /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center border-b border-border px-3", children: [
+        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50", "aria-hidden": "true" }),
+        /* @__PURE__ */ jsxRuntime.jsx(
+          cmdk.Command.Input,
+          {
+            placeholder,
+            className: "flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-fg disabled:cursor-not-allowed disabled:opacity-50"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntime.jsxs(cmdk.Command.List, { className: "max-h-[300px] overflow-y-auto overflow-x-hidden", children: [
+        /* @__PURE__ */ jsxRuntime.jsx(cmdk.Command.Empty, { className: "py-6 text-center text-sm text-muted-fg", children: empty }),
+        children
+      ] })
     ] })
-  ] }) }) });
+  ] }) });
 }
-var CommandPaletteGroup = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var CommandPaletteGroup = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   cmdk.Command.Group,
   {
     ref,
@@ -1043,7 +1049,7 @@ var CommandPaletteGroup = React53__namespace.forwardRef(({ className, ...props }
   }
 ));
 CommandPaletteGroup.displayName = "CommandPaletteGroup";
-var CommandPaletteItem = React53__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
+var CommandPaletteItem = React5__namespace.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx(
   cmdk.Command.Item,
   {
     ref,
@@ -1068,7 +1074,7 @@ function DataTable({
   emptyMessage = "No rows.",
   pageSize = 10
 }) {
-  const [sorting, setSorting] = React53__namespace.useState([]);
+  const [sorting, setSorting] = React5__namespace.useState([]);
   const table = reactTable.useReactTable({
     data,
     columns,
@@ -1253,8 +1259,8 @@ function AppShell({
   collapsedDefault = false,
   className
 }) {
-  const [collapsed, setCollapsed] = React53__namespace.useState(collapsedDefault);
-  const [mobileOpen, setMobileOpen] = React53__namespace.useState(false);
+  const [collapsed, setCollapsed] = React5__namespace.useState(collapsedDefault);
+  const [mobileOpen, setMobileOpen] = React5__namespace.useState(false);
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("flex min-h-screen bg-background text-foreground", className), children: [
     /* @__PURE__ */ jsxRuntime.jsxs(
       "aside",
@@ -1341,7 +1347,7 @@ function NavList({ items, collapsed }) {
   return /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "flex flex-col gap-0.5", children: items.map((it) => /* @__PURE__ */ jsxRuntime.jsx("li", { children: /* @__PURE__ */ jsxRuntime.jsx(NavItemRow, { item: it, collapsed }) }, it.id)) });
 }
 function NavItemRow({ item, collapsed }) {
-  const [open, setOpen] = React53__namespace.useState(false);
+  const [open, setOpen] = React5__namespace.useState(false);
   const hasChildren = item.children && item.children.length > 0;
   const Tag = item.href ? "a" : "button";
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
@@ -1362,7 +1368,7 @@ function NavItemRow({ item, collapsed }) {
         "aria-expanded": hasChildren ? open : void 0,
         className: cn(
           "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors",
-          item.active ? "bg-primary/10 font-medium text-primary" : "text-foreground hover:bg-accent"
+          item.active ? "bg-primary/10 font-medium text-primary-ink" : "text-foreground hover:bg-accent"
         ),
         title: collapsed ? item.label : void 0,
         children: [
@@ -1441,7 +1447,7 @@ function Breadcrumbs({
   return /* @__PURE__ */ jsxRuntime.jsx("nav", { "aria-label": "Breadcrumb", className: cn("flex items-center text-sm", className), children: /* @__PURE__ */ jsxRuntime.jsx("ol", { className: "flex flex-wrap items-center gap-1.5", children: visible.map((it, idx) => {
     const isCollapseSlot = idx === 1 && collapsed.length > 0;
     const isLast = idx === visible.length - 1;
-    return /* @__PURE__ */ jsxRuntime.jsxs(React53__namespace.Fragment, { children: [
+    return /* @__PURE__ */ jsxRuntime.jsxs(React5__namespace.Fragment, { children: [
       idx > 0 ? /* @__PURE__ */ jsxRuntime.jsx("li", { "aria-hidden": "true", children: separator }) : null,
       isCollapseSlot ? /* @__PURE__ */ jsxRuntime.jsx("li", { children: /* @__PURE__ */ jsxRuntime.jsx(CollapsedItems, { items: collapsed }) }) : null,
       isCollapseSlot ? /* @__PURE__ */ jsxRuntime.jsx("li", { "aria-hidden": "true", children: separator }) : null,
@@ -1470,7 +1476,7 @@ function Breadcrumbs({
   }) }) });
 }
 function CollapsedItems({ items }) {
-  const [open, setOpen] = React53__namespace.useState(false);
+  const [open, setOpen] = React5__namespace.useState(false);
   return /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "relative", children: [
     /* @__PURE__ */ jsxRuntime.jsx(
       "button",
@@ -1537,7 +1543,7 @@ function Stepper({
                   className: cn(
                     "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-medium transition-colors",
                     completed && "border-primary bg-primary text-primary-fg",
-                    active && "border-primary bg-primary/10 text-primary",
+                    active && "border-primary bg-primary/10 text-primary-ink",
                     !completed && !active && "border-border bg-background text-muted-fg",
                     clickable && "cursor-pointer hover:opacity-80"
                   ),
@@ -1588,7 +1594,7 @@ function Pagination({
   onPageSizeChange,
   className
 }) {
-  const [jump, setJump] = React53__namespace.useState("");
+  const [jump, setJump] = React5__namespace.useState("");
   const start = Math.max(1, Math.min(page - 2, Math.max(1, pageCount - 4)));
   const end = Math.min(pageCount, start + 4);
   const visiblePages = [];
@@ -1732,7 +1738,7 @@ var fabVariants = classVarianceAuthority.cva(
     defaultVariants: { size: "md", position: "bottom-right", tone: "primary" }
   }
 );
-var FAB = React53__namespace.forwardRef(
+var FAB = React5__namespace.forwardRef(
   ({ className, size, position, tone, icon, label, extended, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsxs(
     "button",
     {
@@ -1795,10 +1801,10 @@ function TabsOverflow({
   onChange,
   className
 }) {
-  const containerRef = React53__namespace.useRef(null);
-  const [overflowOpen, setOverflowOpen] = React53__namespace.useState(false);
-  const [visibleCount, setVisibleCount] = React53__namespace.useState(items.length);
-  React53__namespace.useEffect(() => {
+  const containerRef = React5__namespace.useRef(null);
+  const [overflowOpen, setOverflowOpen] = React5__namespace.useState(false);
+  const [visibleCount, setVisibleCount] = React5__namespace.useState(items.length);
+  React5__namespace.useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const observer = new ResizeObserver(() => {
@@ -1868,7 +1874,7 @@ function TabsOverflow({
               disabled: it.disabled,
               className: cn(
                 "block w-full rounded-sm px-2 py-1.5 text-left text-sm hover:bg-accent",
-                value === it.id && "bg-primary/10 text-primary"
+                value === it.id && "bg-primary/10 text-primary-ink"
               ),
               children: it.label
             }
@@ -1883,9 +1889,9 @@ function AppSwitcher({
   trigger,
   className
 }) {
-  const [open, setOpen] = React53__namespace.useState(false);
-  const ref = React53__namespace.useRef(null);
-  React53__namespace.useEffect(() => {
+  const [open, setOpen] = React5__namespace.useState(false);
+  const ref = React5__namespace.useRef(null);
+  React5__namespace.useEffect(() => {
     function onClickOutside(e) {
       if (open && ref.current && !ref.current.contains(e.target)) {
         setOpen(false);
@@ -1927,7 +1933,7 @@ function AppSwitcher({
               title: a.description ?? a.name,
               className: "flex flex-col items-center gap-1.5 rounded-md p-3 text-center text-xs hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               children: [
-                /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary", children: a.icon }),
+                /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary-ink", children: a.icon }),
                 /* @__PURE__ */ jsxRuntime.jsx("span", { className: "truncate text-foreground", children: a.name })
               ]
             },
@@ -1942,9 +1948,9 @@ function MegaMenu({
   triggers,
   className
 }) {
-  const [open, setOpen] = React53__namespace.useState(null);
-  const ref = React53__namespace.useRef(null);
-  React53__namespace.useEffect(() => {
+  const [open, setOpen] = React5__namespace.useState(null);
+  const ref = React5__namespace.useRef(null);
+  React5__namespace.useEffect(() => {
     function onClickOutside(e) {
       if (open && ref.current && !ref.current.contains(e.target)) {
         setOpen(null);
@@ -2392,16 +2398,16 @@ function ThemeBuilderWizard({
   onChange,
   className
 }) {
-  const [state, setState] = React53__namespace.useState({
+  const [state, setState] = React5__namespace.useState({
     ...DEFAULT_THEME_STATE,
     ...initial
   });
-  const [step, setStep] = React53__namespace.useState(0);
-  const onChangeRef = React53__namespace.useRef(onChange);
-  React53__namespace.useEffect(() => {
+  const [step, setStep] = React5__namespace.useState(0);
+  const onChangeRef = React5__namespace.useRef(onChange);
+  React5__namespace.useEffect(() => {
     onChangeRef.current = onChange;
   }, [onChange]);
-  React53__namespace.useEffect(() => {
+  React5__namespace.useEffect(() => {
     onChangeRef.current?.(state);
   }, [state]);
   const update = (key, value) => setState((s) => ({ ...s, [key]: value }));
@@ -2560,7 +2566,7 @@ function BrandStep({ state, update }) {
   ] });
 }
 function ColorsStep({ state, update }) {
-  const [harmonyKind, setHarmonyKind] = React53__namespace.useState("analogous");
+  const [harmonyKind, setHarmonyKind] = React5__namespace.useState("analogous");
   const harmonyColors = harmony(state.colors.primary, harmonyKind);
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-4", children: [
     /* @__PURE__ */ jsxRuntime.jsx(Field, { label: "Primary (OKLCH)", children: /* @__PURE__ */ jsxRuntime.jsx(
@@ -3172,7 +3178,7 @@ var glassVariants = classVarianceAuthority.cva("rounded-lg border bg-background/
   },
   defaultVariants: { intensity: "medium", tint: "none" }
 });
-var GlassCard = React53__namespace.forwardRef(
+var GlassCard = React5__namespace.forwardRef(
   ({ className, intensity, tint, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { ref, className: cn(glassVariants({ intensity, tint }), className), ...props })
 );
 GlassCard.displayName = "GlassCard";
@@ -3186,7 +3192,7 @@ var neuVariants = classVarianceAuthority.cva("rounded-2xl bg-muted p-4 transitio
   },
   defaultVariants: { elevation: "raised" }
 });
-var NeumorphicCard = React53__namespace.forwardRef(
+var NeumorphicCard = React5__namespace.forwardRef(
   ({ className, elevation, ...props }, ref) => /* @__PURE__ */ jsxRuntime.jsx("div", { ref, className: cn(neuVariants({ elevation }), className), ...props })
 );
 NeumorphicCard.displayName = "NeumorphicCard";
@@ -3203,8 +3209,8 @@ function StatsCard({
   className
 }) {
   const numericValue = typeof value === "number" ? value : null;
-  const [display, setDisplay] = React53__namespace.useState(animate && numericValue !== null ? 0 : value);
-  React53__namespace.useEffect(() => {
+  const [display, setDisplay] = React5__namespace.useState(animate && numericValue !== null ? 0 : value);
+  React5__namespace.useEffect(() => {
     if (!animate || numericValue === null) return;
     let raf = 0;
     const start = performance.now();
@@ -3327,10 +3333,10 @@ function NotificationCenter({
   onMarkAllRead,
   className
 }) {
-  const [open, setOpen] = React53__namespace.useState(false);
-  const ref = React53__namespace.useRef(null);
+  const [open, setOpen] = React5__namespace.useState(false);
+  const ref = React5__namespace.useRef(null);
   const unreadCount = notifications.filter((n) => !n.read).length;
-  React53__namespace.useEffect(() => {
+  React5__namespace.useEffect(() => {
     function close(e) {
       if (open && ref.current && !ref.current.contains(e.target)) setOpen(false);
     }
@@ -3408,7 +3414,7 @@ function NotificationCenter({
   ] });
 }
 function useConfetti() {
-  return React53__namespace.useCallback((options) => {
+  return React5__namespace.useCallback((options) => {
     confettiLib__default.default({
       particleCount: 100,
       spread: 70,
@@ -3482,10 +3488,10 @@ function OnboardingTour({
   onDismiss,
   onComplete
 }) {
-  const [idx, setIdx] = React53__namespace.useState(0);
-  const [rect, setRect] = React53__namespace.useState(null);
+  const [idx, setIdx] = React5__namespace.useState(0);
+  const [rect, setRect] = React5__namespace.useState(null);
   const step = steps[idx];
-  React53__namespace.useEffect(() => {
+  React5__namespace.useEffect(() => {
     if (!active || !step) return;
     const el = document.querySelector(step.targetSelector);
     if (el) {
@@ -3600,8 +3606,8 @@ function KeyboardShortcutsModal({
   ] }) });
 }
 function useShortcutsModal() {
-  const [open, setOpen] = React53__namespace.useState(false);
-  React53__namespace.useEffect(() => {
+  const [open, setOpen] = React5__namespace.useState(false);
+  React5__namespace.useEffect(() => {
     function onKey(e) {
       if ((e.metaKey || e.ctrlKey) && e.key === "/") {
         e.preventDefault();
@@ -3701,7 +3707,7 @@ function TiltCard({
   intensity = 12,
   ...props
 }) {
-  const ref = React53__namespace.useRef(null);
+  const ref = React5__namespace.useRef(null);
   function onMouseMove(e) {
     const el = ref.current;
     if (!el) return;
@@ -3731,9 +3737,9 @@ function TiltCard({
 var bannerVariants = classVarianceAuthority.cva("relative flex items-start gap-3 rounded-md border p-3 text-sm", {
   variants: {
     tone: {
-      info: "border-info/40 bg-info/10 text-info",
-      success: "border-success/40 bg-success/10 text-success",
-      warning: "border-warning/40 bg-warning/10 text-warning",
+      info: "border-info/40 bg-info/10 text-info-ink",
+      success: "border-success/40 bg-success/10 text-success-ink",
+      warning: "border-warning/40 bg-warning/10 text-warning-ink",
       destructive: "border-destructive/40 bg-destructive/10 text-destructive",
       neutral: "border-border bg-muted/30 text-foreground"
     }
@@ -3776,12 +3782,12 @@ function Banner({
   ] });
 }
 function LottiePlayer({ src, data, ariaLabel, className, ...rest }) {
-  const [animation, setAnimation] = React53__namespace.useState(data ?? null);
-  const reducedMotion = React53__namespace.useMemo(
+  const [animation, setAnimation] = React5__namespace.useState(data ?? null);
+  const reducedMotion = React5__namespace.useMemo(
     () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     []
   );
-  React53__namespace.useEffect(() => {
+  React5__namespace.useEffect(() => {
     if (data || !src) return;
     let cancelled = false;
     fetch(src).then((r) => r.json()).then((j) => {
@@ -4216,7 +4222,7 @@ function NetworkGraph({
   className,
   ariaLabel = "Network graph"
 }) {
-  const elements = React53__namespace.useMemo(
+  const elements = React5__namespace.useMemo(
     () => [
       ...nodes.map((n) => ({
         data: { id: n.id, label: n.label ?? n.id, group: n.group ?? "default" },
@@ -4228,7 +4234,7 @@ function NetworkGraph({
     ],
     [nodes, edges]
   );
-  const stylesheet = React53__namespace.useMemo(
+  const stylesheet = React5__namespace.useMemo(
     () => [
       {
         selector: "node",
@@ -4283,9 +4289,9 @@ function FormWizard({
   className,
   title
 }) {
-  const [state, setState] = React53__namespace.useState(draft ?? initial);
-  const [current, setCurrent] = React53__namespace.useState(0);
-  const [errors, setErrors] = React53__namespace.useState({});
+  const [state, setState] = React5__namespace.useState(draft ?? initial);
+  const [current, setCurrent] = React5__namespace.useState(0);
+  const [errors, setErrors] = React5__namespace.useState({});
   const update = (patch) => setState((s) => ({ ...s, ...patch }));
   const step = steps[current];
   function next() {
@@ -4372,7 +4378,7 @@ function MoneyInput({
   className,
   ...rest
 }) {
-  const [text, setText] = React53__namespace.useState(
+  const [text, setText] = React5__namespace.useState(
     () => value != null ? formatMoney(value, locale, currency) : ""
   );
   function formatMoney(n, l, c) {
@@ -4458,7 +4464,7 @@ function OtpInput({
   className,
   ariaLabel = "One-time password"
 }) {
-  const refs = React53__namespace.useRef([]);
+  const refs = React5__namespace.useRef([]);
   const chars = Array.from({ length }, (_, i) => value[i] ?? "");
   function setChar(idx, ch) {
     const arr = chars.slice();
@@ -4515,7 +4521,7 @@ function PasswordStrengthMeter({
   userInputs = [],
   className
 }) {
-  const result = React53__namespace.useMemo(() => {
+  const result = React5__namespace.useMemo(() => {
     if (!password) return null;
     return zxcvbn__default.default(password, userInputs);
   }, [password, userInputs]);
@@ -4556,8 +4562,8 @@ function SignaturePadField({
   className,
   ariaLabel = "Signature pad"
 }) {
-  const ref = React53__namespace.useRef(null);
-  const [empty, setEmpty] = React53__namespace.useState(true);
+  const ref = React5__namespace.useRef(null);
+  const [empty, setEmpty] = React5__namespace.useState(true);
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("flex flex-col gap-2", className), role: "group", "aria-label": ariaLabel, children: [
     /* @__PURE__ */ jsxRuntime.jsx("div", { className: "rounded-md border border-input bg-background", children: /* @__PURE__ */ jsxRuntime.jsx(
       SignaturePad,
@@ -4607,8 +4613,8 @@ function FileDropzone({
   className,
   label = "Drop files here or click to browse"
 }) {
-  const [over, setOver] = React53__namespace.useState(false);
-  const inputRef = React53__namespace.useRef(null);
+  const [over, setOver] = React5__namespace.useState(false);
+  const inputRef = React5__namespace.useRef(null);
   function handleFiles(list) {
     if (!list) return;
     const arr = Array.from(list);
@@ -4704,8 +4710,8 @@ function KanbanBoard({
   onAddCard,
   className
 }) {
-  const [columns, setColumns] = React53__namespace.useState(initialColumns);
-  React53__namespace.useEffect(() => setColumns(initialColumns), [initialColumns]);
+  const [columns, setColumns] = React5__namespace.useState(initialColumns);
+  React5__namespace.useEffect(() => setColumns(initialColumns), [initialColumns]);
   const sensors = core.useSensors(
     core.useSensor(core.PointerSensor),
     core.useSensor(core.KeyboardSensor, { coordinateGetter: sortable.sortableKeyboardCoordinates })
@@ -4868,8 +4874,8 @@ function CommentItem({
   onReact,
   depth
 }) {
-  const [replying, setReplying] = React53__namespace.useState(false);
-  const [text, setText] = React53__namespace.useState("");
+  const [replying, setReplying] = React5__namespace.useState(false);
+  const [text, setText] = React5__namespace.useState("");
   return /* @__PURE__ */ jsxRuntime.jsxs("li", { className: cn("flex gap-3", depth > 0 && "ml-10"), children: [
     /* @__PURE__ */ jsxRuntime.jsxs(Avatar, { className: "h-8 w-8 shrink-0", children: [
       comment.author.avatar ? /* @__PURE__ */ jsxRuntime.jsx(AvatarImage, { src: comment.author.avatar, alt: comment.author.name }) : null,
@@ -4939,7 +4945,7 @@ function CommentItem({
 function renderMentions(body) {
   const parts = body.split(/(@\w+)/g);
   return parts.map(
-    (p, i) => p.startsWith("@") ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "rounded bg-primary/10 px-1 font-medium text-primary", children: p }, i) : /* @__PURE__ */ jsxRuntime.jsx(React53__namespace.Fragment, { children: p }, i)
+    (p, i) => p.startsWith("@") ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "rounded bg-primary/10 px-1 font-medium text-primary-ink", children: p }, i) : /* @__PURE__ */ jsxRuntime.jsx(React5__namespace.Fragment, { children: p }, i)
   );
 }
 function CalendarGrid({
@@ -4960,7 +4966,7 @@ function CalendarGrid({
     cells.push({ iso, day: d });
   }
   while (cells.length % 7 !== 0) cells.push(null);
-  const eventsByIso = React53__namespace.useMemo(() => {
+  const eventsByIso = React5__namespace.useMemo(() => {
     const map = /* @__PURE__ */ new Map();
     for (const e of events) {
       const arr = map.get(e.date) ?? [];
@@ -5026,11 +5032,11 @@ function VideoPlayer({
   className,
   ariaLabel = "Video player"
 }) {
-  const ref = React53__namespace.useRef(null);
-  const [playing, setPlaying] = React53__namespace.useState(false);
-  const [muted, setMuted] = React53__namespace.useState(false);
-  const [time, setTime] = React53__namespace.useState(0);
-  const [duration, setDuration] = React53__namespace.useState(0);
+  const ref = React5__namespace.useRef(null);
+  const [playing, setPlaying] = React5__namespace.useState(false);
+  const [muted, setMuted] = React5__namespace.useState(false);
+  const [time, setTime] = React5__namespace.useState(0);
+  const [duration, setDuration] = React5__namespace.useState(0);
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "div",
     {
@@ -5151,9 +5157,9 @@ function QRCodeView({
   ariaLabel,
   level = "M"
 }) {
-  const [src, setSrc] = React53__namespace.useState(null);
-  const [error, setError] = React53__namespace.useState(null);
-  React53__namespace.useEffect(() => {
+  const [src, setSrc] = React5__namespace.useState(null);
+  const [error, setError] = React5__namespace.useState(null);
+  React5__namespace.useEffect(() => {
     let cancelled = false;
     QRCode__default.default.toDataURL(value, { errorCorrectionLevel: level, width: size, margin: 1 }).then((url) => {
       if (!cancelled) setSrc(url);
@@ -5192,8 +5198,8 @@ function ImageGallery({
   className,
   columns = 3
 }) {
-  const [active, setActive] = React53__namespace.useState(null);
-  React53__namespace.useEffect(() => {
+  const [active, setActive] = React5__namespace.useState(null);
+  React5__namespace.useEffect(() => {
     if (active == null) return;
     function onKey(e) {
       if (e.key === "Escape") setActive(null);
@@ -5327,7 +5333,7 @@ function DiffViewer({
             {
               className: cn(
                 "flex gap-2 px-2 py-0.5",
-                l.type === "add" && "bg-success/10 text-success"
+                l.type === "add" && "bg-success/10 text-success-ink"
               ),
               children: [
                 /* @__PURE__ */ jsxRuntime.jsx("span", { className: "w-8 select-none text-right text-muted-fg", children: l.newLine ?? "" }),
@@ -5349,7 +5355,7 @@ function DiffViewer({
         {
           className: cn(
             "flex gap-2 px-2 py-0.5",
-            l.type === "add" && "bg-success/10 text-success",
+            l.type === "add" && "bg-success/10 text-success-ink",
             l.type === "remove" && "bg-destructive/10 text-destructive"
           ),
           children: [
@@ -5371,7 +5377,7 @@ function JsonTree({
   defaultOpen = true,
   className
 }) {
-  const [open, setOpen] = React53__namespace.useState(defaultOpen);
+  const [open, setOpen] = React5__namespace.useState(defaultOpen);
   if (value === null) {
     return /* @__PURE__ */ jsxRuntime.jsx(Leaf, { name, type: "null", content: "null", className });
   }
@@ -5560,10 +5566,10 @@ function MermaidDiagram({
   className,
   ariaLabel = "Mermaid diagram"
 }) {
-  const id = React53__namespace.useId().replace(/:/g, "_");
-  const [src, setSrc] = React53__namespace.useState(null);
-  const [error, setError] = React53__namespace.useState(null);
-  React53__namespace.useEffect(() => {
+  const id = React5__namespace.useId().replace(/:/g, "_");
+  const [src, setSrc] = React5__namespace.useState(null);
+  const [error, setError] = React5__namespace.useState(null);
+  React5__namespace.useEffect(() => {
     let cancelled = false;
     mermaid__default.default.render(`mmd-${id}`, source).then((res) => {
       if (cancelled) return;
@@ -5599,16 +5605,16 @@ function MermaidDiagram({
   );
 }
 var VARIANTS = {
-  info: { icon: lucideReact.Info, label: "Info", className: "border-info/40 bg-info/10 text-info" },
+  info: { icon: lucideReact.Info, label: "Info", className: "border-info/40 bg-info/10 text-info-ink" },
   warning: {
     icon: lucideReact.AlertTriangle,
     label: "Warning",
-    className: "border-warning/40 bg-warning/10 text-warning"
+    className: "border-warning/40 bg-warning/10 text-warning-ink"
   },
   tip: {
     icon: lucideReact.Lightbulb,
     label: "Tip",
-    className: "border-success/40 bg-success/10 text-success"
+    className: "border-success/40 bg-success/10 text-success-ink"
   },
   danger: {
     icon: lucideReact.AlertCircle,
@@ -5652,9 +5658,9 @@ function TableOfContents({
   containerSelector = "article",
   className
 }) {
-  const [items, setItems] = React53__namespace.useState([]);
-  const [activeId, setActiveId] = React53__namespace.useState(null);
-  React53__namespace.useEffect(() => {
+  const [items, setItems] = React5__namespace.useState([]);
+  const [activeId, setActiveId] = React5__namespace.useState(null);
+  React5__namespace.useEffect(() => {
     const el = document.querySelector(containerSelector);
     if (!el) return;
     const headings = el.querySelectorAll("h1, h2, h3, h4, h5, h6");
@@ -5694,15 +5700,15 @@ function TableOfContents({
     ) }, item.id)) })
   ] });
 }
-var ChatContext = React53__namespace.createContext(null);
+var ChatContext = React5__namespace.createContext(null);
 function ChatProvider({
   adapter,
   initialMessages = [],
   children
 }) {
-  const [messages, setMessages] = React53__namespace.useState(initialMessages);
-  const [isStreaming, setIsStreaming] = React53__namespace.useState(false);
-  const abortRef = React53__namespace.useRef(null);
+  const [messages, setMessages] = React5__namespace.useState(initialMessages);
+  const [isStreaming, setIsStreaming] = React5__namespace.useState(false);
+  const abortRef = React5__namespace.useRef(null);
   async function send(text) {
     const userMsg = {
       id: crypto.randomUUID(),
@@ -5765,7 +5771,7 @@ function ChatProvider({
   return /* @__PURE__ */ jsxRuntime.jsx(ChatContext.Provider, { value: { messages, send, isStreaming, abort, clear, adapter }, children });
 }
 function useChat() {
-  const ctx = React53__namespace.useContext(ChatContext);
+  const ctx = React5__namespace.useContext(ChatContext);
   if (!ctx) throw new Error("useChat must be used within ChatProvider");
   return ctx;
 }
@@ -5774,7 +5780,7 @@ function ToolCallView({
   result,
   className
 }) {
-  const [open, setOpen] = React53__namespace.useState(false);
+  const [open, setOpen] = React5__namespace.useState(false);
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("mt-2 rounded-md border border-border bg-background/50 text-xs", className), children: [
     /* @__PURE__ */ jsxRuntime.jsxs(
       "button",
@@ -5811,9 +5817,9 @@ function ToolCallView({
 }
 function Chatbot({ className }) {
   const { messages, send, isStreaming, abort, clear, adapter } = useChat();
-  const [input, setInput] = React53__namespace.useState("");
-  const scrollRef = React53__namespace.useRef(null);
-  React53__namespace.useEffect(() => {
+  const [input, setInput] = React5__namespace.useState("");
+  const scrollRef = React5__namespace.useRef(null);
+  React5__namespace.useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
   return /* @__PURE__ */ jsxRuntime.jsxs(
@@ -5857,7 +5863,7 @@ function Chatbot({ className }) {
                   {
                     className: cn(
                       "max-w-[80%] rounded-md px-3 py-2 text-sm",
-                      m.role === "user" ? "bg-primary text-primary-fg" : m.role === "assistant" ? "bg-muted text-foreground" : "bg-warning/10 text-warning border border-warning/30"
+                      m.role === "user" ? "bg-primary text-primary-fg" : m.role === "assistant" ? "bg-muted text-foreground" : "bg-warning/10 text-warning-ink border border-warning/30"
                     ),
                     children: [
                       m.role === "assistant" ? /* @__PURE__ */ jsxRuntime.jsx(MarkdownView, { content: m.content }) : /* @__PURE__ */ jsxRuntime.jsx("p", { className: "whitespace-pre-wrap", children: m.content }),
@@ -5928,15 +5934,15 @@ function VoiceInput({
   language = "it-IT",
   className
 }) {
-  const [recording, setRecording] = React53__namespace.useState(false);
-  const [supported, setSupported] = React53__namespace.useState(true);
-  const [error, setError] = React53__namespace.useState(null);
-  const recognitionRef = React53__namespace.useRef(null);
-  const canvasRef = React53__namespace.useRef(null);
-  const audioCtxRef = React53__namespace.useRef(null);
-  const analyserRef = React53__namespace.useRef(null);
-  const rafRef = React53__namespace.useRef(0);
-  React53__namespace.useEffect(() => {
+  const [recording, setRecording] = React5__namespace.useState(false);
+  const [supported, setSupported] = React5__namespace.useState(true);
+  const [error, setError] = React5__namespace.useState(null);
+  const recognitionRef = React5__namespace.useRef(null);
+  const canvasRef = React5__namespace.useRef(null);
+  const audioCtxRef = React5__namespace.useRef(null);
+  const analyserRef = React5__namespace.useRef(null);
+  const rafRef = React5__namespace.useRef(0);
+  React5__namespace.useEffect(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
       setSupported(false);
@@ -6140,9 +6146,9 @@ var DEFAULT_SETTINGS = {
   colorBlindSim: "none"
 };
 function AccessibilityPanel({ className }) {
-  const [open, setOpen] = React53__namespace.useState(false);
-  const [settings, setSettings] = React53__namespace.useState(DEFAULT_SETTINGS);
-  React53__namespace.useEffect(() => {
+  const [open, setOpen] = React5__namespace.useState(false);
+  const [settings, setSettings] = React5__namespace.useState(DEFAULT_SETTINGS);
+  React5__namespace.useEffect(() => {
     const stored = localStorage.getItem("heuresys-a11y");
     if (stored) {
       try {
@@ -6151,7 +6157,7 @@ function AccessibilityPanel({ className }) {
       }
     }
   }, []);
-  React53__namespace.useEffect(() => {
+  React5__namespace.useEffect(() => {
     const html = document.documentElement;
     const fontSizeMap = { A: "100%", "A+": "110%", "A++": "125%", "A+++": "140%" };
     html.style.fontSize = fontSizeMap[settings.fontSize];
@@ -6287,11 +6293,11 @@ function ToggleRow2({
     )
   ] });
 }
-var LiveRegionContext = React53__namespace.createContext(null);
+var LiveRegionContext = React5__namespace.createContext(null);
 function LiveRegionProvider({ children }) {
-  const [polite, setPolite] = React53__namespace.useState("");
-  const [assertive, setAssertive] = React53__namespace.useState("");
-  const announce = React53__namespace.useCallback((msg, urgency = "polite") => {
+  const [polite, setPolite] = React5__namespace.useState("");
+  const [assertive, setAssertive] = React5__namespace.useState("");
+  const announce = React5__namespace.useCallback((msg, urgency = "polite") => {
     if (urgency === "assertive") {
       setAssertive(msg);
       setTimeout(() => setAssertive(""), 1e3);
@@ -6307,7 +6313,7 @@ function LiveRegionProvider({ children }) {
   ] });
 }
 function useAnnounce() {
-  const ctx = React53__namespace.useContext(LiveRegionContext);
+  const ctx = React5__namespace.useContext(LiveRegionContext);
   if (!ctx) throw new Error("useAnnounce must be used within LiveRegionProvider");
   return ctx;
 }
@@ -6315,11 +6321,11 @@ function PerfMonitor({
   position = "bottom-left",
   className
 }) {
-  const [open, setOpen] = React53__namespace.useState(true);
-  const [fps, setFps] = React53__namespace.useState(0);
-  const [mem, setMem] = React53__namespace.useState(null);
-  const [domNodes, setDomNodes] = React53__namespace.useState(0);
-  React53__namespace.useEffect(() => {
+  const [open, setOpen] = React5__namespace.useState(true);
+  const [fps, setFps] = React5__namespace.useState(0);
+  const [mem, setMem] = React5__namespace.useState(null);
+  const [domNodes, setDomNodes] = React5__namespace.useState(0);
+  React5__namespace.useEffect(() => {
     if (!open) return;
     let frames = 0;
     let last = performance.now();
@@ -6421,7 +6427,7 @@ function HeroSplit({
 }) {
   return /* @__PURE__ */ jsxRuntime.jsxs("section", { className: cn("grid items-center gap-8 py-16 lg:grid-cols-2 lg:py-24", className), children: [
     /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-5", children: [
-      eyebrow ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary", children: eyebrow }) : null,
+      eyebrow ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary-ink", children: eyebrow }) : null,
       /* @__PURE__ */ jsxRuntime.jsx("h1", { className: "text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl", children: title }),
       /* @__PURE__ */ jsxRuntime.jsx("p", { className: "max-w-prose text-lg text-muted-fg", children: description }),
       /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex flex-wrap gap-3 pt-2", children: [
@@ -6522,9 +6528,9 @@ function AnimatedNumber({
   suffix,
   className
 }) {
-  const [display, setDisplay] = React53__namespace.useState(value);
-  const fromRef = React53__namespace.useRef(0);
-  React53__namespace.useEffect(() => {
+  const [display, setDisplay] = React5__namespace.useState(value);
+  const fromRef = React5__namespace.useRef(0);
+  React5__namespace.useEffect(() => {
     if (typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setDisplay(value);
       fromRef.current = value;
@@ -6555,8 +6561,8 @@ function Typewriter({
   className,
   onComplete
 }) {
-  const [out, setOut] = React53__namespace.useState("");
-  React53__namespace.useEffect(() => {
+  const [out, setOut] = React5__namespace.useState("");
+  React5__namespace.useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setOut(text);
       onComplete?.();
@@ -6643,7 +6649,7 @@ function ThreeScene({
   );
 }
 function DemoCube() {
-  const [hovered, setHovered] = React53__namespace.useState(false);
+  const [hovered, setHovered] = React5__namespace.useState(false);
   return /* @__PURE__ */ jsxRuntime.jsxs("mesh", { onPointerOver: () => setHovered(true), onPointerOut: () => setHovered(false), children: [
     /* @__PURE__ */ jsxRuntime.jsx("boxGeometry", { args: [1, 1, 1] }),
     /* @__PURE__ */ jsxRuntime.jsx("meshStandardMaterial", { color: hovered ? "#a78bfa" : "#60a5fa" })
@@ -6654,10 +6660,10 @@ var pillVariants = classVarianceAuthority.cva(
   {
     variants: {
       tone: {
-        ok: "border-success bg-success/15 text-success",
-        warn: "border-warning bg-warning/15 text-warning",
+        ok: "border-success bg-success/15 text-success-ink",
+        warn: "border-warning bg-warning/15 text-warning-ink",
         down: "border-destructive bg-destructive/15 text-destructive",
-        info: "border-primary bg-primary/15 text-primary"
+        info: "border-primary bg-primary/15 text-primary-ink"
       }
     },
     defaultVariants: { tone: "ok" }
@@ -6969,7 +6975,7 @@ function SkillHeatmap({
   onCellClick,
   className
 }) {
-  const cellMap = React53__namespace.useMemo(() => {
+  const cellMap = React5__namespace.useMemo(() => {
     const m = /* @__PURE__ */ new Map();
     for (const c of cells) m.set(`${c.rowId}|${c.colId}`, c);
     return m;
@@ -7191,7 +7197,7 @@ function RbacMatrix({
   onChange,
   className
 }) {
-  const map = React53__namespace.useMemo(() => {
+  const map = React5__namespace.useMemo(() => {
     const m = /* @__PURE__ */ new Map();
     for (const a of assignments) m.set(`${a.roleId}|${a.areaId}`, a.level);
     return m;
@@ -7368,9 +7374,9 @@ function buildForest(flat) {
   return roots;
 }
 function ESCOTreeNavigator({ nodes, onExpand, onSelect }) {
-  const [expanded, setExpanded] = React53.useState(/* @__PURE__ */ new Set());
-  const [loading, setLoading] = React53.useState(/* @__PURE__ */ new Set());
-  const [extra, setExtra] = React53.useState([]);
+  const [expanded, setExpanded] = React5.useState(/* @__PURE__ */ new Set());
+  const [loading, setLoading] = React5.useState(/* @__PURE__ */ new Set());
+  const [extra, setExtra] = React5.useState([]);
   async function handleExpand(node) {
     if (expanded.has(node.uri)) {
       const next = new Set(expanded);
@@ -7433,8 +7439,8 @@ function ESCOTreeNavigator({ nodes, onExpand, onSelect }) {
   return /* @__PURE__ */ jsxRuntime.jsx("ul", { "data-testid": "esco-tree-navigator", children: forest.map((n) => renderNode(n, 0)) });
 }
 function KGGraphCanvas({ nodes, edges, emptyState }) {
-  const byId = React53.useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
-  const adj = React53.useMemo(() => {
+  const byId = React5.useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
+  const adj = React5.useMemo(() => {
     const m = /* @__PURE__ */ new Map();
     for (const e of edges) {
       if (!m.has(e.source)) m.set(e.source, []);
@@ -7648,15 +7654,15 @@ function readSavedIdx() {
   return raw;
 }
 function PaletteDropdown() {
-  const [open, setOpen] = React53.useState(false);
-  const [idx, setIdx] = React53.useState(0);
-  const rootRef = React53.useRef(null);
-  React53.useEffect(() => {
+  const [open, setOpen] = React5.useState(false);
+  const [idx, setIdx] = React5.useState(0);
+  const rootRef = React5.useRef(null);
+  React5.useEffect(() => {
     const saved = readSavedIdx();
     setIdx(saved);
     applyPalette(saved);
   }, []);
-  React53.useEffect(() => {
+  React5.useEffect(() => {
     if (!open) return;
     const onDocClick = (e) => {
       if (!rootRef.current?.contains(e.target)) setOpen(false);
@@ -7736,11 +7742,421 @@ function PaletteDropdown() {
     )
   ] });
 }
-var STORAGE_THEME = "heuresys-theme";
-function applyTheme2(theme) {
-  const html = document.documentElement;
-  if (theme === "dark") html.classList.add("dark");
-  else html.classList.remove("dark");
+function HeaderMenuTrigger({
+  onOpenMenu,
+  label = "Apri menu contesto globale"
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "button",
+    {
+      type: "button",
+      "aria-label": label,
+      onClick: onOpenMenu,
+      className: "inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
+      children: /* @__PURE__ */ jsxRuntime.jsxs(
+        "svg",
+        {
+          className: "h-4 w-4",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+          "aria-hidden": "true",
+          children: [
+            /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "3", y1: "6", x2: "21", y2: "6" }),
+            /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "3", y1: "12", x2: "21", y2: "12" }),
+            /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "3", y1: "18", x2: "21", y2: "18" })
+          ]
+        }
+      )
+    }
+  );
+}
+function HeaderBreadcrumbTrail({ items }) {
+  if (!items || items.length === 0) return null;
+  return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-foreground/40", children: "/" }),
+    /* @__PURE__ */ jsxRuntime.jsx("nav", { "aria-label": "Breadcrumb", className: "flex items-center gap-2 text-sm text-muted-foreground", children: items.map((b, i) => {
+      const isLast = i === items.length - 1;
+      return /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "flex items-center gap-2", children: [
+        isLast ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium text-foreground", children: b.label }) : b.onClick ? /* @__PURE__ */ jsxRuntime.jsx("button", { type: "button", onClick: b.onClick, className: "hover:text-foreground", children: b.label }) : /* @__PURE__ */ jsxRuntime.jsx("a", { href: b.href ?? "#", children: b.label }),
+        !isLast && /* @__PURE__ */ jsxRuntime.jsx(
+          "svg",
+          {
+            className: "h-3 w-3 opacity-50",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            "aria-hidden": "true",
+            children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "9 18 15 12 9 6" })
+          }
+        )
+      ] }, i);
+    }) })
+  ] });
+}
+function HeaderSearchTrigger({
+  onOpenCommandPalette,
+  placeholder = "Cerca tenant, log, audit\u2026"
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "button",
+    {
+      id: "js-command-palette-trigger",
+      type: "button",
+      "aria-label": "Apri command palette",
+      onClick: onOpenCommandPalette,
+      className: "hidden md:inline-flex h-9 items-center gap-2 rounded-control border border-border bg-card px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(
+          "svg",
+          {
+            className: "h-4 w-4",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            "aria-hidden": "true",
+            children: [
+              /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "11", cy: "11", r: "8" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntime.jsx("span", { children: placeholder }),
+        /* @__PURE__ */ jsxRuntime.jsx("kbd", { className: "ml-2 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground", children: "\u2318 K" })
+      ]
+    }
+  );
+}
+function HeaderLanguageSwitcher({
+  language = "IT",
+  onToggleLanguage
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "button",
+    {
+      type: "button",
+      "aria-label": "Cambia lingua tra italiano e inglese",
+      onClick: onToggleLanguage,
+      className: "inline-flex h-9 items-center gap-2 rounded-control border border-border px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(
+          "svg",
+          {
+            className: "h-4 w-4",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            "aria-hidden": "true",
+            children: [
+              /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "10" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "2", y1: "12", x2: "22", y2: "12" }),
+              /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", children: language })
+      ]
+    }
+  );
+}
+function HeaderThemeToggle() {
+  const theme = useThemeOptional();
+  const isDark = theme?.resolved === "dark";
+  const disabled = theme === null;
+  function toggle() {
+    theme?.setTheme(isDark ? "light" : "dark");
+  }
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "button",
+    {
+      id: "js-theme-toggle",
+      type: "button",
+      "aria-label": "Alterna tema chiaro/scuro",
+      disabled,
+      title: disabled ? "Tema non disponibile: manca ThemeProvider" : void 0,
+      onClick: toggle,
+      className: "inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-muted-foreground disabled:hover:border-border",
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsxs(
+          "svg",
+          {
+            className: "h-4 w-4 [.dark_&]:hidden",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            "aria-hidden": "true",
+            children: [
+              /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "5" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "1", x2: "12", y2: "3" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "21", x2: "12", y2: "23" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "1", y1: "12", x2: "3", y2: "12" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "21", y1: "12", x2: "23", y2: "12" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }),
+              /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntime.jsx(
+          "svg",
+          {
+            className: "hidden h-4 w-4 [.dark_&]:block",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            "aria-hidden": "true",
+            children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" })
+          }
+        )
+      ]
+    }
+  );
+}
+
+// src/lib/tone-classes.ts
+var TONE = {
+  success: {
+    solid: "bg-success",
+    tint10: "bg-success/10",
+    tint15: "bg-success/15",
+    tint20: "bg-success/20",
+    text: "text-success",
+    textOnTint: "text-success-ink",
+    border30: "border-success/30",
+    border40: "border-success/40",
+    ring20: "ring-success/20"
+  },
+  warning: {
+    solid: "bg-warning",
+    tint10: "bg-warning/10",
+    tint15: "bg-warning/15",
+    tint20: "bg-warning/20",
+    text: "text-warning",
+    textOnTint: "text-warning-ink",
+    border30: "border-warning/30",
+    border40: "border-warning/40",
+    ring20: "ring-warning/20"
+  },
+  danger: {
+    solid: "bg-danger",
+    tint10: "bg-danger/10",
+    tint15: "bg-danger/15",
+    tint20: "bg-danger/20",
+    text: "text-danger",
+    textOnTint: "text-danger-ink",
+    border30: "border-danger/30",
+    border40: "border-danger/40",
+    ring20: "ring-danger/20"
+  },
+  info: {
+    solid: "bg-info",
+    tint10: "bg-info/10",
+    tint15: "bg-info/15",
+    tint20: "bg-info/20",
+    text: "text-info",
+    textOnTint: "text-info-ink",
+    border30: "border-info/30",
+    border40: "border-info/40",
+    ring20: "ring-info/20"
+  },
+  "palette-1": {
+    solid: "bg-palette-1",
+    tint10: "bg-palette-1/10",
+    tint15: "bg-palette-1/15",
+    tint20: "bg-palette-1/20",
+    text: "text-palette-1",
+    textOnTint: "text-palette-1-ink",
+    border30: "border-palette-1/30",
+    border40: "border-palette-1/40",
+    ring20: "ring-palette-1/20"
+  },
+  "palette-2": {
+    solid: "bg-palette-2",
+    tint10: "bg-palette-2/10",
+    tint15: "bg-palette-2/15",
+    tint20: "bg-palette-2/20",
+    text: "text-palette-2",
+    textOnTint: "text-palette-2-ink",
+    border30: "border-palette-2/30",
+    border40: "border-palette-2/40",
+    ring20: "ring-palette-2/20"
+  },
+  "palette-3": {
+    solid: "bg-palette-3",
+    tint10: "bg-palette-3/10",
+    tint15: "bg-palette-3/15",
+    tint20: "bg-palette-3/20",
+    text: "text-palette-3",
+    textOnTint: "text-palette-3-ink",
+    border30: "border-palette-3/30",
+    border40: "border-palette-3/40",
+    ring20: "ring-palette-3/20"
+  },
+  "palette-4": {
+    solid: "bg-palette-4",
+    tint10: "bg-palette-4/10",
+    tint15: "bg-palette-4/15",
+    tint20: "bg-palette-4/20",
+    text: "text-palette-4",
+    textOnTint: "text-palette-4-ink",
+    border30: "border-palette-4/30",
+    border40: "border-palette-4/40",
+    ring20: "ring-palette-4/20"
+  },
+  // `primary` compare come tono di sorgente in LogStream, quindi finisce
+  // anche lui sotto forma di tinta e ha bisogno del proprio ink. Da non
+  // confondere con --color-primary-fg, che e' il testo sul primary PIENO.
+  primary: {
+    solid: "bg-primary",
+    tint10: "bg-primary/10",
+    tint15: "bg-primary/15",
+    tint20: "bg-primary/20",
+    text: "text-primary",
+    textOnTint: "text-primary-ink",
+    border30: "border-primary/30",
+    border40: "border-primary/40",
+    ring20: "ring-primary/20"
+  },
+  // Il neutro non ha tinte percentuali ne' rampa ink: la sua superficie e'
+  // gia' un token opaco e il suo testo e' --muted-foreground, che e' AA su
+  // --muted per costruzione.
+  muted: {
+    solid: "bg-muted",
+    tint10: "bg-muted",
+    tint15: "bg-muted",
+    tint20: "bg-muted",
+    text: "text-muted-foreground",
+    textOnTint: "text-muted-foreground",
+    border30: "border-border",
+    border40: "border-border",
+    ring20: "ring-border"
+  }
+};
+var TONE_NAMES = Object.keys(TONE);
+var TONE_ALIASES = {
+  "muted-foreground": "muted",
+  neutral: "muted"
+};
+function resolveTone2(value, fallback) {
+  if (value == null) return fallback;
+  if (TONE_NAMES.includes(value)) return value;
+  return TONE_ALIASES[value] ?? fallback;
+}
+function toneClasses(value, fallback) {
+  return TONE[resolveTone2(value, fallback)];
+}
+var ROLE_TONE_FALLBACK = "palette-3";
+function HeaderUserIdentity({ user }) {
+  if (!user) return null;
+  const tone = toneClasses(user.roleTone, ROLE_TONE_FALLBACK);
+  return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "ml-1 flex items-center gap-2 rounded-control border border-border bg-card px-2 py-1.5", children: [
+    /* @__PURE__ */ jsxRuntime.jsx(
+      "span",
+      {
+        className: `relative inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold ${tone.tint20} ${tone.textOnTint}`,
+        children: user.initials
+      }
+    ),
+    /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "hidden flex-col leading-tight sm:flex", children: [
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs font-medium text-foreground", children: user.username }),
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: `font-mono text-[10px] uppercase tracking-wider ${tone.text}`, children: user.role })
+    ] })
+  ] });
+}
+function HeaderUserMenu({
+  user,
+  tenants,
+  onSelectTenant,
+  onNavigateProfile,
+  onNavigateSettings,
+  onLogout
+}) {
+  if (!user) return null;
+  const showTenantSwitch = (tenants?.length ?? 0) >= 2;
+  const tone = toneClasses(user.roleTone, ROLE_TONE_FALLBACK);
+  return /* @__PURE__ */ jsxRuntime.jsxs(DropdownMenu, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntime.jsxs(
+      "button",
+      {
+        type: "button",
+        "aria-label": `Menu utente: ${user.username}`,
+        className: "ml-1 flex items-center gap-2 rounded-control border border-border bg-card px-2 py-1.5 transition hover:bg-accent hover:border-foreground/30",
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx(Avatar, { className: "h-7 w-7", children: /* @__PURE__ */ jsxRuntime.jsx(AvatarFallback, { className: `text-xs font-semibold ${tone.tint20} ${tone.textOnTint}`, children: user.initials }) }),
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "hidden flex-col leading-tight text-left sm:flex", children: [
+            /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs font-medium text-foreground", children: user.username }),
+            /* @__PURE__ */ jsxRuntime.jsx("span", { className: `font-mono text-[10px] uppercase tracking-wider ${tone.text}`, children: user.role })
+          ] })
+        ]
+      }
+    ) }),
+    /* @__PURE__ */ jsxRuntime.jsxs(DropdownMenuContent, { align: "end", className: "w-56", children: [
+      /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuLabel, { children: user.username }),
+      /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuSeparator, {}),
+      /* @__PURE__ */ jsxRuntime.jsxs(DropdownMenuItem, { onSelect: onNavigateProfile, children: [
+        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.User, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+        "Profilo"
+      ] }),
+      /* @__PURE__ */ jsxRuntime.jsxs(DropdownMenuItem, { onSelect: onNavigateSettings, children: [
+        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Settings, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+        "Impostazioni"
+      ] }),
+      showTenantSwitch && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuSeparator, {}),
+        /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuLabel, { children: "Cambia organizzazione" }),
+        tenants.map((t) => /* @__PURE__ */ jsxRuntime.jsxs(DropdownMenuItem, { onSelect: () => onSelectTenant?.(t.id), children: [
+          /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Building2, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+          t.name
+        ] }, t.id))
+      ] }),
+      /* @__PURE__ */ jsxRuntime.jsx(DropdownMenuSeparator, {}),
+      /* @__PURE__ */ jsxRuntime.jsxs(DropdownMenuItem, { onSelect: onLogout, children: [
+        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.LogOut, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+        "Esci"
+      ] })
+    ] })
+  ] });
+}
+function HeaderMobileDrawer({ open, onOpenChange, children }) {
+  return /* @__PURE__ */ jsxRuntime.jsx(Dialog, { open, onOpenChange, children: /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Portal, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx(DialogPrimitive__namespace.Overlay, { className: "fixed inset-0 z-50 bg-overlay/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" }),
+    /* @__PURE__ */ jsxRuntime.jsxs(
+      DialogPrimitive__namespace.Content,
+      {
+        className: cn(
+          "fixed inset-y-0 left-0 z-50 h-full w-72 max-w-[85vw] overflow-y-auto border-r border-border bg-background p-4 shadow-lg",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left"
+        ),
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsx(DialogTitle, { className: "sr-only", children: "Menu di navigazione" }),
+          /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Close, { className: "absolute right-3 top-3 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring", children: [
+            /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4", "aria-hidden": "true" }),
+            /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Chiudi" })
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx("div", { className: "mt-8", children })
+        ]
+      }
+    )
+  ] }) });
 }
 function DashboardHeader({
   breadcrumb,
@@ -7753,17 +8169,22 @@ function DashboardHeader({
   logo,
   logoBadge,
   leftExtras,
-  rightExtras
+  rightExtras,
+  commandPaletteContent,
+  mobileNav,
+  userMenu
 }) {
-  React53.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const saved = window.localStorage.getItem(STORAGE_THEME);
-    if (saved === "light" || saved === "dark") applyTheme2(saved);
-  }, []);
-  function toggleTheme() {
-    const isDark = document.documentElement.classList.toggle("dark");
-    window.localStorage.setItem(STORAGE_THEME, isDark ? "dark" : "light");
+  const [paletteOpen, setPaletteOpen] = React5__namespace.useState(false);
+  const [drawerOpen, setDrawerOpen] = React5__namespace.useState(false);
+  function handleOpenMenu() {
+    onOpenMenu?.();
+    if (mobileNav) setDrawerOpen(true);
   }
+  const handleOpenCommandPalette = React5__namespace.useCallback(() => {
+    onOpenCommandPalette?.();
+    setPaletteOpen(true);
+  }, [onOpenCommandPalette]);
+  useGlobalCmdK(handleOpenCommandPalette);
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "header",
     {
@@ -7774,106 +8195,43 @@ function DashboardHeader({
       ),
       children: [
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex min-w-0 items-center gap-3", children: [
-          /* @__PURE__ */ jsxRuntime.jsx(
-            "button",
-            {
-              type: "button",
-              "aria-label": "Apri menu contesto globale",
-              onClick: onOpenMenu,
-              className: "inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
-              children: /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
-                /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "3", y1: "6", x2: "21", y2: "6" }),
-                /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "3", y1: "12", x2: "21", y2: "12" }),
-                /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "3", y1: "18", x2: "21", y2: "18" })
-              ] })
-            }
-          ),
+          /* @__PURE__ */ jsxRuntime.jsx(HeaderMenuTrigger, { onOpenMenu: handleOpenMenu }),
           /* @__PURE__ */ jsxRuntime.jsxs("a", { href: "/app", "aria-label": "Heuresys \u2014 pagina iniziale autenticata", className: "flex items-center gap-2.5", children: [
             logo ?? /* @__PURE__ */ jsxRuntime.jsx(HeuresysWordmark, { variant: "brand", size: "md" }),
             logoBadge
           ] }),
-          breadcrumb && breadcrumb.length > 0 && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-foreground/40", children: "/" }),
-            /* @__PURE__ */ jsxRuntime.jsx("nav", { "aria-label": "Breadcrumb", className: "flex items-center gap-2 text-sm text-muted-foreground", children: breadcrumb.map((b, i) => {
-              const isLast = i === breadcrumb.length - 1;
-              return /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "flex items-center gap-2", children: [
-                isLast ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium text-foreground", children: b.label }) : /* @__PURE__ */ jsxRuntime.jsx("a", { href: b.href ?? "#", children: b.label }),
-                !isLast && /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-3 w-3 opacity-50", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "9 18 15 12 9 6" }) })
-              ] }, i);
-            }) })
-          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx(HeaderBreadcrumbTrail, { items: breadcrumb }),
           leftExtras
         ] }),
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2", children: [
-          /* @__PURE__ */ jsxRuntime.jsxs(
-            "button",
-            {
-              id: "js-command-palette-trigger",
-              type: "button",
-              "aria-label": "Apri command palette",
-              onClick: onOpenCommandPalette,
-              className: "hidden md:inline-flex h-9 items-center gap-2 rounded-control border border-border bg-card px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
-              children: [
-                /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
-                  /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "11", cy: "11", r: "8" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "21", y1: "21", x2: "16.65", y2: "16.65" })
-                ] }),
-                /* @__PURE__ */ jsxRuntime.jsx("span", { children: "Cerca tenant, log, audit\u2026" }),
-                /* @__PURE__ */ jsxRuntime.jsx("kbd", { className: "ml-2 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground", children: "\u2318 K" })
-              ]
-            }
-          ),
-          /* @__PURE__ */ jsxRuntime.jsxs(
-            "button",
-            {
-              type: "button",
-              "aria-label": "Cambia lingua tra italiano e inglese",
-              onClick: onToggleLanguage,
-              className: "inline-flex h-9 items-center gap-2 rounded-control border border-border px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
-              children: [
-                /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
-                  /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "10" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "2", y1: "12", x2: "22", y2: "12" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" })
-                ] }),
-                /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", children: language })
-              ]
-            }
-          ),
+          /* @__PURE__ */ jsxRuntime.jsx(HeaderSearchTrigger, { onOpenCommandPalette: handleOpenCommandPalette }),
+          /* @__PURE__ */ jsxRuntime.jsx(HeaderLanguageSwitcher, { language, onToggleLanguage }),
           /* @__PURE__ */ jsxRuntime.jsx(PaletteDropdown, {}),
-          /* @__PURE__ */ jsxRuntime.jsxs(
-            "button",
+          /* @__PURE__ */ jsxRuntime.jsx(HeaderThemeToggle, {}),
+          userMenu ? /* @__PURE__ */ jsxRuntime.jsx(
+            HeaderUserMenu,
             {
-              id: "js-theme-toggle",
-              type: "button",
-              "aria-label": "Alterna tema chiaro/scuro",
-              onClick: toggleTheme,
-              className: "inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
-              children: [
-                /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4 [.dark_&]:hidden", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
-                  /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "5" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "1", x2: "12", y2: "3" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "12", y1: "21", x2: "12", y2: "23" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "1", y1: "12", x2: "3", y2: "12" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "21", y1: "12", x2: "23", y2: "12" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }),
-                  /* @__PURE__ */ jsxRuntime.jsx("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" })
-                ] }),
-                /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "hidden h-4 w-4 [.dark_&]:block", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }) })
-              ]
+              user,
+              tenants: userMenu.tenants,
+              onSelectTenant: userMenu.onSelectTenant,
+              onNavigateProfile: userMenu.onNavigateProfile,
+              onNavigateSettings: userMenu.onNavigateSettings,
+              onLogout: userMenu.onLogout
             }
-          ),
-          user && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "ml-1 flex items-center gap-2 rounded-control border border-border bg-card px-2 py-1.5", children: [
-            /* @__PURE__ */ jsxRuntime.jsx("span", { className: `relative inline-flex h-7 w-7 items-center justify-center rounded-full bg-${user.roleTone ?? "palette-3"}/20 text-xs font-semibold text-${user.roleTone ?? "palette-3"}`, children: user.initials }),
-            /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "hidden flex-col leading-tight sm:flex", children: [
-              /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-xs font-medium text-foreground", children: user.username }),
-              /* @__PURE__ */ jsxRuntime.jsx("span", { className: `font-mono text-[10px] uppercase tracking-wider text-${user.roleTone ?? "warning"}`, children: user.role })
-            ] })
-          ] }),
+          ) : /* @__PURE__ */ jsxRuntime.jsx(HeaderUserIdentity, { user }),
           rightExtras
-        ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsx(
+          CommandPalette,
+          {
+            open: paletteOpen,
+            onOpenChange: setPaletteOpen,
+            placeholder: "Cerca tenant, log, audit\u2026",
+            empty: "Nessun comando configurato",
+            children: commandPaletteContent
+          }
+        ),
+        mobileNav && /* @__PURE__ */ jsxRuntime.jsx(HeaderMobileDrawer, { open: drawerOpen, onOpenChange: setDrawerOpen, children: mobileNav })
       ]
     }
   );
@@ -7892,7 +8250,7 @@ function applySidebarState(collapsed) {
   }
 }
 function DashboardSidebar({ groups, footerSlot, className }) {
-  React53.useEffect(() => {
+  React5.useEffect(() => {
     if (typeof window === "undefined") return;
     const saved = window.localStorage.getItem(STORAGE_SIDEBAR);
     applySidebarState(saved === "collapsed");
@@ -7940,8 +8298,8 @@ function DashboardSidebar({ groups, footerSlot, className }) {
   );
 }
 function SidebarGroup({ group }) {
-  const [expanded, setExpanded] = React53__namespace.useState(group.defaultExpanded ?? true);
-  React53__namespace.useEffect(() => {
+  const [expanded, setExpanded] = React5__namespace.useState(group.defaultExpanded ?? true);
+  React5__namespace.useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       const state = JSON.parse(window.localStorage.getItem(STORAGE_GROUPS) || "{}");
@@ -8103,8 +8461,8 @@ function writeGroupState(state) {
   window.localStorage.setItem(STORAGE_KEY3, JSON.stringify(state));
 }
 function GroupToggle({ groupId, label, children, className }) {
-  const [expanded, setExpanded] = React53.useState(true);
-  React53.useEffect(() => {
+  const [expanded, setExpanded] = React5.useState(true);
+  React5.useEffect(() => {
     const state = readGroupState();
     if (state[groupId] === false) setExpanded(false);
   }, [groupId]);
@@ -8138,25 +8496,29 @@ var VARIANT_STYLES2 = {
     border: "border-l-warning border-y-warning/30 border-r-warning/30",
     bg: "bg-warning/5",
     iconBg: "bg-warning/15",
-    iconColor: "text-warning"
+    iconColor: "text-warning-ink",
+    action: "border-warning/40 bg-warning/10 text-warning-ink hover:bg-warning/20"
   },
   danger: {
     border: "border-l-danger border-y-danger/30 border-r-danger/30",
     bg: "bg-danger/5",
     iconBg: "bg-danger/15",
-    iconColor: "text-danger"
+    iconColor: "text-danger-ink",
+    action: "border-danger/40 bg-danger/10 text-danger-ink hover:bg-danger/20"
   },
   info: {
     border: "border-l-info border-y-info/30 border-r-info/30",
     bg: "bg-info/5",
     iconBg: "bg-info/15",
-    iconColor: "text-info"
+    iconColor: "text-info-ink",
+    action: "border-info/40 bg-info/10 text-info-ink hover:bg-info/20"
   },
   success: {
     border: "border-l-success border-y-success/30 border-r-success/30",
     bg: "bg-success/5",
     iconBg: "bg-success/15",
-    iconColor: "text-success"
+    iconColor: "text-success-ink",
+    action: "border-success/40 bg-success/10 text-success-ink hover:bg-success/20"
   }
 };
 function AlertBanner({ variant = "warning", icon, title, meta, details, actions, onDismiss }) {
@@ -8186,7 +8548,7 @@ function AlertBanner({ variant = "warning", icon, title, meta, details, actions,
             {
               type: "button",
               onClick: a.onClick,
-              className: a.variant === "primary" ? `inline-flex h-8 items-center gap-1.5 rounded-control border border-${variant}/40 bg-${variant}/10 px-3 text-xs font-medium text-${variant} transition hover:bg-${variant}/20` : "inline-flex h-8 items-center gap-1.5 rounded-control border border-border bg-card px-3 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
+              className: a.variant === "primary" ? `inline-flex h-8 items-center gap-1.5 rounded-control border px-3 text-xs font-medium transition ${s.action}` : "inline-flex h-8 items-center gap-1.5 rounded-control border border-border bg-card px-3 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
               children: a.label
             },
             i
@@ -8261,8 +8623,8 @@ function DataTableWithCrossHair({
   children,
   className
 }) {
-  const tableRef = React53.useRef(null);
-  React53.useEffect(() => {
+  const tableRef = React5.useRef(null);
+  React5.useEffect(() => {
     if (!enableCrossHair || !tableRef.current) return;
     const unbind = attachCrossHair(tableRef.current);
     return unbind;
@@ -8418,7 +8780,7 @@ function KpiCard(props) {
           unit && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-sm text-muted-foreground", children: unit })
         ] })
       ] }),
-      icon && /* @__PURE__ */ jsxRuntime.jsx("span", { className: `inline-flex h-7 w-7 items-center justify-center rounded-control bg-${iconTone}/10 text-${iconTone}`, children: icon })
+      icon && /* @__PURE__ */ jsxRuntime.jsx("span", { className: `inline-flex h-7 w-7 items-center justify-center rounded-control ${TONE[iconTone].tint10} ${TONE[iconTone].textOnTint}`, children: icon })
     ] }),
     body ?? (sparkline && /* @__PURE__ */ jsxRuntime.jsx(SparklineMini, { values: sparkline, tone: sparklineTone })),
     (footerLeft || footerRight) && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "mt-2 flex items-center justify-between text-[11px] text-muted-foreground", children: [
@@ -8488,7 +8850,7 @@ function LogStream({
     /* @__PURE__ */ jsxRuntime.jsx("ol", { tabIndex: 0, "aria-label": title, className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", "aria-live": "polite", children: entries.map((e, i) => /* @__PURE__ */ jsxRuntime.jsxs("li", { className: "log-line flex items-start gap-3 px-5 py-2", children: [
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ts shrink-0 whitespace-nowrap font-mono", children: e.timestamp }),
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: `lvl-${e.level} shrink-0 font-mono font-semibold`, children: e.level.toUpperCase().padEnd(5) }),
-      /* @__PURE__ */ jsxRuntime.jsx("span", { className: `shrink-0 rounded-sm bg-${e.sourceTone ?? "palette-1"}/15 px-1.5 font-mono text-[10px] text-${e.sourceTone ?? "palette-1"}`, children: e.source }),
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: `shrink-0 rounded-sm px-1.5 font-mono text-[10px] ${toneClasses(e.sourceTone, "palette-1").tint15} ${toneClasses(e.sourceTone, "palette-1").textOnTint}`, children: e.source }),
       /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "text-foreground", children: [
         e.message,
         " ",
@@ -8504,7 +8866,7 @@ function LogStream({
         windowLabel
       ] }),
       /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "inline-flex items-center gap-1.5", children: [
-        /* @__PURE__ */ jsxRuntime.jsx("span", { className: `h-1.5 w-1.5 rounded-full bg-${connected ? "success" : "danger"} pulse-dot` }),
+        /* @__PURE__ */ jsxRuntime.jsx("span", { className: `h-1.5 w-1.5 rounded-full pulse-dot ${connected ? TONE.success.solid : TONE.danger.solid}` }),
         connected ? "connected" : "disconnected"
       ] })
     ] })
@@ -8525,7 +8887,7 @@ function AuditFeed({
       onViewAll && /* @__PURE__ */ jsxRuntime.jsx("button", { type: "button", onClick: onViewAll, className: "text-xs font-medium text-primary transition hover:underline", children: "view all \u2192" })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsx("ul", { tabIndex: 0, "aria-label": title, className: "max-h-[420px] divide-y divide-border/60 overflow-y-auto", children: events.map((ev, i) => /* @__PURE__ */ jsxRuntime.jsx("li", { className: "px-5 py-3", children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-start gap-3", children: [
-      /* @__PURE__ */ jsxRuntime.jsx("span", { className: `mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-${ev.tone}/15 text-${ev.tone}`, children: ev.icon }),
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: `mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${TONE[ev.tone].tint15} ${TONE[ev.tone].textOnTint}`, children: ev.icon }),
       /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "min-w-0", children: [
         /* @__PURE__ */ jsxRuntime.jsx("div", { className: "text-sm text-foreground", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", children: ev.title }) }),
         ev.description && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "mt-0.5 text-xs text-muted-foreground", children: ev.description }),
@@ -8560,10 +8922,10 @@ function IncidentTimeline({
       const statusTone2 = STATUS_TONE[it.status];
       const isResolved = it.status === "RESOLVED";
       return /* @__PURE__ */ jsxRuntime.jsxs("li", { className: "relative", children: [
-        /* @__PURE__ */ jsxRuntime.jsx("span", { className: `absolute -left-[27px] mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-${sevTone} ring-4 ring-${sevTone}/20`, children: isResolved ? /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-2.5 w-2.5 text-card", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) }) : /* @__PURE__ */ jsxRuntime.jsx("span", { className: "h-1.5 w-1.5 rounded-full bg-card pulse-dot" }) }),
+        /* @__PURE__ */ jsxRuntime.jsx("span", { className: `absolute -left-[27px] mt-0.5 flex h-4 w-4 items-center justify-center rounded-full ring-4 ${toneClasses(sevTone, "muted").solid} ${toneClasses(sevTone, "muted").ring20}`, children: isResolved ? /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-2.5 w-2.5 text-card", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) }) : /* @__PURE__ */ jsxRuntime.jsx("span", { className: "h-1.5 w-1.5 rounded-full bg-card pulse-dot" }) }),
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-baseline justify-between gap-2", children: [
           /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-sm font-semibold text-foreground", children: it.title }),
-          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `rounded-sm bg-${statusTone2}/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-${statusTone2}`, children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `rounded-sm px-1.5 py-0.5 font-mono text-[10px] font-semibold ${toneClasses(statusTone2, "muted").tint15} ${toneClasses(statusTone2, "muted").textOnTint}`, children: [
             it.severity,
             " \xB7 ",
             it.status
@@ -8578,7 +8940,7 @@ function IncidentTimeline({
 }
 function SeverityPill({ sev, count }) {
   const tone = SEVERITY_TONE[sev];
-  return /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `inline-flex items-center gap-1 rounded-full bg-${tone}/15 px-2 py-0.5 font-mono font-medium text-${tone}`, children: [
+  return /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono font-medium ${toneClasses(tone, "muted").tint15} ${toneClasses(tone, "muted").textOnTint}`, children: [
     sev,
     "\xB7",
     count
@@ -8595,7 +8957,7 @@ function SQLSlowQueryTable({
   return /* @__PURE__ */ jsxRuntime.jsx("section", { "aria-label": "SQL slow queries top", children: /* @__PURE__ */ jsxRuntime.jsxs("article", { className: "overflow-hidden rounded-card border border-border bg-card shadow-card", children: [
     /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4", children: [
       /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-3", children: [
-        /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-8 w-8 items-center justify-center rounded-control bg-palette-3/15 text-palette-3", children: /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
+        /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-8 w-8 items-center justify-center rounded-control bg-palette-3/15 text-palette-3-ink", children: /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
           /* @__PURE__ */ jsxRuntime.jsx("circle", { cx: "12", cy: "12", r: "10" }),
           /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "12 6 12 12 16 14" })
         ] }) }),
@@ -8609,7 +8971,7 @@ function SQLSlowQueryTable({
       ] }),
       /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2", children: [
         onResetStats && /* @__PURE__ */ jsxRuntime.jsx("button", { type: "button", onClick: onResetStats, className: "inline-flex h-9 items-center gap-2 rounded-control border border-border px-3 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30", children: "Reset stats" }),
-        onOpenExplain && rows[0] && /* @__PURE__ */ jsxRuntime.jsx("button", { type: "button", onClick: () => onOpenExplain(rows[0]), className: "inline-flex h-9 items-center gap-2 rounded-control bg-palette-3/10 px-3 text-xs font-medium text-palette-3 transition hover:bg-palette-3/20", children: "Open EXPLAIN" })
+        onOpenExplain && rows[0] && /* @__PURE__ */ jsxRuntime.jsx("button", { type: "button", onClick: () => onOpenExplain(rows[0]), className: "inline-flex h-9 items-center gap-2 rounded-control bg-palette-3/10 px-3 text-xs font-medium text-palette-3-ink transition hover:bg-palette-3/20", children: "Open EXPLAIN" })
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsxs(DataTableWithCrossHair, { enableCrossHair: true, children: [
@@ -8632,7 +8994,7 @@ function SQLSlowQueryTable({
             /* @__PURE__ */ jsxRuntime.jsx("div", { className: "font-mono text-[12px] text-foreground", children: r.query }),
             r.queryNote && /* @__PURE__ */ jsxRuntime.jsx("div", { className: "mt-0.5 font-mono text-[10px] text-muted-foreground", children: r.queryNote })
           ] }),
-          /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-2.5", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: `inline-flex items-center gap-1.5 rounded-md bg-${r.tenantTone ?? "muted"}/10 px-1.5 py-0.5 font-mono text-[10px] font-medium text-${r.tenantTone ?? "muted-foreground"}`, children: r.tenant }) }),
+          /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-2.5", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: `inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 font-mono text-[10px] font-medium ${toneClasses(r.tenantTone, "muted").tint10} ${toneClasses(r.tenantTone, "muted").textOnTint}`, children: r.tenant }) }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "num px-3 py-2.5 text-right tabular-nums text-foreground", children: r.calls.toLocaleString() }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "num px-3 py-2.5 text-right tabular-nums", children: /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `font-mono font-medium ${p95Tone}`, children: [
             r.p95Ms.toLocaleString(),
@@ -8643,7 +9005,7 @@ function SQLSlowQueryTable({
             " ms"
           ] }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-2.5", children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2", children: [
-            /* @__PURE__ */ jsxRuntime.jsx("div", { className: "h-1.5 w-24 overflow-hidden rounded-full bg-border", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: `h-full bg-${r.totalTimeTone ?? "palette-2"}`, style: { width: `${r.totalTimeBarPct}%` } }) }),
+            /* @__PURE__ */ jsxRuntime.jsx("div", { className: "h-1.5 w-24 overflow-hidden rounded-full bg-border", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: `h-full ${toneClasses(r.totalTimeTone, "palette-2").solid}`, style: { width: `${r.totalTimeBarPct}%` } }) }),
             /* @__PURE__ */ jsxRuntime.jsx("span", { className: "num font-mono text-[10px] text-foreground", children: r.totalTimeLabel })
           ] }) }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-2.5 font-mono text-[11px] text-muted-foreground", children: r.lastSeen }),
@@ -8686,7 +9048,7 @@ function RBACMatrix({
   return /* @__PURE__ */ jsxRuntime.jsx("section", { "aria-label": "RBAC permissions matrix", children: /* @__PURE__ */ jsxRuntime.jsxs("article", { className: "overflow-hidden rounded-card border border-border bg-card shadow-card", children: [
     /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4", children: [
       /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-3", children: [
-        /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-8 w-8 items-center justify-center rounded-control bg-palette-1/15 text-palette-1", children: /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
+        /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-8 w-8 items-center justify-center rounded-control bg-palette-1/15 text-palette-1-ink", children: /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-4 w-4", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
           /* @__PURE__ */ jsxRuntime.jsx("rect", { x: "3", y: "11", width: "18", height: "11", rx: "2", ry: "2" }),
           /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M7 11V7a5 5 0 0 1 10 0v4" })
         ] }) }),
@@ -8726,7 +9088,7 @@ function RBACMatrix({
         /* @__PURE__ */ jsxRuntime.jsx("th", { className: "sticky left-0 bg-muted/30 px-5 py-3 text-left", children: "Permission" }),
         roles.map((role) => {
           const lines = (role.label ?? role.code).split(/[_\s]+/);
-          return /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-2 py-3 text-center", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: `block text-${role.tone}`, children: lines.map((l, i) => /* @__PURE__ */ jsxRuntime.jsx("span", { className: "block", children: l }, i)) }) }, role.code);
+          return /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-2 py-3 text-center", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: `block ${toneClasses(role.tone, "muted").text}`, children: lines.map((l, i) => /* @__PURE__ */ jsxRuntime.jsx("span", { className: "block", children: l }, i)) }) }, role.code);
         })
       ] }) }),
       /* @__PURE__ */ jsxRuntime.jsx("tbody", { className: "divide-y divide-border", children: rows.map((row) => /* @__PURE__ */ jsxRuntime.jsxs("tr", { children: [
@@ -8750,11 +9112,11 @@ function RBACMatrix({
 function Legend() {
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2 text-[11px]", children: [
     /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "inline-flex items-center gap-1", children: [
-      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-success/20 text-success", children: /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-2.5 w-2.5", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) }) }),
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-success/20 text-success-ink", children: /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-2.5 w-2.5", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) }) }),
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-foreground", children: "granted" })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "inline-flex items-center gap-1", children: [
-      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-warning/20 text-warning font-mono text-[9px] font-bold", children: "\u25D0" }),
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "inline-flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-warning/20 text-warning-ink font-mono text-[9px] font-bold", children: "\u25D0" }),
       /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-foreground", children: "scoped" })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "inline-flex items-center gap-1", children: [
@@ -8764,8 +9126,8 @@ function Legend() {
   ] });
 }
 function Cell({ state, title }) {
-  if (state === "granted") return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-success/20 text-success", children: /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-3 w-3", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) }) });
-  if (state === "scoped") return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-warning/20 text-warning", title, children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-mono text-[10px] font-bold", children: "\u25D0" }) });
+  if (state === "granted") return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-success/20 text-success-ink", children: /* @__PURE__ */ jsxRuntime.jsx("svg", { className: "h-3 w-3", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) }) });
+  if (state === "scoped") return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-warning/20 text-warning-ink", title, children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-mono text-[10px] font-bold", children: "\u25D0" }) });
   return /* @__PURE__ */ jsxRuntime.jsx("span", { className: "mx-auto flex h-5 w-5 items-center justify-center rounded-sm bg-muted text-muted-foreground/60", children: "\xB7" });
 }
 var STATUS_TONE2 = {
@@ -8845,7 +9207,7 @@ function TenantFleetTable({
         const pt = poolTone(r.poolUtilPct);
         return /* @__PURE__ */ jsxRuntime.jsxs("tr", { children: [
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-5 py-3", children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-3", children: [
-            /* @__PURE__ */ jsxRuntime.jsx("span", { className: `inline-flex h-8 w-8 items-center justify-center rounded-md bg-${r.initialsTone}/15 font-mono text-xs font-semibold text-${r.initialsTone}`, children: r.initials }),
+            /* @__PURE__ */ jsxRuntime.jsx("span", { className: `inline-flex h-8 w-8 items-center justify-center rounded-md font-mono text-xs font-semibold ${toneClasses(r.initialsTone, "palette-1").tint15} ${toneClasses(r.initialsTone, "palette-1").textOnTint}`, children: r.initials }),
             /* @__PURE__ */ jsxRuntime.jsxs("div", { children: [
               /* @__PURE__ */ jsxRuntime.jsx("div", { className: "font-medium text-foreground", children: r.code }),
               /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "font-mono text-[10px] text-muted-foreground", children: [
@@ -8854,8 +9216,8 @@ function TenantFleetTable({
               ] })
             ] })
           ] }) }),
-          /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-3", children: /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `inline-flex items-center gap-1.5 rounded-full bg-${st.tone}/10 px-2 py-0.5 text-xs font-medium text-${st.tone}`, children: [
-            /* @__PURE__ */ jsxRuntime.jsx("span", { className: `h-1.5 w-1.5 rounded-full bg-${st.tone}` }),
+          /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-3", children: /* @__PURE__ */ jsxRuntime.jsxs("span", { className: `inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${toneClasses(st.tone, "muted").tint10} ${toneClasses(st.tone, "muted").textOnTint}`, children: [
+            /* @__PURE__ */ jsxRuntime.jsx("span", { className: `h-1.5 w-1.5 rounded-full ${toneClasses(st.tone, "muted").solid}` }),
             st.label
           ] }) }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "num px-3 py-3 text-right tabular-nums text-foreground", children: r.users }),
@@ -8863,7 +9225,7 @@ function TenantFleetTable({
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: `num px-3 py-3 text-right tabular-nums ${errorsTone(r.errors1h)}`, children: r.errors1h }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-3", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-mono text-[11px] text-muted-foreground", children: r.lastActivity }) }),
           /* @__PURE__ */ jsxRuntime.jsx("td", { className: "px-3 py-3", children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2", children: [
-            /* @__PURE__ */ jsxRuntime.jsx("div", { className: "h-1.5 w-20 overflow-hidden rounded-full bg-border", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: `h-full bg-${pt}`, style: { width: `${r.poolUtilPct}%` } }) }),
+            /* @__PURE__ */ jsxRuntime.jsx("div", { className: "h-1.5 w-20 overflow-hidden rounded-full bg-border", children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: `h-full ${toneClasses(pt, "muted").solid}`, style: { width: `${r.poolUtilPct}%` } }) }),
             /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "num font-mono text-[10px] text-muted-foreground", children: [
               r.poolUtilPct,
               "%"
@@ -8923,7 +9285,7 @@ function ErrorRateBreakdown({
             /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-sm text-muted-foreground", children: overallUnit })
           ] })
         ] }),
-        overallDelta && /* @__PURE__ */ jsxRuntime.jsx("div", { className: `rounded-control bg-${overallDeltaTone}/10 px-2 py-1 font-mono text-[10px] font-medium text-${overallDeltaTone}`, children: overallDelta })
+        overallDelta && /* @__PURE__ */ jsxRuntime.jsx("div", { className: `rounded-control px-2 py-1 font-mono text-[10px] font-medium ${toneClasses(overallDeltaTone, "warning").tint10} ${toneClasses(overallDeltaTone, "warning").textOnTint}`, children: overallDelta })
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "mt-4", children: [
@@ -8962,9 +9324,9 @@ function ErrorRateBreakdown({
           ] }),
           e.scope && /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-2 font-mono text-[10px] text-muted-foreground", children: e.scope })
         ] }),
-        /* @__PURE__ */ jsxRuntime.jsx("span", { className: `rounded-sm bg-${e.statusTone}/15 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-${e.statusTone}`, children: e.statusBadge }),
+        /* @__PURE__ */ jsxRuntime.jsx("span", { className: `rounded-sm px-1.5 py-0.5 font-mono text-[10px] font-semibold ${toneClasses(e.statusTone, "muted").tint15} ${toneClasses(e.statusTone, "muted").textOnTint}`, children: e.statusBadge }),
         /* @__PURE__ */ jsxRuntime.jsx(EndpointSparkline, { values: e.sparkline, tone: e.sparklineTone }),
-        e.delta && /* @__PURE__ */ jsxRuntime.jsx("span", { className: `num text-right font-mono text-[10px] text-${e.deltaTone ?? "muted-foreground"}`, children: e.delta })
+        e.delta && /* @__PURE__ */ jsxRuntime.jsx("span", { className: `num text-right font-mono text-[10px] ${toneClasses(e.deltaTone, "muted").text}`, children: e.delta })
       ] }, i)) })
     ] })
   ] });
@@ -9005,7 +9367,7 @@ function DBSupervisorSidebar() {
       /* @__PURE__ */ jsxRuntime.jsxs(
         "span",
         {
-          className: "nav-aux inline-flex items-center gap-0.5 rounded-sm bg-palette-2/15 px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-palette-2",
+          className: "nav-aux inline-flex items-center gap-0.5 rounded-sm bg-palette-2/15 px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wider text-palette-2-ink",
           title: "Apre pagina con tabs dedicate per ogni oggetto DBMS",
           children: [
             /* @__PURE__ */ jsxRuntime.jsxs("svg", { className: "h-2.5 w-2.5", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: [
@@ -9025,10 +9387,10 @@ function DBSupervisorSidebar() {
   ] });
 }
 var TONE_CLASS2 = {
-  success: "border-green-200 bg-green-100 text-green-800",
-  warning: "border-amber-200 bg-amber-100 text-amber-800",
-  danger: "border-red-200 bg-red-100 text-red-800",
-  info: "border-blue-200 bg-blue-100 text-blue-800",
+  success: "border-success/30 bg-success/10 text-success-ink",
+  warning: "border-warning/30 bg-warning/10 text-warning-ink",
+  danger: "border-danger/30 bg-danger/10 text-danger-ink",
+  info: "border-info/30 bg-info/10 text-info-ink",
   neutral: "border-border bg-muted text-muted-foreground"
 };
 function statusTone(value) {
@@ -9155,6 +9517,14 @@ exports.GlassCard = GlassCard;
 exports.GradientText = GradientText;
 exports.Grid = Grid;
 exports.GroupToggle = GroupToggle;
+exports.HeaderBreadcrumbTrail = HeaderBreadcrumbTrail;
+exports.HeaderLanguageSwitcher = HeaderLanguageSwitcher;
+exports.HeaderMenuTrigger = HeaderMenuTrigger;
+exports.HeaderMobileDrawer = HeaderMobileDrawer;
+exports.HeaderSearchTrigger = HeaderSearchTrigger;
+exports.HeaderThemeToggle = HeaderThemeToggle;
+exports.HeaderUserIdentity = HeaderUserIdentity;
+exports.HeaderUserMenu = HeaderUserMenu;
 exports.HeroCentered = HeroCentered;
 exports.HeroSplit = HeroSplit;
 exports.HeroVideoBackground = HeroVideoBackground;
@@ -9306,3 +9676,4 @@ exports.useConfetti = useConfetti;
 exports.useGlobalCmdK = useGlobalCmdK;
 exports.useShortcutsModal = useShortcutsModal;
 exports.useTheme = useTheme;
+exports.useThemeOptional = useThemeOptional;

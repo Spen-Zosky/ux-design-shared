@@ -183,3 +183,33 @@ export async function clickLeaf(page: Page, id: string): Promise<void> {
   await item.scrollIntoViewIfNeeded();
   await item.click();
 }
+
+/**
+ * Apre una voce DENTRO la UI manager, indirizzandola per percorso.
+ *
+ * PERCHE' ESISTE, accanto a `clickLeaf`. Il click fisico e' il gesto piu'
+ * fedele, ma per raggiungerlo bisogna prima espandere l'albero, e
+ * `expandAllGroups` costa circa un minuto (127 nodi). Un test per voce lo
+ * pagherebbe 504 volte: otto ore di suite per un audit che deve poter girare
+ * spesso. Il costo va dichiarato, non aggirato in silenzio.
+ *
+ * Questa funzione carica il manager con la voce gia' selezionata: resta dentro
+ * l'interfaccia reale — stessa iframe, stesso ciclo di vita, stessa sidebar che
+ * si apre da sola fino a rivelare la voce — e salta solo il gesto del dito.
+ *
+ * Il click fisico NON sparisce dall'audit: `qa-full-sweep` lo esercita su un
+ * campione di ogni gruppo, cosi' che "cliccare funziona" resti verificato
+ * ovunque senza pagarlo 504 volte.
+ */
+export async function openLeafInManager(page: Page, id: string, isDocs = false): Promise<void> {
+  const path = `/?path=/${isDocs ? "docs" : "story"}/${id}`;
+  await page.goto(path);
+  await expect(page.locator("#storybook-explorer-tree")).toBeVisible({ timeout: 30_000 });
+}
+
+/** Vero quando la sidebar considera selezionata la voce indicata. */
+export async function isLeafSelected(page: Page, id: string): Promise<boolean> {
+  const item = page.locator(`[data-item-id="${id}"]`).first();
+  const attr = await item.getAttribute("data-selected").catch(() => null);
+  return attr === "true";
+}

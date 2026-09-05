@@ -94,8 +94,8 @@ di Fase 3 ha ora 124 pagine in più da coprire.
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
 | C2a | Bump 1.1.0, `ui/dist` rigenerato, note di rilascio, `publish --dry-run` | io | dry-run pulito | **fatto** — `@heuresys/ui@1.1.0`, 53 file, 352,6 kB; verificato che le classi complete siano letterali nel bundle |
-| C2b | `npm publish` | **Enzo** | il pacchetto è sul registry | bloccato (npm non autenticato: 401, nessun `.npmrc`, nessun token — non delegabile) |
-| C3 | Contratto in `heuresys-advanced`, riga 23 di `brand-component-contract.md` | io | riga applicata nell'altro repo, commit separato là | **fatto** — branch `docs/statuspill-nel-contratto`, commit `66a0d6da`; NON pushato |
+| C2b | `npm publish` | **Enzo** | il pacchetto è sul registry | **fatto** — 2026-09-05, `@heuresys/ui@1.1.0` è `latest`; verificato interrogando il registry |
+| C3 | Contratto in `heuresys-advanced`, riga 23 di `brand-component-contract.md` | **non io** | riga applicata dall'altro repo | **annullato e ritirato** — i vincoli globali del piano vietano le modifiche ai consumer, e questa voce li contraddiceva. Avevo aperto una PR là: chiusa, branch remoto rimosso, repo riportato allo stato precedente. Il testo resta nel corpo della PR #7, da applicare da chi lavora su quel repository |
 
 *C1 è già fatto il 2026-09-04 (decorator `238d476`, tre PR mergiate).*
 

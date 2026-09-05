@@ -1,6 +1,6 @@
 {
   "name": "@heuresys/ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Heuresys UI — design system + dashboard components (Tier 1-16)",
   "license": "PROPRIETARY",
@@ -36,7 +36,8 @@
     "src/styles",
     "src/components/brand/candidates",
     "src/assets/brand",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsup",

@@ -42,6 +42,21 @@ export default defineConfig({
     baseURL: `http://localhost:${PORT}`,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
+    /**
+     * Misura a pagina ferma, non a meta' animazione.
+     *
+     * axe fotografa i colori nell'istante in cui gira: un testo che entra in
+     * dissolvenza viene letto con l'opacita' che ha in quel millesimo, e
+     * risulta sotto soglia pur essendo perfettamente leggibile un attimo dopo.
+     * Misurato il 2026-09-06 su `Components/Motion` e `AI/ToolCallView`, dove
+     * gli stessi elementi passavano o fallivano a seconda del momento.
+     *
+     * `globals.css` azzera gia' animazioni e transizioni sotto
+     * `prefers-reduced-motion: reduce`, quindi qui non si sopprime la
+     * misurazione: si chiede alla pagina lo stato che essa stessa dichiara di
+     * assumere per chi quelle animazioni non le vuole.
+     */
+    reducedMotion: "reduce",
   },
 
   projects: [

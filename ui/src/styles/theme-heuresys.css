@@ -150,7 +150,10 @@
   --color-icon-warning: #B45309;
   --color-icon-danger: #DC2626;
   /* Logo body + accent (trattamento Y-accent, UXIX-0007 candidata D) */
-  --logo-body: #3B82F6;
+  /* Allineato al valore che il componente Wordmark usava davvero come costante
+     (hsl(221 83% 53%)): il precedente #3B82F6 e' un gradino piu' chiaro e su
+     bianco da' 3,67:1, sotto la soglia. Misurato il 2026-09-06. */
+  --logo-body: #2563EB;
   --logo-accent: #A855F7;
   /* Marcatore di modalita', per regole CSS che vi reagiscono */
   --theme-mode: "light";
@@ -209,6 +212,9 @@
      (violet-300) porta il rapporto sopra la soglia. */
   --palette-3-ink: #C4B5FD !important;
   --palette-4-ink: #F8BD55 !important;
+  /* Il blu del marchio, un gradino piu' chiaro per il fondo scuro: il valore
+     del tema chiaro vi dava 3,67:1. Stessa logica dei semantici qui sopra. */
+  --logo-body: #60A5FA !important;
   --primary-ink: #5E9DF5 !important;
   /* a11y AA: la libreria fissa --color-primary-fg quasi-bianco; sul primary
      dark #5E9DF5 sarebbe 2.68:1. L'inchiostro scuro porta a 6.5:1 mantenendo

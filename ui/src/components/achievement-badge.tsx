@@ -47,7 +47,20 @@ export function AchievementBadge({
     <div
       role="img"
       aria-label={`${unlocked ? 'Unlocked' : 'Locked'} ${tier} achievement: ${title}`}
-      className={cn(tierVariants({ tier }), !unlocked && 'opacity-40 grayscale', className)}
+      className={cn(
+        tierVariants({ tier }),
+        /*
+         * Bloccato: i token dello stato spento, non un velo di opacita'.
+         *
+         * `opacity-40 grayscale` sbiadiva anche il TESTO, che scendeva a
+         * 2,02:1 — la voce peggiore rimasta dopo la correzione del contrasto
+         * del 2026-09-06. `cn` passa per tailwind-merge, quindi queste classi
+         * sostituiscono quelle del tier invece di sommarvisi, e il rapporto
+         * torna quello garantito dai token.
+         */
+        !unlocked && 'border-border bg-muted text-muted-fg',
+        className
+      )}
     >
       <div className="text-2xl" aria-hidden="true">
         {icon ?? <Award className="h-8 w-8" />}

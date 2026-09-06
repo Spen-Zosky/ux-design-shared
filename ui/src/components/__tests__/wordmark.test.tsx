@@ -19,7 +19,21 @@ import { HeuresysWordmark } from '../wordmark';
  * brand blue, "y" is the brand purple, identical across variants) without
  * weakening it.
  */
-const BRAND_BLUE_RGB = 'rgb(36, 99, 235)'; // hsl(221 83% 53%) normalized by jsdom
+/**
+ * Il blu del marchio arriva dal token, con il valore letterale come ripiego.
+ *
+ * Prima era `hsl(221 83% 53%)` scritto nel componente, e questi test ne
+ * verificavano la forma normalizzata da jsdom: `rgb(36, 99, 235)`. Dal
+ * 2026-09-06 il colore e' `var(--logo-body, …)`, perche' il valore fisso era
+ * identico nei due temi e su fondo scuro dava 3,67:1, sotto la soglia AA.
+ *
+ * jsdom non risolve le custom property (non c'e' un foglio di stile), quindi
+ * `style.color` restituisce la dichiarazione cosi' com'e'. Cio' che questi
+ * test proteggono resta lo stesso — «il logo e' sempre quello», cioe' le tre
+ * varianti dipingono con la STESSA sorgente di colore — solo che ora quella
+ * sorgente e' un token invece di una costante.
+ */
+const BRAND_BLUE_RGB = 'var(--logo-body, hsl(221 83% 53%))';
 const BRAND_PURPLE_RGB = 'rgb(168, 85, 247)'; // #a855f7 normalized by jsdom
 
 describe('<HeuresysWordmark />', () => {

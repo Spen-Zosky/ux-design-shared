@@ -14,7 +14,7 @@ export const Default: Story = {
   render: () => (
     <TiltCard className="rounded-xl bg-primary text-primary-fg p-8 w-[280px] shadow-2xl">
       <p className="text-lg font-semibold">Hover me</p>
-      <p className="text-sm opacity-80">3D tilt segue il mouse, rispetta prefers-reduced-motion.</p>
+      <p className="text-sm">3D tilt segue il mouse, rispetta prefers-reduced-motion.</p>
     </TiltCard>
   ),
 };

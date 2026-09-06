@@ -38,7 +38,21 @@ export function ToolCallView({
         ) : result ? (
           <span className="ml-auto text-success-ink">ok</span>
         ) : (
-          <span className="ml-auto text-muted-fg animate-pulse">running…</span>
+          /*
+           * Il battito sta sul punto, non sulla parola.
+           *
+           * `animate-pulse` porta l'opacita' del testo a meta' per meta' del
+           * tempo, e a quel punto «running…» misura 4,41:1 — sotto la soglia
+           * per un soffio, in modo intermittente. Un indicatore accanto dice
+           * la stessa cosa senza rendere illeggibile cio' che va letto.
+           */
+          <span className="ml-auto inline-flex items-center gap-1.5 text-foreground">
+            <span
+              aria-hidden="true"
+              className="inline-block h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-current"
+            />
+            running…
+          </span>
         )}
       </button>
       {open ? (

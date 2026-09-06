@@ -68,7 +68,15 @@ function resolveSize(size: WordmarkSize | number): { fontSize: number; letterSpa
  * on `--accent`, `--brand-blue`, or any CSS custom property, so the logo
  * renders identically on every theme, palette, and surface.
  */
-const BRAND_BLUE = 'hsl(221 83% 53%)';
+/**
+ * Il blu del marchio, dal token — non un valore fisso.
+ *
+ * Era `hsl(221 83% 53%)` scritto qui, uguale nei due temi: su fondo scuro dava
+ * 3,67:1, sotto la soglia AA. `--logo-body` esiste apposta nel tema di marca e
+ * ha un gradino piu' chiaro in scuro; il valore letterale resta come ripiego
+ * per chi usa il componente senza quel tema.
+ */
+const BRAND_BLUE = 'var(--logo-body, hsl(221 83% 53%))';
 // eslint-disable-next-line no-restricted-syntax -- intentional brand hex (canonical wordmark accent "y", must NOT depend on theme/palette vars)
 const BRAND_PURPLE = '#a855f7';
 

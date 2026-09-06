@@ -27,7 +27,24 @@ const preview: Preview = {
       matchers: { color: /(background|color)$/i, date: /Date$/i },
       expanded: true,
     },
+    /**
+     * Il pannello di accessibilita', da decorativo a severo.
+     *
+     * `config: { rules: [] }` non disattivava niente — non e' una lista di
+     * esclusioni, e' una lista VUOTA di sovrascritture — ma nemmeno faceva
+     * fallire alcunche': l'addon mostrava i suoi risultati e chi guardava la
+     * vetrina poteva ignorarli. Il cancello vero vive in `e2e/qa-a11y.spec.ts`,
+     * dove una violazione critical o serious rompe la suite; qui si allinea il
+     * pannello a quella stessa soglia, perche' chi sviluppa la veda subito e
+     * non scopra il rosso solo in CI.
+     *
+     * `test: "error"` marca le violazioni come errori nel pannello. Le regole
+     * di composizione restano attive qui: nella barra degli strumenti si guarda
+     * una story alla volta, non la pagina di documentazione che ne compone
+     * molte, quindi non producono i falsi positivi che la suite deve escludere.
+     */
     a11y: {
+      test: "error",
       config: { rules: [] },
     },
     options: {

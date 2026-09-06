@@ -77,7 +77,18 @@ type ToneClasses = {
   tint15: string;
   /** Tinta al 20% — avatar e pastiglie piu' marcate. */
   tint20: string;
-  /** Testo del tono su superficie NEUTRA (card, sfondo): token pieno. */
+  /**
+   * Testo del tono su superficie NEUTRA (card, sfondo).
+   *
+   * Usa la rampa `-ink`, non il token pieno, e la ragione e' misurata: il
+   * token pieno non raggiunge AA nemmeno su una superficie neutra chiara —
+   * `--success` #16A34A su `--background` da' 3,18:1 e `--palette-2` #06B6D4
+   * ne da' 2,30. Il commento precedente diceva «token pieno» e descriveva
+   * fedelmente cio' che il codice faceva; era il codice a sbagliare.
+   *
+   * Resta distinta da `textOnTint` perche' l'API non cambi sotto i chiamanti,
+   * anche se oggi le due coincidono.
+   */
   text: string;
   /** Testo del tono SU TINTA dello stesso tono: rampa ink, AA in entrambi i temi. */
   textOnTint: string;
@@ -99,7 +110,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-success/10",
     tint15: "bg-success/15",
     tint20: "bg-success/20",
-    text: "text-success",
+    text: "text-success-ink",
     textOnTint: "text-success-ink",
     border30: "border-success/30",
     border40: "border-success/40",
@@ -110,7 +121,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-warning/10",
     tint15: "bg-warning/15",
     tint20: "bg-warning/20",
-    text: "text-warning",
+    text: "text-warning-ink",
     textOnTint: "text-warning-ink",
     border30: "border-warning/30",
     border40: "border-warning/40",
@@ -121,7 +132,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-danger/10",
     tint15: "bg-danger/15",
     tint20: "bg-danger/20",
-    text: "text-danger",
+    text: "text-danger-ink",
     textOnTint: "text-danger-ink",
     border30: "border-danger/30",
     border40: "border-danger/40",
@@ -132,7 +143,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-info/10",
     tint15: "bg-info/15",
     tint20: "bg-info/20",
-    text: "text-info",
+    text: "text-info-ink",
     textOnTint: "text-info-ink",
     border30: "border-info/30",
     border40: "border-info/40",
@@ -143,7 +154,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-palette-1/10",
     tint15: "bg-palette-1/15",
     tint20: "bg-palette-1/20",
-    text: "text-palette-1",
+    text: "text-palette-1-ink",
     textOnTint: "text-palette-1-ink",
     border30: "border-palette-1/30",
     border40: "border-palette-1/40",
@@ -154,7 +165,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-palette-2/10",
     tint15: "bg-palette-2/15",
     tint20: "bg-palette-2/20",
-    text: "text-palette-2",
+    text: "text-palette-2-ink",
     textOnTint: "text-palette-2-ink",
     border30: "border-palette-2/30",
     border40: "border-palette-2/40",
@@ -165,7 +176,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-palette-3/10",
     tint15: "bg-palette-3/15",
     tint20: "bg-palette-3/20",
-    text: "text-palette-3",
+    text: "text-palette-3-ink",
     textOnTint: "text-palette-3-ink",
     border30: "border-palette-3/30",
     border40: "border-palette-3/40",
@@ -176,7 +187,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-palette-4/10",
     tint15: "bg-palette-4/15",
     tint20: "bg-palette-4/20",
-    text: "text-palette-4",
+    text: "text-palette-4-ink",
     textOnTint: "text-palette-4-ink",
     border30: "border-palette-4/30",
     border40: "border-palette-4/40",
@@ -190,7 +201,7 @@ export const TONE: Record<ToneName, ToneClasses> = {
     tint10: "bg-primary/10",
     tint15: "bg-primary/15",
     tint20: "bg-primary/20",
-    text: "text-primary",
+    text: "text-primary-ink",
     textOnTint: "text-primary-ink",
     border30: "border-primary/30",
     border40: "border-primary/40",

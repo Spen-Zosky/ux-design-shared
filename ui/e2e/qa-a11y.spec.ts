@@ -39,6 +39,41 @@ const entries: IndexEntry[] = JSON.parse(fs.readFileSync(STORY_INDEX_FILE, "utf-
  */
 const OUT_DIR = path.join("test-results", "a11y");
 
+/**
+ * Le regole che parlano della composizione di UN documento, disattivate sulle
+ * sole pagine di documentazione. La ragione sta accanto a `disableRules`.
+ */
+const REGOLE_DI_COMPOSIZIONE = [
+  "landmark-unique",
+  "landmark-no-duplicate-banner",
+  "landmark-no-duplicate-main",
+  "landmark-no-duplicate-contentinfo",
+  "landmark-banner-is-top-level",
+  "landmark-main-is-top-level",
+  "landmark-complementary-is-top-level",
+  "heading-order",
+  "page-has-heading-one",
+  /**
+   * `scrollable-region-focusable` riguarda `.docs-story`, il riquadro che
+   * Storybook mette attorno a ogni esempio nella pagina di documentazione:
+   * quando l'esempio e' piu' largo del riquadro, quel contenitore diventa
+   * scorrevole e la regola chiede che sia raggiungibile da tastiera. Il
+   * contenitore non e' nostro e non compare in nessuna applicazione — nella
+   * story, dove il componente sta da solo, la regola resta attiva.
+   */
+  "scrollable-region-focusable",
+];
+
+/**
+ * Il cancello: le gravita' che fanno fallire la suite.
+ *
+ * `critical` e `serious` sono la soglia proposta il 2026-09-05 e approvata da
+ * Enzo. `moderate` e `minor` restano contate ma non bloccanti: sono in larga
+ * parte rifiniture, e un cancello che le includesse verrebbe abbassato alla
+ * prima corsa rossa — che e' il modo in cui i cancelli muoiono.
+ */
+const GRAVITA_BLOCCANTI = new Set(["critical", "serious"]);
+
 type Violazione = {
   id: string;
   voce: string;
@@ -105,6 +140,39 @@ test.describe("inventario di accessibilità @audit", () => {
         }, dark);
         await page.waitForTimeout(200);
 
+        /**
+         * Aspetta che le animazioni FINISCANO, invece di sperare in un
+         * ritardo fisso.
+         *
+         * axe legge i colori nell'istante in cui gira: un testo a meta'
+         * dissolvenza risulta sotto soglia pur essendo perfettamente leggibile
+         * un attimo dopo. Misurato su `Components/Motion`, dove le voci
+         * segnalate erano proprio quelle con `delay 0.4s` e `delay 0.5s` —
+         * cioe' le ultime a entrare.
+         *
+         * `getAnimations()` vede sia le animazioni CSS sia quelle della Web
+         * Animations API, che e' cio' che usa framer-motion. Le animazioni
+         * infinite non finiscono mai per definizione: si escludono, e per loro
+         * vale il tetto di due secondi.
+         */
+        await page
+          .waitForFunction(
+            () =>
+              document
+                .getAnimations()
+                .filter((a) => {
+                  const durata = (a.effect?.getTiming().iterations ?? 1) as number;
+                  return Number.isFinite(durata);
+                })
+                .every((a) => a.playState !== "running"),
+            undefined,
+            { timeout: 2_000 },
+          )
+          .catch(() => {
+            /* Oltre i due secondi si misura com'e': un'animazione lunga non
+               deve fermare l'inventario. */
+          });
+
         const risultato = await new AxeBuilder({ page })
           .include(isDocs ? "#storybook-docs" : "#storybook-root")
           /**
@@ -122,6 +190,23 @@ test.describe("inventario di accessibilità @audit", () => {
            * nostro componente continua a fallire.
            */
           .exclude(".docblock-argstable")
+          /**
+           * Le regole di COMPOSIZIONE non si applicano a una pagina che
+           * compone.
+           *
+           * Una pagina di documentazione rende piu' story una sotto l'altra,
+           * quindi mette nello stesso documento due `<main>`, due `<header>`,
+           * due `<nav>` e una scaletta di titoli che nessuna applicazione
+           * reale produrrebbe mai. `landmark-*` e `heading-order` misurano
+           * proprio l'unicita' e l'ordine dentro UN documento: applicarle qui
+           * significa misurare un artefatto della vetrina.
+           *
+           * Non e' un sospetto: delle 54 violazioni rimaste al 2026-09-06,
+           * **54 su 54 stanno su voci `Docs` e zero sulle story** — misurato.
+           * Sulle story le stesse regole restano attive, ed e' li' che hanno
+           * significato: un componente con due banner e' un difetto vero.
+           */
+          .disableRules(isDocs ? REGOLE_DI_COMPOSIZIONE : [])
           .analyze();
 
         for (const v of risultato.violations) {
@@ -167,6 +252,37 @@ test.describe("inventario di accessibilità @audit", () => {
 
       fs.mkdirSync(OUT_DIR, { recursive: true });
       fs.writeFileSync(path.join(OUT_DIR, `${entry.id}.json`), JSON.stringify(raccolte, null, 2));
+
+      /**
+       * IL CANCELLO.
+       *
+       * L'inventario si scrive PRIMA di questa riga, sempre: anche una corsa
+       * rossa lascia i dati completi da interrogare, che e' esattamente cio'
+       * che serve per capire perche' e' rossa.
+       *
+       * Fino al 2026-09-06 questo file non faceva fallire niente — misurava e
+       * basta, come `addon-a11y` con `rules: []`. Aveva ragione di essere
+       * cosi': con 441 violazioni un cancello acceso avrebbe reso la suite
+       * rossa in permanenza, e nessuno avrebbe piu' distinto una regressione
+       * nuova da un debito vecchio. Ora il debito bloccante e' zero, e ogni
+       * rosso significa qualcosa.
+       */
+      const bloccanti = raccolte.filter((v) => GRAVITA_BLOCCANTI.has(v.gravita));
+      if (bloccanti.length > 0) {
+        const elenco = bloccanti
+          .map(
+            (v) =>
+              `  [${v.gravita}] ${v.regola} — tema ${v.tema}, ${v.nodi} elemento/i\n` +
+              `    ${v.descrizione}\n` +
+              (v.nodiDettaglio[0] ? `    primo: ${v.nodiDettaglio[0].target}\n` : ""),
+          )
+          .join("");
+        throw new Error(
+          `${bloccanti.length} violazione/i critical o serious in «${entry.title} › ${entry.name}»:\n${elenco}` +
+            `\nL'inventario completo di questa voce e' in ${path.join(OUT_DIR, `${entry.id}.json`)}.\n` +
+            `Per il quadro d'insieme: node scripts/a11y-riepilogo.mjs --per-file`,
+        );
+      }
     });
   }
 

@@ -156,7 +156,30 @@ Verifiche: typecheck pulito e Vitest 119/119 a ogni passo.
 
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
-| 3.0 | `addon-a11y` da decorativo a cancello su `critical` + `serious` | io | la suite fallisce su una violazione nuova, e passa sul repository pulito | **bloccato (Fase 1 e 2)** |
+| 3.0 | Le regole di composizione misurate solo sulle story | io | `disableRules` sulle sole pagine `Docs`, con la ragione scritta accanto; 54 violazioni che non erano difetti | **fatto** |
+| 3.1 | Le ultime violazioni bloccanti | io | logo dal token invece che da una costante, badge bloccato con i token dello stato spento, testo su gradiente con scrim, battito spostato dalla parola al punto | **fatto** |
+| 3.2 | Le animazioni non falsano più la misura | io | il test attende che le animazioni finiscano (`getAnimations`), con tetto di 2 s per quelle infinite; `reducedMotion: "reduce"` in `playwright.config.ts` | **fatto** |
+| 3.3 | Il cancello acceso | io | `qa-a11y.spec.ts` fallisce su `critical` + `serious`; `addon-a11y` allineato con `test: "error"` | **fatto** |
+| 3.4 | Verifica che il cancello sappia fallire E passare | io | vedi sotto | **fatto** |
+
+### Esito della Fase 3 — misurato il 2026-09-06, 504 voci su 504
+
+**0 violazioni. Suite verde, `exit 0`, 16,1 minuti.**
+
+Il cancello è stato verificato in entrambe le direzioni, e non per costruzione ma per accaduto: le
+corse intermedie di questa stessa sessione hanno fallito su **6** voci e poi su **3**, ciascuna con
+il nome della regola, il tema e il primo elemento coinvolto nel messaggio d'errore. Un cancello che
+non ha mai fallito non è un cancello verificato.
+
+| | 2026-09-05 | Fase 1 | Fase 2 | **Fase 3** |
+|---|---|---|---|---|
+| totale | 441 | 270 | 70 | **0** |
+| `critical` | 76 | 0 | 0 | **0** |
+| `serious` | 269 | 217 | 16 | **0** |
+
+L'inventario si scrive **prima** del controllo, sempre: anche una corsa rossa lascia i dati completi
+da interrogare con `node scripts/a11y-riepilogo.mjs --per-file`, che è esattamente ciò che serve per
+capire perché è rossa.
 
 ---
 

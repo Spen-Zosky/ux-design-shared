@@ -21,6 +21,14 @@ export interface SkillHeatmapProps {
   cells: SkillHeatmapCell[];
   /** caption for screen readers */
   caption?: string;
+  /**
+   * Header of the row-label column — the empty top-left corner cell.
+   *
+   * A `<th>` with no text is the axe rule `empty-table-header`: a screen
+   * reader announces every row header as belonging to a column with no name.
+   * Rendered for assistive tech only, so the corner stays visually blank.
+   */
+  rowAxisLabel?: string;
   /** show numeric value inside cell */
   showValue?: boolean;
   /** override default sequential scale */
@@ -47,6 +55,7 @@ export function SkillHeatmap({
   cols,
   cells,
   caption,
+  rowAxisLabel = 'Skill',
   showValue = true,
   colorScale,
   onCellClick,
@@ -70,7 +79,7 @@ export function SkillHeatmap({
               scope="col"
               className="sticky left-0 top-0 z-20 border-b border-r border-border bg-muted px-3 py-2 text-left font-mono text-[10px] uppercase tracking-wider text-muted-fg"
             >
-              &nbsp;
+              <span className="sr-only">{rowAxisLabel}</span>
             </th>
             {cols.map((c) => (
               <th

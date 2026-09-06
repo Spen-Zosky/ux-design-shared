@@ -68,19 +68,23 @@ export function DataTable<TData, TValue>({
                     key={header.id}
                     scope="col"
                     className="h-10 px-3 text-left font-medium text-muted-fg"
+                    // `aria-sort` appartiene all'intestazione di colonna, non
+                    // al bottone che la ordina: e' ammesso sui ruoli
+                    // columnheader/rowheader, e su un <button> e' la regola
+                    // `aria-allowed-attr` — 10 occorrenze, tutte da qui.
+                    aria-sort={
+                      header.column.getIsSorted() === 'asc'
+                        ? 'ascending'
+                        : header.column.getIsSorted() === 'desc'
+                          ? 'descending'
+                          : 'none'
+                    }
                   >
                     {header.isPlaceholder ? null : (
                       <button
                         type="button"
                         onClick={header.column.getToggleSortingHandler()}
                         className="inline-flex items-center gap-1 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
-                        aria-sort={
-                          header.column.getIsSorted() === 'asc'
-                            ? 'ascending'
-                            : header.column.getIsSorted() === 'desc'
-                              ? 'descending'
-                              : 'none'
-                        }
                       >
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {header.column.getIsSorted() === 'asc' ? (

@@ -11,9 +11,22 @@ const meta: Meta<typeof Checkbox> = {
 export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
-export const Default: Story = { render: () => <Checkbox /> };
+/**
+ * Le due story isolate portano `aria-label` perche' non hanno una <label>
+ * attorno: le altre di questo file la usano, ed e' il pattern da imitare. Un
+ * checkbox senza nome e' la regola `button-name` di axe — Radix rende un
+ * `<button role="checkbox">`, quindi la regola e' quella dei bottoni.
+ *
+ * Gli apici inversi sono obbligatori: Storybook rende questo commento come
+ * markdown nella pagina di documentazione, e un tag nudo scritto qui diventa
+ * un elemento vero e vuoto la' dentro. Scritto senza, ha prodotto da solo le
+ * uniche quattro violazioni `critical` rimaste dopo la prima correzione.
+ */
+export const Default: Story = { render: () => <Checkbox aria-label="Accept terms" /> };
 
-export const Checked: Story = { render: () => <Checkbox defaultChecked /> };
+export const Checked: Story = {
+  render: () => <Checkbox defaultChecked aria-label="Accept terms" />,
+};
 
 export const Disabled: Story = {
   render: () => (

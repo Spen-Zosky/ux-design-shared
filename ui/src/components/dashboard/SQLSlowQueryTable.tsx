@@ -65,7 +65,10 @@ export function SQLSlowQueryTable({ rows, totalTracked, sampleSince, totalCaptur
               <th className="px-3 py-2.5 text-right">Mean</th>
               <th className="px-3 py-2.5">Total time</th>
               <th className="px-3 py-2.5">Last seen</th>
-              <th className="w-12 px-3 py-2.5" />
+              {/* Colonna delle azioni: senza testo e' `empty-table-header`. */}
+              <th className="w-12 px-3 py-2.5">
+                <span className="sr-only">Actions</span>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">

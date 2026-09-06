@@ -41,6 +41,18 @@ export function CalendarGrid({
   }
   while (cells.length % 7 !== 0) cells.push(null);
 
+  /**
+   * Le celle raggruppate per settimana.
+   *
+   * Serve alla semantica, non al disegno: `role="grid"` vuole delle righe, e
+   * `role="gridcell"` vuole una riga per genitore. Senza, sono due regole di
+   * axe insieme — `aria-required-children` e `aria-required-parent`, 12
+   * occorrenze. La griglia CSS passa dal contenitore a ogni riga: sette
+   * colonne uguali per sette celle, quindi il risultato a schermo non cambia.
+   */
+  const weeks: (typeof cells)[] = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+
   const eventsByIso = React.useMemo(() => {
     const map = new Map<string, CalendarEvent[]>();
     for (const e of events) {
@@ -59,50 +71,63 @@ export function CalendarGrid({
       role="grid"
       aria-label={`Calendar ${year}-${month + 1}`}
     >
-      <div className="grid grid-cols-7 gap-1 text-center text-xs font-medium text-muted-fg">
+      <div
+        role="row"
+        className="grid grid-cols-7 gap-1 text-center text-xs font-medium text-muted-fg"
+      >
         {dayLabels.map((d) => (
-          <div key={d}>{d}</div>
+          <div role="columnheader" key={d}>
+            {d}
+          </div>
         ))}
       </div>
-      <div className="mt-1 grid grid-cols-7 gap-1">
-        {cells.map((cell, i) => {
-          if (!cell) return <div key={i} />;
-          const evs = eventsByIso.get(cell.iso) ?? [];
-          const isSelected = cell.iso === selected;
-          return (
-            <button
-              type="button"
-              key={cell.iso}
-              role="gridcell"
-              aria-selected={isSelected}
-              onClick={() => onSelectDate?.(cell.iso)}
-              className={cn(
-                'flex aspect-square flex-col items-center justify-center gap-1 rounded-md p-1 text-sm transition-colors',
-                'hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                isSelected && 'bg-primary text-primary-fg'
-              )}
-            >
-              <span>{cell.day}</span>
-              {evs.length > 0 ? (
-                <span className="flex gap-0.5">
-                  {evs.slice(0, 3).map((e) => (
-                    <span
-                      key={e.id}
-                      className={cn(
-                        'h-1 w-1 rounded-full',
-                        e.tone === 'success' && 'bg-success',
-                        e.tone === 'warning' && 'bg-warning',
-                        e.tone === 'destructive' && 'bg-destructive',
-                        (!e.tone || e.tone === 'primary') &&
-                          (isSelected ? 'bg-primary-fg' : 'bg-primary')
-                      )}
-                    />
-                  ))}
-                </span>
-              ) : null}
-            </button>
-          );
-        })}
+      <div className="mt-1 flex flex-col gap-1">
+        {weeks.map((week, w) => (
+          <div
+            role="row"
+            key={week.find(Boolean)?.iso ?? `week-${w}`}
+            className="grid grid-cols-7 gap-1"
+          >
+            {week.map((cell, i) => {
+              if (!cell) return <div role="gridcell" key={i} />;
+              const evs = eventsByIso.get(cell.iso) ?? [];
+              const isSelected = cell.iso === selected;
+              return (
+                <button
+                  type="button"
+                  key={cell.iso}
+                  role="gridcell"
+                  aria-selected={isSelected}
+                  onClick={() => onSelectDate?.(cell.iso)}
+                  className={cn(
+                    'flex aspect-square flex-col items-center justify-center gap-1 rounded-md p-1 text-sm transition-colors',
+                    'hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                    isSelected && 'bg-primary text-primary-fg'
+                  )}
+                >
+                  <span>{cell.day}</span>
+                  {evs.length > 0 ? (
+                    <span className="flex gap-0.5">
+                      {evs.slice(0, 3).map((e) => (
+                        <span
+                          key={e.id}
+                          className={cn(
+                            'h-1 w-1 rounded-full',
+                            e.tone === 'success' && 'bg-success',
+                            e.tone === 'warning' && 'bg-warning',
+                            e.tone === 'destructive' && 'bg-destructive',
+                            (!e.tone || e.tone === 'primary') &&
+                              (isSelected ? 'bg-primary-fg' : 'bg-primary')
+                          )}
+                        />
+                      ))}
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -11,13 +11,24 @@ const meta: Meta<typeof Switch> = {
 export default meta;
 type Story = StoryObj<typeof Switch>;
 
-export const Default: Story = { render: () => <Switch /> };
-export const Checked: Story = { render: () => <Switch defaultChecked /> };
+/**
+ * Ogni Switch porta un nome accessibile.
+ *
+ * Il componente e' un passthrough su Radix e inoltra `aria-label` senza
+ * ostacoli: un interruttore senza nome e' una demo scritta male, non un
+ * difetto del componente. Ma la vetrina e' anche la documentazione, e mostrare
+ * `<Switch />` nudo insegna il pattern che poi axe segnala nel consumer —
+ * `button-name`, 10 occorrenze da questo solo file.
+ */
+export const Default: Story = { render: () => <Switch aria-label="Enable feature" /> };
+export const Checked: Story = {
+  render: () => <Switch defaultChecked aria-label="Enable feature" />,
+};
 export const Disabled: Story = {
   render: () => (
     <div className="flex gap-3">
-      <Switch disabled />
-      <Switch disabled defaultChecked />
+      <Switch disabled aria-label="Unavailable, off" />
+      <Switch disabled defaultChecked aria-label="Unavailable, on" />
     </div>
   ),
 };
@@ -45,6 +56,9 @@ function SettingsPanel() {
           <Switch
             checked={(s as Record<string, boolean>)[key]}
             onCheckedChange={(v) => setS((x) => ({ ...x, [key]: !!v }))}
+            // Il testo accanto e' un <p>, non una <label>: visivamente
+            // sufficiente, ma non associato all'interruttore.
+            aria-label={label}
           />
         </div>
       ))}

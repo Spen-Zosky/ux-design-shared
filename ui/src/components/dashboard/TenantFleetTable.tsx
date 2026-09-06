@@ -94,7 +94,10 @@ export function TenantFleetTable({
               <th className="px-3 py-2.5 text-right">Errors · 1h</th>
               <th className="px-3 py-2.5">Last activity</th>
               <th className="px-3 py-2.5">Pool util.</th>
-              <th className="px-5 py-2.5" />
+              {/* Colonna delle azioni: senza testo e' `empty-table-header`. */}
+              <th className="px-5 py-2.5">
+                <span className="sr-only">Azioni</span>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">

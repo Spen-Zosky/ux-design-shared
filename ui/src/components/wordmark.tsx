@@ -102,8 +102,19 @@ export function HeuresysWordmark({
   // y emphasis weight: 500 (lighter than body 700) on default+relative; same 700 on brand variant
   const yWeight = variant === 'brand' ? 700 : 500;
 
-  const props: React.HTMLAttributes<HTMLElement> & { 'aria-label': string; role: string } = {
-    role: 'img',
+  /**
+   * `role="img"` su tutto tranne che su un'intestazione.
+   *
+   * Su un `<h1>` sostituirebbe il ruolo `heading`, e axe lo segnala come ruolo
+   * non appropriato per quell'elemento (`aria-allowed-role`). Non serve: le
+   * lettere interne sono gia' `aria-hidden`, quindi il nome accessibile arriva
+   * comunque da `aria-label`, e l'intestazione resta un'intestazione — che e'
+   * il motivo per cui si sceglie `as="h1"`.
+   */
+  const isHeading = as === 'h1' || as === 'h2';
+
+  const props: React.HTMLAttributes<HTMLElement> & { 'aria-label': string; role?: string } = {
+    ...(isHeading ? {} : { role: 'img' }),
     'aria-label': ariaLabel,
     className: cn('inline-flex items-baseline leading-none', className),
     style: {

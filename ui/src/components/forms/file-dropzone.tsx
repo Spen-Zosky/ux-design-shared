@@ -77,6 +77,10 @@ export function FileDropzone({
         multiple={multiple}
         onChange={(e) => handleFiles(e.target.files)}
         className="sr-only"
+        // `sr-only` toglie l'input dallo schermo, non dall'albero di
+        // accessibilita': senza nome uno screen reader lo annuncia come campo
+        // file anonimo. E' la regola `label` di axe, 14 occorrenze tutte qui.
+        aria-label={label}
       />
       {files.length > 0 ? (
         <ul className="flex flex-col gap-1.5">

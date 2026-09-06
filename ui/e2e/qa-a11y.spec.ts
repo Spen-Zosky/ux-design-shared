@@ -47,6 +47,20 @@ type Violazione = {
   gravita: string;
   descrizione: string;
   nodi: number;
+  /**
+   * I nodi coinvolti, non il loro solo conteggio.
+   *
+   * La prima versione salvava `nodi: v.nodes.length` e basta: bastava a
+   * CONTARE il debito, che era lo scopo dell'inventario, ma non a correggerlo
+   * — davanti a 52 `listitem` non si sa quale elemento in quale componente. E
+   * i file grezzi non sono in git (`test-results/` e' ignorato), quindi la
+   * misura del 2026-09-05 non e' piu' interrogabile: si rigenera. Qui la si
+   * rigenera una volta sola, gia' utile alla correzione.
+   *
+   * `html` e' troncato e i nodi sono al massimo 8 per violazione: serve a
+   * riconoscere il punto nel sorgente, non a ricostruire la pagina.
+   */
+  nodiDettaglio: { target: string; html: string }[];
 };
 
 test.describe("inventario di accessibilità @audit", () => {
@@ -73,6 +87,21 @@ test.describe("inventario di accessibilità @audit", () => {
 
         const risultato = await new AxeBuilder({ page })
           .include(isDocs ? "#storybook-docs" : "#storybook-root")
+          /**
+           * La tabella delle prop non e' codice nostro.
+           *
+           * `.docblock-argstable` la genera Storybook, e per gli argomenti di
+           * tipo oggetto usa `react-editable-json-tree`, che rende `<li>` fuori
+           * da qualunque lista: da sola valeva **52 violazioni `listitem`**,
+           * l'11,8% dell'inventario del 2026-09-05, su codice che non e' in
+           * questo repository e che nessuna correzione qui puo' toccare.
+           * Misurarla significava tenere il cancello rosso per un difetto di
+           * una dipendenza.
+           *
+           * Si esclude il blocco, non la regola: un `<li>` fuori posto in un
+           * nostro componente continua a fallire.
+           */
+          .exclude(".docblock-argstable")
           .analyze();
 
         for (const v of risultato.violations) {
@@ -84,6 +113,10 @@ test.describe("inventario di accessibilità @audit", () => {
             gravita: v.impact ?? "sconosciuta",
             descrizione: v.help,
             nodi: v.nodes.length,
+            nodiDettaglio: v.nodes.slice(0, 8).map((n) => ({
+              target: n.target.join(" "),
+              html: n.html.length > 240 ? `${n.html.slice(0, 240)}…` : n.html,
+            })),
           });
         }
       }

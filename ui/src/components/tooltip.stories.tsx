@@ -31,7 +31,12 @@ export const IconButtons: Story = {
       <div className="flex gap-2">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost">
+            {/*
+              Il testo del tooltip non e' il nome del bottone: Radix lo lega
+              con aria-describedby, e solo mentre e' aperto. Da chiuso il
+              bottone resta senza nome — `button-name`, 4 occorrenze qui.
+            */}
+            <Button size="icon" variant="ghost" aria-label="Info">
               <Info className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
@@ -39,7 +44,7 @@ export const IconButtons: Story = {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost">
+            <Button size="icon" variant="ghost" aria-label="Settings">
               <Settings className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
@@ -47,7 +52,7 @@ export const IconButtons: Story = {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost">
+            <Button size="icon" variant="ghost" aria-label="Help">
               <HelpCircle className="h-4 w-4" />
             </Button>
           </TooltipTrigger>

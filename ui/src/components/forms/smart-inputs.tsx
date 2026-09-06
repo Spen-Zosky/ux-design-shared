@@ -20,11 +20,23 @@ export function PhoneInputField({
   onChange,
   defaultCountry = 'it',
   className,
+  /**
+   * Nome accessibile del campo.
+   *
+   * `react-international-phone` rende un `<input>` che non e' nostro e che
+   * nessuna `<label>` raggiunge da fuori: l'unico modo di dargli un nome e'
+   * `inputProps`. Senza, e' la regola `label` di axe.
+   *
+   * Gli apici inversi contano: questa descrizione finisce nella tabella dei
+   * Controls come markdown, e un tag nudo vi diventerebbe un elemento vero.
+   */
+  ariaLabel = 'Phone number',
 }: {
   value: string;
   onChange: (val: string) => void;
   defaultCountry?: string;
   className?: string;
+  ariaLabel?: string;
 }) {
   return (
     <PhoneIntlInput
@@ -33,6 +45,7 @@ export function PhoneInputField({
       onChange={(v) => onChange(v)}
       className={cn('phone-input-wrapper', className)}
       inputClassName="!h-10 !rounded-md !border !border-input !bg-background !px-3 !py-2 !text-sm"
+      inputProps={{ 'aria-label': ariaLabel }}
     />
   );
 }
@@ -65,6 +78,10 @@ export function MoneyInput({
 
   return (
     <Input
+      // Un nome di ripiego, che `rest` puo' sostituire: un campo senza
+      // etichetta e' la regola `label` di axe, e chi usa il componente dentro
+      // un <label> o con `aria-labelledby` sovrascrive comunque questo valore.
+      aria-label="Amount"
       {...rest}
       type="text"
       value={text}

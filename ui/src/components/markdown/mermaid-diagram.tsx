@@ -10,8 +10,12 @@ mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'stric
  * MermaidDiagram — render mermaid source as SVG via data-URL image.
  *
  * Implementation: mermaid produces SVG markup which we encode as a data URL
- * and assign to an <img> src. This avoids any HTML injection path entirely
+ * and assign to an `<img>` src. This avoids any HTML injection path entirely
  * since the browser parses the SVG as an image (no script execution).
+ *
+ * The backticks around `<img>` are not decoration: Storybook renders this
+ * comment as markdown on the docs page, so a bare tag became a real, empty
+ * image element there — the axe rule `image-alt`, on a tag nobody wrote.
  *
  * Supports flowchart/sequence/class/state/ER/Gantt/Sankey diagrams.
  * (TIER 10)

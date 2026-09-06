@@ -92,12 +92,27 @@ export function KanbanBoard({
   }
 
   return (
-    <div
-      className={cn('flex gap-4 overflow-x-auto pb-4', className)}
-      role="list"
-      aria-label="Kanban board"
-    >
-      <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+    /*
+     * Il DndContext sta FUORI dal contenitore con role="list".
+     *
+     * Dentro, no: dnd-kit rende elementi propri accanto ai figli — la regione
+     * viva che annuncia il trascinamento agli assistivi — e un role="list" che
+     * contiene qualcosa di diverso da role="listitem" e' la regola
+     * `aria-required-children` di axe (8 occorrenze, tutte da questo elemento).
+     * Spostare il provider di un livello non cambia niente per il
+     * trascinamento, che funziona per contesto e non per posizione nel DOM.
+     */
+    <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+      {/*
+        `role="list"` esplicito su un <ul> senza pallini non e' ridondante:
+        VoiceOver su Safari toglie la semantica di lista quando `list-style` e'
+        `none`, e questa e' la riga che gliela restituisce.
+      */}
+      <ul
+        className={cn('flex gap-4 overflow-x-auto pb-4', className)}
+        role="list"
+        aria-label="Kanban board"
+      >
         {columns.map((col) => (
           <KanbanColumnView
             key={col.id}
@@ -105,19 +120,29 @@ export function KanbanBoard({
             onAddCard={onAddCard ? () => onAddCard(col.id) : undefined}
           />
         ))}
-      </DndContext>
-    </div>
+      </ul>
+    </DndContext>
   );
 }
 
 function KanbanColumnView({ column, onAddCard }: { column: KanbanColumn; onAddCard?: () => void }) {
   return (
-    <section
-      role="listitem"
+    /*
+     * `<li>` vero, non una `<section role="listitem">`.
+     *
+     * Il role sovrascriveva il ruolo di sezione, e questo aveva un effetto a
+     * distanza: un <header> e' un landmark `banner` solo quando NON sta dentro
+     * un elemento di sezionamento, quindi i cinque header di colonna
+     * diventavano cinque banner duplicati nella stessa pagina. Tre regole di
+     * axe con una causa sola — `aria-allowed-role`, `landmark-unique`,
+     * `landmark-no-duplicate-banner`. Con <li> il ruolo e' nativo, e l'header
+     * torna a essere un `<div>`, che non e' un landmark di niente.
+     */
+    <li
       aria-label={`${column.title}, ${column.cards.length} cards`}
       className="flex w-72 shrink-0 flex-col gap-2 rounded-md bg-muted/40 p-3"
     >
-      <header className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <h3
           className="text-sm font-semibold"
           style={column.color ? { color: column.color } : undefined}
@@ -137,15 +162,15 @@ function KanbanColumnView({ column, onAddCard }: { column: KanbanColumn; onAddCa
             <Plus className="h-4 w-4" aria-hidden="true" />
           </Button>
         ) : null}
-      </header>
+      </div>
       <SortableContext items={column.cards.map((c) => c.id)} strategy={verticalListSortingStrategy}>
-        <ul className="flex flex-col gap-2">
+        <ul role="list" className="flex flex-col gap-2">
           {column.cards.map((c) => (
             <SortableCardItem key={c.id} card={c} />
           ))}
         </ul>
       </SortableContext>
-    </section>
+    </li>
   );
 }
 

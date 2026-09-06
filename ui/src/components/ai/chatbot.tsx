@@ -31,7 +31,13 @@ export function Chatbot({ className }: { className?: string }) {
       role="region"
       aria-label="AI chat"
     >
-      <header className="flex items-center justify-between border-b border-border p-3">
+      {/*
+        Un <div>, non un <header>: la barra di un pannello di chat non e'
+        l'intestazione del documento. Dentro un role="region" — che non e' un
+        elemento di sezionamento HTML — <header> diventa un landmark `banner`
+        annidato, ed e' la regola `landmark-banner-is-top-level`.
+      */}
+      <div className="flex items-center justify-between border-b border-border p-3">
         <span className="text-xs text-muted-fg">Provider: {adapter.name}</span>
         <Button
           size="sm"
@@ -42,7 +48,7 @@ export function Chatbot({ className }: { className?: string }) {
           <Trash className="mr-1 h-3 w-3" />
           Clear
         </Button>
-      </header>
+      </div>
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4" aria-live="polite">
         {messages.map((m) => (
           <article

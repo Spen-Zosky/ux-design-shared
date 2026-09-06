@@ -60,7 +60,27 @@ type Violazione = {
    * `html` e' troncato e i nodi sono al massimo 8 per violazione: serve a
    * riconoscere il punto nel sorgente, non a ricostruire la pagina.
    */
-  nodiDettaglio: { target: string; html: string }[];
+  nodiDettaglio: {
+    target: string;
+    html: string;
+    /**
+     * I due colori e il rapporto, quando la regola e' `color-contrast`.
+     *
+     * axe li conosce gia': ha letto i colori calcolati dal browser, compositing
+     * delle trasparenze incluso, e sa quale soglia si applica a quel corpo e a
+     * quel peso di carattere. Senza questi campi una proposta sui colori
+     * sarebbe fatta a occhio sui token, e i token non dicono su che sfondo
+     * finiscono davvero.
+     */
+    contrasto?: {
+      testo: string;
+      sfondo: string;
+      rapporto: number;
+      atteso: number;
+      corpo: string;
+      peso: string;
+    };
+  }[];
 };
 
 test.describe("inventario di accessibilità @audit", () => {
@@ -113,10 +133,34 @@ test.describe("inventario di accessibilità @audit", () => {
             gravita: v.impact ?? "sconosciuta",
             descrizione: v.help,
             nodi: v.nodes.length,
-            nodiDettaglio: v.nodes.slice(0, 8).map((n) => ({
-              target: n.target.join(" "),
-              html: n.html.length > 240 ? `${n.html.slice(0, 240)}…` : n.html,
-            })),
+            nodiDettaglio: v.nodes.slice(0, 8).map((n) => {
+              const dati = n.any.find((c) => c.id === "color-contrast")?.data as
+                | {
+                    fgColor?: string;
+                    bgColor?: string;
+                    contrastRatio?: number;
+                    expectedContrastRatio?: string;
+                    fontSize?: string;
+                    fontWeight?: string;
+                  }
+                | undefined;
+              return {
+                target: n.target.join(" "),
+                html: n.html.length > 240 ? `${n.html.slice(0, 240)}…` : n.html,
+                ...(dati?.contrastRatio != null
+                  ? {
+                      contrasto: {
+                        testo: dati.fgColor ?? "?",
+                        sfondo: dati.bgColor ?? "?",
+                        rapporto: dati.contrastRatio,
+                        atteso: parseFloat(String(dati.expectedContrastRatio ?? "4.5")),
+                        corpo: dati.fontSize ?? "?",
+                        peso: dati.fontWeight ?? "?",
+                      },
+                    }
+                  : {}),
+              };
+            }),
           });
         }
       }

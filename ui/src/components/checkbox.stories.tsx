@@ -66,7 +66,7 @@ function Group() {
           {key.toUpperCase()}: Multi-tenant principle {key.slice(1)}
         </label>
       ))}
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted-fg">
         Selected:{' '}
         {Object.entries(checked)
           .filter(([_, v]) => v)

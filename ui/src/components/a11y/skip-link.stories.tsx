@@ -14,7 +14,7 @@ export const Default: Story = {
   render: () => (
     <div className="relative h-[200px] border rounded p-4">
       <SkipLink href="#main" />
-      <p className="text-sm text-neutral-500">
+      <p className="text-sm text-muted-fg">
         Press Tab to focus the SkipLink (visually hidden until focused).
       </p>
       <main id="main" className="mt-12 p-4 border rounded bg-card">

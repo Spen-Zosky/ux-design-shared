@@ -24,7 +24,7 @@ export const Default: Story = {
     <ThemeProvider defaultTheme="system">
       <div className="flex flex-col items-center gap-3">
         <ThemeToggle />
-        <p className="text-xs text-neutral-500">Click to cycle: light → dark → system</p>
+        <p className="text-xs text-muted-fg">Click to cycle: light → dark → system</p>
       </div>
     </ThemeProvider>
   ),

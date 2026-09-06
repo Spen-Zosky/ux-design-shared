@@ -55,7 +55,7 @@ export function DBSupervisorSidebar() {
           <li key={item.label}>
             <a href="#" className="flex items-center justify-between gap-2 rounded-control px-2 py-1 text-[12px] text-muted-foreground transition hover:bg-accent hover:text-foreground">
               <span>{item.label}</span>
-              <span className="num font-mono text-[10px] text-muted-foreground/70">{item.count}</span>
+              <span className="num font-mono text-[10px] text-muted-foreground">{item.count}</span>
             </a>
           </li>
         ))}

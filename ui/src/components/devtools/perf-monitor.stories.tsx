@@ -12,7 +12,7 @@ type Story = StoryObj<typeof PerfMonitor>;
 
 const Frame = ({ children }: { children: React.ReactNode }) => (
   <div className="relative h-[400px] border border-dashed border-border bg-muted/10 p-6">
-    <p className="text-sm text-neutral-500">
+    <p className="text-sm text-muted-fg">
       FPS counter visible in selected corner. Updates every 1s.
     </p>
     {children}

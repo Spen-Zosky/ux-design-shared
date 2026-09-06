@@ -21,7 +21,7 @@ function PaletteDemo({ openOnMount = false }: { openOnMount?: boolean }) {
       <Button onClick={() => setOpen(true)}>
         <Search className="mr-2 h-4 w-4" /> Open palette (or ⌘K)
       </Button>
-      <p className="text-xs text-neutral-500">Type to filter, ↑↓ to navigate, Enter to select</p>
+      <p className="text-xs text-muted-fg">Type to filter, ↑↓ to navigate, Enter to select</p>
       <CommandPalette open={open} onOpenChange={setOpen} placeholder="Search anything…">
         <CommandPalette.Group heading="Navigate">
           <CommandPalette.Item

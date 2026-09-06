@@ -34,7 +34,7 @@ export const SubtleIntensity: Story = {
   render: () => (
     <TiltCard intensity={5} className="rounded-xl bg-card border p-8 w-[280px] shadow-md">
       <p className="text-lg font-semibold">Subtle (5)</p>
-      <p className="text-sm text-neutral-500">Minimal tilt, professional feel.</p>
+      <p className="text-sm text-muted-fg">Minimal tilt, professional feel.</p>
     </TiltCard>
   ),
 };

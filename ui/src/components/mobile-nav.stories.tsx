@@ -22,7 +22,7 @@ const items = [
 export const Default: Story = {
   render: () => (
     <div className="md:hidden h-screen bg-muted/20 p-4">
-      <p className="text-sm text-neutral-500 text-center">
+      <p className="text-sm text-muted-fg text-center">
         Mobile content. Bar fixed at bottom (visible solo su md:hidden).
       </p>
       <MobileBottomNav items={items} />

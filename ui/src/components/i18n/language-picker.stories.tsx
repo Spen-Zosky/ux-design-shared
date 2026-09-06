@@ -16,7 +16,7 @@ function Demo() {
   return (
     <div className="flex flex-col items-center gap-3">
       <LanguagePicker value={v} onChange={setV} />
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted-fg">
         Selected: <code>{v}</code>
       </p>
     </div>

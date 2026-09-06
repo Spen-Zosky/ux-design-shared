@@ -26,13 +26,35 @@
   --color-accent-foreground: oklch(0.22 0.018 252);
   --color-accent-fg:         var(--color-accent-foreground);
 
-  /* destructive (consumers use `danger`, not `destructive`) */
-  --color-destructive:            oklch(0.6 0.22 22);
+  /* destructive (consumers use `danger`, not `destructive`)
+   *
+   * L 0,60 -> 0,575: col testo quasi-bianco sopra passa da 4,31 a ~4,65.
+   * E' l'unica tinta che la correzione del 2026-09-06 ha spostato, perche' in
+   * tema chiaro nessun colore di testo salvava questo rosso.
+   *
+   * Il primo tentativo si era fermato a 0,59, che la sonda dava esattamente a
+   * 4,50 — e axe, che arrotonda il compositing in modo appena diverso, leggeva
+   * 4,49: sotto la soglia per un centesimo, su 19 elementi. Un valore al
+   * limite esatto non e' un valore corretto, e' un valore fortunato. */
+  --color-destructive:            oklch(0.575 0.22 22);
   --color-destructive-foreground: oklch(0.99 0 0);
   --color-destructive-fg:         var(--color-destructive-foreground);
 
-  /* feedback foregrounds (consumers provide the base hues only) */
-  --color-success-fg: oklch(0.99 0 0);
+  /* feedback foregrounds (consumers provide the base hues only)
+   *
+   * Il testo su una tinta piena segue la tinta, non una convenzione fissa.
+   * Misurato il 2026-09-06 con axe 4.13 su tutte le voci della vetrina, e
+   * verificato con una sonda a <canvas> che rilegge i pixel:
+   *
+   *   verde  #16A34A (marca) / #43A84C (base)   bianco 3,21 · scuro 5,25
+   *   ambra  #ECAA0B (base) / #B45309 (marca)   bianco 1,98 · scuro 8,51
+   *   rosso  #E2243C                            bianco 4,50 · scuro 3,75
+   *
+   * Il verde vuole testo scuro: prima era bianco, e non superava la soglia in
+   * nessuno dei due temi. L'ambra resta scura QUI perche' l'ambra di questi
+   * token base e' chiara; il tema di marca, che la scurisce a #B45309,
+   * ribalta il proprio `--warning-fg` per conto suo. */
+  --color-success-fg: oklch(0.22 0.018 252);
   --color-warning-fg: oklch(0.22 0.018 252);
   --color-info-fg:    oklch(0.99 0 0);
 
@@ -50,6 +72,10 @@
   --color-secondary-foreground: oklch(0.96 0.005 252);
   --color-accent-foreground:    oklch(0.96 0.005 252);
   --color-destructive:          oklch(0.65 0.22 22);
+  /* In scuro il rosso e' piu' chiaro (#F93F4E) e il testo quasi-bianco vi si
+   * ferma a 3,50; il testo scuro arriva a 4,82. E' l'inverso del tema chiaro,
+   * dove il rosso e' abbastanza cupo da reggere il bianco. */
+  --color-destructive-foreground: oklch(0.22 0.018 252);
   --color-input:                oklch(0.32 0.018 252);
   --color-ring:                 oklch(0.7 0.18 264);
   /* overlay stays neutral-dark in both themes */

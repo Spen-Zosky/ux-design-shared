@@ -17,9 +17,9 @@ function Demo({ language = 'it-IT' }: { language?: string }) {
     <div className="space-y-3 w-[400px]">
       <VoiceInput language={language} onTranscript={(t, isFinal) => isFinal && setTranscript(t)} />
       <div className="rounded border p-3 min-h-[60px] text-sm bg-muted/20">
-        {transcript || <span className="text-neutral-400">Transcript will appear here…</span>}
+        {transcript || <span className="text-muted-fg">Transcript will appear here…</span>}
       </div>
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted-fg">
         Lang: {language}. Browser support varia (Safari: no SpeechRecognition).
       </p>
     </div>

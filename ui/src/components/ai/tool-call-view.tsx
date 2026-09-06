@@ -34,9 +34,9 @@ export function ToolCallView({
         <Wrench className="h-3 w-3 text-primary" aria-hidden="true" />
         <span className="font-medium">{call.name}</span>
         {result?.error ? (
-          <span className="ml-auto text-destructive">error</span>
+          <span className="ml-auto text-danger-ink">error</span>
         ) : result ? (
-          <span className="ml-auto text-success">ok</span>
+          <span className="ml-auto text-success-ink">ok</span>
         ) : (
           <span className="ml-auto text-muted-fg animate-pulse">running…</span>
         )}

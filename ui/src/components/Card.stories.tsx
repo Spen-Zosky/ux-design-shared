@@ -23,7 +23,7 @@ export const Default: Story = {
       </CardHeader>
       <CardContent>
         <p className="text-3xl font-semibold">270</p>
-        <p className="text-sm text-neutral-500">+12 vs last month</p>
+        <p className="text-sm text-muted-fg">+12 vs last month</p>
       </CardContent>
       <CardFooter>
         <Button variant="outline" size="sm">

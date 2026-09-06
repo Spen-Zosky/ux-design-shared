@@ -17,7 +17,7 @@ function PhoneDemo() {
     <div className="w-[320px] space-y-2">
       <p className="text-xs font-medium">PhoneInputField (default IT)</p>
       <PhoneInputField value={v} onChange={setV} />
-      <p className="text-xs text-neutral-500">E.164 value: {v || '(empty)'}</p>
+      <p className="text-xs text-muted-fg">E.164 value: {v || '(empty)'}</p>
     </div>
   );
 }
@@ -33,7 +33,7 @@ function MoneyDemo() {
         onChange={setV}
         className="w-full rounded-md border px-3 py-2 text-sm"
       />
-      <p className="text-xs text-neutral-500">Value: {v ?? '(null)'}</p>
+      <p className="text-xs text-muted-fg">Value: {v ?? '(null)'}</p>
     </div>
   );
 }

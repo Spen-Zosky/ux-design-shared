@@ -25,12 +25,32 @@ export function PasswordStrengthMeter({
 
   const score = result?.score ?? 0;
   const labels = ['Too weak', 'Weak', 'Fair', 'Good', 'Strong'];
-  const colors = [
-    'oklch(0.6 0.22 22)',
+  /**
+   * Le barre e l'etichetta hanno bisogno di due colori diversi.
+   *
+   * Le barre sono decorative (`aria-hidden`) e possono restare vivide. La
+   * scritta accanto no: con la stessa tinta piena il rosso dava 4,26 su fondo
+   * chiaro e 4,30 su quello scuro, sotto la soglia AA in entrambi i temi.
+   * Percio' l'etichetta usa la rampa `-ink`, che e' esattamente il gradino
+   * costruito per il testo di un tono, e cambia col tema da sola.
+   *
+   * Prima era un solo elenco di `oklch()` scritti a mano, che duplicava i
+   * token invece di usarli: il primo valore era il rosso vecchio, e la
+   * correzione dei colori del 2026-09-06 non lo avrebbe mai raggiunto.
+   */
+  const barColors = [
+    'var(--color-destructive)',
     'oklch(0.7 0.2 40)',
-    'oklch(0.78 0.16 80)',
-    'oklch(0.7 0.18 145)',
-    'oklch(0.65 0.18 145)',
+    'var(--color-warning)',
+    'var(--color-success)',
+    'var(--color-success)',
+  ];
+  const labelClasses = [
+    'text-danger-ink',
+    'text-warning-ink',
+    'text-warning-ink',
+    'text-success-ink',
+    'text-success-ink',
   ];
 
   if (!password) return null;
@@ -44,13 +64,13 @@ export function PasswordStrengthMeter({
             aria-hidden="true"
             className="h-1 flex-1 rounded-full transition-colors"
             style={{
-              background: i <= score ? colors[score] : 'oklch(0.92 0.008 252)',
+              background: i <= score ? barColors[score] : 'var(--color-input)',
             }}
           />
         ))}
       </div>
       <div className="flex justify-between text-xs">
-        <span className="font-medium" style={{ color: colors[score] }}>
+        <span className={cn('font-medium', labelClasses[score])}>
           {labels[score]}
         </span>
         {result?.feedback.warning ? (

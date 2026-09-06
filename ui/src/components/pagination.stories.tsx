@@ -25,7 +25,7 @@ function Demo({ total = 25, jumpTo = false, sizePicker = false }) {
         pageSize={pageSize}
         onPageSizeChange={setPageSize}
       />
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted-fg">
         Page {page} of {total} | Size {pageSize}
       </p>
     </div>

@@ -88,7 +88,7 @@ export const Default: Story = {
         <span className="font-bold">heuresys</span>
         <MegaMenu triggers={triggers} />
       </div>
-      <div className="p-6 text-sm text-neutral-500">
+      <div className="p-6 text-sm text-muted-fg">
         Click a trigger to expand multi-column menu.
       </div>
     </div>

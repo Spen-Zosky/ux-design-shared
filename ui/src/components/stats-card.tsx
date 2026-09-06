@@ -57,7 +57,7 @@ export function StatsCard({
     trendDirection ?? (trend == null ? 'flat' : trend > 0 ? 'up' : trend < 0 ? 'down' : 'flat');
   const TrendIcon = dir === 'up' ? TrendingUp : dir === 'down' ? TrendingDown : Minus;
   const trendColor =
-    dir === 'up' ? 'text-success' : dir === 'down' ? 'text-destructive' : 'text-muted-fg';
+    dir === 'up' ? 'text-success-ink' : dir === 'down' ? 'text-danger-ink' : 'text-muted-fg';
 
   return (
     <div

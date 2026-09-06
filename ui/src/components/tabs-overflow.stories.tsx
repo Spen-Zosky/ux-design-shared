@@ -30,7 +30,7 @@ function Demo({ width = '600px' }: { width?: string }) {
   return (
     <div style={{ width }} className="border rounded-lg p-3">
       <TabsOverflow items={items} value={val} onChange={setVal} />
-      <p className="text-xs text-neutral-500 mt-3">
+      <p className="text-xs text-muted-fg mt-3">
         Selected: {val} | Try resize browser to trigger overflow collapse
       </p>
     </div>

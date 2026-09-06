@@ -25,12 +25,32 @@
   --color-accent: oklch(0.96 0.005 252);
   --color-accent-fg: oklch(0.22 0.018 252);
 
-  /* ---- Color: feedback ---- */
-  --color-destructive: oklch(0.6 0.22 22);
+  /* ---- Color: feedback ----
+   *
+   * Il testo su una tinta piena segue la tinta, non una convenzione fissa.
+   * Misurato il 2026-09-06 su tutte le voci della vetrina (axe 4.13) e
+   * verificato con una sonda a <canvas> che rilegge i pixel:
+   *
+   *   verde   #16A34A (marca) / #43A84C (base)  bianco 3,21 · scuro 5,25
+   *   ambra   #ECAA0B (base)                    bianco 1,98 · scuro 8,51
+   *   rosso   #E2243C                           bianco 4,50 · scuro 3,75
+   *
+   * Il verde vuole testo scuro, il rosso testo chiaro. Prima erano entrambi
+   * bianchi, e il verde non superava la soglia in nessuno dei due temi.
+   */
+  /* L 0,60 -> 0,59: col bianco sopra passava da 4,31 a 4,50. E' l'unica tinta
+   * spostata dalla correzione del 2026-09-06, di un gradino di luminosita',
+   * perche' in tema chiaro nessun colore di testo salvava questo rosso. */
+  --color-destructive: oklch(0.575 0.22 22);
   --color-destructive-fg: oklch(0.99 0 0);
   --color-success: oklch(0.65 0.16 145);
-  --color-success-fg: oklch(0.99 0 0);
+  /* Scuro, non bianco: sul verde il bianco si ferma a 3,21 (marca) e 2,95
+   * (base), sotto la soglia in entrambi i temi. */
+  --color-success-fg: oklch(0.22 0.018 252);
   --color-warning: oklch(0.78 0.16 80);
+  /* Resta scuro: l'ambra dei token base e' CHIARA (#ECAA0B), e il bianco vi
+   * darebbe 1,98. Il tema di marca, che scurisce l'ambra a #B45309, ribalta
+   * questo valore per conto proprio — vedi theme-heuresys.css. */
   --color-warning-fg: oklch(0.22 0.018 252);
   --color-info: oklch(0.65 0.16 240);
   --color-info-fg: oklch(0.99 0 0);
@@ -94,6 +114,10 @@
   --color-accent-fg: oklch(0.96 0.005 252);
 
   --color-destructive: oklch(0.65 0.22 22);
+  /* In scuro il rosso e' piu' chiaro (#F93F4E) e il bianco vi si ferma a 3,50;
+   * il testo scuro arriva a 4,82. E' l'inverso del tema chiaro, dove il rosso
+   * e' abbastanza cupo da reggere il bianco. */
+  --color-destructive-fg: oklch(0.22 0.018 252);
   --color-success: oklch(0.7 0.16 145);
   --color-warning: oklch(0.82 0.16 80);
   --color-info: oklch(0.7 0.16 240);

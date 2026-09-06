@@ -20,7 +20,7 @@ export const Default: Story = {
       <PopoverContent>
         <div className="space-y-2">
           <p className="font-medium text-sm">Popover content</p>
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted-fg">
             Renders in portal, auto-positions vs trigger. Click outside to close.
           </p>
         </div>

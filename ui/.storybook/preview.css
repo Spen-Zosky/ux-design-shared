@@ -50,3 +50,86 @@ body,
   background-color: var(--background);
   color: var(--foreground);
 }
+
+/* Dipingi anche la PAGINA DI DOCUMENTAZIONE, non solo la canvas.
+ *
+ * MISURATO (2026-09-06, sonda Playwright): con `dark` su <html> i token
+ * ribaltano correttamente e i componenti dentro la pagina docs si dipingono da
+ * soli — una Card passa davvero da #FFFFFF a #131720. Ma il telaio che
+ * Storybook disegna attorno a loro no: `.sbdocs-wrapper` resta
+ * rgb(255,255,255) e i suoi titoli restano scuri, perche' quei colori arrivano
+ * dal tema di Storybook (emotion), che non sa niente della nostra classe
+ * `dark`.
+ *
+ * Risultato: testo #F2F4F8 su bianco, 1,1:1 contro una soglia di 4,5. Da solo
+ * valeva 350 dei 666 elementi in violazione di contrasto — il 52,6%, piu' di
+ * tutti gli altri gruppi messi insieme, e nessuno di essi era un difetto dei
+ * colori di marca.
+ *
+ * La regola del 2026-09-04 qui sopra copriva `html`, `body` e `.sb-show-main`:
+ * era completa per gli esempi, che allora erano tutto cio' che esisteva. Le
+ * pagine di documentazione sono arrivate dopo, con `addon-docs`.
+ *
+ * Si toccano solo le classi del telaio (`.sbdocs-*`, `.docblock-*`). I
+ * contenitori che ospitano i componenti — `.docs-story`, `.sb-story` — restano
+ * fuori di proposito: li' dentro comanda il componente, e forzargli un colore
+ * di testo sarebbe esattamente il difetto che stiamo togliendo. */
+.dark .sbdocs-wrapper {
+  background-color: var(--background);
+}
+
+.dark .sbdocs-preview,
+.dark .docblock-argstable {
+  background-color: var(--card);
+}
+
+/* Il testo del telaio, per esclusione e non per elenco.
+ *
+ * La prima versione elencava le classi note (`.sbdocs-title`, `.sbdocs-p`, …).
+ * Non bastava, e il modo in cui non bastava e' istruttivo: dipingere il fondo
+ * di scuro senza raggiungere OGNI testo del telaio non risolve il difetto, lo
+ * ROVESCIA. Testo chiaro su bianco (1,10) diventava testo scuro su scuro
+ * (1,49) — misurato, 404 elementi, peggio dei 350 di partenza.
+ *
+ * Storybook colora molti nodi che non hanno una classe `sbdocs-*`, quindi
+ * l'unico criterio affidabile e' rovesciare la regola: tutto cio' che sta nel
+ * telaio prende il colore del tema, TRANNE cio' che sta dentro un componente.
+ * `.docs-story` e `.sb-story` sono i contenitori delle story: li' dentro
+ * comanda il componente, e imporgli un colore sarebbe esattamente il difetto
+ * che stiamo togliendo. */
+.dark .sbdocs-wrapper,
+.dark .sbdocs-wrapper *:not(.docs-story):not(.docs-story *):not(.sb-story):not(.sb-story *) {
+  color: var(--foreground);
+}
+
+/* I titoli restano titoli: il tono pieno, non quello del testo corrente. */
+.dark .sbdocs-title,
+.dark .sbdocs-subtitle {
+  color: var(--foreground);
+}
+
+/* Il codice in linea porta uno sfondo PROPRIO, chiarissimo (#F6F9FC), che la
+ * regola sul wrapper non tocca: il testo vi diventava chiaro e lo sfondo
+ * restava quasi bianco — 1,04, il residuo piu' grosso dopo la prima
+ * correzione del telaio (35 elementi su 18 voci). */
+.dark .sbdocs-wrapper code,
+.dark .sbdocs-wrapper pre {
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+/* I comandi del telaio — «Show code», le azioni sopra l'anteprima — sono testo
+ * secondario: il token muted, non il pieno. */
+.dark .sbdocs-preview-actions,
+.dark .sbdocs-preview-actions button,
+.dark .docblock-code-toggle {
+  color: var(--muted-foreground);
+  background-color: transparent;
+}
+
+.dark .sbdocs-preview,
+.dark .sbdocs-preview-actions,
+.dark .docblock-argstable th,
+.dark .docblock-argstable td {
+  border-color: var(--border);
+}

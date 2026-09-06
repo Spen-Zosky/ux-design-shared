@@ -51,7 +51,7 @@ function SettingsPanel() {
         <div key={key} className="flex items-start justify-between gap-3 p-3 border rounded">
           <div>
             <p className="text-sm font-medium">{label}</p>
-            <p className="text-xs text-neutral-500">{desc}</p>
+            <p className="text-xs text-muted-fg">{desc}</p>
           </div>
           <Switch
             checked={(s as Record<string, boolean>)[key]}

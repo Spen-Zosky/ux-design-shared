@@ -9,7 +9,7 @@ const pillVariants = cva(
       tone: {
         ok: 'border-success bg-success/15 text-success-ink',
         warn: 'border-warning bg-warning/15 text-warning-ink',
-        down: 'border-destructive bg-destructive/15 text-destructive',
+        down: 'border-destructive bg-destructive/15 text-danger-ink',
         info: 'border-primary bg-primary/15 text-primary-ink',
       },
     },

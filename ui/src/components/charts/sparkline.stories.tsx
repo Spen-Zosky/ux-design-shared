@@ -31,7 +31,7 @@ function LiveSparkline() {
   return (
     <div className="space-y-1 text-primary">
       <Sparkline data={data} width={240} height={48} fill="currentColor" showPoints />
-      <p className="text-xs text-neutral-500 tabular-nums">
+      <p className="text-xs text-muted-fg tabular-nums">
         last: {data[data.length - 1].toFixed(2)}
       </p>
     </div>
@@ -55,7 +55,7 @@ export const Grid: Story = {
         { label: 'Net Mb/s', data: [5, 8, 12, 7, 15, 10, 18, 14, 22] },
       ].map((m) => (
         <div key={m.label} className="rounded border p-3">
-          <p className="text-xs text-neutral-500 mb-1">{m.label}</p>
+          <p className="text-xs text-muted-fg mb-1">{m.label}</p>
           <Sparkline data={m.data} width={140} height={32} fill="currentColor" />
         </div>
       ))}

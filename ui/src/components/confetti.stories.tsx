@@ -46,7 +46,7 @@ function SuccessFlow() {
       >
         ✓ Mark task complete
       </Button>
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted-fg">
         Pattern: confetti come reward su success completion
       </p>
     </div>

@@ -66,7 +66,7 @@ export function KpiRing({
           ? Minus
           : null;
   const trendColor =
-    trendDir === 'up' ? 'text-success' : trendDir === 'down' ? 'text-destructive' : 'text-muted-fg';
+    trendDir === 'up' ? 'text-success-ink' : trendDir === 'down' ? 'text-danger-ink' : 'text-muted-fg';
 
   return (
     <div

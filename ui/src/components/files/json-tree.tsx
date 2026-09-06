@@ -105,9 +105,9 @@ function Leaf({
   className?: string;
 }) {
   const colorClass = {
-    string: 'text-success',
+    string: 'text-success-ink',
     number: 'text-info',
-    boolean: 'text-warning',
+    boolean: 'text-warning-ink',
     null: 'text-muted-fg',
   }[type];
   return (

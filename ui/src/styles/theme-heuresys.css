@@ -68,6 +68,10 @@
      palette in piu' componenti (SQLSlowQueryTable, RBACMatrix,
      DBSupervisorSidebar, l'avatar dell'header), tutti sotto AA in chiaro
      esattamente come lo erano i toni semantici prima della rampa. */
+  /* Il testo sulla tinta piena dell'ambra, che qui e' un colore diverso da
+     quello dei token base e quindi vuole un testo diverso. Vedi il blocco
+     `--warning-fg` in :root piu' sotto. */
+  --color-warning-fg: var(--warning-fg);
   --color-palette-1-ink: var(--palette-1-ink);
   --color-palette-2-ink: var(--palette-2-ink);
   --color-palette-3-ink: var(--palette-3-ink);
@@ -113,6 +117,18 @@
      chip a tinta 10% (StatusPill) invece del token pieno sopra. Il token pieno
      su bg/10 composito su --card bianco non raggiunge 4.5:1 AA per testo
      piccolo (es. success #16A34A -> 2.95:1); l'ink e' scurito apposta. */
+  /* Testo sull'ambra PIENA, e perche' qui e non nei token base.
+   *
+   * I token base tengono un'ambra chiara (#ECAA0B) e vi posano testo scuro,
+   * che e' giusto per quel colore: 8,51. Questo tema scurisce l'ambra a
+   * #B45309 per l'AA su bianco, e a quel punto il testo scuro sopra scende a
+   * 3,45 — sotto la soglia. Il bianco vi arriva a 4,89.
+   *
+   * L'override sta qui, accanto alla tinta che lo rende necessario: un
+   * progetto che adotta i token senza questo tema continua a vedere ambra
+   * chiara con testo scuro, che e' la coppia corretta per lui. Misurato il
+   * 2026-09-06. */
+  --warning-fg: #FCFCFC;
   --success-ink: #166534;
   --warning-ink: #92400E;
   --danger-ink:  #991B1B;
@@ -169,6 +185,9 @@
   /* Il default light e' scurito a #B45309 per l'AA su bianco; sulla card scura
      quello darebbe ~4.0:1, mentre l'ambra originale rende 8.3:1. */
   --warning: #F59E0B !important;
+  /* In scuro l'ambra torna chiara, quindi il testo torna scuro: 8,06 contro il
+     2,09 che darebbe il bianco. E' l'inverso esatto del tema chiaro. */
+  --warning-fg: #151B23 !important;
   --color-icon-warning: #F59E0B !important;
   /* Rampa "ink" in dark: qui coincide col semantico pieno gia' in uso sopra,
      che su --card scuro passa gia' AA (vedi commento sopra) — niente gradino

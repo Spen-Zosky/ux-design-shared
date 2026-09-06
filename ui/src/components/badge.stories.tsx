@@ -46,7 +46,7 @@ function LiveCounter() {
   }, []);
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-neutral-600">Inbox</span>
+      <span className="text-sm text-muted-fg">Inbox</span>
       <Badge variant="destructive">{n}</Badge>
     </div>
   );

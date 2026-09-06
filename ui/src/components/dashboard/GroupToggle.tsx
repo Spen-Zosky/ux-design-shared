@@ -57,7 +57,7 @@ export function GroupToggle({ groupId, label, children, className }: GroupToggle
         data-group-toggle={groupId}
         aria-expanded={expanded}
         onClick={toggle}
-        className="sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70 transition hover:text-foreground"
+        className="sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground"
       >
         <span>{label}</span>
         <svg data-group-chevron className="h-3 w-3 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

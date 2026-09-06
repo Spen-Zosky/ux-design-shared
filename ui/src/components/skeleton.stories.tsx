@@ -47,7 +47,7 @@ function ListLoadingDemo() {
               </div>
               <div>
                 <p className="text-sm font-medium">{n}</p>
-                <p className="text-xs text-neutral-500">Engineer</p>
+                <p className="text-xs text-muted-fg">Engineer</p>
               </div>
             </div>
           ))

@@ -21,7 +21,7 @@ function Replay({ Cmp, label }: { Cmp: React.ComponentType<any>; label: string }
       </Button>
       <Cmp key={k} className="rounded-md border p-6 bg-card">
         <p className="text-sm font-medium">{label}</p>
-        <p className="text-xs text-neutral-500">Click "Replay" to re-trigger</p>
+        <p className="text-xs text-muted-fg">Click "Replay" to re-trigger</p>
       </Cmp>
     </div>
   );
@@ -43,7 +43,7 @@ export const Stagger: Story = {
           {[0, 0.1, 0.2, 0.3, 0.4, 0.5].map((d, i) => (
             <FadeIn key={i} delay={d} className="rounded-md border p-4 bg-primary/5">
               <p className="text-sm">Item {i + 1}</p>
-              <p className="text-xs text-neutral-500">delay {d}s</p>
+              <p className="text-xs text-muted-fg">delay {d}s</p>
             </FadeIn>
           ))}
         </div>

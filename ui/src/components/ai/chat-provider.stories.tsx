@@ -32,13 +32,13 @@ function Inspector() {
           Clear
         </Button>
       </div>
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-muted-fg">
         Streaming: {String(isStreaming)} | Messages: {messages.length}
       </p>
       <ul className="space-y-1 text-sm">
         {messages.map((m) => (
           <li key={m.id} className="rounded border p-2">
-            <span className="text-xs uppercase text-neutral-500">{m.role}</span>: {m.content}
+            <span className="text-xs uppercase text-muted-fg">{m.role}</span>: {m.content}
           </li>
         ))}
       </ul>

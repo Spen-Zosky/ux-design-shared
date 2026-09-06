@@ -21,7 +21,7 @@ function Demo({ length = 6 }: { length?: number }) {
         onChange={setV}
         onComplete={(val) => console.log('complete', val)}
       />
-      <p className="text-xs text-neutral-500 tabular-nums">
+      <p className="text-xs text-muted-fg tabular-nums">
         value: {v || '(empty)'} / {length}
       </p>
     </div>

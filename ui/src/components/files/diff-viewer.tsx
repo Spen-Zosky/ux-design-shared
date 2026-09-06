@@ -36,7 +36,7 @@ export function DiffViewer({
               key={`a-${i}`}
               className={cn(
                 'flex gap-2 px-2 py-0.5',
-                l.type === 'remove' && 'bg-destructive/10 text-destructive'
+                l.type === 'remove' && 'bg-destructive/10 text-danger-ink'
               )}
             >
               <span className="w-8 select-none text-right text-muted-fg">{l.oldLine ?? ''}</span>
@@ -71,7 +71,7 @@ export function DiffViewer({
           className={cn(
             'flex gap-2 px-2 py-0.5',
             l.type === 'add' && 'bg-success/10 text-success-ink',
-            l.type === 'remove' && 'bg-destructive/10 text-destructive'
+            l.type === 'remove' && 'bg-destructive/10 text-danger-ink'
           )}
         >
           <span className="w-8 select-none text-right text-muted-fg">

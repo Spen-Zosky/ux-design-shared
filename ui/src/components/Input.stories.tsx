@@ -41,7 +41,7 @@ function ValidationDemo() {
         placeholder="Min 3 caratteri…"
       />
       <p
-        className={`text-xs ${isError ? 'text-destructive' : isValid ? 'text-emerald-600' : 'text-neutral-500'}`}
+        className={`text-xs ${isError ? 'text-destructive' : isValid ? 'text-emerald-600' : 'text-muted-fg'}`}
       >
         {isError ? `Need ${3 - v.length} more chars` : isValid ? '✓ Valid input' : 'Start typing…'}
       </p>
@@ -63,7 +63,7 @@ export const LiveValidation: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div className="relative w-[300px]">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-fg" />
       <Input className="pl-9" placeholder="Search…" />
     </div>
   ),
@@ -73,7 +73,7 @@ export const WithIcon: Story = {
 export const EmailWithIcon: Story = {
   render: () => (
     <div className="relative w-[300px]">
-      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-fg" />
       <Input className="pl-9" type="email" placeholder="name@example.com" />
     </div>
   ),
@@ -88,7 +88,7 @@ function PasswordToggle() {
       <button
         type="button"
         onClick={() => setShow(!show)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-900"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-fg hover:text-foreground"
         aria-label={show ? 'Hide password' : 'Show password'}
       >
         {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}

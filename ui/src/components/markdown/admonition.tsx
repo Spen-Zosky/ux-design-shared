@@ -17,7 +17,7 @@ const VARIANTS = {
   danger: {
     icon: AlertCircle,
     label: 'Danger',
-    className: 'border-destructive/40 bg-destructive/10 text-destructive',
+    className: 'border-destructive/40 bg-destructive/10 text-danger-ink',
   },
   note: {
     icon: BookOpen,

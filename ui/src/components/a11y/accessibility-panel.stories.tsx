@@ -13,7 +13,7 @@ type Story = StoryObj<typeof AccessibilityPanel>;
 export const Default: Story = {
   render: () => (
     <div className="relative h-[500px] border rounded p-4 bg-muted/20">
-      <p className="text-sm text-neutral-500 mb-3">
+      <p className="text-sm text-muted-fg mb-3">
         Click bottone in basso a destra per aprire il panel.
       </p>
       <p>Sample content per testare font scaling + high contrast + reading mode.</p>

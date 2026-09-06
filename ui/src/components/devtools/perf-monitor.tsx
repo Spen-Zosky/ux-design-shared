@@ -83,8 +83,8 @@ export function PerfMonitor({
         <span
           className={cn(
             'font-semibold',
-            fps < 30 && 'text-destructive',
-            fps >= 50 && 'text-success'
+            fps < 30 && 'text-danger-ink',
+            fps >= 50 && 'text-success-ink'
           )}
         >
           {fps} FPS

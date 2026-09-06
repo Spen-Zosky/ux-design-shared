@@ -15,7 +15,7 @@ function Demo() {
   const announce = useAnnounce();
   return (
     <div className="space-y-3">
-      <p className="text-sm text-neutral-500">
+      <p className="text-sm text-muted-fg">
         Click → screen reader annuncia (sr-only). Open dev tools → Accessibility tree per vedere
         live region.
       </p>

@@ -14,7 +14,7 @@ export const Default: Story = {
   render: () => (
     <div className="grid grid-cols-[200px_1fr] gap-6">
       <aside className="sticky top-4">
-        <p className="text-xs font-semibold uppercase mb-2 text-neutral-500">On this page</p>
+        <p className="text-xs font-semibold uppercase mb-2 text-muted-fg">On this page</p>
         <TableOfContents containerSelector="#story-article" />
       </aside>
       <article id="story-article" className="prose prose-sm max-w-none space-y-4">

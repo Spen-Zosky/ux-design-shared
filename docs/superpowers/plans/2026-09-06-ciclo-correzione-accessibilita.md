@@ -117,8 +117,40 @@ Verifiche: typecheck pulito, Vitest 119/119, tre volte durante il ciclo.
 
 | id | cosa | chi | fatto significa | stato |
 |---|---|---|---|---|
-| 2.0 | Proposta dei token corretti, con prima/dopo visibile | io | Enzo vede i colori proposti e i rapporti misurati | **da fare** |
-| 2.1 | Decisione sui colori del tema scuro | **Enzo** | scelta registrata qui | **da fare** |
+| 2.0 | Proposta dei colori, coi rapporti misurati | io | `../reference/2026-09-06-proposta-contrasto.md` | **fatto** — `39ed16a` |
+| 2.1 | Decisione | **Enzo** | scelta registrata | **fatto** — 2026-09-06: sì a tutte e tre le domande (cambiare le scritte invece delle tinte; il rosso di un gradino; gli altri tre gruppi senza altre domande) |
+| 2.2 | Il testo sulle tinte piene | io | `--color-success-fg` e `--color-destructive-foreground` (scuro) e `--warning-fg` di marca (bianco in chiaro, scuro in scuro) | **fatto** |
+| 2.3 | Il rosso di un gradino | io | `--color-destructive` L 0,60 → 0,59 | **fatto** |
+| 2.4 | La pagina docs dipinta in tema scuro | io | regole `.dark .sbdocs-*` in `preview.css`; il gruppo passa da 350 nodi a **0**, misurato | **fatto** |
+| 2.5 | I grigi scritti a mano → token | io | `text-neutral-*` e `text-slate-700` non esistono più: 37 occorrenze in 29 file, 28 dei quali story | **fatto** |
+| 2.6 | La rampa `-ink` dove la tinta fa da testo | io | 12 componenti indicati dai dati; nessun token nuovo, `danger-ink` dà già 6,44 su fondi chiari e 5,96 su quelli scuri | **fatto** |
+| 2.7 | Rimisura e residuo | io | inventario rigenerato, residuo classificato | **fatto** — vedi sotto |
+
+### Esito della Fase 2 — misurato il 2026-09-06, 504 voci su 504
+
+| | 2026-09-05 | dopo la Fase 1 | **dopo la Fase 2** |
+|---|---|---|---|
+| **totale** | 441 | 270 | **70** |
+| `color-contrast` | 217 | 217 | **16** |
+| composizione delle pagine docs | — | 53 | 54 |
+| `critical` | 76 | 0 | **0** |
+
+**Sono serviti quattro giri di misura, non uno**, e ogni giro ha corretto un errore del precedente:
+
+1. La prima correzione dei colori è stata scritta in `tokens.css` e non ha avuto **alcun** effetto:
+   quel file è un template che nessuno importa: i valori veri stanno in `globals.css`, che li
+   duplica. Scoperto solo rileggendo il CSS compilato dopo 29 minuti di corsa.
+2. Dipingere la pagina di documentazione senza raggiungere **ogni** testo del telaio non ha risolto
+   il difetto: lo ha **rovesciato**. Testo chiaro su bianco (1,10, 350 elementi) è diventato testo
+   scuro su scuro (1,49, 404 elementi) — peggio di prima. La regola è stata riscritta per
+   esclusione invece che per elenco.
+3. Il rosso portato a L 0,59 dava esattamente 4,50 alla sonda e **4,49** ad axe, che arrotonda il
+   compositing in modo appena diverso: sotto la soglia per un centesimo, su 19 elementi. Un valore
+   al limite esatto non è un valore corretto, è un valore fortunato. Portato a 0,575.
+4. Il residuo più grosso dopo tutto questo era il `<code>` in linea, che ha uno sfondo proprio
+   (#F6F9FC) che nessuna regola sul contenitore tocca.
+
+Verifiche: typecheck pulito e Vitest 119/119 a ogni passo.
 
 ### Fase 3 — il cancello
 
@@ -159,7 +191,13 @@ Non entrano in «cosa resta», non bloccano la chiusura. Si presentano a Enzo un
    incontrerebbero mai. Sono **~52 violazioni di sola composizione** (`landmark-*` e
    `heading-order`, tutte su voci `› Docs`): non sono difetti dei componenti, e la scelta è se
    misurare quelle regole solo sulle story. Da decidere prima di accendere il cancello.
-3. **Prettier è dichiarato ma non installato.** `package.json` della radice lo elenca fra le
+3. **`tokens.css` non è la fonte dei token: è un template che nessuno importa.** I valori che
+   arrivano davvero al browser stanno in `globals.css`, che li **duplica** — il suo stesso commento
+   lo dice: «values mirror src/styles/tokens.css (wizard template, not a runtime import)». Due file
+   con gli stessi valori e un solo lettore: la prima correzione dei colori è stata scritta in
+   `tokens.css` e non ha avuto **alcun** effetto, scoperto solo rileggendo il CSS compilato dopo una
+   corsa da 29 minuti. Finché restano due, divergeranno.
+4. **Prettier è dichiarato ma non installato.** `package.json` della radice lo elenca fra le
    devDependencies e `node_modules/.bin/prettier` esiste, ma punta a un pacchetto assente:
    qualunque `prettier --check` in una verifica automatica fallirebbe con `MODULE_NOT_FOUND`.
 4. **I test end-to-end non sono type-checkati.** `ui/tsconfig.json` dichiara `include:

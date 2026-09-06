@@ -33,7 +33,7 @@ export const Default: Story = {
     children: (
       <div className="p-6">
         <h1 className="text-2xl font-semibold">Welcome to the dashboard</h1>
-        <p className="text-sm text-neutral-500 mt-2">
+        <p className="text-sm text-muted-fg mt-2">
           Sidebar collapsible (icon button top), mobile-responsive overlay drawer.
         </p>
       </div>

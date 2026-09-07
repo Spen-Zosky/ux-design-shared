@@ -7,7 +7,13 @@
  * own @theme. The library fills ONLY the tokens no consumer provides, plus
  * `-fg` aliases so components using either naming convention resolve.
  * Aliases inherit each consumer's `-foreground` value at runtime (verified).
- * Values mirror src/styles/tokens.css (wizard template, not a runtime import). */
+ *
+ * QUESTO E' L'UNICO FILE CHE DICHIARA COLORI E CHE VIENE LETTO. Fino al
+ * 2026-09-07 la riga qui sopra diceva «values mirror src/styles/tokens.css»,
+ * ed era vera nel senso peggiore: due file con gli stessi 16 token, uno solo
+ * caricato, e nessun modo di accorgersi di aver corretto quello sbagliato se
+ * non rileggendo il CSS compilato. I colori ora stanno solo qui; `tokens.css`
+ * non ne dichiara piu' nessuno e porta in cima la spiegazione di cosa e'. */
 @theme {
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -84,4 +90,29 @@
 html,
 body {
   font-family: var(--font-sans);
+}
+
+/* ---- Reduced motion respect (a11y) ----
+ *
+ * Sta QUI perche' qui viene letto.
+ *
+ * Questo blocco viveva in `tokens.css`, che nessun foglio importa e che
+ * `exports` non espone: era dichiarato e inattivo. Il rispetto di
+ * `prefers-reduced-motion` era percio' solo parziale — l'unico blocco davvero
+ * caricato, in `hover-affordance.css`, elenca quattordici selettori, e tutto il
+ * resto continuava a muoversi per chi aveva chiesto che non lo facesse, comprese
+ * le animazioni di framer-motion, che sono le piu' vistose.
+ *
+ * Verificato il 2026-09-07 leggendo il CSS compilato della vetrina, non i
+ * sorgenti: `tokens.css` non vi compariva affatto.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -51,10 +51,16 @@ export default defineConfig({
      * Misurato il 2026-09-06 su `Components/Motion` e `AI/ToolCallView`, dove
      * gli stessi elementi passavano o fallivano a seconda del momento.
      *
-     * `globals.css` azzera gia' animazioni e transizioni sotto
+     * `globals.css` azzera animazioni e transizioni sotto
      * `prefers-reduced-motion: reduce`, quindi qui non si sopprime la
      * misurazione: si chiede alla pagina lo stato che essa stessa dichiara di
      * assumere per chi quelle animazioni non le vuole.
+     *
+     * Quando questa riga fu scritta, il 2026-09-06, era FALSA: quel blocco
+     * stava in `tokens.css`, che nessuno importa, e non azzerava niente. E'
+     * diventata vera il giorno dopo, spostandolo. Vale la pena ricordarlo: da
+     * sola questa impostazione non basto' a fermare le animazioni nella misura,
+     * ed e' il motivo per cui il test aspetta anche `getAnimations()`.
      */
     reducedMotion: "reduce",
   },

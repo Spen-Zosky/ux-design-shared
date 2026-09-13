@@ -1049,11 +1049,23 @@ declare function FormWizard<TState extends Record<string, unknown>>({ steps, ini
  * Smart inputs — domain-aware inputs with formatting + validation.
  * (TIER 6)
  */
-declare function PhoneInputField({ value, onChange, defaultCountry, className, }: {
+declare function PhoneInputField({ value, onChange, defaultCountry, className, 
+/**
+ * Nome accessibile del campo.
+ *
+ * `react-international-phone` rende un `<input>` che non e' nostro e che
+ * nessuna `<label>` raggiunge da fuori: l'unico modo di dargli un nome e'
+ * `inputProps`. Senza, e' la regola `label` di axe.
+ *
+ * Gli apici inversi contano: questa descrizione finisce nella tabella dei
+ * Controls come markdown, e un tag nudo vi diventerebbe un elemento vero.
+ */
+ariaLabel, }: {
     value: string;
     onChange: (val: string) => void;
     defaultCountry?: string;
     className?: string;
+    ariaLabel?: string;
 }): react_jsx_runtime.JSX.Element;
 interface MoneyInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
     value: number | null;
@@ -1330,10 +1342,11 @@ declare function parseXML(file: File | string): Promise<Record<string, unknown>>
  * GFM tables/strikethrough/tasklists, KaTeX math, custom code blocks slot.
  * (TIER 10)
  */
+type MarkdownComponents = React$1.ComponentProps<typeof ReactMarkdown>['components'];
 declare function MarkdownView({ content, className, components, }: {
     content: string;
     className?: string;
-    components?: React$1.ComponentProps<typeof ReactMarkdown>['components'];
+    components?: MarkdownComponents;
 }): react_jsx_runtime.JSX.Element;
 
 declare const VARIANTS: {
@@ -1355,7 +1368,7 @@ declare const VARIANTS: {
     readonly danger: {
         readonly icon: React$1.ForwardRefExoticComponent<Omit<lucide_react.LucideProps, "ref"> & React$1.RefAttributes<SVGSVGElement>>;
         readonly label: "Danger";
-        readonly className: "border-destructive/40 bg-destructive/10 text-destructive";
+        readonly className: "border-destructive/40 bg-destructive/10 text-danger-ink";
     };
     readonly note: {
         readonly icon: React$1.ForwardRefExoticComponent<Omit<lucide_react.LucideProps, "ref"> & React$1.RefAttributes<SVGSVGElement>>;
@@ -1483,6 +1496,80 @@ declare function VoiceInput({ onTranscript, language, className, }: {
     language?: string;
     className?: string;
 }): react_jsx_runtime.JSX.Element;
+
+/**
+ * AgentPanel — la superficie riusabile dell'assistente sulle pagine di un'applicazione.
+ * (TIER 8, heuresys-advanced #159 F2)
+ *
+ * È una vista PURA: non apre nessun canale, non traduce, non sa su quale pagina sta.
+ *   · il CANALE (stream, corsa, approvazioni) lo porta chi la monta, come stato e callback;
+ *   · le PAROLE arrivano già tradotte in `labels`, così ogni consumatore usa il proprio
+ *     namespace i18n e nessuna pagina eredita le stringhe della prima;
+ *   · il CONTESTO di pagina («sto guardando l'unità X») è un parametro libero (`context`),
+ *     mai un ramo condizionale per tipo di pagina: aggiungere una pagina = montare il
+ *     componente, zero lavoro qui dentro.
+ *
+ * `tool` e `input` dell'approvazione si mostrano così come arrivano: chi li produce li ha
+ * già redatti a monte, e questa vista non è il posto in cui deciderlo.
+ */
+interface AgentPanelLabels {
+    title: string;
+    description?: string;
+    promptLabel: string;
+    promptPlaceholder?: string;
+    run: string;
+    running: string;
+    stop: string;
+    streamTitle: string;
+    streamEmpty: string;
+    approvalTitle: string;
+    approvalDesc?: string;
+    approvalTool: string;
+    approvalInput: string;
+    allow: string;
+    deny: string;
+    /** Etichetta davanti a `gatewayUrl`, se lo si mostra. */
+    gatewayLabel?: string;
+    /** Etichetta davanti al contesto di pagina, se c'è. */
+    contextLabel?: string;
+}
+interface AgentPanelLine {
+    id: number | string;
+    /** Il genere della riga: `message`, `approval_required`, `error`, `done`… */
+    kind: string;
+    text: string;
+}
+interface AgentPanelApproval {
+    approvalId: string;
+    tool: unknown;
+    input: unknown;
+}
+interface AgentPanelNotice {
+    kind: 'ok' | 'err';
+    /** Già tradotto da chi monta il pannello. */
+    text: string;
+}
+interface AgentPanelProps {
+    labels: AgentPanelLabels;
+    /** Il contesto di pagina, come valore libero: si mostra e si passa, non si interpreta. */
+    context?: string | null;
+    prompt: string;
+    onPromptChange: (value: string) => void;
+    running: boolean;
+    onRun: () => void;
+    onStop: () => void;
+    lines: readonly AgentPanelLine[];
+    approval?: AgentPanelApproval | null;
+    onApproval?: (decision: 'allow' | 'deny') => void;
+    notice?: AgentPanelNotice | null;
+    /** Se presente si mostra in piccolo: è un indirizzo, mai un segreto. */
+    gatewayUrl?: string;
+    /** Prefisso dei `data-testid` (default `agent`): un consumatore che ha già delle prove
+     *  E2E lo imposta sul proprio e non le riscrive. */
+    testIdPrefix?: string;
+    className?: string;
+}
+declare function AgentPanel({ labels, context, prompt, onPromptChange, running, onRun, onStop, lines, approval, onApproval, notice, gatewayUrl, testIdPrefix, className, }: AgentPanelProps): react_jsx_runtime.JSX.Element;
 
 /**
  * Locale-aware formatters via Intl API. (TIER 11)
@@ -1774,6 +1861,14 @@ interface SkillHeatmapProps {
     cells: SkillHeatmapCell[];
     /** caption for screen readers */
     caption?: string;
+    /**
+     * Header of the row-label column — the empty top-left corner cell.
+     *
+     * A `<th>` with no text is the axe rule `empty-table-header`: a screen
+     * reader announces every row header as belonging to a column with no name.
+     * Rendered for assistive tech only, so the corner stays visually blank.
+     */
+    rowAxisLabel?: string;
     /** show numeric value inside cell */
     showValue?: boolean;
     /** override default sequential scale */
@@ -1781,7 +1876,7 @@ interface SkillHeatmapProps {
     onCellClick?: (cell: SkillHeatmapCell) => void;
     className?: string;
 }
-declare function SkillHeatmap({ rows, cols, cells, caption, showValue, colorScale, onCellClick, className, }: SkillHeatmapProps): react_jsx_runtime.JSX.Element;
+declare function SkillHeatmap({ rows, cols, cells, caption, rowAxisLabel, showValue, colorScale, onCellClick, className, }: SkillHeatmapProps): react_jsx_runtime.JSX.Element;
 
 interface CapabilityRadarAxis {
     id: string;
@@ -2652,4 +2747,4 @@ declare function FieldGrid({ fields, testId, className, }: {
     className?: string;
 }): react_jsx_runtime.JSX.Element;
 
-export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, type AchievementBadgeProps, ActivityFeed, type ActivityFeedItem, ActivityRing, type ActivityRingProps, Admonition, type AdmonitionVariant, type AlertAction, AlertBanner, type AlertBannerProps, type AlertVariant, AnimatedNumber, AppShell, type AppShellNavItem, type AppShellProps, AppSwitcher, type AppSwitcherApp, type AuditEvent, AuditFeed, type AuditFeedProps, type AuditTone, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, type BannerProps, BentoCell, type BentoCellProps, BentoGrid, type BentoGridProps, type BrandIdentity, type BreadcrumbItem, Breadcrumbs, Button, type ButtonProps, type CalendarEvent, CalendarGrid, CapabilityRadar, type CapabilityRadarAxis, type CapabilityRadarProps, type CapabilityRadarSeries, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, type CareerArcProps, type CareerStage, type CareerStageStatus, Center, type ChatMessage, ChatProvider, type ChatProviderAdapter, type ChatRole, Chatbot, Checkbox, Cluster, type ColorModes, type ColorSystem, CommandPalette, type Comment, CommentThread, ConfettiButton, Cover, type CrossHairBindings, type DBSubItem, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, type DashboardFooterProps, DashboardHeader, type DashboardHeaderProps, type RbacRole as DashboardRbacRole, DashboardShell, type DashboardShellProps, DashboardSidebar, type DashboardSidebarProps, DataTable, type DataTableProps, DataTableWithCrossHair, type DataTableWithCrossHairProps, type DetailField, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, type DiffLine, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, type ESCOTreeNavigatorProps, type ESCOTreeNode, type EffectsConfig, EmptyState, type EmptyStateProps, type EndpointRow, ErrorRateBreakdown, type ErrorRateBreakdownProps, ErrorState, type ErrorStateProps, FAB, type FABProps, FadeIn, FieldGrid, FileDropzone, type FileDropzoneProps, FilterBar, type FilterBarProps, type FilterChip, FormWizard, type FormWizardProps, type FormWizardStep, Frame, type GalleryImage, GlassCard, type GlassCardProps, GradientText, Grid, GroupToggle, type GroupToggleProps, type HeaderBreadcrumb, HeaderBreadcrumbTrail, type HeaderBreadcrumbTrailProps, HeaderLanguageSwitcher, type HeaderLanguageSwitcherProps, HeaderMenuTrigger, type HeaderMenuTriggerProps, HeaderMobileDrawer, type HeaderMobileDrawerProps, HeaderSearchTrigger, type HeaderSearchTriggerProps, HeaderThemeToggle, HeaderUserIdentity, type HeaderUserIdentityProps, HeaderUserMenu, type HeaderUserMenuProps, type HeaderUserMenuTenant, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, type HeuresysLogoBadgeProps, HeuresysMark, type HeuresysMarkProps, HeuresysWordmark, type HeuresysWordmarkProps, IbanInput, type IconographyConfig, ImageGallery, type IncidentItem, type IncidentSeverity, type IncidentStatus, IncidentTimeline, type IncidentTimelineProps, Input, type InputProps, IntegrationHealthPill, type IntegrationHealthPillProps, type IntegrationHealthTone, JsonTree, type KGEdge, KGGraphCanvas, type KGGraphCanvasProps, type KGNode, KPIStrip, type KPIStripProps, KanbanBoard, type KanbanCard, type KanbanColumn, KeyboardShortcutsModal, KgMiniGraph, type KgMiniGraphLegendItem, type KgMiniGraphProps, KpiCard, type KpiCardData, KpiRing, type KpiRingProps, type KpiRingThresholds, type KpiRingTone, LanguagePicker, LinearGauge, type LinearGaugeProps, LiveRegionProvider, type LogEntry, type LogLevel, LogStream, type LogStreamProps, LottiePlayer, type LottiePlayerProps, MarkdownView, Marquee, MegaMenu, type MegaMenuColumn, type MegaMenuTrigger, MeshGradient, MobileBottomNav, type MobileNavItem, MoneyInput, type MoneyInputProps, type MotionConfig, type NavGroup, type NavItem, NetworkGraph, type NetworkGraphProps, NeumorphicCard, type NeumorphicCardProps, NoiseOverlay, type Notification, NotificationCenter, type OKLCH, OnboardingTour, OtpInput, type OtpInputProps, PALETTES, PageActions, type PageActionsProps, PageHeader, type PageHeaderProps, Pagination, type PaginationProps, PaletteDropdown, type PaletteIdx, type PalettePreset, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, type RBACMatrixProps, RadialGauge, type RadialGaugeProps, type RbacArea, type RbacAssignment, RbacMatrix, type RbacMatrixProps, type RbacPermissionLevel, type RbacRole$1 as RbacRole, type RbacRow, type RbacState, type SAPDeltaEntry, type SAPJobStatus, type SAPJobSummary, SAPSyncPanel, type SAPSyncPanelProps, SQLSlowQueryTable, type SQLSlowQueryTableProps, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, type ShortcutGroup, SignaturePadField, type SignaturePadFieldProps, Skeleton, SkillHeatmap, type SkillHeatmapAxis, type SkillHeatmapCell, type SkillHeatmapProps, SkipLink, SlideIn, type SocialLink, type SpacingLayout, Sparkline, type SparklineProps, Spinner, type SqlSlowRow, Stack, StaggerChildren, StaggerItem, StatsCard, type StatsCardProps, StatusBadge, type StatusBucket, StatusIcon, type StatusIconProps, StatusPill, type StatusPillTone, type StatusTone, Stepper, type StepperProps, type StepperStep, SuccessionCard, type SuccessionCardProps, type SuccessionReadiness, type SuccessionRisk, Switch, Switcher, type TabItem, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, type TenantRow as TenantFleetRow, TenantFleetTable, type TenantFleetTableProps, type TenantRow, type TenantStatus, type ThemeBuilderState, ThemeBuilderWizard, type ThemePreset, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, type TimeRangeOption, TimeRangeSelector, type TimeRangeSelectorProps, Timeline, type TimelineEvent, Toast, ToastAction, ToastClose, ToastDescription, type ToastProps, ToastProvider, ToastTitle, ToastViewport, type TocItem, type ToolCall, ToolCallView, type ToolResult, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, type TourStep, Typewriter, type Typography as TypographyConfig, type UserIdentity, type VideoCaption, type VideoChapter, VideoPlayer, type VideoPlayerProps, VoiceInput, WinLossSparkline, type WordmarkSize, type WordmarkVariant, applyPalette, attachCrossHair, badgeVariants, buttonVariants, cn, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme, useThemeOptional };
+export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, type AchievementBadgeProps, ActivityFeed, type ActivityFeedItem, ActivityRing, type ActivityRingProps, Admonition, type AdmonitionVariant, AgentPanel, type AgentPanelApproval, type AgentPanelLabels, type AgentPanelLine, type AgentPanelNotice, type AgentPanelProps, type AlertAction, AlertBanner, type AlertBannerProps, type AlertVariant, AnimatedNumber, AppShell, type AppShellNavItem, type AppShellProps, AppSwitcher, type AppSwitcherApp, type AuditEvent, AuditFeed, type AuditFeedProps, type AuditTone, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, type BannerProps, BentoCell, type BentoCellProps, BentoGrid, type BentoGridProps, type BrandIdentity, type BreadcrumbItem, Breadcrumbs, Button, type ButtonProps, type CalendarEvent, CalendarGrid, CapabilityRadar, type CapabilityRadarAxis, type CapabilityRadarProps, type CapabilityRadarSeries, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, type CareerArcProps, type CareerStage, type CareerStageStatus, Center, type ChatMessage, ChatProvider, type ChatProviderAdapter, type ChatRole, Chatbot, Checkbox, Cluster, type ColorModes, type ColorSystem, CommandPalette, type Comment, CommentThread, ConfettiButton, Cover, type CrossHairBindings, type DBSubItem, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, type DashboardFooterProps, DashboardHeader, type DashboardHeaderProps, type RbacRole as DashboardRbacRole, DashboardShell, type DashboardShellProps, DashboardSidebar, type DashboardSidebarProps, DataTable, type DataTableProps, DataTableWithCrossHair, type DataTableWithCrossHairProps, type DetailField, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, type DiffLine, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, type ESCOTreeNavigatorProps, type ESCOTreeNode, type EffectsConfig, EmptyState, type EmptyStateProps, type EndpointRow, ErrorRateBreakdown, type ErrorRateBreakdownProps, ErrorState, type ErrorStateProps, FAB, type FABProps, FadeIn, FieldGrid, FileDropzone, type FileDropzoneProps, FilterBar, type FilterBarProps, type FilterChip, FormWizard, type FormWizardProps, type FormWizardStep, Frame, type GalleryImage, GlassCard, type GlassCardProps, GradientText, Grid, GroupToggle, type GroupToggleProps, type HeaderBreadcrumb, HeaderBreadcrumbTrail, type HeaderBreadcrumbTrailProps, HeaderLanguageSwitcher, type HeaderLanguageSwitcherProps, HeaderMenuTrigger, type HeaderMenuTriggerProps, HeaderMobileDrawer, type HeaderMobileDrawerProps, HeaderSearchTrigger, type HeaderSearchTriggerProps, HeaderThemeToggle, HeaderUserIdentity, type HeaderUserIdentityProps, HeaderUserMenu, type HeaderUserMenuProps, type HeaderUserMenuTenant, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, type HeuresysLogoBadgeProps, HeuresysMark, type HeuresysMarkProps, HeuresysWordmark, type HeuresysWordmarkProps, IbanInput, type IconographyConfig, ImageGallery, type IncidentItem, type IncidentSeverity, type IncidentStatus, IncidentTimeline, type IncidentTimelineProps, Input, type InputProps, IntegrationHealthPill, type IntegrationHealthPillProps, type IntegrationHealthTone, JsonTree, type KGEdge, KGGraphCanvas, type KGGraphCanvasProps, type KGNode, KPIStrip, type KPIStripProps, KanbanBoard, type KanbanCard, type KanbanColumn, KeyboardShortcutsModal, KgMiniGraph, type KgMiniGraphLegendItem, type KgMiniGraphProps, KpiCard, type KpiCardData, KpiRing, type KpiRingProps, type KpiRingThresholds, type KpiRingTone, LanguagePicker, LinearGauge, type LinearGaugeProps, LiveRegionProvider, type LogEntry, type LogLevel, LogStream, type LogStreamProps, LottiePlayer, type LottiePlayerProps, MarkdownView, Marquee, MegaMenu, type MegaMenuColumn, type MegaMenuTrigger, MeshGradient, MobileBottomNav, type MobileNavItem, MoneyInput, type MoneyInputProps, type MotionConfig, type NavGroup, type NavItem, NetworkGraph, type NetworkGraphProps, NeumorphicCard, type NeumorphicCardProps, NoiseOverlay, type Notification, NotificationCenter, type OKLCH, OnboardingTour, OtpInput, type OtpInputProps, PALETTES, PageActions, type PageActionsProps, PageHeader, type PageHeaderProps, Pagination, type PaginationProps, PaletteDropdown, type PaletteIdx, type PalettePreset, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, type RBACMatrixProps, RadialGauge, type RadialGaugeProps, type RbacArea, type RbacAssignment, RbacMatrix, type RbacMatrixProps, type RbacPermissionLevel, type RbacRole$1 as RbacRole, type RbacRow, type RbacState, type SAPDeltaEntry, type SAPJobStatus, type SAPJobSummary, SAPSyncPanel, type SAPSyncPanelProps, SQLSlowQueryTable, type SQLSlowQueryTableProps, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, type ShortcutGroup, SignaturePadField, type SignaturePadFieldProps, Skeleton, SkillHeatmap, type SkillHeatmapAxis, type SkillHeatmapCell, type SkillHeatmapProps, SkipLink, SlideIn, type SocialLink, type SpacingLayout, Sparkline, type SparklineProps, Spinner, type SqlSlowRow, Stack, StaggerChildren, StaggerItem, StatsCard, type StatsCardProps, StatusBadge, type StatusBucket, StatusIcon, type StatusIconProps, StatusPill, type StatusPillTone, type StatusTone, Stepper, type StepperProps, type StepperStep, SuccessionCard, type SuccessionCardProps, type SuccessionReadiness, type SuccessionRisk, Switch, Switcher, type TabItem, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, type TenantRow as TenantFleetRow, TenantFleetTable, type TenantFleetTableProps, type TenantRow, type TenantStatus, type ThemeBuilderState, ThemeBuilderWizard, type ThemePreset, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, type TimeRangeOption, TimeRangeSelector, type TimeRangeSelectorProps, Timeline, type TimelineEvent, Toast, ToastAction, ToastClose, ToastDescription, type ToastProps, ToastProvider, ToastTitle, ToastViewport, type TocItem, type ToolCall, ToolCallView, type ToolResult, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, type TourStep, Typewriter, type Typography as TypographyConfig, type UserIdentity, type VideoCaption, type VideoChapter, VideoPlayer, type VideoPlayerProps, VoiceInput, WinLossSparkline, type WordmarkSize, type WordmarkVariant, applyPalette, attachCrossHair, badgeVariants, buttonVariants, cn, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme, useThemeOptional };

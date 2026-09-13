@@ -1094,13 +1094,13 @@ function DataTable({
         {
           scope: "col",
           className: "h-10 px-3 text-left font-medium text-muted-fg",
+          "aria-sort": header.column.getIsSorted() === "asc" ? "ascending" : header.column.getIsSorted() === "desc" ? "descending" : "none",
           children: header.isPlaceholder ? null : /* @__PURE__ */ jsxRuntime.jsxs(
             "button",
             {
               type: "button",
               onClick: header.column.getToggleSortingHandler(),
               className: "inline-flex items-center gap-1 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded",
-              "aria-sort": header.column.getIsSorted() === "asc" ? "ascending" : header.column.getIsSorted() === "desc" ? "descending" : "none",
               children: [
                 reactTable.flexRender(header.column.columnDef.header, header.getContext()),
                 header.column.getIsSorted() === "asc" ? /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronUp, { className: "h-3 w-3", "aria-hidden": "true" }) : header.column.getIsSorted() === "desc" ? /* @__PURE__ */ jsxRuntime.jsx(lucideReact.ChevronDown, { className: "h-3 w-3", "aria-hidden": "true" }) : null
@@ -3228,7 +3228,7 @@ function StatsCard({
   }, [animate, numericValue]);
   const dir = trendDirection ?? (trend == null ? "flat" : trend > 0 ? "up" : trend < 0 ? "down" : "flat");
   const TrendIcon = dir === "up" ? lucideReact.TrendingUp : dir === "down" ? lucideReact.TrendingDown : lucideReact.Minus;
-  const trendColor = dir === "up" ? "text-success" : dir === "down" ? "text-destructive" : "text-muted-fg";
+  const trendColor = dir === "up" ? "text-success-ink" : dir === "down" ? "text-danger-ink" : "text-muted-fg";
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "div",
     {
@@ -3447,12 +3447,12 @@ var tierVariants = classVarianceAuthority.cva(
   {
     variants: {
       tier: {
-        bronze: "border-amber-600/40 bg-amber-100/50 text-amber-900 [.dark_&]:bg-amber-900/20",
+        bronze: "border-amber-600/40 bg-amber-100/50 text-amber-900 [.dark_&]:bg-amber-900/20 [.dark_&]:text-amber-100",
         // eslint-disable-next-line no-restricted-syntax -- intentional gamification tier palette (silver = slate; decorative tier color, matches bronze/gold/platinum/legendary siblings, already uses class-based [.dark_&]:)
-        silver: "border-slate-400/40 bg-slate-100/50 text-slate-700 [.dark_&]:bg-slate-800/40",
-        gold: "border-yellow-500/50 bg-yellow-100/60 text-yellow-900 [.dark_&]:bg-yellow-900/30",
-        platinum: "border-cyan-400/40 bg-cyan-50/50 text-cyan-900 [.dark_&]:bg-cyan-900/30",
-        legendary: "border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-100 to-purple-100 text-fuchsia-900 [.dark_&]:from-fuchsia-900/30 [.dark_&]:to-purple-900/30"
+        silver: "border-slate-400/40 bg-slate-100/50 text-foreground [.dark_&]:bg-slate-800/40",
+        gold: "border-yellow-500/50 bg-yellow-100/60 text-yellow-900 [.dark_&]:bg-yellow-900/30 [.dark_&]:text-yellow-100",
+        platinum: "border-cyan-400/40 bg-cyan-50/50 text-cyan-900 [.dark_&]:bg-cyan-900/30 [.dark_&]:text-cyan-100",
+        legendary: "border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-100 to-purple-100 text-fuchsia-900 [.dark_&]:text-fuchsia-100 [.dark_&]:from-fuchsia-900/30 [.dark_&]:to-purple-900/30"
       }
     },
     defaultVariants: { tier: "bronze" }
@@ -3472,7 +3472,20 @@ function AchievementBadge({
     {
       role: "img",
       "aria-label": `${unlocked ? "Unlocked" : "Locked"} ${tier} achievement: ${title}`,
-      className: cn(tierVariants({ tier }), !unlocked && "opacity-40 grayscale", className),
+      className: cn(
+        tierVariants({ tier }),
+        /*
+         * Bloccato: i token dello stato spento, non un velo di opacita'.
+         *
+         * `opacity-40 grayscale` sbiadiva anche il TESTO, che scendeva a
+         * 2,02:1 — la voce peggiore rimasta dopo la correzione del contrasto
+         * del 2026-09-06. `cn` passa per tailwind-merge, quindi queste classi
+         * sostituiscono quelle del tier invece di sommarvisi, e il rapporto
+         * torna quello garantito dai token.
+         */
+        !unlocked && "border-border bg-muted text-muted-fg",
+        className
+      ),
       children: [
         /* @__PURE__ */ jsxRuntime.jsx("div", { className: "text-2xl", "aria-hidden": "true", children: icon ?? /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Award, { className: "h-8 w-8" }) }),
         /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-sm font-semibold", children: title }),
@@ -4357,7 +4370,18 @@ function PhoneInputField({
   value,
   onChange,
   defaultCountry = "it",
-  className
+  className,
+  /**
+   * Nome accessibile del campo.
+   *
+   * `react-international-phone` rende un `<input>` che non e' nostro e che
+   * nessuna `<label>` raggiunge da fuori: l'unico modo di dargli un nome e'
+   * `inputProps`. Senza, e' la regola `label` di axe.
+   *
+   * Gli apici inversi contano: questa descrizione finisce nella tabella dei
+   * Controls come markdown, e un tag nudo vi diventerebbe un elemento vero.
+   */
+  ariaLabel = "Phone number"
 }) {
   return /* @__PURE__ */ jsxRuntime.jsx(
     reactInternationalPhone.PhoneInput,
@@ -4366,7 +4390,8 @@ function PhoneInputField({
       value,
       onChange: (v) => onChange(v),
       className: cn("phone-input-wrapper", className),
-      inputClassName: "!h-10 !rounded-md !border !border-input !bg-background !px-3 !py-2 !text-sm"
+      inputClassName: "!h-10 !rounded-md !border !border-input !bg-background !px-3 !py-2 !text-sm",
+      inputProps: { "aria-label": ariaLabel }
     }
   );
 }
@@ -4387,6 +4412,7 @@ function MoneyInput({
   return /* @__PURE__ */ jsxRuntime.jsx(
     Input,
     {
+      "aria-label": "Amount",
       ...rest,
       type: "text",
       value: text,
@@ -4527,12 +4553,19 @@ function PasswordStrengthMeter({
   }, [password, userInputs]);
   const score = result?.score ?? 0;
   const labels = ["Too weak", "Weak", "Fair", "Good", "Strong"];
-  const colors = [
-    "oklch(0.6 0.22 22)",
+  const barColors = [
+    "var(--color-destructive)",
     "oklch(0.7 0.2 40)",
-    "oklch(0.78 0.16 80)",
-    "oklch(0.7 0.18 145)",
-    "oklch(0.65 0.18 145)"
+    "var(--color-warning)",
+    "var(--color-success)",
+    "var(--color-success)"
+  ];
+  const labelClasses = [
+    "text-danger-ink",
+    "text-warning-ink",
+    "text-warning-ink",
+    "text-success-ink",
+    "text-success-ink"
   ];
   if (!password) return null;
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("flex flex-col gap-1", className), "aria-live": "polite", children: [
@@ -4542,13 +4575,13 @@ function PasswordStrengthMeter({
         "aria-hidden": "true",
         className: "h-1 flex-1 rounded-full transition-colors",
         style: {
-          background: i <= score ? colors[score] : "oklch(0.92 0.008 252)"
+          background: i <= score ? barColors[score] : "var(--color-input)"
         }
       },
       i
     )) }),
     /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex justify-between text-xs", children: [
-      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", style: { color: colors[score] }, children: labels[score] }),
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: cn("font-medium", labelClasses[score]), children: labels[score] }),
       result?.feedback.warning ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "text-muted-fg", children: result.feedback.warning }) : null
     ] }),
     result?.feedback.suggestions.length ? /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "text-xs text-muted-fg", children: result.feedback.suggestions.map((s, i) => /* @__PURE__ */ jsxRuntime.jsx("li", { children: s }, i)) }) : null
@@ -4662,7 +4695,8 @@ function FileDropzone({
         accept,
         multiple,
         onChange: (e) => handleFiles(e.target.files),
-        className: "sr-only"
+        className: "sr-only",
+        "aria-label": label
       }
     ),
     files.length > 0 ? /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "flex flex-col gap-1.5", children: files.map(({ file, progress, error }) => /* @__PURE__ */ jsxRuntime.jsxs(
@@ -4742,57 +4776,81 @@ function KanbanBoard({
       onChange(next);
     }
   }
-  return /* @__PURE__ */ jsxRuntime.jsx(
-    "div",
-    {
-      className: cn("flex gap-4 overflow-x-auto pb-4", className),
-      role: "list",
-      "aria-label": "Kanban board",
-      children: /* @__PURE__ */ jsxRuntime.jsx(core.DndContext, { sensors, collisionDetection: core.closestCorners, onDragEnd: handleDragEnd, children: columns.map((col) => /* @__PURE__ */ jsxRuntime.jsx(
-        KanbanColumnView,
-        {
-          column: col,
-          onAddCard: onAddCard ? () => onAddCard(col.id) : void 0
-        },
-        col.id
-      )) })
-    }
+  return (
+    /*
+     * Il DndContext sta FUORI dal contenitore con role="list".
+     *
+     * Dentro, no: dnd-kit rende elementi propri accanto ai figli — la regione
+     * viva che annuncia il trascinamento agli assistivi — e un role="list" che
+     * contiene qualcosa di diverso da role="listitem" e' la regola
+     * `aria-required-children` di axe (8 occorrenze, tutte da questo elemento).
+     * Spostare il provider di un livello non cambia niente per il
+     * trascinamento, che funziona per contesto e non per posizione nel DOM.
+     */
+    /* @__PURE__ */ jsxRuntime.jsx(core.DndContext, { sensors, collisionDetection: core.closestCorners, onDragEnd: handleDragEnd, children: /* @__PURE__ */ jsxRuntime.jsx(
+      "ul",
+      {
+        className: cn("flex gap-4 overflow-x-auto pb-4", className),
+        role: "list",
+        "aria-label": "Kanban board",
+        children: columns.map((col) => /* @__PURE__ */ jsxRuntime.jsx(
+          KanbanColumnView,
+          {
+            column: col,
+            onAddCard: onAddCard ? () => onAddCard(col.id) : void 0
+          },
+          col.id
+        ))
+      }
+    ) })
   );
 }
 function KanbanColumnView({ column, onAddCard }) {
-  return /* @__PURE__ */ jsxRuntime.jsxs(
-    "section",
-    {
-      role: "listitem",
-      "aria-label": `${column.title}, ${column.cards.length} cards`,
-      className: "flex w-72 shrink-0 flex-col gap-2 rounded-md bg-muted/40 p-3",
-      children: [
-        /* @__PURE__ */ jsxRuntime.jsxs("header", { className: "flex items-center justify-between", children: [
-          /* @__PURE__ */ jsxRuntime.jsxs(
-            "h3",
-            {
-              className: "text-sm font-semibold",
-              style: column.color ? { color: column.color } : void 0,
-              children: [
-                column.title,
-                /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-2 rounded-full bg-background px-1.5 py-0.5 text-xs text-muted-fg", children: column.cards.length })
-              ]
-            }
-          ),
-          onAddCard ? /* @__PURE__ */ jsxRuntime.jsx(
-            Button,
-            {
-              size: "icon",
-              variant: "ghost",
-              onClick: onAddCard,
-              "aria-label": `Add card to ${column.title}`,
-              children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Plus, { className: "h-4 w-4", "aria-hidden": "true" })
-            }
-          ) : null
-        ] }),
-        /* @__PURE__ */ jsxRuntime.jsx(sortable.SortableContext, { items: column.cards.map((c) => c.id), strategy: sortable.verticalListSortingStrategy, children: /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "flex flex-col gap-2", children: column.cards.map((c) => /* @__PURE__ */ jsxRuntime.jsx(SortableCardItem, { card: c }, c.id)) }) })
-      ]
-    }
+  return (
+    /*
+     * `<li>` vero, non una `<section role="listitem">`.
+     *
+     * Il role sovrascriveva il ruolo di sezione, e questo aveva un effetto a
+     * distanza: un <header> e' un landmark `banner` solo quando NON sta dentro
+     * un elemento di sezionamento, quindi i cinque header di colonna
+     * diventavano cinque banner duplicati nella stessa pagina. Tre regole di
+     * axe con una causa sola — `aria-allowed-role`, `landmark-unique`,
+     * `landmark-no-duplicate-banner`. Con <li> il ruolo e' nativo, e l'header
+     * torna a essere un `<div>`, che non e' un landmark di niente.
+     */
+    /* @__PURE__ */ jsxRuntime.jsxs(
+      "li",
+      {
+        "aria-label": `${column.title}, ${column.cards.length} cards`,
+        className: "flex w-72 shrink-0 flex-col gap-2 rounded-md bg-muted/40 p-3",
+        children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center justify-between", children: [
+            /* @__PURE__ */ jsxRuntime.jsxs(
+              "h3",
+              {
+                className: "text-sm font-semibold",
+                style: column.color ? { color: column.color } : void 0,
+                children: [
+                  column.title,
+                  /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-2 rounded-full bg-background px-1.5 py-0.5 text-xs text-muted-fg", children: column.cards.length })
+                ]
+              }
+            ),
+            onAddCard ? /* @__PURE__ */ jsxRuntime.jsx(
+              Button,
+              {
+                size: "icon",
+                variant: "ghost",
+                onClick: onAddCard,
+                "aria-label": `Add card to ${column.title}`,
+                children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Plus, { className: "h-4 w-4", "aria-hidden": "true" })
+              }
+            ) : null
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx(sortable.SortableContext, { items: column.cards.map((c) => c.id), strategy: sortable.verticalListSortingStrategy, children: /* @__PURE__ */ jsxRuntime.jsx("ul", { role: "list", className: "flex flex-col gap-2", children: column.cards.map((c) => /* @__PURE__ */ jsxRuntime.jsx(SortableCardItem, { card: c }, c.id)) }) })
+        ]
+      }
+    )
   );
 }
 function SortableCardItem({ card }) {
@@ -4966,6 +5024,8 @@ function CalendarGrid({
     cells.push({ iso, day: d });
   }
   while (cells.length % 7 !== 0) cells.push(null);
+  const weeks = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
   const eventsByIso = React5__namespace.useMemo(() => {
     const map = /* @__PURE__ */ new Map();
     for (const e of events) {
@@ -4983,43 +5043,58 @@ function CalendarGrid({
       role: "grid",
       "aria-label": `Calendar ${year}-${month + 1}`,
       children: [
-        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "grid grid-cols-7 gap-1 text-center text-xs font-medium text-muted-fg", children: dayLabels.map((d) => /* @__PURE__ */ jsxRuntime.jsx("div", { children: d }, d)) }),
-        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "mt-1 grid grid-cols-7 gap-1", children: cells.map((cell, i) => {
-          if (!cell) return /* @__PURE__ */ jsxRuntime.jsx("div", {}, i);
-          const evs = eventsByIso.get(cell.iso) ?? [];
-          const isSelected = cell.iso === selected;
-          return /* @__PURE__ */ jsxRuntime.jsxs(
-            "button",
-            {
-              type: "button",
-              role: "gridcell",
-              "aria-selected": isSelected,
-              onClick: () => onSelectDate?.(cell.iso),
-              className: cn(
-                "flex aspect-square flex-col items-center justify-center gap-1 rounded-md p-1 text-sm transition-colors",
-                "hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                isSelected && "bg-primary text-primary-fg"
-              ),
-              children: [
-                /* @__PURE__ */ jsxRuntime.jsx("span", { children: cell.day }),
-                evs.length > 0 ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex gap-0.5", children: evs.slice(0, 3).map((e) => /* @__PURE__ */ jsxRuntime.jsx(
-                  "span",
-                  {
-                    className: cn(
-                      "h-1 w-1 rounded-full",
-                      e.tone === "success" && "bg-success",
-                      e.tone === "warning" && "bg-warning",
-                      e.tone === "destructive" && "bg-destructive",
-                      (!e.tone || e.tone === "primary") && (isSelected ? "bg-primary-fg" : "bg-primary")
-                    )
-                  },
-                  e.id
-                )) }) : null
-              ]
-            },
-            cell.iso
-          );
-        }) })
+        /* @__PURE__ */ jsxRuntime.jsx(
+          "div",
+          {
+            role: "row",
+            className: "grid grid-cols-7 gap-1 text-center text-xs font-medium text-muted-fg",
+            children: dayLabels.map((d) => /* @__PURE__ */ jsxRuntime.jsx("div", { role: "columnheader", children: d }, d))
+          }
+        ),
+        /* @__PURE__ */ jsxRuntime.jsx("div", { className: "mt-1 flex flex-col gap-1", children: weeks.map((week, w) => /* @__PURE__ */ jsxRuntime.jsx(
+          "div",
+          {
+            role: "row",
+            className: "grid grid-cols-7 gap-1",
+            children: week.map((cell, i) => {
+              if (!cell) return /* @__PURE__ */ jsxRuntime.jsx("div", { role: "gridcell" }, i);
+              const evs = eventsByIso.get(cell.iso) ?? [];
+              const isSelected = cell.iso === selected;
+              return /* @__PURE__ */ jsxRuntime.jsxs(
+                "button",
+                {
+                  type: "button",
+                  role: "gridcell",
+                  "aria-selected": isSelected,
+                  onClick: () => onSelectDate?.(cell.iso),
+                  className: cn(
+                    "flex aspect-square flex-col items-center justify-center gap-1 rounded-md p-1 text-sm transition-colors",
+                    "hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    isSelected && "bg-primary text-primary-fg"
+                  ),
+                  children: [
+                    /* @__PURE__ */ jsxRuntime.jsx("span", { children: cell.day }),
+                    evs.length > 0 ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex gap-0.5", children: evs.slice(0, 3).map((e) => /* @__PURE__ */ jsxRuntime.jsx(
+                      "span",
+                      {
+                        className: cn(
+                          "h-1 w-1 rounded-full",
+                          e.tone === "success" && "bg-success",
+                          e.tone === "warning" && "bg-warning",
+                          e.tone === "destructive" && "bg-destructive",
+                          (!e.tone || e.tone === "primary") && (isSelected ? "bg-primary-fg" : "bg-primary")
+                        )
+                      },
+                      e.id
+                    )) }) : null
+                  ]
+                },
+                cell.iso
+              );
+            })
+          },
+          week.find(Boolean)?.iso ?? `week-${w}`
+        )) })
       ]
     }
   );
@@ -5319,7 +5394,7 @@ function DiffViewer({
             {
               className: cn(
                 "flex gap-2 px-2 py-0.5",
-                l.type === "remove" && "bg-destructive/10 text-destructive"
+                l.type === "remove" && "bg-destructive/10 text-danger-ink"
               ),
               children: [
                 /* @__PURE__ */ jsxRuntime.jsx("span", { className: "w-8 select-none text-right text-muted-fg", children: l.oldLine ?? "" }),
@@ -5356,7 +5431,7 @@ function DiffViewer({
           className: cn(
             "flex gap-2 px-2 py-0.5",
             l.type === "add" && "bg-success/10 text-success-ink",
-            l.type === "remove" && "bg-destructive/10 text-destructive"
+            l.type === "remove" && "bg-destructive/10 text-danger-ink"
           ),
           children: [
             /* @__PURE__ */ jsxRuntime.jsx("span", { className: "w-8 select-none text-right text-muted-fg", children: l.type === "add" ? "+" : l.type === "remove" ? "-" : " " }),
@@ -5458,9 +5533,9 @@ function Leaf({
   className
 }) {
   const colorClass = {
-    string: "text-success",
+    string: "text-success-ink",
     number: "text-info",
-    boolean: "text-warning",
+    boolean: "text-warning-ink",
     null: "text-muted-fg"
   }[type];
   return /* @__PURE__ */ jsxRuntime.jsxs("span", { className: cn("font-mono text-xs", className), children: [
@@ -5545,6 +5620,9 @@ async function parseXML(file) {
   const parser = new fastXmlParser.XMLParser({ ignoreAttributes: false });
   return parser.parse(text);
 }
+var DEFAULT_COMPONENTS = {
+  input: ({ node: _node, ...props }) => props.type === "checkbox" ? /* @__PURE__ */ jsxRuntime.jsx("input", { ...props, "aria-label": props.checked ? "Completed task" : "Task to do" }) : /* @__PURE__ */ jsxRuntime.jsx("input", { ...props })
+};
 function MarkdownView({
   content,
   className,
@@ -5555,7 +5633,7 @@ function MarkdownView({
     {
       remarkPlugins: [remarkGfm__default.default, remarkMath__default.default],
       rehypePlugins: [rehypeKatex__default.default],
-      components,
+      components: { ...DEFAULT_COMPONENTS, ...components },
       children: content
     }
   ) });
@@ -5619,7 +5697,7 @@ var VARIANTS = {
   danger: {
     icon: lucideReact.AlertCircle,
     label: "Danger",
-    className: "border-destructive/40 bg-destructive/10 text-destructive"
+    className: "border-destructive/40 bg-destructive/10 text-danger-ink"
   },
   note: {
     icon: lucideReact.BookOpen,
@@ -5799,7 +5877,26 @@ function ToolCallView({
           ),
           /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Wrench, { className: "h-3 w-3 text-primary", "aria-hidden": "true" }),
           /* @__PURE__ */ jsxRuntime.jsx("span", { className: "font-medium", children: call.name }),
-          result?.error ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-auto text-destructive", children: "error" }) : result ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-auto text-success", children: "ok" }) : /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-auto text-muted-fg animate-pulse", children: "running\u2026" })
+          result?.error ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-auto text-danger-ink", children: "error" }) : result ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: "ml-auto text-success-ink", children: "ok" }) : (
+            /*
+             * Il battito sta sul punto, non sulla parola.
+             *
+             * `animate-pulse` porta l'opacita' del testo a meta' per meta' del
+             * tempo, e a quel punto «running…» misura 4,41:1 — sotto la soglia
+             * per un soffio, in modo intermittente. Un indicatore accanto dice
+             * la stessa cosa senza rendere illeggibile cio' che va letto.
+             */
+            /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "ml-auto inline-flex items-center gap-1.5 text-foreground", children: [
+              /* @__PURE__ */ jsxRuntime.jsx(
+                "span",
+                {
+                  "aria-hidden": "true",
+                  className: "inline-block h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-current"
+                }
+              ),
+              "running\u2026"
+            ] })
+          )
         ]
       }
     ),
@@ -5832,7 +5929,7 @@ function Chatbot({ className }) {
       role: "region",
       "aria-label": "AI chat",
       children: [
-        /* @__PURE__ */ jsxRuntime.jsxs("header", { className: "flex items-center justify-between border-b border-border p-3", children: [
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center justify-between border-b border-border p-3", children: [
           /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "text-xs text-muted-fg", children: [
             "Provider: ",
             adapter.name
@@ -6036,6 +6133,122 @@ function VoiceInput({
       }
     ),
     error ? /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-xs text-destructive", children: error }) : null
+  ] });
+}
+function toneOf(kind) {
+  if (kind === "error") return "destructive";
+  if (kind === "approval_required") return "secondary";
+  return "outline";
+}
+function AgentPanel({
+  labels,
+  context = null,
+  prompt,
+  onPromptChange,
+  running,
+  onRun,
+  onStop,
+  lines,
+  approval = null,
+  onApproval,
+  notice = null,
+  gatewayUrl,
+  testIdPrefix = "agent",
+  className
+}) {
+  const id = (s) => `${testIdPrefix}-${s}`;
+  const promptId = React5__namespace.useId();
+  return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("space-y-6", className), "data-testid": id("page"), role: "region", "aria-label": labels.title, children: [
+    /* @__PURE__ */ jsxRuntime.jsxs(Card, { children: [
+      /* @__PURE__ */ jsxRuntime.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntime.jsx(CardTitle, { "data-testid": id("title"), children: labels.title }) }),
+      /* @__PURE__ */ jsxRuntime.jsxs(CardContent, { className: "space-y-4", children: [
+        labels.description && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-sm text-muted-fg", children: labels.description }),
+        context && /* @__PURE__ */ jsxRuntime.jsxs("p", { className: "text-xs text-muted-fg", "data-testid": id("context"), children: [
+          labels.contextLabel ? `${labels.contextLabel}: ` : null,
+          /* @__PURE__ */ jsxRuntime.jsx("code", { className: "font-mono", children: context })
+        ] }),
+        gatewayUrl && /* @__PURE__ */ jsxRuntime.jsxs("p", { className: "text-xs text-muted-fg", children: [
+          labels.gatewayLabel ? `${labels.gatewayLabel}: ` : null,
+          /* @__PURE__ */ jsxRuntime.jsx("code", { className: "font-mono", children: gatewayUrl })
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-1", children: [
+          /* @__PURE__ */ jsxRuntime.jsx("label", { htmlFor: promptId, className: "block text-sm font-medium text-foreground", children: labels.promptLabel }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "textarea",
+            {
+              id: promptId,
+              "data-testid": id("prompt"),
+              className: "min-h-28 w-full rounded-md border border-input bg-background p-3 text-sm text-foreground",
+              placeholder: labels.promptPlaceholder,
+              value: prompt,
+              onChange: (e) => onPromptChange(e.target.value),
+              disabled: running
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex gap-3", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(Button, { type: "button", "data-testid": id("run"), onClick: onRun, disabled: running || !prompt.trim(), children: running ? labels.running : labels.run }),
+          running && /* @__PURE__ */ jsxRuntime.jsx(Button, { type: "button", variant: "secondary", "data-testid": id("stop"), onClick: onStop, children: labels.stop })
+        ] }),
+        notice && /* @__PURE__ */ jsxRuntime.jsx(
+          "p",
+          {
+            "data-testid": notice.kind === "ok" ? id("notice-ok") : id("notice-err"),
+            className: cn("text-sm font-medium", notice.kind === "ok" ? "text-success-ink" : "text-danger-ink"),
+            role: notice.kind === "err" ? "alert" : "status",
+            children: notice.text
+          }
+        )
+      ] })
+    ] }),
+    approval && /* @__PURE__ */ jsxRuntime.jsxs(Card, { "data-testid": id("approval"), children: [
+      /* @__PURE__ */ jsxRuntime.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntime.jsx(CardTitle, { children: labels.approvalTitle }) }),
+      /* @__PURE__ */ jsxRuntime.jsxs(CardContent, { className: "space-y-3", children: [
+        labels.approvalDesc && /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-sm text-muted-fg", children: labels.approvalDesc }),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-1 text-sm", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "font-medium text-foreground", children: [
+            labels.approvalTool,
+            ":"
+          ] }),
+          " ",
+          /* @__PURE__ */ jsxRuntime.jsx("code", { "data-testid": id("approval-tool"), className: "break-all font-mono", children: JSON.stringify(approval.tool) })
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-1 text-sm", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "font-medium text-foreground", children: [
+            labels.approvalInput,
+            ":"
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "pre",
+            {
+              "data-testid": id("approval-input"),
+              className: "mt-1 max-h-48 overflow-auto rounded bg-muted p-2 font-mono text-xs",
+              children: JSON.stringify(approval.input, null, 2)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex gap-3", children: [
+          /* @__PURE__ */ jsxRuntime.jsx(Button, { type: "button", "data-testid": id("approve-allow"), onClick: () => onApproval?.("allow"), children: labels.allow }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            Button,
+            {
+              type: "button",
+              variant: "destructive",
+              "data-testid": id("approve-deny"),
+              onClick: () => onApproval?.("deny"),
+              children: labels.deny
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntime.jsxs(Card, { children: [
+      /* @__PURE__ */ jsxRuntime.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntime.jsx(CardTitle, { children: labels.streamTitle }) }),
+      /* @__PURE__ */ jsxRuntime.jsx(CardContent, { children: lines.length === 0 ? /* @__PURE__ */ jsxRuntime.jsx("p", { "data-testid": id("stream-empty"), className: "text-sm text-muted-fg", children: labels.streamEmpty }) : /* @__PURE__ */ jsxRuntime.jsx("ul", { "data-testid": id("stream"), className: "space-y-1", "aria-live": "polite", children: lines.map((line) => /* @__PURE__ */ jsxRuntime.jsxs("li", { "data-testid": id("stream-line"), className: "flex items-start gap-2 text-xs", children: [
+        /* @__PURE__ */ jsxRuntime.jsx(Badge, { variant: toneOf(line.kind), children: line.kind }),
+        /* @__PURE__ */ jsxRuntime.jsx("code", { className: "break-all font-mono text-muted-fg", children: line.text })
+      ] }, line.id)) }) })
+    ] })
   ] });
 }
 
@@ -6387,8 +6600,8 @@ function PerfMonitor({
           {
             className: cn(
               "font-semibold",
-              fps < 30 && "text-destructive",
-              fps >= 50 && "text-success"
+              fps < 30 && "text-danger-ink",
+              fps >= 50 && "text-success-ink"
             ),
             children: [
               fps,
@@ -6662,7 +6875,7 @@ var pillVariants = classVarianceAuthority.cva(
       tone: {
         ok: "border-success bg-success/15 text-success-ink",
         warn: "border-warning bg-warning/15 text-warning-ink",
-        down: "border-destructive bg-destructive/15 text-destructive",
+        down: "border-destructive bg-destructive/15 text-danger-ink",
         info: "border-primary bg-primary/15 text-primary-ink"
       }
     },
@@ -6740,7 +6953,7 @@ function KpiRing({
   const resolvedTone = tone ?? resolveTone(value, thresholds);
   const trendDir = trend == null ? null : trend > 0 ? "up" : trend < 0 ? "down" : "flat";
   const TrendIcon = trendDir === "up" ? lucideReact.TrendingUp : trendDir === "down" ? lucideReact.TrendingDown : trendDir === "flat" ? lucideReact.Minus : null;
-  const trendColor = trendDir === "up" ? "text-success" : trendDir === "down" ? "text-destructive" : "text-muted-fg";
+  const trendColor = trendDir === "up" ? "text-success-ink" : trendDir === "down" ? "text-danger-ink" : "text-muted-fg";
   return /* @__PURE__ */ jsxRuntime.jsxs(
     "div",
     {
@@ -6970,6 +7183,7 @@ function SkillHeatmap({
   cols,
   cells,
   caption,
+  rowAxisLabel = "Skill",
   showValue = true,
   colorScale,
   onCellClick,
@@ -6989,7 +7203,7 @@ function SkillHeatmap({
         {
           scope: "col",
           className: "sticky left-0 top-0 z-20 border-b border-r border-border bg-muted px-3 py-2 text-left font-mono text-[10px] uppercase tracking-wider text-muted-fg",
-          children: "\xA0"
+          children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: rowAxisLabel })
         }
       ),
       cols.map((c) => /* @__PURE__ */ jsxRuntime.jsx(
@@ -7291,7 +7505,7 @@ function resolveSize(size) {
   }
   return { fontSize: SIZE_MAP[size], letterSpacing: LETTER_SPACING_MAP[size] };
 }
-var BRAND_BLUE = "hsl(221 83% 53%)";
+var BRAND_BLUE = "var(--logo-body, hsl(221 83% 53%))";
 var BRAND_PURPLE = "#a855f7";
 var VARIANT_STYLES = {
   default: {
@@ -7319,8 +7533,9 @@ function HeuresysWordmark({
   const { fontSize, letterSpacing } = resolveSize(size);
   const variantStyle = VARIANT_STYLES[variant];
   const yWeight = variant === "brand" ? 700 : 500;
+  const isHeading = as === "h1" || as === "h2";
   const props = {
-    role: "img",
+    ...isHeading ? {} : { role: "img" },
     "aria-label": ariaLabel,
     className: cn("inline-flex items-baseline leading-none", className),
     style: {
@@ -7939,7 +8154,7 @@ var TONE = {
     tint10: "bg-success/10",
     tint15: "bg-success/15",
     tint20: "bg-success/20",
-    text: "text-success",
+    text: "text-success-ink",
     textOnTint: "text-success-ink",
     border30: "border-success/30",
     border40: "border-success/40",
@@ -7950,7 +8165,7 @@ var TONE = {
     tint10: "bg-warning/10",
     tint15: "bg-warning/15",
     tint20: "bg-warning/20",
-    text: "text-warning",
+    text: "text-warning-ink",
     textOnTint: "text-warning-ink",
     border30: "border-warning/30",
     border40: "border-warning/40",
@@ -7961,7 +8176,7 @@ var TONE = {
     tint10: "bg-danger/10",
     tint15: "bg-danger/15",
     tint20: "bg-danger/20",
-    text: "text-danger",
+    text: "text-danger-ink",
     textOnTint: "text-danger-ink",
     border30: "border-danger/30",
     border40: "border-danger/40",
@@ -7972,7 +8187,7 @@ var TONE = {
     tint10: "bg-info/10",
     tint15: "bg-info/15",
     tint20: "bg-info/20",
-    text: "text-info",
+    text: "text-info-ink",
     textOnTint: "text-info-ink",
     border30: "border-info/30",
     border40: "border-info/40",
@@ -7983,7 +8198,7 @@ var TONE = {
     tint10: "bg-palette-1/10",
     tint15: "bg-palette-1/15",
     tint20: "bg-palette-1/20",
-    text: "text-palette-1",
+    text: "text-palette-1-ink",
     textOnTint: "text-palette-1-ink",
     border30: "border-palette-1/30",
     border40: "border-palette-1/40",
@@ -7994,7 +8209,7 @@ var TONE = {
     tint10: "bg-palette-2/10",
     tint15: "bg-palette-2/15",
     tint20: "bg-palette-2/20",
-    text: "text-palette-2",
+    text: "text-palette-2-ink",
     textOnTint: "text-palette-2-ink",
     border30: "border-palette-2/30",
     border40: "border-palette-2/40",
@@ -8005,7 +8220,7 @@ var TONE = {
     tint10: "bg-palette-3/10",
     tint15: "bg-palette-3/15",
     tint20: "bg-palette-3/20",
-    text: "text-palette-3",
+    text: "text-palette-3-ink",
     textOnTint: "text-palette-3-ink",
     border30: "border-palette-3/30",
     border40: "border-palette-3/40",
@@ -8016,7 +8231,7 @@ var TONE = {
     tint10: "bg-palette-4/10",
     tint15: "bg-palette-4/15",
     tint20: "bg-palette-4/20",
-    text: "text-palette-4",
+    text: "text-palette-4-ink",
     textOnTint: "text-palette-4-ink",
     border30: "border-palette-4/30",
     border40: "border-palette-4/40",
@@ -8030,7 +8245,7 @@ var TONE = {
     tint10: "bg-primary/10",
     tint15: "bg-primary/15",
     tint20: "bg-primary/20",
-    text: "text-primary",
+    text: "text-primary-ink",
     textOnTint: "text-primary-ink",
     border30: "border-primary/30",
     border40: "border-primary/40",
@@ -8327,7 +8542,7 @@ function SidebarGroup({ group }) {
         "data-group-toggle": group.id,
         "aria-expanded": expanded,
         onClick: toggle,
-        className: "sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70 transition hover:text-foreground",
+        className: "sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground",
         children: [
           /* @__PURE__ */ jsxRuntime.jsx("span", { children: group.label }),
           /* @__PURE__ */ jsxRuntime.jsx("svg", { "data-group-chevron": true, className: "h-3 w-3 transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "6 9 12 15 18 9" }) })
@@ -8481,7 +8696,7 @@ function GroupToggle({ groupId, label, children, className }) {
         "data-group-toggle": groupId,
         "aria-expanded": expanded,
         onClick: toggle,
-        className: "sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70 transition hover:text-foreground",
+        className: "sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground",
         children: [
           /* @__PURE__ */ jsxRuntime.jsx("span", { children: label }),
           /* @__PURE__ */ jsxRuntime.jsx("svg", { "data-group-chevron": true, className: "h-3 w-3 transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "6 9 12 15 18 9" }) })
@@ -8984,7 +9199,7 @@ function SQLSlowQueryTable({
         /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-3 py-2.5 text-right", children: "Mean" }),
         /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-3 py-2.5", children: "Total time" }),
         /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-3 py-2.5", children: "Last seen" }),
-        /* @__PURE__ */ jsxRuntime.jsx("th", { className: "w-12 px-3 py-2.5" })
+        /* @__PURE__ */ jsxRuntime.jsx("th", { className: "w-12 px-3 py-2.5", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Actions" }) })
       ] }) }),
       /* @__PURE__ */ jsxRuntime.jsx("tbody", { className: "divide-y divide-border", children: rows.map((r) => {
         const p95Tone = r.p95Ms >= 1e3 ? "text-danger" : r.p95Ms >= 300 ? "text-warning" : "text-foreground";
@@ -9200,7 +9415,7 @@ function TenantFleetTable({
         /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-3 py-2.5 text-right", children: "Errors \xB7 1h" }),
         /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-3 py-2.5", children: "Last activity" }),
         /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-3 py-2.5", children: "Pool util." }),
-        /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-5 py-2.5" })
+        /* @__PURE__ */ jsxRuntime.jsx("th", { className: "px-5 py-2.5", children: /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Azioni" }) })
       ] }) }),
       /* @__PURE__ */ jsxRuntime.jsx("tbody", { className: "divide-y divide-border", children: rows.map((r) => {
         const st = STATUS_TONE2[r.status];
@@ -9382,7 +9597,7 @@ function DBSupervisorSidebar() {
     ] }),
     /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "sidebar-subtree mt-1 ml-3 space-y-0.5 border-l border-border/60 pl-2.5", children: DB_SUBITEMS.map((item) => /* @__PURE__ */ jsxRuntime.jsx("li", { children: /* @__PURE__ */ jsxRuntime.jsxs("a", { href: "#", className: "flex items-center justify-between gap-2 rounded-control px-2 py-1 text-[12px] text-muted-foreground transition hover:bg-accent hover:text-foreground", children: [
       /* @__PURE__ */ jsxRuntime.jsx("span", { children: item.label }),
-      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "num font-mono text-[10px] text-muted-foreground/70", children: item.count })
+      /* @__PURE__ */ jsxRuntime.jsx("span", { className: "num font-mono text-[10px] text-muted-foreground", children: item.count })
     ] }) }, item.label)) })
   ] });
 }
@@ -9432,6 +9647,7 @@ exports.AchievementBadge = AchievementBadge;
 exports.ActivityFeed = ActivityFeed;
 exports.ActivityRing = ActivityRing;
 exports.Admonition = Admonition;
+exports.AgentPanel = AgentPanel;
 exports.AlertBanner = AlertBanner;
 exports.AnimatedNumber = AnimatedNumber;
 exports.AppShell = AppShell;

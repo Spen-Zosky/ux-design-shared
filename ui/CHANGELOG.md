@@ -5,6 +5,39 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.2.0 — 2026-09-13
+
+Nessuna API rimossa o rinominata: chi aggiorna da 1.1.0 non deve cambiare una riga. Una novità e le
+correzioni di accessibilità del ciclo del 5-7 settembre, che finora stavano solo sul ramo.
+
+### Novità
+
+**`AgentPanel`** (`AI/AgentPanel`) — la superficie riusabile dell'assistente sulle pagine di
+un'applicazione: domanda, corsa con arresto, righe dello stream con il loro genere, pannello di
+approvazione (consenti/nega), avviso. È una **vista pura**: non apre nessun canale, non traduce e
+non sa su quale pagina sta. Chi la monta porta lo stato e i callback (`prompt`, `running`, `lines`,
+`approval`, `notice`, `onRun`…), le parole già tradotte in `labels` — così ogni pagina usa il proprio
+namespace e nessuna eredita le stringhe della prima — e il contesto di pagina come **valore libero**
+(`context`), mai come ramo per tipo di pagina. `testIdPrefix` lascia i `data-testid` a chi ha già
+delle prove E2E. Nasce da heuresys-advanced `#159` F2, dove il primo consumatore è la console di
+sviluppo dell'agente; le prove coprono i tre stati anche con axe.
+
+### Correzioni che vi raggiungono anche senza toccare nulla
+
+**Accessibilità, misurata.** Le violazioni strutturali dell'inventario Storybook sono passate da 441
+a 0 (zero *critical*), e il contrasto del testo sulle tinte da 217 violazioni a 0: il cancello di
+accessibilità ora **fallisce** su una violazione *critical* o *serious* e sul repository passa su
+504 voci in entrambi i temi. **Conseguenza visibile**: alcuni testi e icone su sfondo colorato sono
+più scuri, e alcune strutture (landmark, intestazioni, etichette) sono cambiate di tag senza cambiare
+di aspetto.
+
+**`prefers-reduced-motion` è rispettato per intero.** Il blocco universale che ferma animazioni e
+transizioni stava in un file che nessuno caricava: ora sta in `globals.css`, dove viene letto. Chi ha
+chiesto meno movimento non vedrà più muoversi le animazioni di framer-motion. I colori ora vivono in
+un solo file (`globals.css`); `tokens.css` non ne dichiara più nessuno.
+
+---
+
 ## 1.1.0 — 2026-09-05
 
 Nessuna API rimossa o rinominata: chi aggiorna da 1.0.0 non deve cambiare una riga. **L'aspetto però

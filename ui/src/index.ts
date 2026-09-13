@@ -251,6 +251,13 @@ export {
   type ToolCall,
   type ToolResult,
   type ChatProviderAdapter,
+  // 1.2.0 — la superficie riusabile dell'assistente sulle pagine (heuresys-advanced #159 F2)
+  AgentPanel,
+  type AgentPanelProps,
+  type AgentPanelLabels,
+  type AgentPanelLine,
+  type AgentPanelApproval,
+  type AgentPanelNotice,
 } from './components/ai';
 
 // === B-EXT TIER 11 — i18n ===

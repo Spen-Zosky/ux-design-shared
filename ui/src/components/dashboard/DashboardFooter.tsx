@@ -61,7 +61,8 @@ export function DashboardFooter({
           href={websiteHref}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Open Heuresys public website"
+          // WCAG 2.5.3 (Label in Name): il nome accessibile comincia con il testo visibile.
+          aria-label="heuresys.com — Open Heuresys public website (new tab)"
           className="font-medium text-muted-foreground transition hover:text-foreground hover:underline"
         >
           heuresys.com

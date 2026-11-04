@@ -8024,7 +8024,7 @@ function HeaderSearchTrigger({
     {
       id: "js-command-palette-trigger",
       type: "button",
-      "aria-label": "Apri command palette",
+      "aria-keyshortcuts": "Meta+K Control+K",
       onClick: onOpenCommandPalette,
       className: "hidden md:inline-flex h-9 items-center gap-2 rounded-control border border-border bg-card px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
       children: [
@@ -8046,7 +8046,7 @@ function HeaderSearchTrigger({
           }
         ),
         /* @__PURE__ */ jsxRuntime.jsx("span", { children: placeholder }),
-        /* @__PURE__ */ jsxRuntime.jsx("kbd", { className: "ml-2 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground", children: "\u2318 K" })
+        /* @__PURE__ */ jsxRuntime.jsx("kbd", { "aria-hidden": "true", className: "ml-2 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground", children: "\u2318 K" })
       ]
     }
   );
@@ -8059,7 +8059,7 @@ function HeaderLanguageSwitcher({
     "button",
     {
       type: "button",
-      "aria-label": "Cambia lingua tra italiano e inglese",
+      "aria-label": `${language} \u2014 cambia lingua tra italiano e inglese`,
       onClick: onToggleLanguage,
       className: "inline-flex h-9 items-center gap-2 rounded-control border border-border px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
       children: [
@@ -8383,6 +8383,7 @@ function DashboardHeader({
   className,
   logo,
   logoBadge,
+  homeLabel = "pagina iniziale",
   leftExtras,
   rightExtras,
   commandPaletteContent,
@@ -8411,9 +8412,10 @@ function DashboardHeader({
       children: [
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex min-w-0 items-center gap-3", children: [
           /* @__PURE__ */ jsxRuntime.jsx(HeaderMenuTrigger, { onOpenMenu: handleOpenMenu }),
-          /* @__PURE__ */ jsxRuntime.jsxs("a", { href: "/app", "aria-label": "Heuresys \u2014 pagina iniziale autenticata", className: "flex items-center gap-2.5", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("a", { href: "/app", className: "flex items-center gap-2.5", children: [
             logo ?? /* @__PURE__ */ jsxRuntime.jsx(HeuresysWordmark, { variant: "brand", size: "md" }),
-            logoBadge
+            logoBadge,
+            /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: homeLabel })
           ] }),
           /* @__PURE__ */ jsxRuntime.jsx(HeaderBreadcrumbTrail, { items: breadcrumb }),
           leftExtras
@@ -8614,7 +8616,7 @@ function DashboardFooter({
               href: websiteHref,
               target: "_blank",
               rel: "noopener noreferrer",
-              "aria-label": "Open Heuresys public website",
+              "aria-label": "heuresys.com \u2014 Open Heuresys public website (new tab)",
               className: "font-medium text-muted-foreground transition hover:text-foreground hover:underline",
               children: "heuresys.com"
             }

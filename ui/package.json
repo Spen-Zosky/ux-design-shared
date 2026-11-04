@@ -41,6 +41,7 @@
   ],
   "scripts": {
     "build": "tsup",
+    "prepack": "npm run build",
     "publish:dry": "npm publish --dry-run",
     "publish:release": "npm publish",
     "storybook": "storybook dev -p 6006",

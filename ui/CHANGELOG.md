@@ -5,6 +5,34 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.2.1 — 2026-11-04
+
+Nessuna API rimossa o rinominata. Una prop nuova, facoltativa, e una correzione di accessibilità che
+raggiunge ogni pagina costruita con il guscio.
+
+### Correzioni che vi raggiungono anche senza toccare nulla
+
+**WCAG 2.5.3, il nome dice ciò che si vede.** axe-core 4.14 controlla di serie la regola
+`label-content-name-mismatch` (*serious*), e su heuresys-advanced la segnalava su ogni pagina
+autenticata per quattro elementi del guscio, il cui `aria-label` non conteneva il testo visibile:
+
+- il collegamento del marchio in `DashboardHeader` non ha più un `aria-label`: il nome viene dal
+  contenuto (marchio, distintivo `logoBadge` e la destinazione in un testo leggibile solo dal
+  lettore di schermo). Chi passava un `logoBadge` con `aria-hidden` per aggirare la regola può
+  toglierlo: ora il distintivo fa parte del nome, come deve;
+- il pulsante di ricerca si chiama con il testo che mostra e dichiara la scorciatoia con
+  `aria-keyshortcuts`; il `⌘ K` visibile è nascosto al lettore di schermo;
+- il cambio lingua si chiama «IT — cambia lingua tra italiano e inglese» (la sigla visibile per
+  prima);
+- il collegamento al sito in `DashboardFooter` comincia con «heuresys.com».
+
+### Novità
+
+**`DashboardHeader` `homeLabel`** — la destinazione del collegamento del marchio, detta al lettore
+di schermo. Default «pagina iniziale»; un'applicazione in più lingue passa la sua traduzione.
+
+---
+
 ## 1.2.0 — 2026-09-13
 
 Nessuna API rimossa o rinominata: chi aggiorna da 1.1.0 non deve cambiare una riga. Una novità e le

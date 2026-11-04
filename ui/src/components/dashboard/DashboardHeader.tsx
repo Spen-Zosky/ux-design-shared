@@ -53,6 +53,10 @@ export interface DashboardHeaderProps {
   logo?: React.ReactNode;
   /** Optional trailing badge next to the logo (e.g. "advanced" product chip). */
   logoBadge?: React.ReactNode;
+  /** Destinazione del collegamento del marchio, detta solo al lettore di schermo (testo
+   *  nascosto alla vista). Il nome accessibile del collegamento è marchio + distintivo +
+   *  questo testo. Default: "pagina iniziale". */
+  homeLabel?: string;
   leftExtras?: React.ReactNode;
   rightExtras?: React.ReactNode;
   /** Contenuto della command palette (⌘K) — `CommandPalette.Group`/`CommandPalette.Item`.
@@ -84,6 +88,7 @@ export function DashboardHeader({
   className,
   logo,
   logoBadge,
+  homeLabel = 'pagina iniziale',
   leftExtras,
   rightExtras,
   commandPaletteContent,
@@ -116,9 +121,13 @@ export function DashboardHeader({
       <div className="flex min-w-0 items-center gap-3">
         <HeaderMenuTrigger onOpenMenu={handleOpenMenu} />
 
-        <a href="/app" aria-label="Heuresys — pagina iniziale autenticata" className="flex items-center gap-2.5">
+        {/* WCAG 2.5.3 (Label in Name): il collegamento prende il nome dal suo contenuto (il
+            marchio, il distintivo, e la destinazione per chi non vede), invece di un aria-label
+            che non conteneva il testo visibile. */}
+        <a href="/app" className="flex items-center gap-2.5">
           {logo ?? <HeuresysWordmark variant="brand" size="md" />}
           {logoBadge}
+          <span className="sr-only">{homeLabel}</span>
         </a>
 
         <HeaderBreadcrumbTrail items={breadcrumb} />

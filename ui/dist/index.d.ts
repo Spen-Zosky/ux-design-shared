@@ -2258,6 +2258,10 @@ interface DashboardHeaderProps {
     logo?: React$1.ReactNode;
     /** Optional trailing badge next to the logo (e.g. "advanced" product chip). */
     logoBadge?: React$1.ReactNode;
+    /** Destinazione del collegamento del marchio, detta solo al lettore di schermo (testo
+     *  nascosto alla vista). Il nome accessibile del collegamento è marchio + distintivo +
+     *  questo testo. Default: "pagina iniziale". */
+    homeLabel?: string;
     leftExtras?: React$1.ReactNode;
     rightExtras?: React$1.ReactNode;
     /** Contenuto della command palette (⌘K) — `CommandPalette.Group`/`CommandPalette.Item`.
@@ -2278,7 +2282,7 @@ interface DashboardHeaderProps {
         onLogout?: () => void;
     };
 }
-declare function DashboardHeader({ breadcrumb, user, language, onToggleLanguage, onOpenMenu, onOpenCommandPalette, className, logo, logoBadge, leftExtras, rightExtras, commandPaletteContent, mobileNav, userMenu, }: DashboardHeaderProps): react_jsx_runtime.JSX.Element;
+declare function DashboardHeader({ breadcrumb, user, language, onToggleLanguage, onOpenMenu, onOpenCommandPalette, className, logo, logoBadge, homeLabel, leftExtras, rightExtras, commandPaletteContent, mobileNav, userMenu, }: DashboardHeaderProps): react_jsx_runtime.JSX.Element;
 
 /**
  * DashboardSidebar — collapsible side navigation.

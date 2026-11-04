@@ -16,7 +16,9 @@ export function HeaderSearchTrigger({
     <button
       id="js-command-palette-trigger"
       type="button"
-      aria-label="Apri command palette"
+      // WCAG 2.5.3 (Label in Name): niente aria-label. Il nome accessibile è il testo visibile,
+      // che dice già che cosa fa; la scorciatoia si dichiara con aria-keyshortcuts.
+      aria-keyshortcuts="Meta+K Control+K"
       onClick={onOpenCommandPalette}
       className="hidden md:inline-flex h-9 items-center gap-2 rounded-control border border-border bg-card px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30"
     >
@@ -34,7 +36,7 @@ export function HeaderSearchTrigger({
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
       <span>{placeholder}</span>
-      <kbd className="ml-2 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
+      <kbd aria-hidden="true" className="ml-2 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
         ⌘ K
       </kbd>
     </button>

@@ -91,6 +91,10 @@ npm publish --access public
 git push origin main         # <-- il sorgente della release DEVE seguire il publish
 ```
 
+`prepack` ricostruisce `dist/` da sé prima di `npm pack` e di `npm publish`: in git ci sono solo i
+quattro file d'ingresso di `dist/`, non i pezzi che importano, e un pacchetto fatto senza build
+non si compila nel consumer (misurato il 2026-11-04: «Can't resolve './chunk-….mjs'»).
+
 Poi nel consumer: bump della dipendenza + `pnpm install`.
 
 **Subpath disponibili**: `.` (barrel), `./charts`, `./markdown`, `./styles`,

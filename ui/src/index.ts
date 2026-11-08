@@ -258,6 +258,12 @@ export {
   type AgentPanelLine,
   type AgentPanelApproval,
   type AgentPanelNotice,
+  // 1.3.0 — la colonna delle attività dell'assistente (heuresys-advanced ADR-0056 D4)
+  AgentActivityList,
+  type AgentActivityListProps,
+  type AgentActivityListLabels,
+  type AgentActivityListItem,
+  type AgentActivityStatus,
 } from './components/ai';
 
 // === B-EXT TIER 11 — i18n ===

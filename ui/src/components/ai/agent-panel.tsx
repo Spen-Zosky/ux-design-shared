@@ -41,6 +41,11 @@ export interface AgentPanelLabels {
   gatewayLabel?: string;
   /** Etichetta davanti al contesto di pagina, se c'è. */
   contextLabel?: string;
+  /** Con `requireRejectReason`: l'etichetta del motivo e il pulsante che conferma il rifiuto. */
+  rejectReasonLabel?: string;
+  rejectConfirm?: string;
+  /** Etichetta davanti alla scadenza dell'approvazione, se c'è. */
+  approvalExpires?: string;
 }
 
 export interface AgentPanelLine {
@@ -54,6 +59,8 @@ export interface AgentPanelApproval {
   approvalId: string;
   tool: unknown;
   input: unknown;
+  /** La scadenza, già formattata da chi monta il pannello (1.3.0). */
+  expiresText?: string;
 }
 
 export interface AgentPanelNotice {
@@ -73,7 +80,13 @@ export interface AgentPanelProps {
   onStop: () => void;
   lines: readonly AgentPanelLine[];
   approval?: AgentPanelApproval | null;
-  onApproval?: (decision: 'allow' | 'deny') => void;
+  /**
+   * La decisione. Con `requireRejectReason` il rifiuto porta il motivo scritto dalla persona
+   * (1.3.0): «Nega» apre il campo, e la conferma resta spenta finché il motivo è vuoto.
+   */
+  onApproval?: (decision: 'allow' | 'deny', reason?: string) => void;
+  /** Il rifiuto chiede un motivo (1.3.0). Di default no, come prima. */
+  requireRejectReason?: boolean;
   notice?: AgentPanelNotice | null;
   /** Se presente si mostra in piccolo: è un indirizzo, mai un segreto. */
   gatewayUrl?: string;
@@ -100,6 +113,7 @@ export function AgentPanel({
   lines,
   approval = null,
   onApproval,
+  requireRejectReason = false,
   notice = null,
   gatewayUrl,
   testIdPrefix = 'agent',
@@ -107,6 +121,10 @@ export function AgentPanel({
 }: AgentPanelProps) {
   const id = (s: string) => `${testIdPrefix}-${s}`;
   const promptId = React.useId();
+  const reasonId = React.useId();
+  // Il motivo vive con l'approvazione a cui si riferisce: un'approvazione nuova lo azzera.
+  const [rifiuto, setRifiuto] = React.useState<{ id: string; testo: string } | null>(null);
+  const motivoAperto = requireRejectReason && approval !== null && rifiuto?.id === approval.approvalId;
 
   return (
     <div className={cn('space-y-6', className)} data-testid={id('page')} role="region" aria-label={labels.title}>
@@ -189,18 +207,57 @@ export function AgentPanel({
                 {JSON.stringify(approval.input, null, 2)}
               </pre>
             </div>
+            {approval.expiresText && (
+              <p className="text-xs text-muted-fg" data-testid={id('approval-expires')}>
+                {labels.approvalExpires ? `${labels.approvalExpires}: ` : null}
+                {approval.expiresText}
+              </p>
+            )}
+            {motivoAperto && (
+              <div className="space-y-1">
+                <label htmlFor={reasonId} className="block text-sm font-medium text-foreground">
+                  {labels.rejectReasonLabel ?? labels.deny}
+                </label>
+                <textarea
+                  id={reasonId}
+                  data-testid={id('reject-reason')}
+                  className="min-h-16 w-full rounded-md border border-input bg-background p-2 text-sm text-foreground"
+                  value={rifiuto?.testo ?? ''}
+                  onChange={(e) => setRifiuto({ id: approval.approvalId, testo: e.target.value })}
+                />
+              </div>
+            )}
             <div className="flex gap-3">
               <Button type="button" data-testid={id('approve-allow')} onClick={() => onApproval?.('allow')}>
                 {labels.allow}
               </Button>
-              <Button
-                type="button"
-                variant="destructive"
-                data-testid={id('approve-deny')}
-                onClick={() => onApproval?.('deny')}
-              >
-                {labels.deny}
-              </Button>
+              {motivoAperto ? (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  data-testid={id('reject-confirm')}
+                  disabled={!rifiuto?.testo.trim()}
+                  onClick={() => {
+                    const testo = rifiuto?.testo.trim() ?? '';
+                    if (!testo) return;
+                    setRifiuto(null);
+                    onApproval?.('deny', testo);
+                  }}
+                >
+                  {labels.rejectConfirm ?? labels.deny}
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  data-testid={id('approve-deny')}
+                  onClick={() =>
+                    requireRejectReason ? setRifiuto({ id: approval.approvalId, testo: '' }) : onApproval?.('deny')
+                  }
+                >
+                  {labels.deny}
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>

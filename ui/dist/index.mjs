@@ -5929,6 +5929,7 @@ function AgentPanel({
   lines,
   approval = null,
   onApproval,
+  requireRejectReason = false,
   notice = null,
   gatewayUrl,
   testIdPrefix = "agent",
@@ -5936,6 +5937,9 @@ function AgentPanel({
 }) {
   const id = (s) => `${testIdPrefix}-${s}`;
   const promptId = React5.useId();
+  const reasonId = React5.useId();
+  const [rifiuto, setRifiuto] = React5.useState(null);
+  const motivoAperto = requireRejectReason && approval !== null && rifiuto?.id === approval.approvalId;
   return /* @__PURE__ */ jsxs("div", { className: cn("space-y-6", className), "data-testid": id("page"), role: "region", "aria-label": labels.title, children: [
     /* @__PURE__ */ jsxs(Card, { children: [
       /* @__PURE__ */ jsx(CardHeader, { children: /* @__PURE__ */ jsx(CardTitle, { "data-testid": id("title"), children: labels.title }) }),
@@ -6005,15 +6009,47 @@ function AgentPanel({
             }
           )
         ] }),
+        approval.expiresText && /* @__PURE__ */ jsxs("p", { className: "text-xs text-muted-fg", "data-testid": id("approval-expires"), children: [
+          labels.approvalExpires ? `${labels.approvalExpires}: ` : null,
+          approval.expiresText
+        ] }),
+        motivoAperto && /* @__PURE__ */ jsxs("div", { className: "space-y-1", children: [
+          /* @__PURE__ */ jsx("label", { htmlFor: reasonId, className: "block text-sm font-medium text-foreground", children: labels.rejectReasonLabel ?? labels.deny }),
+          /* @__PURE__ */ jsx(
+            "textarea",
+            {
+              id: reasonId,
+              "data-testid": id("reject-reason"),
+              className: "min-h-16 w-full rounded-md border border-input bg-background p-2 text-sm text-foreground",
+              value: rifiuto?.testo ?? "",
+              onChange: (e) => setRifiuto({ id: approval.approvalId, testo: e.target.value })
+            }
+          )
+        ] }),
         /* @__PURE__ */ jsxs("div", { className: "flex gap-3", children: [
           /* @__PURE__ */ jsx(Button, { type: "button", "data-testid": id("approve-allow"), onClick: () => onApproval?.("allow"), children: labels.allow }),
-          /* @__PURE__ */ jsx(
+          motivoAperto ? /* @__PURE__ */ jsx(
+            Button,
+            {
+              type: "button",
+              variant: "destructive",
+              "data-testid": id("reject-confirm"),
+              disabled: !rifiuto?.testo.trim(),
+              onClick: () => {
+                const testo = rifiuto?.testo.trim() ?? "";
+                if (!testo) return;
+                setRifiuto(null);
+                onApproval?.("deny", testo);
+              },
+              children: labels.rejectConfirm ?? labels.deny
+            }
+          ) : /* @__PURE__ */ jsx(
             Button,
             {
               type: "button",
               variant: "destructive",
               "data-testid": id("approve-deny"),
-              onClick: () => onApproval?.("deny"),
+              onClick: () => requireRejectReason ? setRifiuto({ id: approval.approvalId, testo: "" }) : onApproval?.("deny"),
               children: labels.deny
             }
           )
@@ -6026,6 +6062,68 @@ function AgentPanel({
         /* @__PURE__ */ jsx(Badge, { variant: toneOf(line.kind), children: line.kind }),
         /* @__PURE__ */ jsx("code", { className: "break-all font-mono text-muted-fg", children: line.text })
       ] }, line.id)) }) })
+    ] })
+  ] });
+}
+function toneOf2(status) {
+  if (status === "FALLITA") return "destructive";
+  if (status === "IN_ATTESA") return "default";
+  if (status === "IN_CORSO") return "secondary";
+  return "outline";
+}
+function AgentActivityList({
+  labels,
+  items,
+  selectedId = null,
+  onSelect,
+  onNew,
+  testIdPrefix = "agent-activities",
+  className
+}) {
+  const id = (s) => `${testIdPrefix}-${s}`;
+  return /* @__PURE__ */ jsxs(Card, { className: cn(className), "data-testid": id("list"), role: "region", "aria-label": labels.title, children: [
+    /* @__PURE__ */ jsx(CardHeader, { children: /* @__PURE__ */ jsx(CardTitle, { children: labels.title }) }),
+    /* @__PURE__ */ jsxs(CardContent, { className: "space-y-3", children: [
+      onNew && labels.newConversation && /* @__PURE__ */ jsx(Button, { type: "button", variant: "outline", size: "sm", "data-testid": id("new"), onClick: onNew, children: labels.newConversation }),
+      items.length === 0 ? /* @__PURE__ */ jsx("p", { className: "text-sm text-muted-fg", "data-testid": id("empty"), children: labels.empty }) : /* @__PURE__ */ jsx("ul", { className: "space-y-2", children: items.map((item) => {
+        const scelta = item.id === selectedId;
+        const inAttesa = item.pendingProposals ?? 0;
+        return /* @__PURE__ */ jsxs(
+          "li",
+          {
+            "data-testid": id("item"),
+            "data-selected": scelta ? "true" : void 0,
+            className: cn(
+              "flex items-start justify-between gap-3 rounded-md border border-border p-2",
+              scelta && "bg-muted"
+            ),
+            children: [
+              /* @__PURE__ */ jsxs("div", { className: "min-w-0 space-y-1", children: [
+                /* @__PURE__ */ jsx("p", { className: "truncate text-sm font-medium text-foreground", children: item.title }),
+                /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-2 text-xs text-muted-fg", children: [
+                  item.status && /* @__PURE__ */ jsx(Badge, { variant: toneOf2(item.status), "data-testid": id("status"), children: labels.statusLabels[item.status] }),
+                  inAttesa > 0 && labels.pending && /* @__PURE__ */ jsx("span", { "data-testid": id("pending"), children: labels.pending(inAttesa) }),
+                  item.updatedText && /* @__PURE__ */ jsx("span", { children: item.updatedText })
+                ] })
+              ] }),
+              /* @__PURE__ */ jsx(
+                Button,
+                {
+                  type: "button",
+                  variant: scelta ? "secondary" : "ghost",
+                  size: "sm",
+                  "data-testid": id("resume"),
+                  "aria-current": scelta ? "true" : void 0,
+                  "aria-label": `${labels.resume}: ${item.title}`,
+                  onClick: () => onSelect(item.id),
+                  children: labels.resume
+                }
+              )
+            ]
+          },
+          item.id
+        );
+      }) })
     ] })
   ] });
 }
@@ -9418,4 +9516,4 @@ function FieldGrid({
   ] }, i)) });
 }
 
-export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, ActivityFeed, ActivityRing, Admonition, AgentPanel, AlertBanner, AnimatedNumber, AppShell, AppSwitcher, AuditFeed, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, BentoCell, BentoGrid, Breadcrumbs, Button, CalendarGrid, CapabilityRadar, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, Center, ChatProvider, Chatbot, Checkbox, Cluster, CommandPalette, CommentThread, ConfettiButton, Cover, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, DashboardHeader, DashboardShell, DashboardSidebar, DataTable, DataTableWithCrossHair, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, EmptyState, ErrorRateBreakdown, ErrorState, FAB, FadeIn, FieldGrid, FileDropzone, FilterBar, FormWizard, Frame, GlassCard, GradientText, Grid, GroupToggle, HeaderBreadcrumbTrail, HeaderLanguageSwitcher, HeaderMenuTrigger, HeaderMobileDrawer, HeaderSearchTrigger, HeaderThemeToggle, HeaderUserIdentity, HeaderUserMenu, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, HeuresysMark, HeuresysWordmark, IbanInput, ImageGallery, IncidentTimeline, Input, IntegrationHealthPill, JsonTree, KGGraphCanvas, KPIStrip, KanbanBoard, KeyboardShortcutsModal, KgMiniGraph, KpiCard, KpiRing, LanguagePicker, LinearGauge, LiveRegionProvider, LogStream, LottiePlayer, MarkdownView, Marquee, MegaMenu, MeshGradient, MobileBottomNav, MoneyInput, NetworkGraph, NeumorphicCard, NoiseOverlay, NotificationCenter, OnboardingTour, OtpInput, PALETTES, PageActions, PageHeader, Pagination, PaletteDropdown, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, RadialGauge, RbacMatrix, SAPSyncPanel, SQLSlowQueryTable, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, SignaturePadField, Skeleton, SkillHeatmap, SkipLink, SlideIn, Sparkline2 as Sparkline, Spinner, Stack, StaggerChildren, StaggerItem, StatsCard, StatusBadge2 as StatusBadge, StatusIcon, StatusPill, Stepper, SuccessionCard, Switch, Switcher, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, TenantFleetTable, ThemeBuilderWizard, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, TimeRangeSelector, Timeline, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, ToolCallView, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Typewriter, VideoPlayer, VoiceInput, WinLossSparkline, applyPalette, attachCrossHair, badgeVariants, buttonVariants, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme, useThemeOptional };
+export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, ActivityFeed, ActivityRing, Admonition, AgentActivityList, AgentPanel, AlertBanner, AnimatedNumber, AppShell, AppSwitcher, AuditFeed, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, BentoCell, BentoGrid, Breadcrumbs, Button, CalendarGrid, CapabilityRadar, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, Center, ChatProvider, Chatbot, Checkbox, Cluster, CommandPalette, CommentThread, ConfettiButton, Cover, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, DashboardHeader, DashboardShell, DashboardSidebar, DataTable, DataTableWithCrossHair, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, EmptyState, ErrorRateBreakdown, ErrorState, FAB, FadeIn, FieldGrid, FileDropzone, FilterBar, FormWizard, Frame, GlassCard, GradientText, Grid, GroupToggle, HeaderBreadcrumbTrail, HeaderLanguageSwitcher, HeaderMenuTrigger, HeaderMobileDrawer, HeaderSearchTrigger, HeaderThemeToggle, HeaderUserIdentity, HeaderUserMenu, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, HeuresysMark, HeuresysWordmark, IbanInput, ImageGallery, IncidentTimeline, Input, IntegrationHealthPill, JsonTree, KGGraphCanvas, KPIStrip, KanbanBoard, KeyboardShortcutsModal, KgMiniGraph, KpiCard, KpiRing, LanguagePicker, LinearGauge, LiveRegionProvider, LogStream, LottiePlayer, MarkdownView, Marquee, MegaMenu, MeshGradient, MobileBottomNav, MoneyInput, NetworkGraph, NeumorphicCard, NoiseOverlay, NotificationCenter, OnboardingTour, OtpInput, PALETTES, PageActions, PageHeader, Pagination, PaletteDropdown, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, RadialGauge, RbacMatrix, SAPSyncPanel, SQLSlowQueryTable, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, SignaturePadField, Skeleton, SkillHeatmap, SkipLink, SlideIn, Sparkline2 as Sparkline, Spinner, Stack, StaggerChildren, StaggerItem, StatsCard, StatusBadge2 as StatusBadge, StatusIcon, StatusPill, Stepper, SuccessionCard, Switch, Switcher, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, TenantFleetTable, ThemeBuilderWizard, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, TimeRangeSelector, Timeline, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, ToolCallView, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Typewriter, VideoPlayer, VoiceInput, WinLossSparkline, applyPalette, attachCrossHair, badgeVariants, buttonVariants, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme, useThemeOptional };

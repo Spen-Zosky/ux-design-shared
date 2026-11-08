@@ -6151,6 +6151,7 @@ function AgentPanel({
   lines,
   approval = null,
   onApproval,
+  requireRejectReason = false,
   notice = null,
   gatewayUrl,
   testIdPrefix = "agent",
@@ -6158,6 +6159,9 @@ function AgentPanel({
 }) {
   const id = (s) => `${testIdPrefix}-${s}`;
   const promptId = React5__namespace.useId();
+  const reasonId = React5__namespace.useId();
+  const [rifiuto, setRifiuto] = React5__namespace.useState(null);
+  const motivoAperto = requireRejectReason && approval !== null && rifiuto?.id === approval.approvalId;
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("space-y-6", className), "data-testid": id("page"), role: "region", "aria-label": labels.title, children: [
     /* @__PURE__ */ jsxRuntime.jsxs(Card, { children: [
       /* @__PURE__ */ jsxRuntime.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntime.jsx(CardTitle, { "data-testid": id("title"), children: labels.title }) }),
@@ -6227,15 +6231,47 @@ function AgentPanel({
             }
           )
         ] }),
+        approval.expiresText && /* @__PURE__ */ jsxRuntime.jsxs("p", { className: "text-xs text-muted-fg", "data-testid": id("approval-expires"), children: [
+          labels.approvalExpires ? `${labels.approvalExpires}: ` : null,
+          approval.expiresText
+        ] }),
+        motivoAperto && /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-1", children: [
+          /* @__PURE__ */ jsxRuntime.jsx("label", { htmlFor: reasonId, className: "block text-sm font-medium text-foreground", children: labels.rejectReasonLabel ?? labels.deny }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "textarea",
+            {
+              id: reasonId,
+              "data-testid": id("reject-reason"),
+              className: "min-h-16 w-full rounded-md border border-input bg-background p-2 text-sm text-foreground",
+              value: rifiuto?.testo ?? "",
+              onChange: (e) => setRifiuto({ id: approval.approvalId, testo: e.target.value })
+            }
+          )
+        ] }),
         /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex gap-3", children: [
           /* @__PURE__ */ jsxRuntime.jsx(Button, { type: "button", "data-testid": id("approve-allow"), onClick: () => onApproval?.("allow"), children: labels.allow }),
-          /* @__PURE__ */ jsxRuntime.jsx(
+          motivoAperto ? /* @__PURE__ */ jsxRuntime.jsx(
+            Button,
+            {
+              type: "button",
+              variant: "destructive",
+              "data-testid": id("reject-confirm"),
+              disabled: !rifiuto?.testo.trim(),
+              onClick: () => {
+                const testo = rifiuto?.testo.trim() ?? "";
+                if (!testo) return;
+                setRifiuto(null);
+                onApproval?.("deny", testo);
+              },
+              children: labels.rejectConfirm ?? labels.deny
+            }
+          ) : /* @__PURE__ */ jsxRuntime.jsx(
             Button,
             {
               type: "button",
               variant: "destructive",
               "data-testid": id("approve-deny"),
-              onClick: () => onApproval?.("deny"),
+              onClick: () => requireRejectReason ? setRifiuto({ id: approval.approvalId, testo: "" }) : onApproval?.("deny"),
               children: labels.deny
             }
           )
@@ -6248,6 +6284,68 @@ function AgentPanel({
         /* @__PURE__ */ jsxRuntime.jsx(Badge, { variant: toneOf(line.kind), children: line.kind }),
         /* @__PURE__ */ jsxRuntime.jsx("code", { className: "break-all font-mono text-muted-fg", children: line.text })
       ] }, line.id)) }) })
+    ] })
+  ] });
+}
+function toneOf2(status) {
+  if (status === "FALLITA") return "destructive";
+  if (status === "IN_ATTESA") return "default";
+  if (status === "IN_CORSO") return "secondary";
+  return "outline";
+}
+function AgentActivityList({
+  labels,
+  items,
+  selectedId = null,
+  onSelect,
+  onNew,
+  testIdPrefix = "agent-activities",
+  className
+}) {
+  const id = (s) => `${testIdPrefix}-${s}`;
+  return /* @__PURE__ */ jsxRuntime.jsxs(Card, { className: cn(className), "data-testid": id("list"), role: "region", "aria-label": labels.title, children: [
+    /* @__PURE__ */ jsxRuntime.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntime.jsx(CardTitle, { children: labels.title }) }),
+    /* @__PURE__ */ jsxRuntime.jsxs(CardContent, { className: "space-y-3", children: [
+      onNew && labels.newConversation && /* @__PURE__ */ jsxRuntime.jsx(Button, { type: "button", variant: "outline", size: "sm", "data-testid": id("new"), onClick: onNew, children: labels.newConversation }),
+      items.length === 0 ? /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-sm text-muted-fg", "data-testid": id("empty"), children: labels.empty }) : /* @__PURE__ */ jsxRuntime.jsx("ul", { className: "space-y-2", children: items.map((item) => {
+        const scelta = item.id === selectedId;
+        const inAttesa = item.pendingProposals ?? 0;
+        return /* @__PURE__ */ jsxRuntime.jsxs(
+          "li",
+          {
+            "data-testid": id("item"),
+            "data-selected": scelta ? "true" : void 0,
+            className: cn(
+              "flex items-start justify-between gap-3 rounded-md border border-border p-2",
+              scelta && "bg-muted"
+            ),
+            children: [
+              /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "min-w-0 space-y-1", children: [
+                /* @__PURE__ */ jsxRuntime.jsx("p", { className: "truncate text-sm font-medium text-foreground", children: item.title }),
+                /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex flex-wrap items-center gap-2 text-xs text-muted-fg", children: [
+                  item.status && /* @__PURE__ */ jsxRuntime.jsx(Badge, { variant: toneOf2(item.status), "data-testid": id("status"), children: labels.statusLabels[item.status] }),
+                  inAttesa > 0 && labels.pending && /* @__PURE__ */ jsxRuntime.jsx("span", { "data-testid": id("pending"), children: labels.pending(inAttesa) }),
+                  item.updatedText && /* @__PURE__ */ jsxRuntime.jsx("span", { children: item.updatedText })
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntime.jsx(
+                Button,
+                {
+                  type: "button",
+                  variant: scelta ? "secondary" : "ghost",
+                  size: "sm",
+                  "data-testid": id("resume"),
+                  "aria-current": scelta ? "true" : void 0,
+                  "aria-label": `${labels.resume}: ${item.title}`,
+                  onClick: () => onSelect(item.id),
+                  children: labels.resume
+                }
+              )
+            ]
+          },
+          item.id
+        );
+      }) })
     ] })
   ] });
 }
@@ -9649,6 +9747,7 @@ exports.AchievementBadge = AchievementBadge;
 exports.ActivityFeed = ActivityFeed;
 exports.ActivityRing = ActivityRing;
 exports.Admonition = Admonition;
+exports.AgentActivityList = AgentActivityList;
 exports.AgentPanel = AgentPanel;
 exports.AlertBanner = AlertBanner;
 exports.AnimatedNumber = AnimatedNumber;

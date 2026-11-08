@@ -18,3 +18,10 @@ export {
   type AgentPanelApproval,
   type AgentPanelNotice,
 } from './agent-panel';
+export {
+  AgentActivityList,
+  type AgentActivityListProps,
+  type AgentActivityListLabels,
+  type AgentActivityListItem,
+  type AgentActivityStatus,
+} from './agent-activity-list';

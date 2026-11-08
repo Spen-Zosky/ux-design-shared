@@ -5,6 +5,28 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.3.0 — 2026-11-08
+
+Nessuna API rimossa o rinominata. Un componente nuovo e tre prop facoltative su `AgentPanel`: chi
+non le usa non vede differenze. Comprende la 1.2.1, se non l'avete ancora installata.
+
+### Novità
+
+**`AgentActivityList`, la colonna delle attività dell'assistente** (heuresys-advanced ADR-0056 D4).
+Una conversazione con l'assistente resta salvata e il lavoro continua a finestra chiusa: questa
+colonna è ciò che la persona ritrova riaprendo. Mostra le conversazioni, lo stato dell'ultima
+attività (in corso, aspetta te, fatta, fallita, interrotta), quante proposte aspettano una
+decisione, e il pulsante per riprenderne una. Vista pura come `AgentPanel`: parole, etichette
+degli stati e date arrivano già pronte da chi la monta.
+
+**`AgentPanel` chiede il motivo quando si nega.** Con `requireRejectReason`, «Nega» apre un campo
+per il motivo e la conferma resta spenta finché è vuoto; `onApproval` riceve il motivo come
+secondo argomento. Senza la prop il pannello si comporta come prima. Etichette nuove, facoltative:
+`rejectReasonLabel`, `rejectConfirm` e `approvalExpires`, quest'ultima davanti a
+`approval.expiresText`, la scadenza già formattata.
+
+---
+
 ## 1.2.1 — 2026-11-04
 
 Nessuna API rimossa o rinominata. Una prop nuova, facoltativa, e una correzione di accessibilità che

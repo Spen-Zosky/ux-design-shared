@@ -1,0 +1,9 @@
+{
+  "repo": "ux-design-shared",
+  "macchine": ["vm", "debian", "windows"],
+  "git": {"rami": ["main"]},
+  "node": [{"cartella": "ui", "node": "24", "pnpm": "11.19.0"}],
+  "database": [],
+  "solo_produzione": [],
+  "riti": {}
+}

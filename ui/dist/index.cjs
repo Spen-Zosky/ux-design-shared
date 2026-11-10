@@ -6349,6 +6349,156 @@ function AgentActivityList({
     ] })
   ] });
 }
+function AgentSymbol({ className }) {
+  return /* @__PURE__ */ jsxRuntime.jsxs("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", className: cn("h-6 w-6", className), children: [
+    /* @__PURE__ */ jsxRuntime.jsx(
+      "path",
+      {
+        d: "M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16h0A2.5 2.5 0 0 1 4 13.5z",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: "1.6",
+        strokeLinejoin: "round"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M12 6.2l.9 2.3 2.3.9-2.3.9-.9 2.3-.9-2.3-2.3-.9 2.3-.9z", fill: "currentColor" })
+  ] });
+}
+function AgentLauncher({
+  label,
+  busyLabel,
+  open,
+  busy = false,
+  onToggle,
+  testIdPrefix = "agent",
+  className
+}) {
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "button",
+    {
+      type: "button",
+      "data-testid": `${testIdPrefix}-launcher`,
+      "aria-label": busy && busyLabel ? `${label}, ${busyLabel}` : label,
+      "aria-expanded": open,
+      "aria-haspopup": "dialog",
+      onClick: onToggle,
+      className: cn(
+        "fixed bottom-5 right-5 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full",
+        "border border-border bg-background text-foreground shadow-lg transition-colors",
+        "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        open && "bg-muted",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsx(AgentSymbol, {}),
+        busy && /* @__PURE__ */ jsxRuntime.jsx(
+          "span",
+          {
+            "data-testid": `${testIdPrefix}-launcher-busy`,
+            "aria-hidden": "true",
+            className: "absolute right-1 top-1 h-3 w-3 rounded-full border-2 border-background bg-primary"
+          }
+        )
+      ]
+    }
+  );
+}
+function AgentWindow({
+  labels,
+  open,
+  onClose,
+  aside,
+  asideCollapsed = false,
+  onToggleAside,
+  side,
+  children,
+  testIdPrefix = "agent",
+  className
+}) {
+  const id = (s) => `${testIdPrefix}-${s}`;
+  const titoloId = React5__namespace.useId();
+  React5__namespace.useEffect(() => {
+    if (!open) return;
+    const esc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [open, onClose]);
+  return /* @__PURE__ */ jsxRuntime.jsxs(
+    "div",
+    {
+      role: "dialog",
+      "aria-modal": "false",
+      "aria-labelledby": titoloId,
+      hidden: !open,
+      "data-testid": id("window"),
+      className: cn(
+        "fixed bottom-20 right-5 z-40 flex flex-col overflow-hidden rounded-lg border border-border",
+        "bg-background text-foreground shadow-2xl",
+        // Si ridimensiona dall'angolo; i limiti la tengono dentro lo schermo anche sul telefono.
+        "h-[min(640px,calc(100vh-7rem))] w-[min(960px,calc(100vw-2.5rem))] min-h-[320px] min-w-[300px]",
+        "max-h-[calc(100vh-7rem)] max-w-[calc(100vw-2.5rem)] resize",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsxs("header", { className: "flex items-center justify-between gap-2 border-b border-border px-3 py-2", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex items-center gap-2", children: [
+            aside !== void 0 && onToggleAside && /* @__PURE__ */ jsxRuntime.jsx(
+              "button",
+              {
+                type: "button",
+                "data-testid": id("window-aside-toggle"),
+                "aria-label": labels.toggleAside,
+                "aria-expanded": !asideCollapsed,
+                onClick: onToggleAside,
+                className: "rounded p-1 text-muted-fg hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                children: /* @__PURE__ */ jsxRuntime.jsxs("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", className: "h-4 w-4", children: [
+                  /* @__PURE__ */ jsxRuntime.jsx("rect", { x: "3", y: "4", width: "18", height: "16", rx: "2", fill: "none", stroke: "currentColor", strokeWidth: "1.6" }),
+                  /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M9 4v16", stroke: "currentColor", strokeWidth: "1.6" })
+                ] })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntime.jsx(AgentSymbol, { className: "h-5 w-5" }),
+            /* @__PURE__ */ jsxRuntime.jsx("h2", { id: titoloId, className: "text-sm font-semibold", children: labels.title })
+          ] }),
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "button",
+            {
+              type: "button",
+              "data-testid": id("window-close"),
+              "aria-label": labels.close,
+              onClick: onClose,
+              className: "rounded p-1 text-muted-fg hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              children: /* @__PURE__ */ jsxRuntime.jsx("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", className: "h-4 w-4", children: /* @__PURE__ */ jsxRuntime.jsx("path", { d: "M6 6l12 12M18 6L6 18", stroke: "currentColor", strokeWidth: "1.8", strokeLinecap: "round" }) })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "relative flex min-h-0 flex-1", children: [
+          aside !== void 0 && !asideCollapsed && // Sul telefono la colonna copre la conversazione finché la si comprime; da tablet in su sta accanto.
+          /* @__PURE__ */ jsxRuntime.jsx(
+            "aside",
+            {
+              "data-testid": id("window-aside"),
+              className: "absolute inset-y-0 left-0 z-10 w-64 max-w-[85%] shrink-0 overflow-y-auto border-r border-border bg-background p-2 sm:static sm:max-w-none",
+              children: aside
+            }
+          ),
+          /* @__PURE__ */ jsxRuntime.jsx("div", { "data-testid": id("window-main"), className: "min-w-0 flex-1 overflow-y-auto p-3", children }),
+          side !== void 0 && /* @__PURE__ */ jsxRuntime.jsx(
+            "aside",
+            {
+              "data-testid": id("window-side"),
+              "aria-label": labels.sideTitle,
+              className: "hidden w-60 shrink-0 overflow-y-auto border-l border-border p-2 lg:block",
+              children: side
+            }
+          )
+        ] })
+      ]
+    }
+  );
+}
 
 // src/components/i18n/locale-formatters.ts
 function formatCurrency(value, currency = "EUR", locale = "it-IT") {
@@ -9748,7 +9898,10 @@ exports.ActivityFeed = ActivityFeed;
 exports.ActivityRing = ActivityRing;
 exports.Admonition = Admonition;
 exports.AgentActivityList = AgentActivityList;
+exports.AgentLauncher = AgentLauncher;
 exports.AgentPanel = AgentPanel;
+exports.AgentSymbol = AgentSymbol;
+exports.AgentWindow = AgentWindow;
 exports.AlertBanner = AlertBanner;
 exports.AnimatedNumber = AnimatedNumber;
 exports.AppShell = AppShell;

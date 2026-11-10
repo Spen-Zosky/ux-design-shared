@@ -25,3 +25,11 @@ export {
   type AgentActivityListItem,
   type AgentActivityStatus,
 } from './agent-activity-list';
+export {
+  AgentLauncher,
+  AgentWindow,
+  AgentSymbol,
+  type AgentLauncherProps,
+  type AgentWindowProps,
+  type AgentWindowLabels,
+} from './agent-window';

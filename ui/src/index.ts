@@ -263,6 +263,13 @@ export {
   type AgentActivityListProps,
   type AgentActivityListLabels,
   type AgentActivityListItem,
+  // 1.4.0 — il simbolo e la finestra dell'assistente (heuresys-advanced, piano I2)
+  AgentLauncher,
+  AgentWindow,
+  AgentSymbol,
+  type AgentLauncherProps,
+  type AgentWindowProps,
+  type AgentWindowLabels,
   type AgentActivityStatus,
 } from './components/ai';
 

@@ -5,6 +5,24 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.4.0 — 2026-11-11
+
+Nessuna API rimossa o rinominata: due componenti nuovi, chi non li usa non vede differenze.
+
+### Novità
+
+**`AgentLauncher` e `AgentWindow`, il simbolo e la finestra dell'assistente** (heuresys-advanced,
+piano dell'assistente nelle interfacce, blocco I2). Il simbolo sta fisso in un angolo, uguale in
+ogni pagina, con un puntino quando un lavoro è in corso; il clic mostra la finestra e non avvia
+niente. La finestra si apre sopra la pagina senza spostarla, si ridimensiona dall'angolo, si
+chiude con la croce o con Esc, e chiusa si nasconde senza smontare ciò che contiene. Ha tre aree:
+a sinistra le attività (comprimibile; sul telefono copre la conversazione finché la si comprime),
+al centro la conversazione, a destra ciò che l'attività ha toccato o prodotto. È un dialogo non
+modale, perché la persona deve vedere la pagina cambiare quando l'assistente filtra o ordina.
+Viste pure: parole e stati arrivano da chi le monta. Con loro `AgentSymbol`, il solo disegno.
+
+---
+
 ## 1.3.0 — 2026-11-08
 
 Nessuna API rimossa o rinominata. Un componente nuovo e tre prop facoltative su `AgentPanel`: chi

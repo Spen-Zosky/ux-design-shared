@@ -67,6 +67,9 @@ export { Switch } from './components/switch';
 export { Avatar, AvatarImage, AvatarFallback, AvatarGroup } from './components/avatar';
 export { Badge, badgeVariants } from './components/badge';
 export { Skeleton, Spinner } from './components/skeleton';
+export { ProgressBar, WorkInProgress, TopProgress } from './components/progress';
+export type { ProgressBarProps, WorkInProgressProps, TopProgressProps } from './components/progress';
+export { playEndSignal, isEndSignalEnabled, setEndSignalEnabled } from './lib/end-signal';
 export { EmptyState, ErrorState } from './components/empty-state';
 export type { EmptyStateProps, ErrorStateProps } from './components/empty-state';
 export {

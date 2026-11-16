@@ -156,8 +156,10 @@ thead th[class*="sticky"].col-hover-header {
 /* ============================================================
    Sidebar collapsed state — body[data-sidebar="collapsed"]
    ============================================================ */
-body[data-sidebar="collapsed"] [data-shell="grid"] {
-  grid-template-columns: 72px 1fr !important;
+@media (min-width: 768px) {
+  body[data-sidebar="collapsed"] [data-shell="grid"] {
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+  }
 }
 body[data-sidebar="collapsed"] aside .sidebar-section-label,
 body[data-sidebar="collapsed"] aside .sidebar-group-toggle,

@@ -48,11 +48,14 @@ export function KanbanBoard({
   onChange,
   onAddCard,
   className,
+  dragCardLabel = (title) => `Drag card: ${title}`,
 }: {
   columns: KanbanColumn[];
   onChange: (columns: KanbanColumn[]) => void;
   onAddCard?: (columnId: string) => void;
   className?: string;
+  /** Nome accessibile della maniglia di trascinamento. Default inglese, per retrocompatibilita'. */
+  dragCardLabel?: (title: string) => string;
 }) {
   const [columns, setColumns] = React.useState(initialColumns);
   React.useEffect(() => setColumns(initialColumns), [initialColumns]);
@@ -118,6 +121,7 @@ export function KanbanBoard({
             key={col.id}
             column={col}
             onAddCard={onAddCard ? () => onAddCard(col.id) : undefined}
+            dragCardLabel={dragCardLabel}
           />
         ))}
       </ul>
@@ -125,7 +129,15 @@ export function KanbanBoard({
   );
 }
 
-function KanbanColumnView({ column, onAddCard }: { column: KanbanColumn; onAddCard?: () => void }) {
+function KanbanColumnView({
+  column,
+  onAddCard,
+  dragCardLabel,
+}: {
+  column: KanbanColumn;
+  onAddCard?: () => void;
+  dragCardLabel: (title: string) => string;
+}) {
   return (
     /*
      * `<li>` vero, non una `<section role="listitem">`.
@@ -166,7 +178,7 @@ function KanbanColumnView({ column, onAddCard }: { column: KanbanColumn; onAddCa
       <SortableContext items={column.cards.map((c) => c.id)} strategy={verticalListSortingStrategy}>
         <ul role="list" className="flex flex-col gap-2">
           {column.cards.map((c) => (
-            <SortableCardItem key={c.id} card={c} />
+            <SortableCardItem key={c.id} card={c} dragCardLabel={dragCardLabel} />
           ))}
         </ul>
       </SortableContext>
@@ -174,7 +186,13 @@ function KanbanColumnView({ column, onAddCard }: { column: KanbanColumn; onAddCa
   );
 }
 
-function SortableCardItem({ card }: { card: KanbanCard }) {
+function SortableCardItem({
+  card,
+  dragCardLabel,
+}: {
+  card: KanbanCard;
+  dragCardLabel: (title: string) => string;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card.id,
   });
@@ -191,7 +209,7 @@ function SortableCardItem({ card }: { card: KanbanCard }) {
             type="button"
             {...attributes}
             {...listeners}
-            aria-label={`Drag card: ${card.title}`}
+            aria-label={dragCardLabel(card.title)}
             className="cursor-grab text-muted-fg hover:text-foreground active:cursor-grabbing"
           >
             <GripVertical className="h-4 w-4" aria-hidden="true" />

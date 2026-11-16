@@ -41,6 +41,12 @@ export interface DashboardSidebarProps {
   /** Optional override for the build-info card at the bottom. */
   footerSlot?: ReactNode;
   className?: string;
+  /** Titolo della testata della barra. Default "Navigation". */
+  title?: ReactNode;
+  /** aria-label del riquadro di navigazione. Default "Navigazione principale". */
+  ariaLabel?: string;
+  /** aria-label del pulsante comprimi/espandi. Default "Comprimi/espandi sidebar". */
+  toggleLabel?: string;
 }
 
 const STORAGE_SIDEBAR = 'heuresys-sidebar';
@@ -51,14 +57,21 @@ function applySidebarState(collapsed: boolean) {
   const grid = document.querySelector<HTMLElement>('[data-shell="grid"]');
   if (collapsed) {
     body.setAttribute('data-sidebar', 'collapsed');
-    if (grid) grid.style.setProperty('grid-template-columns', '72px 1fr', 'important');
+    if (grid) grid.style.setProperty('--sidebar-w', '72px');
   } else {
     body.removeAttribute('data-sidebar');
-    if (grid) grid.style.setProperty('grid-template-columns', '260px 1fr', 'important');
+    if (grid) grid.style.setProperty('--sidebar-w', '260px');
   }
 }
 
-export function DashboardSidebar({ groups, footerSlot, className }: DashboardSidebarProps) {
+export function DashboardSidebar({
+  groups,
+  footerSlot,
+  className,
+  title = 'Navigation',
+  ariaLabel = 'Navigazione principale',
+  toggleLabel = 'Comprimi/espandi sidebar',
+}: DashboardSidebarProps) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const saved = window.localStorage.getItem(STORAGE_SIDEBAR);
@@ -73,18 +86,18 @@ export function DashboardSidebar({ groups, footerSlot, className }: DashboardSid
 
   return (
     <aside
-      aria-label="Navigazione principale"
+      aria-label={ariaLabel}
       className={cn('min-h-0 overflow-hidden border-r border-border bg-sidebar text-sidebar-foreground', className)}
     >
       <div className="flex h-full min-h-0 flex-col">
         <div className="flex h-11 shrink-0 items-center justify-between border-b border-border px-3">
-          <span className="sidebar-section-label text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Navigation
+          <span className="sidebar-section-label text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            {title}
           </span>
           <button
             id="js-sidebar-toggle"
             type="button"
-            aria-label="Comprimi/espandi sidebar"
+            aria-label={toggleLabel}
             onClick={toggleSidebar}
             className="inline-flex h-8 w-8 items-center justify-center rounded-control text-muted-foreground transition hover:bg-accent hover:text-foreground"
           >
@@ -143,7 +156,7 @@ function SidebarGroup({ group }: { group: NavGroup }) {
         data-group-toggle={group.id}
         aria-expanded={expanded}
         onClick={toggle}
-        className="sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground"
+        className="sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground"
       >
         <span>{group.label}</span>
         <svg data-group-chevron className="h-3 w-3 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -189,7 +202,7 @@ function DefaultSidebarFooter() {
           <span className="font-mono text-[11px] text-foreground">v5.0.0-mvp3</span>
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-success" aria-hidden="true" />
         </div>
-        <div className="font-mono text-[10px] text-muted-foreground">production · build —</div>
+        <div className="font-mono text-xs text-muted-foreground">production · build —</div>
       </div>
     </div>
   );

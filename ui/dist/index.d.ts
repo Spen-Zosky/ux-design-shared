@@ -35,7 +35,13 @@ declare const Button: React$1.ForwardRefExoticComponent<ButtonProps & React$1.Re
 
 declare const Card: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLDivElement> & React$1.RefAttributes<HTMLDivElement>>;
 declare const CardHeader: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLDivElement> & React$1.RefAttributes<HTMLDivElement>>;
-declare const CardTitle: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLHeadingElement> & React$1.RefAttributes<HTMLHeadingElement>>;
+type CardTitleLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+interface CardTitleProps extends React$1.HTMLAttributes<HTMLHeadingElement> {
+    /** Livello dell'intestazione. Default `h3` (comportamento storico): chi usa la scheda
+     *  subito sotto un `h1` passa `as="h2"` per non saltare un livello. */
+    as?: CardTitleLevel;
+}
+declare const CardTitle: React$1.ForwardRefExoticComponent<CardTitleProps & React$1.RefAttributes<HTMLHeadingElement>>;
 declare const CardDescription: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLParagraphElement> & React$1.RefAttributes<HTMLParagraphElement>>;
 declare const CardContent: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLDivElement> & React$1.RefAttributes<HTMLDivElement>>;
 declare const CardFooter: React$1.ForwardRefExoticComponent<React$1.HTMLAttributes<HTMLDivElement> & React$1.RefAttributes<HTMLDivElement>>;
@@ -127,6 +133,8 @@ declare const DialogPortal: React$1.FC<DialogPrimitive.DialogPortalProps>;
 declare const DialogOverlay: React$1.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogOverlayProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 declare const DialogContent: React$1.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & {
     showCloseButton?: boolean;
+    /** Testo del pulsante di chiusura per i lettori di schermo. Default "Close". */
+    closeLabel?: string;
 } & React$1.RefAttributes<HTMLDivElement>>;
 declare function DialogHeader({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): react_jsx_runtime.JSX.Element;
 declare function DialogFooter({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): react_jsx_runtime.JSX.Element;
@@ -194,9 +202,14 @@ interface BadgeProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProp
 }
 declare function Badge({ className, variant, ...props }: BadgeProps): react_jsx_runtime.JSX.Element;
 
-declare function Skeleton({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): react_jsx_runtime.JSX.Element;
-declare function Spinner({ className }: {
+declare function Skeleton({ className, label, ...props }: React$1.HTMLAttributes<HTMLDivElement> & {
+    /** Nome accessibile dello stato di caricamento. Default "Loading". */
+    label?: string;
+}): react_jsx_runtime.JSX.Element;
+declare function Spinner({ className, label, }: {
     className?: string;
+    /** Testo di caricamento letto dai lettori di schermo. Default "Loading". */
+    label?: string;
 }): react_jsx_runtime.JSX.Element;
 
 /**
@@ -1241,11 +1254,13 @@ interface KanbanColumn {
  * KanbanBoard — accessible drag-drop kanban (column reorder + cross-column).
  * Uses @dnd-kit. Ships full keyboard navigation. (TIER 5)
  */
-declare function KanbanBoard({ columns: initialColumns, onChange, onAddCard, className, }: {
+declare function KanbanBoard({ columns: initialColumns, onChange, onAddCard, className, dragCardLabel, }: {
     columns: KanbanColumn[];
     onChange: (columns: KanbanColumn[]) => void;
     onAddCard?: (columnId: string) => void;
     className?: string;
+    /** Nome accessibile della maniglia di trascinamento. Default inglese, per retrocompatibilita'. */
+    dragCardLabel?: (title: string) => string;
 }): react_jsx_runtime.JSX.Element;
 
 interface TimelineEvent {
@@ -2294,8 +2309,10 @@ interface DashboardShellProps {
     /** Initial sidebar width in px. Default 260. */
     initialSidebarWidth?: number;
     className?: string;
+    /** Nome accessibile dell'area del contenuto (region). Default "Contenuto". */
+    contentLabel?: string;
 }
-declare function DashboardShell({ header, sidebar, footer, children, initialSidebarWidth, className, }: DashboardShellProps): react_jsx_runtime.JSX.Element;
+declare function DashboardShell({ header, sidebar, footer, children, initialSidebarWidth, className, contentLabel, }: DashboardShellProps): react_jsx_runtime.JSX.Element;
 
 interface HeaderMenuTriggerProps {
     onOpenMenu?: () => void;
@@ -2311,6 +2328,8 @@ declare function HeaderMenuTrigger({ onOpenMenu, label, }: HeaderMenuTriggerProp
 type HeaderBreadcrumb = ReadonlyArray<BreadcrumbItem>;
 interface HeaderBreadcrumbTrailProps {
     items?: HeaderBreadcrumb;
+    /** aria-label della navigazione. Default "Breadcrumb". */
+    label?: string;
 }
 /**
  * Renderer di breadcrumb SEMPLIFICATO, pensato per la barra del guscio:
@@ -2321,7 +2340,7 @@ interface HeaderBreadcrumbTrailProps {
  * `maxItems`. I due condividono il tipo `BreadcrumbItem` ma non
  * l'implementazione.
  */
-declare function HeaderBreadcrumbTrail({ items }: HeaderBreadcrumbTrailProps): react_jsx_runtime.JSX.Element | null;
+declare function HeaderBreadcrumbTrail({ items, label }: HeaderBreadcrumbTrailProps): react_jsx_runtime.JSX.Element | null;
 
 interface HeaderSearchTriggerProps {
     onOpenCommandPalette?: () => void;
@@ -2333,10 +2352,18 @@ declare function HeaderSearchTrigger({ onOpenCommandPalette, placeholder, }: Hea
 interface HeaderLanguageSwitcherProps {
     language?: 'IT' | 'EN';
     onToggleLanguage?: () => void;
+    /** Nome accessibile del pulsante; deve cominciare con la sigla visibile (WCAG 2.5.3). */
+    label?: (language: string) => string;
 }
-declare function HeaderLanguageSwitcher({ language, onToggleLanguage, }: HeaderLanguageSwitcherProps): react_jsx_runtime.JSX.Element;
+declare function HeaderLanguageSwitcher({ language, onToggleLanguage, label, }: HeaderLanguageSwitcherProps): react_jsx_runtime.JSX.Element;
 
-declare function HeaderThemeToggle(): react_jsx_runtime.JSX.Element;
+interface HeaderThemeToggleProps {
+    /** aria-label del pulsante. Default "Alterna tema chiaro/scuro". */
+    label?: string;
+    /** title mostrato quando manca ThemeProvider. */
+    unavailableTitle?: string;
+}
+declare function HeaderThemeToggle({ label, unavailableTitle, }?: HeaderThemeToggleProps): react_jsx_runtime.JSX.Element;
 
 /**
  * Classi di tono, scritte per intero — mai composte a pezzi.
@@ -2423,21 +2450,49 @@ interface HeaderUserMenuProps {
     onNavigateProfile?: () => void;
     onNavigateSettings?: () => void;
     onLogout?: () => void;
+    /** Nome accessibile del pulsante. Default `Menu utente: <username>`. */
+    label?: (username: string) => string;
 }
-declare function HeaderUserMenu({ user, tenants, onSelectTenant, onNavigateProfile, onNavigateSettings, onLogout, }: HeaderUserMenuProps): react_jsx_runtime.JSX.Element | null;
+declare function HeaderUserMenu({ user, tenants, onSelectTenant, onNavigateProfile, onNavigateSettings, onLogout, label, }: HeaderUserMenuProps): react_jsx_runtime.JSX.Element | null;
 
 interface HeaderMobileDrawerProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     children: React$1.ReactNode;
+    /** Titolo del drawer, letto dai lettori di schermo. Default "Menu di navigazione". */
+    title?: string;
+    /** Testo del pulsante di chiusura. Default "Chiudi". */
+    closeLabel?: string;
 }
 /**
  * Drawer di navigazione mobile, aperto dall'hamburger dell'header.
  * A differenza di DialogContent (centrato), questo slide da sinistra e
  * occupa l'altezza intera — pattern drawer, non modale centrata.
  */
-declare function HeaderMobileDrawer({ open, onOpenChange, children }: HeaderMobileDrawerProps): react_jsx_runtime.JSX.Element;
+declare function HeaderMobileDrawer({ open, onOpenChange, children, title, closeLabel, }: HeaderMobileDrawerProps): react_jsx_runtime.JSX.Element;
 
+/** Testi dell'header che il consumer può tradurre. Tutti opzionali: i default sono
+ *  quelli storici, quindi chi non passa `labels` non vede nessun cambiamento. */
+interface DashboardHeaderLabels {
+    /** aria-label dell'hamburger. Default "Apri menu contesto globale". */
+    menu?: string;
+    /** aria-label della navigazione a briciole. Default "Breadcrumb". */
+    breadcrumb?: string;
+    /** Nome accessibile del cambio lingua; comincia con la sigla visibile. */
+    language?: (language: string) => string;
+    /** aria-label del cambio tema. Default "Alterna tema chiaro/scuro". */
+    theme?: string;
+    /** Nome accessibile del menu utente. Default "Menu utente: <username>". */
+    userMenu?: (username: string) => string;
+    /** Segnaposto della command palette. Default "Cerca tenant, log, audit…". */
+    commandPalettePlaceholder?: string;
+    /** Testo della command palette vuota. Default "Nessun comando configurato". */
+    commandPaletteEmpty?: string;
+    /** Titolo del drawer mobile. Default "Menu di navigazione". */
+    drawerTitle?: string;
+    /** Testo di chiusura del drawer mobile. Default "Chiudi". */
+    drawerClose?: string;
+}
 interface DashboardHeaderProps {
     breadcrumb?: HeaderBreadcrumb;
     user?: UserIdentity;
@@ -2446,6 +2501,8 @@ interface DashboardHeaderProps {
     onOpenMenu?: () => void;
     onOpenCommandPalette?: () => void;
     className?: string;
+    /** Testi traducibili dell'header (additivo, tutti opzionali). */
+    labels?: DashboardHeaderLabels;
     /** Override the default wordmark logo with a custom node (e.g. the canonical
      *  two-color SVG inline used in the SUPERUSER prototype). */
     logo?: React$1.ReactNode;
@@ -2475,7 +2532,7 @@ interface DashboardHeaderProps {
         onLogout?: () => void;
     };
 }
-declare function DashboardHeader({ breadcrumb, user, language, onToggleLanguage, onOpenMenu, onOpenCommandPalette, className, logo, logoBadge, homeLabel, leftExtras, rightExtras, commandPaletteContent, mobileNav, userMenu, }: DashboardHeaderProps): react_jsx_runtime.JSX.Element;
+declare function DashboardHeader({ breadcrumb, user, language, onToggleLanguage, onOpenMenu, onOpenCommandPalette, className, labels, logo, logoBadge, homeLabel, leftExtras, rightExtras, commandPaletteContent, mobileNav, userMenu, }: DashboardHeaderProps): react_jsx_runtime.JSX.Element;
 
 /**
  * DashboardSidebar — collapsible side navigation.
@@ -2511,8 +2568,14 @@ interface DashboardSidebarProps {
     /** Optional override for the build-info card at the bottom. */
     footerSlot?: ReactNode;
     className?: string;
+    /** Titolo della testata della barra. Default "Navigation". */
+    title?: ReactNode;
+    /** aria-label del riquadro di navigazione. Default "Navigazione principale". */
+    ariaLabel?: string;
+    /** aria-label del pulsante comprimi/espandi. Default "Comprimi/espandi sidebar". */
+    toggleLabel?: string;
 }
-declare function DashboardSidebar({ groups, footerSlot, className }: DashboardSidebarProps): react_jsx_runtime.JSX.Element;
+declare function DashboardSidebar({ groups, footerSlot, className, title, ariaLabel, toggleLabel, }: DashboardSidebarProps): react_jsx_runtime.JSX.Element;
 
 /**
  * DashboardFooter — universal footer rule.
@@ -2535,9 +2598,12 @@ interface DashboardFooterProps {
     /** Override the canonical 5 socials. Order is preserved. */
     socials?: ReadonlyArray<SocialLink>;
     websiteHref?: string;
+    /** Nome accessibile del collegamento al sito; deve cominciare con il testo visibile
+     *  (WCAG 2.5.3). Default inglese, per retrocompatibilita'. */
+    websiteLabel?: string;
     className?: string;
 }
-declare function DashboardFooter({ rightSlot, socials, websiteHref, className, }: DashboardFooterProps): react_jsx_runtime.JSX.Element;
+declare function DashboardFooter({ rightSlot, socials, websiteHref, websiteLabel, className, }: DashboardFooterProps): react_jsx_runtime.JSX.Element;
 
 /**
  * Palette dropdown listbox — canonical implementation.

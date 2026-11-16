@@ -39,7 +39,7 @@ export function KpiCard(props: KpiCardData) {
     <article className="rounded-card border border-border bg-card p-4 shadow-card">
       <div className="flex items-start justify-between">
         <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
+          <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
           <div className="mt-2 flex items-baseline gap-1.5">
             <span className="num text-2xl font-semibold text-foreground">{value}</span>
             {unit && <span className="text-sm text-muted-foreground">{unit}</span>}

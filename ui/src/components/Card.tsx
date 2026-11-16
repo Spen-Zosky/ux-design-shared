@@ -19,9 +19,17 @@ export const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<
 );
 CardHeader.displayName = 'CardHeader';
 
-export const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
+export type CardTitleLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  /** Livello dell'intestazione. Default `h3` (comportamento storico): chi usa la scheda
+   *  subito sotto un `h1` passa `as="h2"` per non saltare un livello. */
+  as?: CardTitleLevel;
+}
+
+export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ className, as: Heading = 'h3', ...props }, ref) => (
+    <Heading ref={ref} className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
   )
 );
 CardTitle.displayName = 'CardTitle';

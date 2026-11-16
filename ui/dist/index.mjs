@@ -88,7 +88,7 @@ var CardHeader = React5.forwardRef(
 );
 CardHeader.displayName = "CardHeader";
 var CardTitle = React5.forwardRef(
-  ({ className, ...props }, ref) => /* @__PURE__ */ jsx("h3", { ref, className: cn("text-lg font-semibold leading-none tracking-tight", className), ...props })
+  ({ className, as: Heading = "h3", ...props }, ref) => /* @__PURE__ */ jsx(Heading, { ref, className: cn("text-lg font-semibold leading-none tracking-tight", className), ...props })
 );
 CardTitle.displayName = "CardTitle";
 var CardDescription = React5.forwardRef(
@@ -317,7 +317,7 @@ var DialogOverlay = React5.forwardRef(({ className, ...props }, ref) => /* @__PU
   }
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React5.forwardRef(({ className, children, showCloseButton = true, ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
+var DialogContent = React5.forwardRef(({ className, children, showCloseButton = true, closeLabel = "Close", ...props }, ref) => /* @__PURE__ */ jsxs(DialogPortal, { children: [
   /* @__PURE__ */ jsx(DialogOverlay, {}),
   /* @__PURE__ */ jsxs(
     DialogPrimitive.Content,
@@ -332,7 +332,7 @@ var DialogContent = React5.forwardRef(({ className, children, showCloseButton = 
         children,
         showCloseButton ? /* @__PURE__ */ jsxs(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring", children: [
           /* @__PURE__ */ jsx(X, { className: "h-4 w-4", "aria-hidden": "true" }),
-          /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Close" })
+          /* @__PURE__ */ jsx("span", { className: "sr-only", children: closeLabel })
         ] }) : null
       ]
     }
@@ -693,19 +693,26 @@ var badgeVariants = cva(
 function Badge({ className, variant, ...props }) {
   return /* @__PURE__ */ jsx("div", { className: cn(badgeVariants({ variant }), className), ...props });
 }
-function Skeleton({ className, ...props }) {
+function Skeleton({
+  className,
+  label = "Loading",
+  ...props
+}) {
   return /* @__PURE__ */ jsx(
     "div",
     {
       role: "status",
-      "aria-label": "Loading",
+      "aria-label": label,
       className: cn("animate-pulse rounded-md bg-muted", className),
       ...props
     }
   );
 }
-function Spinner({ className }) {
-  return /* @__PURE__ */ jsxs("div", { role: "status", "aria-label": "Loading", children: [
+function Spinner({
+  className,
+  label = "Loading"
+}) {
+  return /* @__PURE__ */ jsxs("div", { role: "status", "aria-label": label, children: [
     /* @__PURE__ */ jsxs(
       "svg",
       {
@@ -727,7 +734,7 @@ function Spinner({ className }) {
         ]
       }
     ),
-    /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Loading" })
+    /* @__PURE__ */ jsx("span", { className: "sr-only", children: label })
   ] });
 }
 var altezza = { sm: "h-1", md: "h-2", lg: "h-3" };
@@ -4719,7 +4726,8 @@ function KanbanBoard({
   columns: initialColumns,
   onChange,
   onAddCard,
-  className
+  className,
+  dragCardLabel = (title) => `Drag card: ${title}`
 }) {
   const [columns, setColumns] = React5.useState(initialColumns);
   React5.useEffect(() => setColumns(initialColumns), [initialColumns]);
@@ -4774,7 +4782,8 @@ function KanbanBoard({
           KanbanColumnView,
           {
             column: col,
-            onAddCard: onAddCard ? () => onAddCard(col.id) : void 0
+            onAddCard: onAddCard ? () => onAddCard(col.id) : void 0,
+            dragCardLabel
           },
           col.id
         ))
@@ -4782,7 +4791,11 @@ function KanbanBoard({
     ) })
   );
 }
-function KanbanColumnView({ column, onAddCard }) {
+function KanbanColumnView({
+  column,
+  onAddCard,
+  dragCardLabel
+}) {
   return (
     /*
      * `<li>` vero, non una `<section role="listitem">`.
@@ -4824,13 +4837,16 @@ function KanbanColumnView({ column, onAddCard }) {
               }
             ) : null
           ] }),
-          /* @__PURE__ */ jsx(SortableContext, { items: column.cards.map((c) => c.id), strategy: verticalListSortingStrategy, children: /* @__PURE__ */ jsx("ul", { role: "list", className: "flex flex-col gap-2", children: column.cards.map((c) => /* @__PURE__ */ jsx(SortableCardItem, { card: c }, c.id)) }) })
+          /* @__PURE__ */ jsx(SortableContext, { items: column.cards.map((c) => c.id), strategy: verticalListSortingStrategy, children: /* @__PURE__ */ jsx("ul", { role: "list", className: "flex flex-col gap-2", children: column.cards.map((c) => /* @__PURE__ */ jsx(SortableCardItem, { card: c, dragCardLabel }, c.id)) }) })
         ]
       }
     )
   );
 }
-function SortableCardItem({ card }) {
+function SortableCardItem({
+  card,
+  dragCardLabel
+}) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card.id
   });
@@ -4846,7 +4862,7 @@ function SortableCardItem({ card }) {
         type: "button",
         ...attributes,
         ...listeners,
-        "aria-label": `Drag card: ${card.title}`,
+        "aria-label": dragCardLabel(card.title),
         className: "cursor-grab text-muted-fg hover:text-foreground active:cursor-grabbing",
         children: /* @__PURE__ */ jsx(GripVertical, { className: "h-4 w-4", "aria-hidden": "true" })
       }
@@ -8002,7 +8018,8 @@ function DashboardShell({
   footer,
   children,
   initialSidebarWidth = 260,
-  className
+  className,
+  contentLabel = "Contenuto"
 }) {
   return /* @__PURE__ */ jsxs(
     "div",
@@ -8017,11 +8034,20 @@ function DashboardShell({
           "div",
           {
             "data-shell": "grid",
-            className: "grid min-h-0",
-            style: { gridTemplateColumns: `${initialSidebarWidth}px 1fr` },
+            className: "grid min-h-0 min-w-0 grid-cols-[var(--sidebar-w)_minmax(0,1fr)] max-md:grid-cols-[minmax(0,1fr)] max-md:[&>aside]:hidden",
+            style: { "--sidebar-w": `${initialSidebarWidth}px` },
             children: [
               sidebar,
-              /* @__PURE__ */ jsx("div", { tabIndex: 0, className: "min-h-0 overflow-y-auto p-6", children })
+              /* @__PURE__ */ jsx(
+                "div",
+                {
+                  tabIndex: 0,
+                  role: "region",
+                  "aria-label": contentLabel,
+                  className: "min-h-0 min-w-0 overflow-y-auto p-4 md:p-6",
+                  children
+                }
+              )
             ]
           }
         ),
@@ -8170,11 +8196,11 @@ function HeaderMenuTrigger({
     }
   );
 }
-function HeaderBreadcrumbTrail({ items }) {
+function HeaderBreadcrumbTrail({ items, label = "Breadcrumb" }) {
   if (!items || items.length === 0) return null;
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx("span", { className: "text-muted-foreground/40", children: "/" }),
-    /* @__PURE__ */ jsx("nav", { "aria-label": "Breadcrumb", className: "flex items-center gap-2 text-sm text-muted-foreground", children: items.map((b, i) => {
+    /* @__PURE__ */ jsx("nav", { "aria-label": label, className: "flex items-center gap-2 text-sm text-muted-foreground", children: items.map((b, i) => {
       const isLast = i === items.length - 1;
       return /* @__PURE__ */ jsxs("span", { className: "flex items-center gap-2", children: [
         isLast ? /* @__PURE__ */ jsx("span", { className: "font-medium text-foreground", children: b.label }) : b.onClick ? /* @__PURE__ */ jsx("button", { type: "button", onClick: b.onClick, className: "hover:text-foreground", children: b.label }) : /* @__PURE__ */ jsx("a", { href: b.href ?? "#", children: b.label }),
@@ -8234,13 +8260,14 @@ function HeaderSearchTrigger({
 }
 function HeaderLanguageSwitcher({
   language = "IT",
-  onToggleLanguage
+  onToggleLanguage,
+  label = (lang) => `${lang} \u2014 cambia lingua tra italiano e inglese`
 }) {
   return /* @__PURE__ */ jsxs(
     "button",
     {
       type: "button",
-      "aria-label": `${language} \u2014 cambia lingua tra italiano e inglese`,
+      "aria-label": label(language),
       onClick: onToggleLanguage,
       className: "inline-flex h-9 items-center gap-2 rounded-control border border-border px-3 text-sm text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
       children: [
@@ -8267,7 +8294,10 @@ function HeaderLanguageSwitcher({
     }
   );
 }
-function HeaderThemeToggle() {
+function HeaderThemeToggle({
+  label = "Alterna tema chiaro/scuro",
+  unavailableTitle = "Tema non disponibile: manca ThemeProvider"
+} = {}) {
   const theme = useThemeOptional();
   const isDark = theme?.resolved === "dark";
   const disabled = theme === null;
@@ -8279,9 +8309,9 @@ function HeaderThemeToggle() {
     {
       id: "js-theme-toggle",
       type: "button",
-      "aria-label": "Alterna tema chiaro/scuro",
+      "aria-label": label,
       disabled,
-      title: disabled ? "Tema non disponibile: manca ThemeProvider" : void 0,
+      title: disabled ? unavailableTitle : void 0,
       onClick: toggle,
       className: "inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-muted-foreground disabled:hover:border-border",
       children: [
@@ -8474,7 +8504,7 @@ function HeaderUserIdentity({ user }) {
     ),
     /* @__PURE__ */ jsxs("div", { className: "hidden flex-col leading-tight sm:flex", children: [
       /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-foreground", children: user.username }),
-      /* @__PURE__ */ jsx("span", { className: `font-mono text-[10px] uppercase tracking-wider ${tone.text}`, children: user.role })
+      /* @__PURE__ */ jsx("span", { className: `font-mono text-xs uppercase tracking-wider ${tone.text}`, children: user.role })
     ] })
   ] });
 }
@@ -8484,7 +8514,8 @@ function HeaderUserMenu({
   onSelectTenant,
   onNavigateProfile,
   onNavigateSettings,
-  onLogout
+  onLogout,
+  label = (username) => `Menu utente: ${username}`
 }) {
   if (!user) return null;
   const showTenantSwitch = (tenants?.length ?? 0) >= 2;
@@ -8494,13 +8525,13 @@ function HeaderUserMenu({
       "button",
       {
         type: "button",
-        "aria-label": `Menu utente: ${user.username}`,
+        "aria-label": label(user.username),
         className: "ml-1 flex items-center gap-2 rounded-control border border-border bg-card px-2 py-1.5 transition hover:bg-accent hover:border-foreground/30",
         children: [
           /* @__PURE__ */ jsx(Avatar, { className: "h-7 w-7", children: /* @__PURE__ */ jsx(AvatarFallback, { className: `text-xs font-semibold ${tone.tint20} ${tone.textOnTint}`, children: user.initials }) }),
           /* @__PURE__ */ jsxs("div", { className: "hidden flex-col leading-tight text-left sm:flex", children: [
             /* @__PURE__ */ jsx("span", { className: "text-xs font-medium text-foreground", children: user.username }),
-            /* @__PURE__ */ jsx("span", { className: `font-mono text-[10px] uppercase tracking-wider ${tone.text}`, children: user.role })
+            /* @__PURE__ */ jsx("span", { className: `font-mono text-xs uppercase tracking-wider ${tone.text}`, children: user.role })
           ] })
         ]
       }
@@ -8532,7 +8563,13 @@ function HeaderUserMenu({
     ] })
   ] });
 }
-function HeaderMobileDrawer({ open, onOpenChange, children }) {
+function HeaderMobileDrawer({
+  open,
+  onOpenChange,
+  children,
+  title = "Menu di navigazione",
+  closeLabel = "Chiudi"
+}) {
   return /* @__PURE__ */ jsx(Dialog, { open, onOpenChange, children: /* @__PURE__ */ jsxs(DialogPrimitive.Portal, { children: [
     /* @__PURE__ */ jsx(DialogPrimitive.Overlay, { className: "fixed inset-0 z-50 bg-overlay/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" }),
     /* @__PURE__ */ jsxs(
@@ -8543,10 +8580,10 @@ function HeaderMobileDrawer({ open, onOpenChange, children }) {
           "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left"
         ),
         children: [
-          /* @__PURE__ */ jsx(DialogTitle, { className: "sr-only", children: "Menu di navigazione" }),
+          /* @__PURE__ */ jsx(DialogTitle, { className: "sr-only", children: title }),
           /* @__PURE__ */ jsxs(DialogPrimitive.Close, { className: "absolute right-3 top-3 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring", children: [
             /* @__PURE__ */ jsx(X, { className: "h-4 w-4", "aria-hidden": "true" }),
-            /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Chiudi" })
+            /* @__PURE__ */ jsx("span", { className: "sr-only", children: closeLabel })
           ] }),
           /* @__PURE__ */ jsx("div", { className: "mt-8", children })
         ]
@@ -8562,6 +8599,7 @@ function DashboardHeader({
   onOpenMenu,
   onOpenCommandPalette,
   className,
+  labels,
   logo,
   logoBadge,
   homeLabel = "pagina iniziale",
@@ -8592,20 +8630,20 @@ function DashboardHeader({
       ),
       children: [
         /* @__PURE__ */ jsxs("div", { className: "flex min-w-0 items-center gap-3", children: [
-          /* @__PURE__ */ jsx(HeaderMenuTrigger, { onOpenMenu: handleOpenMenu }),
+          /* @__PURE__ */ jsx(HeaderMenuTrigger, { onOpenMenu: handleOpenMenu, label: labels?.menu }),
           /* @__PURE__ */ jsxs("a", { href: "/app", className: "flex items-center gap-2.5", children: [
             logo ?? /* @__PURE__ */ jsx(HeuresysWordmark, { variant: "brand", size: "md" }),
             logoBadge,
             /* @__PURE__ */ jsx("span", { className: "sr-only", children: homeLabel })
           ] }),
-          /* @__PURE__ */ jsx(HeaderBreadcrumbTrail, { items: breadcrumb }),
+          /* @__PURE__ */ jsx(HeaderBreadcrumbTrail, { items: breadcrumb, label: labels?.breadcrumb }),
           leftExtras
         ] }),
         /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
           /* @__PURE__ */ jsx(HeaderSearchTrigger, { onOpenCommandPalette: handleOpenCommandPalette }),
-          /* @__PURE__ */ jsx(HeaderLanguageSwitcher, { language, onToggleLanguage }),
+          /* @__PURE__ */ jsx(HeaderLanguageSwitcher, { language, onToggleLanguage, label: labels?.language }),
           /* @__PURE__ */ jsx(PaletteDropdown, {}),
-          /* @__PURE__ */ jsx(HeaderThemeToggle, {}),
+          /* @__PURE__ */ jsx(HeaderThemeToggle, { label: labels?.theme }),
           userMenu ? /* @__PURE__ */ jsx(
             HeaderUserMenu,
             {
@@ -8614,7 +8652,8 @@ function DashboardHeader({
               onSelectTenant: userMenu.onSelectTenant,
               onNavigateProfile: userMenu.onNavigateProfile,
               onNavigateSettings: userMenu.onNavigateSettings,
-              onLogout: userMenu.onLogout
+              onLogout: userMenu.onLogout,
+              label: labels?.userMenu
             }
           ) : /* @__PURE__ */ jsx(HeaderUserIdentity, { user }),
           rightExtras
@@ -8624,12 +8663,21 @@ function DashboardHeader({
           {
             open: paletteOpen,
             onOpenChange: setPaletteOpen,
-            placeholder: "Cerca tenant, log, audit\u2026",
-            empty: "Nessun comando configurato",
+            placeholder: labels?.commandPalettePlaceholder ?? "Cerca tenant, log, audit\u2026",
+            empty: labels?.commandPaletteEmpty ?? "Nessun comando configurato",
             children: commandPaletteContent
           }
         ),
-        mobileNav && /* @__PURE__ */ jsx(HeaderMobileDrawer, { open: drawerOpen, onOpenChange: setDrawerOpen, children: mobileNav })
+        mobileNav && /* @__PURE__ */ jsx(
+          HeaderMobileDrawer,
+          {
+            open: drawerOpen,
+            onOpenChange: setDrawerOpen,
+            title: labels?.drawerTitle,
+            closeLabel: labels?.drawerClose,
+            children: mobileNav
+          }
+        )
       ]
     }
   );
@@ -8641,13 +8689,20 @@ function applySidebarState(collapsed) {
   const grid = document.querySelector('[data-shell="grid"]');
   if (collapsed) {
     body.setAttribute("data-sidebar", "collapsed");
-    if (grid) grid.style.setProperty("grid-template-columns", "72px 1fr", "important");
+    if (grid) grid.style.setProperty("--sidebar-w", "72px");
   } else {
     body.removeAttribute("data-sidebar");
-    if (grid) grid.style.setProperty("grid-template-columns", "260px 1fr", "important");
+    if (grid) grid.style.setProperty("--sidebar-w", "260px");
   }
 }
-function DashboardSidebar({ groups, footerSlot, className }) {
+function DashboardSidebar({
+  groups,
+  footerSlot,
+  className,
+  title = "Navigation",
+  ariaLabel = "Navigazione principale",
+  toggleLabel = "Comprimi/espandi sidebar"
+}) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const saved = window.localStorage.getItem(STORAGE_SIDEBAR);
@@ -8661,17 +8716,17 @@ function DashboardSidebar({ groups, footerSlot, className }) {
   return /* @__PURE__ */ jsx(
     "aside",
     {
-      "aria-label": "Navigazione principale",
+      "aria-label": ariaLabel,
       className: cn("min-h-0 overflow-hidden border-r border-border bg-sidebar text-sidebar-foreground", className),
       children: /* @__PURE__ */ jsxs("div", { className: "flex h-full min-h-0 flex-col", children: [
         /* @__PURE__ */ jsxs("div", { className: "flex h-11 shrink-0 items-center justify-between border-b border-border px-3", children: [
-          /* @__PURE__ */ jsx("span", { className: "sidebar-section-label text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground", children: "Navigation" }),
+          /* @__PURE__ */ jsx("span", { className: "sidebar-section-label text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground", children: title }),
           /* @__PURE__ */ jsxs(
             "button",
             {
               id: "js-sidebar-toggle",
               type: "button",
-              "aria-label": "Comprimi/espandi sidebar",
+              "aria-label": toggleLabel,
               onClick: toggleSidebar,
               className: "inline-flex h-8 w-8 items-center justify-center rounded-control text-muted-foreground transition hover:bg-accent hover:text-foreground",
               children: [
@@ -8725,7 +8780,7 @@ function SidebarGroup({ group }) {
         "data-group-toggle": group.id,
         "aria-expanded": expanded,
         onClick: toggle,
-        className: "sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground",
+        className: "sidebar-group-toggle flex min-h-6 w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground",
         children: [
           /* @__PURE__ */ jsx("span", { children: group.label }),
           /* @__PURE__ */ jsx("svg", { "data-group-chevron": true, className: "h-3 w-3 transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsx("polyline", { points: "6 9 12 15 18 9" }) })
@@ -8759,7 +8814,7 @@ function DefaultSidebarFooter() {
       /* @__PURE__ */ jsx("span", { className: "font-mono text-[11px] text-foreground", children: "v5.0.0-mvp3" }),
       /* @__PURE__ */ jsx("span", { className: "inline-flex h-1.5 w-1.5 rounded-full bg-success", "aria-hidden": "true" })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "font-mono text-[10px] text-muted-foreground", children: "production \xB7 build \u2014" })
+    /* @__PURE__ */ jsx("div", { className: "font-mono text-xs text-muted-foreground", children: "production \xB7 build \u2014" })
   ] }) });
 }
 var DEFAULT_SOCIALS = [
@@ -8773,6 +8828,7 @@ function DashboardFooter({
   rightSlot,
   socials = DEFAULT_SOCIALS,
   websiteHref = "https://www.heuresys.com",
+  websiteLabel = "heuresys.com \u2014 Open Heuresys public website (new tab)",
   className
 }) {
   const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
@@ -8797,7 +8853,7 @@ function DashboardFooter({
               href: websiteHref,
               target: "_blank",
               rel: "noopener noreferrer",
-              "aria-label": "heuresys.com \u2014 Open Heuresys public website (new tab)",
+              "aria-label": websiteLabel,
               className: "font-medium text-muted-foreground transition hover:text-foreground hover:underline",
               children: "heuresys.com"
             }
@@ -8805,7 +8861,7 @@ function DashboardFooter({
           /* @__PURE__ */ jsx("span", { "aria-hidden": "true", className: "text-border", children: "\xB7" }),
           /* @__PURE__ */ jsx("div", { className: "flex items-center gap-0.5", children: socials.map((s) => /* @__PURE__ */ jsx(SocialAnchor, { link: s }, s.id)) })
         ] }),
-        rightSlot && /* @__PURE__ */ jsx("div", { className: "hidden items-center gap-3 font-mono text-[10px] md:flex", children: rightSlot })
+        rightSlot && /* @__PURE__ */ jsx("div", { className: "hidden items-center gap-3 font-mono text-xs md:flex", children: rightSlot })
       ]
     }
   );
@@ -8879,7 +8935,7 @@ function GroupToggle({ groupId, label, children, className }) {
         "data-group-toggle": groupId,
         "aria-expanded": expanded,
         onClick: toggle,
-        className: "sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground",
+        className: "sidebar-group-toggle flex w-full items-center justify-between gap-2 rounded-control px-2 py-1 text-left text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground transition hover:text-foreground",
         children: [
           /* @__PURE__ */ jsx("span", { children: label }),
           /* @__PURE__ */ jsx("svg", { "data-group-chevron": true, className: "h-3 w-3 transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsx("polyline", { points: "6 9 12 15 18 9" }) })
@@ -9172,7 +9228,7 @@ function KpiCard(props) {
   return /* @__PURE__ */ jsxs("article", { className: "rounded-card border border-border bg-card p-4 shadow-card", children: [
     /* @__PURE__ */ jsxs("div", { className: "flex items-start justify-between", children: [
       /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("div", { className: "text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground", children: label }),
+        /* @__PURE__ */ jsx("div", { className: "text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground", children: label }),
         /* @__PURE__ */ jsxs("div", { className: "mt-2 flex items-baseline gap-1.5", children: [
           /* @__PURE__ */ jsx("span", { className: "num text-2xl font-semibold text-foreground", children: value }),
           unit && /* @__PURE__ */ jsx("span", { className: "text-sm text-muted-foreground", children: unit })
@@ -9289,7 +9345,7 @@ function AuditFeed({
       /* @__PURE__ */ jsxs("div", { className: "min-w-0", children: [
         /* @__PURE__ */ jsx("div", { className: "text-sm text-foreground", children: /* @__PURE__ */ jsx("span", { className: "font-medium", children: ev.title }) }),
         ev.description && /* @__PURE__ */ jsx("div", { className: "mt-0.5 text-xs text-muted-foreground", children: ev.description }),
-        ev.meta && /* @__PURE__ */ jsx("div", { className: "mt-1 flex items-center gap-2 font-mono text-[10px] text-muted-foreground", children: ev.meta })
+        ev.meta && /* @__PURE__ */ jsx("div", { className: "mt-1 flex items-center gap-2 font-mono text-xs text-muted-foreground", children: ev.meta })
       ] })
     ] }) }, i)) })
   ] });
@@ -9804,7 +9860,7 @@ function StatusPill({
   children,
   className = ""
 }) {
-  return /* @__PURE__ */ jsx("span", { className: `inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${TONE_CLASS2[tone]} ${className}`, children });
+  return /* @__PURE__ */ jsx("span", { className: `inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium uppercase tracking-wide ${TONE_CLASS2[tone]} ${className}`, children });
 }
 function StatusBadge2({ value, className }) {
   if (!value) return /* @__PURE__ */ jsx("span", { className: "text-muted-foreground", children: "\u2014" });

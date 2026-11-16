@@ -3,7 +3,17 @@
 import * as React from 'react';
 import { useThemeOptional } from '../../theme-provider';
 
-export function HeaderThemeToggle() {
+export interface HeaderThemeToggleProps {
+  /** aria-label del pulsante. Default "Alterna tema chiaro/scuro". */
+  label?: string;
+  /** title mostrato quando manca ThemeProvider. */
+  unavailableTitle?: string;
+}
+
+export function HeaderThemeToggle({
+  label = 'Alterna tema chiaro/scuro',
+  unavailableTitle = 'Tema non disponibile: manca ThemeProvider',
+}: HeaderThemeToggleProps = {}) {
   // Volutamente la variante opzionale: senza ThemeProvider questo pulsante
   // diventa inerte, invece di abbattere l'header che lo contiene e con esso
   // l'intera pagina. Vedi il commento su useThemeOptional.
@@ -19,9 +29,9 @@ export function HeaderThemeToggle() {
     <button
       id="js-theme-toggle"
       type="button"
-      aria-label="Alterna tema chiaro/scuro"
+      aria-label={label}
       disabled={disabled}
-      title={disabled ? 'Tema non disponibile: manca ThemeProvider' : undefined}
+      title={disabled ? unavailableTitle : undefined}
       onClick={toggle}
       className="inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-muted-foreground disabled:hover:border-border"
     >

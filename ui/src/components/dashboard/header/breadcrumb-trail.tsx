@@ -11,6 +11,8 @@ export type HeaderBreadcrumb = ReadonlyArray<BreadcrumbItem>;
 
 export interface HeaderBreadcrumbTrailProps {
   items?: HeaderBreadcrumb;
+  /** aria-label della navigazione. Default "Breadcrumb". */
+  label?: string;
 }
 
 /**
@@ -23,13 +25,13 @@ export interface HeaderBreadcrumbTrailProps {
  * l'implementazione.
  */
 
-export function HeaderBreadcrumbTrail({ items }: HeaderBreadcrumbTrailProps) {
+export function HeaderBreadcrumbTrail({ items, label = 'Breadcrumb' }: HeaderBreadcrumbTrailProps) {
   if (!items || items.length === 0) return null;
 
   return (
     <>
       <span className="text-muted-foreground/40">/</span>
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-foreground">
+      <nav aria-label={label} className="flex items-center gap-2 text-sm text-muted-foreground">
         {items.map((b, i) => {
           const isLast = i === items.length - 1;
           return (

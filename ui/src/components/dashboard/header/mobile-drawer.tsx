@@ -10,6 +10,10 @@ export interface HeaderMobileDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   children: React.ReactNode;
+  /** Titolo del drawer, letto dai lettori di schermo. Default "Menu di navigazione". */
+  title?: string;
+  /** Testo del pulsante di chiusura. Default "Chiudi". */
+  closeLabel?: string;
 }
 
 /**
@@ -17,7 +21,13 @@ export interface HeaderMobileDrawerProps {
  * A differenza di DialogContent (centrato), questo slide da sinistra e
  * occupa l'altezza intera — pattern drawer, non modale centrata.
  */
-export function HeaderMobileDrawer({ open, onOpenChange, children }: HeaderMobileDrawerProps) {
+export function HeaderMobileDrawer({
+  open,
+  onOpenChange,
+  children,
+  title = 'Menu di navigazione',
+  closeLabel = 'Chiudi',
+}: HeaderMobileDrawerProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
@@ -28,10 +38,10 @@ export function HeaderMobileDrawer({ open, onOpenChange, children }: HeaderMobil
             'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left'
           )}
         >
-          <DialogTitle className="sr-only">Menu di navigazione</DialogTitle>
+          <DialogTitle className="sr-only">{title}</DialogTitle>
           <DialogPrimitive.Close className="absolute right-3 top-3 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring">
             <X className="h-4 w-4" aria-hidden="true" />
-            <span className="sr-only">Chiudi</span>
+            <span className="sr-only">{closeLabel}</span>
           </DialogPrimitive.Close>
           <div className="mt-8">{children}</div>
         </DialogPrimitive.Content>

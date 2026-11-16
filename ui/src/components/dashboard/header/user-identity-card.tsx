@@ -47,7 +47,7 @@ export function HeaderUserIdentity({ user }: HeaderUserIdentityProps) {
         <span className="text-xs font-medium text-foreground">{user.username}</span>
         {/* Il ruolo sta su --card, non su una tinta: qui il token pieno e' la
             scelta giusta ed e' gia' AA. */}
-        <span className={`font-mono text-[10px] uppercase tracking-wider ${tone.text}`}>
+        <span className={`font-mono text-xs uppercase tracking-wider ${tone.text}`}>
           {user.role}
         </span>
       </div>

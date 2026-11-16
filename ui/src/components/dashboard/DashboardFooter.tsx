@@ -27,6 +27,9 @@ export interface DashboardFooterProps {
   /** Override the canonical 5 socials. Order is preserved. */
   socials?: ReadonlyArray<SocialLink>;
   websiteHref?: string;       // default https://www.heuresys.com
+  /** Nome accessibile del collegamento al sito; deve cominciare con il testo visibile
+   *  (WCAG 2.5.3). Default inglese, per retrocompatibilita'. */
+  websiteLabel?: string;
   className?: string;
 }
 
@@ -42,6 +45,7 @@ export function DashboardFooter({
   rightSlot,
   socials = DEFAULT_SOCIALS,
   websiteHref = 'https://www.heuresys.com',
+  websiteLabel = 'heuresys.com — Open Heuresys public website (new tab)',
   className,
 }: DashboardFooterProps) {
   const currentYear = new Date().getFullYear();
@@ -62,7 +66,7 @@ export function DashboardFooter({
           target="_blank"
           rel="noopener noreferrer"
           // WCAG 2.5.3 (Label in Name): il nome accessibile comincia con il testo visibile.
-          aria-label="heuresys.com — Open Heuresys public website (new tab)"
+          aria-label={websiteLabel}
           className="font-medium text-muted-foreground transition hover:text-foreground hover:underline"
         >
           heuresys.com
@@ -76,7 +80,7 @@ export function DashboardFooter({
       </div>
 
       {rightSlot && (
-        <div className="hidden items-center gap-3 font-mono text-[10px] md:flex">
+        <div className="hidden items-center gap-3 font-mono text-xs md:flex">
           {rightSlot}
         </div>
       )}

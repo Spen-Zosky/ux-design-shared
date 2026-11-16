@@ -5,6 +5,24 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.6.0 — 2026-11-16
+
+Nessuna API rimossa o rinominata: solo prop opzionali nuove con default identici a prima. Correzioni nate dal controllo forense di heuresys-advanced del 2026-11-16.
+
+### Correzioni
+
+**Testo a 10px portato a `text-xs` (12px)** in `StatusPill`, `KpiCard` (etichetta), etichette della sidebar (`DashboardSidebar`, `GroupToggle`), ruolo nell'header (`HeaderUserIdentity`, `HeaderUserMenu`), riga meta di `AuditFeed` e area destra di `DashboardFooter`.
+
+**`DashboardShell` si adatta a 390px.** Sotto `md` la barra laterale non occupa più la colonna (resta raggiungibile dal drawer dell'header, che riceve `mobileNav`), la colonna del contenuto ha `min-width: 0` e il padding scende a `p-4`. La larghezza della barra ora viaggia nella variabile CSS `--sidebar-w` (prima era una `grid-template-columns` forzata con `!important` da `DashboardSidebar`, che vinceva su ogni media query). Il contenitore del contenuto è una `region` con nome (`contentLabel`, default «Contenuto»).
+
+### Novità (tutte opzionali)
+
+- `CardTitle` accetta `as` (`h1`..`h6`), default `h3` come prima.
+- Testi traducibili: `DashboardHeader` prop `labels` (menu, breadcrumb, lingua, tema, menu utente, palette, drawer); `DashboardSidebar` `title`, `ariaLabel`, `toggleLabel` (il titolo era «Navigation» fisso); `Spinner`/`Skeleton` `label` («Loading»); `DialogContent` `closeLabel` («Close»); `KanbanBoard` `dragCardLabel` («Drag card: …»).
+- `DashboardFooter` prop `websiteLabel` per il nome accessibile del collegamento al sito.
+
+---
+
 ## 1.5.0 — 2026-11-16
 
 Nessuna API rimossa o rinominata: tre componenti e una funzione nuovi, chi non li usa non vede differenze.

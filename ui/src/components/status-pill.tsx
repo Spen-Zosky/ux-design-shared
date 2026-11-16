@@ -50,7 +50,7 @@ export function StatusPill({
   className?: string;
 }) {
   return (
-    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide ${TONE_CLASS[tone]} ${className}`}>
+    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium uppercase tracking-wide ${TONE_CLASS[tone]} ${className}`}>
       {children}
     </span>
   );

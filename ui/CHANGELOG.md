@@ -5,6 +5,18 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.5.0 — 2026-11-16
+
+Nessuna API rimossa o rinominata: tre componenti e una funzione nuovi, chi non li usa non vede differenze.
+
+### Novità
+
+**Attese che bloccano: `ProgressBar`, `WorkInProgress`, `TopProgress`** (regola di piattaforma di Enzo del 2026-11-16: ogni lavoro in corso che blocca fino alla sua conclusione mostra un'animazione evidente e, quando l'avanzamento si misura, una barra moderna). `ProgressBar` è determinata quando riceve `value` e `max` (percentuale, riempimento sfumato con riflesso che scorre) e indeterminata altrimenti (un segmento che attraversa la traccia). `WorkInProgress` è il riquadro di un lavoro lungo: orbita animata, titolo, dettaglio e barra; con `variant="overlay"` copre il contenitore. `TopProgress` è la barra sottile in cima alla pagina, con un ritardo (250 ms) perché un'attesa brevissima non lampeggi. Con il movimento ridotto la barra resta visibile, ferma e a righe. Le animazioni sono classi `heu-progress-*` in `styles/globals.css`, quindi funzionano senza la scansione delle classi del consumer.
+
+**`playEndSignal`, il segnale sonoro di fine lavoro**, con `isEndSignalEnabled` e `setEndSignalEnabled`: due note brevi a volume basso generate con Web Audio, acceso per impostazione predefinita e disattivabile per persona (la scelta resta nel browser). Non suona se il browser blocca l'audio senza un gesto dell'utente o non ha Web Audio; in quei casi risolve `false` invece di lanciare.
+
+---
+
 ## 1.4.0 — 2026-11-11
 
 Nessuna API rimossa o rinominata: due componenti nuovi, chi non li usa non vede differenze.

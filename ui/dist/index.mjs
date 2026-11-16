@@ -730,6 +730,161 @@ function Spinner({ className }) {
     /* @__PURE__ */ jsx("span", { className: "sr-only", children: "Loading" })
   ] });
 }
+var altezza = { sm: "h-1", md: "h-2", lg: "h-3" };
+function ProgressBar({
+  value,
+  max = 100,
+  label,
+  showValue = true,
+  hideLabel = false,
+  size = "md",
+  tone = "primary",
+  className
+}) {
+  const determinata = typeof value === "number" && Number.isFinite(value) && max > 0;
+  const pct = determinata ? Math.max(0, Math.min(100, value / max * 100)) : null;
+  return /* @__PURE__ */ jsxs("div", { className: cn("w-full", className), children: [
+    label || showValue && pct !== null ? /* @__PURE__ */ jsxs("div", { className: "mb-1 flex items-baseline justify-between gap-3 text-sm", children: [
+      label ? /* @__PURE__ */ jsx("span", { className: hideLabel ? "sr-only" : "text-foreground", children: label }) : /* @__PURE__ */ jsx("span", {}),
+      showValue && pct !== null ? /* @__PURE__ */ jsxs("span", { className: "tabular-nums text-muted-fg", children: [
+        Math.round(pct),
+        "%"
+      ] }) : null
+    ] }) : null,
+    /* @__PURE__ */ jsx(
+      "div",
+      {
+        role: "progressbar",
+        "aria-label": label,
+        "aria-valuemin": determinata ? 0 : void 0,
+        "aria-valuemax": determinata ? max : void 0,
+        "aria-valuenow": determinata ? value : void 0,
+        "aria-busy": pct === null || pct < 100 ? true : void 0,
+        "data-tone": tone,
+        className: cn("heu-progress-track relative w-full overflow-hidden rounded-full", altezza[size]),
+        children: pct !== null ? /* @__PURE__ */ jsx("div", { className: "heu-progress-fill h-full rounded-full", style: { width: `${pct}%` } }) : /* @__PURE__ */ jsx("div", { className: "heu-progress-indeterminate h-full rounded-full" })
+      }
+    )
+  ] });
+}
+function WorkInProgress({
+  title,
+  detail,
+  value,
+  max = 100,
+  variant = "block",
+  className,
+  children
+}) {
+  const riquadro = /* @__PURE__ */ jsxs(
+    "div",
+    {
+      role: "status",
+      "aria-live": "polite",
+      "aria-busy": "true",
+      className: cn(
+        "flex w-full max-w-md flex-col items-center gap-4 rounded-xl border border-border bg-card p-6 text-center shadow-lg",
+        variant === "block" && "mx-auto",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsxs("span", { className: "heu-progress-orbit", "aria-hidden": "true", children: [
+          /* @__PURE__ */ jsx("span", {}),
+          /* @__PURE__ */ jsx("span", {}),
+          /* @__PURE__ */ jsx("span", {})
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "space-y-1", children: [
+          /* @__PURE__ */ jsx("p", { className: "text-base font-medium text-foreground", children: title }),
+          detail ? /* @__PURE__ */ jsx("div", { className: "text-sm text-muted-fg", children: detail }) : null
+        ] }),
+        /* @__PURE__ */ jsx(ProgressBar, { value: value ?? null, max, label: title, hideLabel: true, showValue: true }),
+        children
+      ]
+    }
+  );
+  if (variant === "overlay") {
+    return /* @__PURE__ */ jsx("div", { className: "absolute inset-0 z-40 flex items-center justify-center bg-background/70 p-4 backdrop-blur-sm", children: riquadro });
+  }
+  return riquadro;
+}
+function TopProgress({ active, delayMs = 250, label = "Lavoro in corso", className }) {
+  const [visibile, setVisibile] = React5.useState(false);
+  React5.useEffect(() => {
+    if (!active) {
+      setVisibile(false);
+      return;
+    }
+    const t = setTimeout(() => setVisibile(true), delayMs);
+    return () => clearTimeout(t);
+  }, [active, delayMs]);
+  if (!visibile) return null;
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      role: "progressbar",
+      "aria-label": label,
+      "aria-busy": "true",
+      className: cn("heu-progress-top fixed inset-x-0 top-0 z-[100] h-1 overflow-hidden", className),
+      children: /* @__PURE__ */ jsx("div", { className: "heu-progress-indeterminate h-full" })
+    }
+  );
+}
+
+// src/lib/end-signal.ts
+var CHIAVE = "heuresys-segnale-fine";
+function storage() {
+  try {
+    return typeof window !== "undefined" ? window.localStorage : null;
+  } catch {
+    return null;
+  }
+}
+function isEndSignalEnabled() {
+  try {
+    return storage()?.getItem(CHIAVE) !== "spento";
+  } catch {
+    return true;
+  }
+}
+function setEndSignalEnabled(acceso) {
+  try {
+    storage()?.setItem(CHIAVE, acceso ? "acceso" : "spento");
+  } catch {
+  }
+}
+async function playEndSignal(opts = {}) {
+  if (!isEndSignalEnabled() || typeof window === "undefined") return false;
+  const Ctor = window.AudioContext ?? window.webkitAudioContext;
+  if (!Ctor) return false;
+  try {
+    const ctx = new Ctor();
+    if (ctx.state === "suspended") await ctx.resume();
+    if (ctx.state !== "running") {
+      void ctx.close();
+      return false;
+    }
+    const volume = Math.max(0, Math.min(0.3, opts.volume ?? 0.08));
+    const t0 = ctx.currentTime;
+    const note = (freq, start, dur) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, t0 + start);
+      gain.gain.linearRampToValueAtTime(volume, t0 + start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(1e-4, t0 + start + dur);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0 + start);
+      osc.stop(t0 + start + dur + 0.02);
+    };
+    note(880, 0, 0.16);
+    note(1318.5, 0.12, 0.22);
+    setTimeout(() => void ctx.close(), 600);
+    return true;
+  } catch {
+    return false;
+  }
+}
 function EmptyState({
   icon,
   title,
@@ -9666,4 +9821,4 @@ function FieldGrid({
   ] }, i)) });
 }
 
-export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, ActivityFeed, ActivityRing, Admonition, AgentActivityList, AgentLauncher, AgentPanel, AgentSymbol, AgentWindow, AlertBanner, AnimatedNumber, AppShell, AppSwitcher, AuditFeed, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, BentoCell, BentoGrid, Breadcrumbs, Button, CalendarGrid, CapabilityRadar, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, Center, ChatProvider, Chatbot, Checkbox, Cluster, CommandPalette, CommentThread, ConfettiButton, Cover, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, DashboardHeader, DashboardShell, DashboardSidebar, DataTable, DataTableWithCrossHair, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, EmptyState, ErrorRateBreakdown, ErrorState, FAB, FadeIn, FieldGrid, FileDropzone, FilterBar, FormWizard, Frame, GlassCard, GradientText, Grid, GroupToggle, HeaderBreadcrumbTrail, HeaderLanguageSwitcher, HeaderMenuTrigger, HeaderMobileDrawer, HeaderSearchTrigger, HeaderThemeToggle, HeaderUserIdentity, HeaderUserMenu, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, HeuresysMark, HeuresysWordmark, IbanInput, ImageGallery, IncidentTimeline, Input, IntegrationHealthPill, JsonTree, KGGraphCanvas, KPIStrip, KanbanBoard, KeyboardShortcutsModal, KgMiniGraph, KpiCard, KpiRing, LanguagePicker, LinearGauge, LiveRegionProvider, LogStream, LottiePlayer, MarkdownView, Marquee, MegaMenu, MeshGradient, MobileBottomNav, MoneyInput, NetworkGraph, NeumorphicCard, NoiseOverlay, NotificationCenter, OnboardingTour, OtpInput, PALETTES, PageActions, PageHeader, Pagination, PaletteDropdown, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, QRCodeView, RBACMatrix, RadialGauge, RbacMatrix, SAPSyncPanel, SQLSlowQueryTable, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, SignaturePadField, Skeleton, SkillHeatmap, SkipLink, SlideIn, Sparkline2 as Sparkline, Spinner, Stack, StaggerChildren, StaggerItem, StatsCard, StatusBadge2 as StatusBadge, StatusIcon, StatusPill, Stepper, SuccessionCard, Switch, Switcher, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, TenantFleetTable, ThemeBuilderWizard, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, TimeRangeSelector, Timeline, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, ToolCallView, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, Typewriter, VideoPlayer, VoiceInput, WinLossSparkline, applyPalette, attachCrossHair, badgeVariants, buttonVariants, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme, useThemeOptional };
+export { AccessibilityPanel, Accordion, AccordionContent, AccordionItem, AccordionTrigger, AchievementBadge, ActivityFeed, ActivityRing, Admonition, AgentActivityList, AgentLauncher, AgentPanel, AgentSymbol, AgentWindow, AlertBanner, AnimatedNumber, AppShell, AppSwitcher, AuditFeed, AuroraBackground, Avatar, AvatarFallback, AvatarGroup, AvatarImage, Badge, Banner, BentoCell, BentoGrid, Breadcrumbs, Button, CalendarGrid, CapabilityRadar, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CareerArc, Center, ChatProvider, Chatbot, Checkbox, Cluster, CommandPalette, CommentThread, ConfettiButton, Cover, DBSupervisorSidebar, DB_SUBITEMS, DEFAULT_THEME_STATE, DashboardFooter, DashboardHeader, DashboardShell, DashboardSidebar, DataTable, DataTableWithCrossHair, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DiffViewer, DotGrid, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ESCOTreeNavigator, EmptyState, ErrorRateBreakdown, ErrorState, FAB, FadeIn, FieldGrid, FileDropzone, FilterBar, FormWizard, Frame, GlassCard, GradientText, Grid, GroupToggle, HeaderBreadcrumbTrail, HeaderLanguageSwitcher, HeaderMenuTrigger, HeaderMobileDrawer, HeaderSearchTrigger, HeaderThemeToggle, HeaderUserIdentity, HeaderUserMenu, HeroCentered, HeroSplit, HeroVideoBackground, HeuresysLogoBadge, HeuresysMark, HeuresysWordmark, IbanInput, ImageGallery, IncidentTimeline, Input, IntegrationHealthPill, JsonTree, KGGraphCanvas, KPIStrip, KanbanBoard, KeyboardShortcutsModal, KgMiniGraph, KpiCard, KpiRing, LanguagePicker, LinearGauge, LiveRegionProvider, LogStream, LottiePlayer, MarkdownView, Marquee, MegaMenu, MeshGradient, MobileBottomNav, MoneyInput, NetworkGraph, NeumorphicCard, NoiseOverlay, NotificationCenter, OnboardingTour, OtpInput, PALETTES, PageActions, PageHeader, Pagination, PaletteDropdown, PasswordStrengthMeter, PerfMonitor, PhoneInputField, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, ProgressBar, QRCodeView, RBACMatrix, RadialGauge, RbacMatrix, SAPSyncPanel, SQLSlowQueryTable, STARTER_PRESETS, SUPPORTED_LOCALES, ScaleIn, SignaturePadField, Skeleton, SkillHeatmap, SkipLink, SlideIn, Sparkline2 as Sparkline, Spinner, Stack, StaggerChildren, StaggerItem, StatsCard, StatusBadge2 as StatusBadge, StatusIcon, StatusPill, Stepper, SuccessionCard, Switch, Switcher, TableOfContents, Tabs, TabsContent, TabsList, TabsOverflow, TabsTrigger, TaxIdInput, TenantFleetTable, ThemeBuilderWizard, ThemeProvider, ThemeToggle, ThreeScene, TiltCard, TimeRangeSelector, Timeline, Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport, ToolCallView, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, TopProgress, Typewriter, VideoPlayer, VoiceInput, WinLossSparkline, WorkInProgress, applyPalette, attachCrossHair, badgeVariants, buttonVariants, downloadAsFile, exportCSV, exportExcel, exportFigmaTokens, exportTailwindConfig, exportThemeProvider, exportTokensCss, exportTokensJson, findPreset, formatCurrency, formatDate, formatDateTime, formatList, formatNumber, formatPercent, formatRelativeTime, isEndSignalEnabled, oklch, buildScale as oklchBuildScale, contrastRatio as oklchContrast, harmony as oklchHarmony, luminance as oklchLuminance, simulateColorBlind as oklchSimulateColorBlind, toCss as oklchToCss, toHex as oklchToHex, toRgb as oklchToRgb, parseCSV, parseExcel, parseJSON, parseTOML, parseXML, playEndSignal, setEndSignalEnabled, statusTone, toastVariants, useAnnounce, useChat, useConfetti, useGlobalCmdK, useShortcutsModal, useTheme, useThemeOptional };

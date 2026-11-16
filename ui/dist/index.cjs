@@ -782,6 +782,161 @@ function Spinner({ className }) {
     /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Loading" })
   ] });
 }
+var altezza = { sm: "h-1", md: "h-2", lg: "h-3" };
+function ProgressBar({
+  value,
+  max = 100,
+  label,
+  showValue = true,
+  hideLabel = false,
+  size = "md",
+  tone = "primary",
+  className
+}) {
+  const determinata = typeof value === "number" && Number.isFinite(value) && max > 0;
+  const pct = determinata ? Math.max(0, Math.min(100, value / max * 100)) : null;
+  return /* @__PURE__ */ jsxRuntime.jsxs("div", { className: cn("w-full", className), children: [
+    label || showValue && pct !== null ? /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "mb-1 flex items-baseline justify-between gap-3 text-sm", children: [
+      label ? /* @__PURE__ */ jsxRuntime.jsx("span", { className: hideLabel ? "sr-only" : "text-foreground", children: label }) : /* @__PURE__ */ jsxRuntime.jsx("span", {}),
+      showValue && pct !== null ? /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "tabular-nums text-muted-fg", children: [
+        Math.round(pct),
+        "%"
+      ] }) : null
+    ] }) : null,
+    /* @__PURE__ */ jsxRuntime.jsx(
+      "div",
+      {
+        role: "progressbar",
+        "aria-label": label,
+        "aria-valuemin": determinata ? 0 : void 0,
+        "aria-valuemax": determinata ? max : void 0,
+        "aria-valuenow": determinata ? value : void 0,
+        "aria-busy": pct === null || pct < 100 ? true : void 0,
+        "data-tone": tone,
+        className: cn("heu-progress-track relative w-full overflow-hidden rounded-full", altezza[size]),
+        children: pct !== null ? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "heu-progress-fill h-full rounded-full", style: { width: `${pct}%` } }) : /* @__PURE__ */ jsxRuntime.jsx("div", { className: "heu-progress-indeterminate h-full rounded-full" })
+      }
+    )
+  ] });
+}
+function WorkInProgress({
+  title,
+  detail,
+  value,
+  max = 100,
+  variant = "block",
+  className,
+  children
+}) {
+  const riquadro = /* @__PURE__ */ jsxRuntime.jsxs(
+    "div",
+    {
+      role: "status",
+      "aria-live": "polite",
+      "aria-busy": "true",
+      className: cn(
+        "flex w-full max-w-md flex-col items-center gap-4 rounded-xl border border-border bg-card p-6 text-center shadow-lg",
+        variant === "block" && "mx-auto",
+        className
+      ),
+      children: [
+        /* @__PURE__ */ jsxRuntime.jsxs("span", { className: "heu-progress-orbit", "aria-hidden": "true", children: [
+          /* @__PURE__ */ jsxRuntime.jsx("span", {}),
+          /* @__PURE__ */ jsxRuntime.jsx("span", {}),
+          /* @__PURE__ */ jsxRuntime.jsx("span", {})
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "space-y-1", children: [
+          /* @__PURE__ */ jsxRuntime.jsx("p", { className: "text-base font-medium text-foreground", children: title }),
+          detail ? /* @__PURE__ */ jsxRuntime.jsx("div", { className: "text-sm text-muted-fg", children: detail }) : null
+        ] }),
+        /* @__PURE__ */ jsxRuntime.jsx(ProgressBar, { value: value ?? null, max, label: title, hideLabel: true, showValue: true }),
+        children
+      ]
+    }
+  );
+  if (variant === "overlay") {
+    return /* @__PURE__ */ jsxRuntime.jsx("div", { className: "absolute inset-0 z-40 flex items-center justify-center bg-background/70 p-4 backdrop-blur-sm", children: riquadro });
+  }
+  return riquadro;
+}
+function TopProgress({ active, delayMs = 250, label = "Lavoro in corso", className }) {
+  const [visibile, setVisibile] = React5__namespace.useState(false);
+  React5__namespace.useEffect(() => {
+    if (!active) {
+      setVisibile(false);
+      return;
+    }
+    const t = setTimeout(() => setVisibile(true), delayMs);
+    return () => clearTimeout(t);
+  }, [active, delayMs]);
+  if (!visibile) return null;
+  return /* @__PURE__ */ jsxRuntime.jsx(
+    "div",
+    {
+      role: "progressbar",
+      "aria-label": label,
+      "aria-busy": "true",
+      className: cn("heu-progress-top fixed inset-x-0 top-0 z-[100] h-1 overflow-hidden", className),
+      children: /* @__PURE__ */ jsxRuntime.jsx("div", { className: "heu-progress-indeterminate h-full" })
+    }
+  );
+}
+
+// src/lib/end-signal.ts
+var CHIAVE = "heuresys-segnale-fine";
+function storage() {
+  try {
+    return typeof window !== "undefined" ? window.localStorage : null;
+  } catch {
+    return null;
+  }
+}
+function isEndSignalEnabled() {
+  try {
+    return storage()?.getItem(CHIAVE) !== "spento";
+  } catch {
+    return true;
+  }
+}
+function setEndSignalEnabled(acceso) {
+  try {
+    storage()?.setItem(CHIAVE, acceso ? "acceso" : "spento");
+  } catch {
+  }
+}
+async function playEndSignal(opts = {}) {
+  if (!isEndSignalEnabled() || typeof window === "undefined") return false;
+  const Ctor = window.AudioContext ?? window.webkitAudioContext;
+  if (!Ctor) return false;
+  try {
+    const ctx = new Ctor();
+    if (ctx.state === "suspended") await ctx.resume();
+    if (ctx.state !== "running") {
+      void ctx.close();
+      return false;
+    }
+    const volume = Math.max(0, Math.min(0.3, opts.volume ?? 0.08));
+    const t0 = ctx.currentTime;
+    const note = (freq, start, dur) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, t0 + start);
+      gain.gain.linearRampToValueAtTime(volume, t0 + start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(1e-4, t0 + start + dur);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0 + start);
+      osc.stop(t0 + start + dur + 0.02);
+    };
+    note(880, 0, 0.16);
+    note(1318.5, 0.12, 0.22);
+    setTimeout(() => void ctx.close(), 600);
+    return true;
+  } catch {
+    return false;
+  }
+}
 function EmptyState({
   icon,
   title,
@@ -10044,6 +10199,7 @@ exports.Popover = Popover;
 exports.PopoverAnchor = PopoverAnchor;
 exports.PopoverContent = PopoverContent;
 exports.PopoverTrigger = PopoverTrigger;
+exports.ProgressBar = ProgressBar;
 exports.QRCodeView = QRCodeView;
 exports.RBACMatrix = RBACMatrix;
 exports.RadialGauge = RadialGauge;
@@ -10098,10 +10254,12 @@ exports.Tooltip = Tooltip;
 exports.TooltipContent = TooltipContent;
 exports.TooltipProvider = TooltipProvider;
 exports.TooltipTrigger = TooltipTrigger;
+exports.TopProgress = TopProgress;
 exports.Typewriter = Typewriter;
 exports.VideoPlayer = VideoPlayer;
 exports.VoiceInput = VoiceInput;
 exports.WinLossSparkline = WinLossSparkline;
+exports.WorkInProgress = WorkInProgress;
 exports.applyPalette = applyPalette;
 exports.attachCrossHair = attachCrossHair;
 exports.badgeVariants = badgeVariants;
@@ -10124,6 +10282,7 @@ exports.formatList = formatList;
 exports.formatNumber = formatNumber;
 exports.formatPercent = formatPercent;
 exports.formatRelativeTime = formatRelativeTime;
+exports.isEndSignalEnabled = isEndSignalEnabled;
 exports.oklch = oklch;
 exports.oklchBuildScale = buildScale;
 exports.oklchContrast = contrastRatio;
@@ -10138,6 +10297,8 @@ exports.parseExcel = parseExcel;
 exports.parseJSON = parseJSON;
 exports.parseTOML = parseTOML;
 exports.parseXML = parseXML;
+exports.playEndSignal = playEndSignal;
+exports.setEndSignalEnabled = setEndSignalEnabled;
 exports.statusTone = statusTone;
 exports.toastVariants = toastVariants;
 exports.useAnnounce = useAnnounce;

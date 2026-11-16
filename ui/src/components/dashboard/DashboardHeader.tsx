@@ -40,6 +40,29 @@ import {
 
 export type { HeaderBreadcrumb, UserIdentity };
 
+/** Testi dell'header che il consumer può tradurre. Tutti opzionali: i default sono
+ *  quelli storici, quindi chi non passa `labels` non vede nessun cambiamento. */
+export interface DashboardHeaderLabels {
+  /** aria-label dell'hamburger. Default "Apri menu contesto globale". */
+  menu?: string;
+  /** aria-label della navigazione a briciole. Default "Breadcrumb". */
+  breadcrumb?: string;
+  /** Nome accessibile del cambio lingua; comincia con la sigla visibile. */
+  language?: (language: string) => string;
+  /** aria-label del cambio tema. Default "Alterna tema chiaro/scuro". */
+  theme?: string;
+  /** Nome accessibile del menu utente. Default "Menu utente: <username>". */
+  userMenu?: (username: string) => string;
+  /** Segnaposto della command palette. Default "Cerca tenant, log, audit…". */
+  commandPalettePlaceholder?: string;
+  /** Testo della command palette vuota. Default "Nessun comando configurato". */
+  commandPaletteEmpty?: string;
+  /** Titolo del drawer mobile. Default "Menu di navigazione". */
+  drawerTitle?: string;
+  /** Testo di chiusura del drawer mobile. Default "Chiudi". */
+  drawerClose?: string;
+}
+
 export interface DashboardHeaderProps {
   breadcrumb?: HeaderBreadcrumb;
   user?: UserIdentity;
@@ -48,6 +71,8 @@ export interface DashboardHeaderProps {
   onOpenMenu?: () => void;
   onOpenCommandPalette?: () => void;
   className?: string;
+  /** Testi traducibili dell'header (additivo, tutti opzionali). */
+  labels?: DashboardHeaderLabels;
   /** Override the default wordmark logo with a custom node (e.g. the canonical
    *  two-color SVG inline used in the SUPERUSER prototype). */
   logo?: React.ReactNode;
@@ -86,6 +111,7 @@ export function DashboardHeader({
   onOpenMenu,
   onOpenCommandPalette,
   className,
+  labels,
   logo,
   logoBadge,
   homeLabel = 'pagina iniziale',
@@ -119,7 +145,7 @@ export function DashboardHeader({
       )}
     >
       <div className="flex min-w-0 items-center gap-3">
-        <HeaderMenuTrigger onOpenMenu={handleOpenMenu} />
+        <HeaderMenuTrigger onOpenMenu={handleOpenMenu} label={labels?.menu} />
 
         {/* WCAG 2.5.3 (Label in Name): il collegamento prende il nome dal suo contenuto (il
             marchio, il distintivo, e la destinazione per chi non vede), invece di un aria-label
@@ -130,16 +156,16 @@ export function DashboardHeader({
           <span className="sr-only">{homeLabel}</span>
         </a>
 
-        <HeaderBreadcrumbTrail items={breadcrumb} />
+        <HeaderBreadcrumbTrail items={breadcrumb} label={labels?.breadcrumb} />
 
         {leftExtras}
       </div>
 
       <div className="flex items-center gap-2">
         <HeaderSearchTrigger onOpenCommandPalette={handleOpenCommandPalette} />
-        <HeaderLanguageSwitcher language={language} onToggleLanguage={onToggleLanguage} />
+        <HeaderLanguageSwitcher language={language} onToggleLanguage={onToggleLanguage} label={labels?.language} />
         <PaletteDropdown />
-        <HeaderThemeToggle />
+        <HeaderThemeToggle label={labels?.theme} />
 
         {userMenu ? (
           <HeaderUserMenu
@@ -149,6 +175,7 @@ export function DashboardHeader({
             onNavigateProfile={userMenu.onNavigateProfile}
             onNavigateSettings={userMenu.onNavigateSettings}
             onLogout={userMenu.onLogout}
+            label={labels?.userMenu}
           />
         ) : (
           <HeaderUserIdentity user={user} />
@@ -160,14 +187,19 @@ export function DashboardHeader({
       <CommandPalette
         open={paletteOpen}
         onOpenChange={setPaletteOpen}
-        placeholder="Cerca tenant, log, audit…"
-        empty="Nessun comando configurato"
+        placeholder={labels?.commandPalettePlaceholder ?? 'Cerca tenant, log, audit…'}
+        empty={labels?.commandPaletteEmpty ?? 'Nessun comando configurato'}
       >
         {commandPaletteContent}
       </CommandPalette>
 
       {mobileNav && (
-        <HeaderMobileDrawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <HeaderMobileDrawer
+          open={drawerOpen}
+          onOpenChange={setDrawerOpen}
+          title={labels?.drawerTitle}
+          closeLabel={labels?.drawerClose}
+        >
           {mobileNav}
         </HeaderMobileDrawer>
       )}

@@ -25,6 +25,8 @@ export interface DashboardShellProps {
   /** Initial sidebar width in px. Default 260. */
   initialSidebarWidth?: number;
   className?: string;
+  /** Nome accessibile dell'area del contenuto (region). Default "Contenuto". */
+  contentLabel?: string;
 }
 
 export function DashboardShell({
@@ -34,6 +36,7 @@ export function DashboardShell({
   children,
   initialSidebarWidth = 260,
   className,
+  contentLabel = 'Contenuto',
 }: DashboardShellProps) {
   return (
     <div
@@ -46,8 +49,8 @@ export function DashboardShell({
 
       <div
         data-shell="grid"
-        className="grid min-h-0"
-        style={{ gridTemplateColumns: `${initialSidebarWidth}px 1fr` }}
+        className="grid min-h-0 min-w-0 grid-cols-[var(--sidebar-w)_minmax(0,1fr)] max-md:grid-cols-[minmax(0,1fr)] max-md:[&>aside]:hidden"
+        style={{ '--sidebar-w': `${initialSidebarWidth}px` } as React.CSSProperties}
       >
         {sidebar}
         {/* The shell's scroll container is a plain <div>, NOT a <main>: every
@@ -55,7 +58,12 @@ export function DashboardShell({
             (axe landmark-no-duplicate-main / landmark-unique / main-is-top-level
             — the page <main> would be nested inside this one). tabIndex={0} keeps
             it keyboard-scrollable (axe scrollable-region-focusable, WCAG 2.1.1). */}
-        <div tabIndex={0} className="min-h-0 overflow-y-auto p-6">
+        <div
+          tabIndex={0}
+          role="region"
+          aria-label={contentLabel}
+          className="min-h-0 min-w-0 overflow-y-auto p-4 md:p-6"
+        >
           {children}
         </div>
       </div>

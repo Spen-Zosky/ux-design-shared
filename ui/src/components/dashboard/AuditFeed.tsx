@@ -55,7 +55,7 @@ export function AuditFeed({ events, title = "Audit feed",
               <div className="min-w-0">
                 <div className="text-sm text-foreground"><span className="font-medium">{ev.title}</span></div>
                 {ev.description && <div className="mt-0.5 text-xs text-muted-foreground">{ev.description}</div>}
-                {ev.meta && <div className="mt-1 flex items-center gap-2 font-mono text-[10px] text-muted-foreground">{ev.meta}</div>}
+                {ev.meta && <div className="mt-1 flex items-center gap-2 font-mono text-xs text-muted-foreground">{ev.meta}</div>}
               </div>
             </div>
           </li>

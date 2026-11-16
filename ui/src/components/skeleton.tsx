@@ -1,20 +1,34 @@
 import * as React from 'react';
 import { cn } from '../lib/cn';
 
-export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function Skeleton({
+  className,
+  label = 'Loading',
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  /** Nome accessibile dello stato di caricamento. Default "Loading". */
+  label?: string;
+}) {
   return (
     <div
       role="status"
-      aria-label="Loading"
+      aria-label={label}
       className={cn('animate-pulse rounded-md bg-muted', className)}
       {...props}
     />
   );
 }
 
-export function Spinner({ className }: { className?: string }) {
+export function Spinner({
+  className,
+  label = 'Loading',
+}: {
+  className?: string;
+  /** Testo di caricamento letto dai lettori di schermo. Default "Loading". */
+  label?: string;
+}) {
   return (
-    <div role="status" aria-label="Loading">
+    <div role="status" aria-label={label}>
       <svg
         className={cn('h-5 w-5 animate-spin text-muted-fg', className)}
         viewBox="0 0 24 24"
@@ -29,7 +43,7 @@ export function Spinner({ className }: { className?: string }) {
           strokeLinecap="round"
         />
       </svg>
-      <span className="sr-only">Loading</span>
+      <span className="sr-only">{label}</span>
     </div>
   );
 }

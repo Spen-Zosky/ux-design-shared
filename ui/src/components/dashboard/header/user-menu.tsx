@@ -27,6 +27,8 @@ export interface HeaderUserMenuProps {
   onNavigateProfile?: () => void;
   onNavigateSettings?: () => void;
   onLogout?: () => void;
+  /** Nome accessibile del pulsante. Default `Menu utente: <username>`. */
+  label?: (username: string) => string;
 }
 
 export function HeaderUserMenu({
@@ -36,6 +38,7 @@ export function HeaderUserMenu({
   onNavigateProfile,
   onNavigateSettings,
   onLogout,
+  label = (username) => `Menu utente: ${username}`,
 }: HeaderUserMenuProps) {
   if (!user) return null;
 
@@ -49,7 +52,7 @@ export function HeaderUserMenu({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          aria-label={`Menu utente: ${user.username}`}
+          aria-label={label(user.username)}
           className="ml-1 flex items-center gap-2 rounded-control border border-border bg-card px-2 py-1.5 transition hover:bg-accent hover:border-foreground/30"
         >
           <Avatar className="h-7 w-7">
@@ -59,7 +62,7 @@ export function HeaderUserMenu({
           </Avatar>
           <div className="hidden flex-col leading-tight text-left sm:flex">
             <span className="text-xs font-medium text-foreground">{user.username}</span>
-            <span className={`font-mono text-[10px] uppercase tracking-wider ${tone.text}`}>
+            <span className={`font-mono text-xs uppercase tracking-wider ${tone.text}`}>
               {user.role}
             </span>
           </div>

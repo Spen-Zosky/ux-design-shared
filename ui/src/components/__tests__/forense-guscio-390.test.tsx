@@ -60,14 +60,15 @@ describe('K04 — guscio a 390 px', () => {
     expect(sinistra.querySelector('a')?.className).toContain('overflow-hidden');
     expect(sinistra.querySelector('button')?.className).toContain('shrink-0');
     expect(destra.className).toContain('shrink-0');
-    const preferenze = container.querySelector('#js-palette-trigger')!.closest('.max-sm\\:hidden');
+    const preferenze = container.querySelector('#js-theme-toggle')!.closest('.max-sm\\:hidden');
     expect(preferenze).toBeTruthy();
     expect(preferenze?.querySelector('#js-theme-toggle')).toBeTruthy();
   });
 
   it('header senza cassetto: le preferenze restano visibili, non c’è dove spostarle', () => {
     const { container } = render(<DashboardHeader />);
-    expect(container.querySelector('#js-palette-trigger')!.closest('.max-sm\\:hidden')).toBeNull();
+    expect(container.querySelector('#js-theme-toggle')!.closest('.max-sm\\:hidden')).toBeNull();
+    expect(container.querySelector('#js-palette-trigger')).toBeNull();
   });
 });
 
@@ -92,9 +93,10 @@ describe('K05 — testi traducibili', () => {
     expect(document.getElementById('js-palette-menu')?.textContent).toContain('Accent');
   });
 
-  it('header: labels.palette arriva alla tavolozza', () => {
-    render(<DashboardHeader labels={{ palette: 'Change accent palette' }} />);
-    expect(screen.getByRole('button', { name: 'Change accent palette' })).toBeTruthy();
+  it('header: nessun selettore di tavolozza (1.7.1)', () => {
+    const { container } = render(<DashboardHeader mobileNav={<nav />} />);
+    expect(container.querySelector('[id^="js-palette"]')).toBeNull();
+    expect(document.querySelector('[id^="js-palette"]')).toBeNull();
   });
 });
 

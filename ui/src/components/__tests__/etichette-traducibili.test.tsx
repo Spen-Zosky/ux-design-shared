@@ -61,7 +61,7 @@ describe('etichette traducibili e difetti del giudizio 2026-11-16', () => {
     expect(screen.getByRole('button', { name: 'Theme' })).toBeTruthy();
   });
 
-  it('shell: sotto md la sidebar sparisce e il contenuto è una region con nome', () => {
+  it('shell: sotto md la sidebar sparisce; il contenuto non è più una region (1.7.0)', () => {
     const { container } = render(
       <DashboardShell header={<header />} sidebar={<aside />} footer={<footer />} contentLabel="Contenuto pagina">
         x
@@ -71,6 +71,7 @@ describe('etichette traducibili e difetti del giudizio 2026-11-16', () => {
     expect(grid.className).toContain('max-md:grid-cols-[minmax(0,1fr)]');
     expect(grid.className).toContain('max-md:[&>aside]:hidden');
     expect(grid.style.getPropertyValue('--sidebar-w')).toBe('260px');
-    expect(screen.getByRole('region', { name: 'Contenuto pagina' })).toBeTruthy();
+    // 1.7.0: la region conteneva il <main> della pagina (K03 del giro forense 2026-11-23).
+    expect(screen.queryByRole('region')).toBeNull();
   });
 });

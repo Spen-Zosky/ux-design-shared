@@ -40,6 +40,8 @@ import {
 
 export type { HeaderBreadcrumb, UserIdentity };
 
+const DEFAULT_SEARCH_PLACEHOLDER = 'Cerca tenant, log, audit…';
+
 /** Testi dell'header che il consumer può tradurre. Tutti opzionali: i default sono
  *  quelli storici, quindi chi non passa `labels` non vede nessun cambiamento. */
 export interface DashboardHeaderLabels {
@@ -55,6 +57,15 @@ export interface DashboardHeaderLabels {
   userMenu?: (username: string) => string;
   /** Segnaposto della command palette. Default "Cerca tenant, log, audit…". */
   commandPalettePlaceholder?: string;
+  /** Testo del pulsante di ricerca nell'header (1.7.0). Se assente usa
+   *  `commandPalettePlaceholder`, poi il default "Cerca tenant, log, audit…". */
+  searchPlaceholder?: string;
+  /** Nome accessibile del pulsante della tavolozza (1.7.0). Default "Cambia palette accent (apri menu)". */
+  palette?: string;
+  /** Nome accessibile dell'elenco delle tavolozze (1.7.0). Default "Palette disponibili". */
+  paletteList?: string;
+  /** Intestazione visibile del menu delle tavolozze (1.7.0). Default "Accent palette". */
+  paletteHeading?: string;
   /** Testo della command palette vuota. Default "Nessun comando configurato". */
   commandPaletteEmpty?: string;
   /** Titolo del drawer mobile. Default "Menu di navigazione". */
@@ -136,21 +147,60 @@ export function DashboardHeader({
 
   useGlobalCmdK(handleOpenCommandPalette);
 
+  const searchPlaceholder =
+    labels?.searchPlaceholder ?? labels?.commandPalettePlaceholder ?? DEFAULT_SEARCH_PLACEHOLDER;
+
+  // Lingua, tavolozza e tema: nella barra e, sotto `sm`, nel cassetto. Due copie, quindi
+  // tavolozza e tema ricevono id diversi. Nel cassetto la tavolozza va per prima e apre il
+  // menu verso destra, così i suoi 256 px restano dentro i 288 del cassetto.
+  const preferences = (inDrawer: boolean) => {
+    const lingua = (
+      <HeaderLanguageSwitcher language={language} onToggleLanguage={onToggleLanguage} label={labels?.language} />
+    );
+    const tavolozza = (
+      <PaletteDropdown
+        label={labels?.palette}
+        listLabel={labels?.paletteList}
+        heading={labels?.paletteHeading}
+        idPrefix={inDrawer ? 'js-palette-drawer' : 'js-palette'}
+        align={inDrawer ? 'start' : 'end'}
+      />
+    );
+    const tema = <HeaderThemeToggle label={labels?.theme} id={inDrawer ? 'js-theme-toggle-drawer' : undefined} />;
+    return inDrawer ? (
+      <>
+        {tavolozza}
+        {lingua}
+        {tema}
+      </>
+    ) : (
+      <>
+        {lingua}
+        {tavolozza}
+        {tema}
+      </>
+    );
+  };
+
   return (
     <header
       role="banner"
       className={cn(
-        'z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/75',
+        'z-30 flex h-16 min-w-0 items-center justify-between gap-2 border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/75',
         className
       )}
     >
-      <div className="flex min-w-0 items-center gap-3">
+      {/* A 390 px il gruppo di sinistra è quello che cede (min-w-0) e dentro cede solo il
+          marchio, che taglia il proprio contenuto: niente overflow nascosto sul gruppo, che
+          taglierebbe il contorno del fuoco dell'hamburger (WCAG 2.4.7). Il gruppo di destra
+          tiene il menu utente, che non può sparire. */}
+      <div className="flex min-w-0 shrink items-center gap-3">
         <HeaderMenuTrigger onOpenMenu={handleOpenMenu} label={labels?.menu} />
 
         {/* WCAG 2.5.3 (Label in Name): il collegamento prende il nome dal suo contenuto (il
             marchio, il distintivo, e la destinazione per chi non vede), invece di un aria-label
             che non conteneva il testo visibile. */}
-        <a href="/app" className="flex items-center gap-2.5">
+        <a href="/app" className="flex min-w-0 shrink items-center gap-2.5 overflow-hidden">
           {logo ?? <HeuresysWordmark variant="brand" size="md" />}
           {logoBadge}
           <span className="sr-only">{homeLabel}</span>
@@ -161,11 +211,13 @@ export function DashboardHeader({
         {leftExtras}
       </div>
 
-      <div className="flex items-center gap-2">
-        <HeaderSearchTrigger onOpenCommandPalette={handleOpenCommandPalette} />
-        <HeaderLanguageSwitcher language={language} onToggleLanguage={onToggleLanguage} label={labels?.language} />
-        <PaletteDropdown />
-        <HeaderThemeToggle label={labels?.theme} />
+      <div className="flex shrink-0 items-center gap-2">
+        <HeaderSearchTrigger onOpenCommandPalette={handleOpenCommandPalette} placeholder={searchPlaceholder} />
+        {/* Con il cassetto (mobileNav) le preferenze sotto `sm` si spostano lì: nella barra
+            di un telefono non c'è posto per lingua, tavolozza, tema e menu utente insieme. */}
+        <div className={cn('flex items-center gap-2', mobileNav && 'max-sm:hidden')}>
+          {preferences(false)}
+        </div>
 
         {userMenu ? (
           <HeaderUserMenu
@@ -187,7 +239,7 @@ export function DashboardHeader({
       <CommandPalette
         open={paletteOpen}
         onOpenChange={setPaletteOpen}
-        placeholder={labels?.commandPalettePlaceholder ?? 'Cerca tenant, log, audit…'}
+        placeholder={labels?.commandPalettePlaceholder ?? DEFAULT_SEARCH_PLACEHOLDER}
         empty={labels?.commandPaletteEmpty ?? 'Nessun comando configurato'}
       >
         {commandPaletteContent}
@@ -201,6 +253,9 @@ export function DashboardHeader({
           closeLabel={labels?.drawerClose}
         >
           {mobileNav}
+          <div className="mt-6 flex items-center gap-2 border-t border-border pt-4 sm:hidden">
+            {preferences(true)}
+          </div>
         </HeaderMobileDrawer>
       )}
     </header>

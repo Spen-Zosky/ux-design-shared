@@ -25,7 +25,15 @@ export interface DashboardShellProps {
   /** Initial sidebar width in px. Default 260. */
   initialSidebarWidth?: number;
   className?: string;
-  /** Nome accessibile dell'area del contenuto (region). Default "Contenuto". */
+  /**
+   * Landmark dell'area del contenuto. Default `none` (dalla 1.7.0): un `<div>` senza ruolo,
+   * focalizzabile per lo scorrimento da tastiera, e ogni pagina apre il proprio `<main>`.
+   * Con `main` il guscio rende lui il `<main>` (contratto di ADR-0001) e le pagine non ne
+   * aprono un secondo. Fino alla 1.6.0 era una `region` con nome, che conteneva il `<main>`
+   * della pagina: axe `landmark-main-is-top-level` e `landmark-unique` su ogni pagina.
+   */
+  contentLandmark?: 'none' | 'main';
+  /** Nome accessibile del `<main>` del guscio, usato solo con `contentLandmark="main"`. */
   contentLabel?: string;
 }
 
@@ -36,12 +44,16 @@ export function DashboardShell({
   children,
   initialSidebarWidth = 260,
   className,
-  contentLabel = 'Contenuto',
+  contentLandmark = 'none',
+  contentLabel,
 }: DashboardShellProps) {
+  const contentClass = 'min-h-0 min-w-0 overflow-y-auto p-4 md:p-6';
   return (
     <div
+      // grid-cols-[minmax(0,1fr)]: senza colonne dichiarate l'unica colonna implicita prende
+      // la larghezza minima dell'header, e a 390 px la pagina intera usciva a destra.
       className={cn(
-        'h-screen grid grid-rows-[64px_1fr_44px] overflow-hidden bg-background text-foreground',
+        'h-screen grid min-w-0 grid-cols-[minmax(0,1fr)] grid-rows-[64px_1fr_44px] overflow-hidden bg-background text-foreground',
         className
       )}
     >
@@ -53,19 +65,20 @@ export function DashboardShell({
         style={{ '--sidebar-w': `${initialSidebarWidth}px` } as React.CSSProperties}
       >
         {sidebar}
-        {/* The shell's scroll container is a plain <div>, NOT a <main>: every
-            page renders its own <main> landmark, so a <main> here duplicates it
-            (axe landmark-no-duplicate-main / landmark-unique / main-is-top-level
-            — the page <main> would be nested inside this one). tabIndex={0} keeps
-            it keyboard-scrollable (axe scrollable-region-focusable, WCAG 2.1.1). */}
-        <div
-          tabIndex={0}
-          role="region"
-          aria-label={contentLabel}
-          className="min-h-0 min-w-0 overflow-y-auto p-4 md:p-6"
-        >
-          {children}
-        </div>
+        {/* Default: un <div> senza ruolo, perché ogni pagina rende il proprio <main> e un
+            landmark qui lo conterrebbe (axe landmark-main-is-top-level, landmark-unique, e
+            landmark-banner-is-top-level per l'header di una pagina senza <main>).
+            tabIndex={0} lo tiene scorrevole da tastiera (axe scrollable-region-focusable,
+            WCAG 2.1.1). Con contentLandmark="main" il <main> lo dà il guscio. */}
+        {contentLandmark === 'main' ? (
+          <main tabIndex={0} aria-label={contentLabel} className={contentClass}>
+            {children}
+          </main>
+        ) : (
+          <div tabIndex={0} data-shell="content" className={contentClass}>
+            {children}
+          </div>
+        )}
       </div>
 
       {footer}

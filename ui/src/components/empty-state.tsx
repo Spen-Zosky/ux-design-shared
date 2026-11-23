@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { cn } from '../lib/cn';
+import type { CardTitleLevel } from './Card';
 
 export interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode;
   title: string;
   description?: string;
   action?: React.ReactNode;
+  /** Livello del titolo (1.7.0). Default `h3`, come prima: chi mostra lo stato subito
+   *  sotto l'`h1` della pagina passa `h2`, per non saltare un livello. */
+  headingLevel?: CardTitleLevel;
 }
 
 export function EmptyState({
@@ -13,6 +17,7 @@ export function EmptyState({
   title,
   description,
   action,
+  headingLevel: Heading = 'h3',
   className,
   ...props
 }: EmptyStateProps) {
@@ -26,7 +31,7 @@ export function EmptyState({
       {...props}
     >
       {icon ? <div className="text-muted-fg">{icon}</div> : null}
-      <h3 className="text-base font-semibold">{title}</h3>
+      <Heading className="text-base font-semibold">{title}</Heading>
       {description ? <p className="max-w-prose text-sm text-muted-fg">{description}</p> : null}
       {action ? <div className="mt-2">{action}</div> : null}
     </div>

@@ -8,11 +8,14 @@ export interface HeaderThemeToggleProps {
   label?: string;
   /** title mostrato quando manca ThemeProvider. */
   unavailableTitle?: string;
+  /** id del pulsante. Default "js-theme-toggle"; va cambiato se nella pagina ce n'è un secondo. */
+  id?: string;
 }
 
 export function HeaderThemeToggle({
   label = 'Alterna tema chiaro/scuro',
   unavailableTitle = 'Tema non disponibile: manca ThemeProvider',
+  id = 'js-theme-toggle',
 }: HeaderThemeToggleProps = {}) {
   // Volutamente la variante opzionale: senza ThemeProvider questo pulsante
   // diventa inerte, invece di abbattere l'header che lo contiene e con esso
@@ -27,7 +30,7 @@ export function HeaderThemeToggle({
 
   return (
     <button
-      id="js-theme-toggle"
+      id={id}
       type="button"
       aria-label={label}
       disabled={disabled}

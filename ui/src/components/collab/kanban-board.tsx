@@ -20,7 +20,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Plus } from 'lucide-react';
 import { cn } from '../../lib/cn';
-import { Card } from '../Card';
+import { Card, type CardTitleLevel } from '../Card';
 import { Button } from '../Button';
 
 export interface KanbanCard {
@@ -49,6 +49,7 @@ export function KanbanBoard({
   onAddCard,
   className,
   dragCardLabel = (title) => `Drag card: ${title}`,
+  columnHeadingLevel = 'h3',
 }: {
   columns: KanbanColumn[];
   onChange: (columns: KanbanColumn[]) => void;
@@ -56,6 +57,8 @@ export function KanbanBoard({
   className?: string;
   /** Nome accessibile della maniglia di trascinamento. Default inglese, per retrocompatibilita'. */
   dragCardLabel?: (title: string) => string;
+  /** Livello dei titoli delle colonne (1.7.0). Default `h3`, come prima. */
+  columnHeadingLevel?: CardTitleLevel;
 }) {
   const [columns, setColumns] = React.useState(initialColumns);
   React.useEffect(() => setColumns(initialColumns), [initialColumns]);
@@ -122,6 +125,7 @@ export function KanbanBoard({
             column={col}
             onAddCard={onAddCard ? () => onAddCard(col.id) : undefined}
             dragCardLabel={dragCardLabel}
+            headingLevel={columnHeadingLevel}
           />
         ))}
       </ul>
@@ -133,9 +137,11 @@ function KanbanColumnView({
   column,
   onAddCard,
   dragCardLabel,
+  headingLevel: Heading,
 }: {
   column: KanbanColumn;
   onAddCard?: () => void;
+  headingLevel: CardTitleLevel;
   dragCardLabel: (title: string) => string;
 }) {
   return (
@@ -155,7 +161,7 @@ function KanbanColumnView({
       className="flex w-72 shrink-0 flex-col gap-2 rounded-md bg-muted/40 p-3"
     >
       <div className="flex items-center justify-between">
-        <h3
+        <Heading
           className="text-sm font-semibold"
           style={column.color ? { color: column.color } : undefined}
         >
@@ -163,7 +169,7 @@ function KanbanColumnView({
           <span className="ml-2 rounded-full bg-background px-1.5 py-0.5 text-xs text-muted-fg">
             {column.cards.length}
           </span>
-        </h3>
+        </Heading>
         {onAddCard ? (
           <Button
             size="icon"

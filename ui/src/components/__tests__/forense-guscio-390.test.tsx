@@ -4,7 +4,7 @@
  * `e2e/shell-390.spec.ts`; qui si fissano la forma del DOM e le classi che la producono.
  */
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 import { DashboardShell } from '../dashboard/DashboardShell';
 import { DashboardHeader } from '../dashboard/DashboardHeader';
@@ -55,7 +55,10 @@ describe('K04 — guscio a 390 px', () => {
     const destra = header.children[1] as HTMLElement;
     expect(header.className).toContain('min-w-0');
     expect(sinistra.className).toContain('min-w-0');
-    expect(sinistra.className).toContain('overflow-hidden');
+    // Il gruppo non taglia (taglierebbe il fuoco dell'hamburger): cede solo il marchio.
+    expect(sinistra.className).not.toContain('overflow-hidden');
+    expect(sinistra.querySelector('a')?.className).toContain('overflow-hidden');
+    expect(sinistra.querySelector('button')?.className).toContain('shrink-0');
     expect(destra.className).toContain('shrink-0');
     const preferenze = container.querySelector('#js-palette-trigger')!.closest('.max-sm\\:hidden');
     expect(preferenze).toBeTruthy();
@@ -134,5 +137,23 @@ describe('titoli con livello configurabile (revisione K13)', () => {
     rerender(<AgentPanel {...base} headingLevel="h2" />);
     expect(container.querySelectorAll('h3')).toHaveLength(0);
     expect(container.querySelectorAll('h2')).toHaveLength(h3);
+  });
+});
+
+describe('tavolozza: una sola scelta per la pagina (revisione della PR #16)', () => {
+  it('scelta in un\'istanza, l\'altra la segna subito', () => {
+    render(
+      <>
+        <PaletteDropdown />
+        <PaletteDropdown idPrefix="js-palette-drawer" align="start" />
+      </>
+    );
+    const cassetto = document.getElementById('js-palette-drawer-menu') as HTMLElement;
+    fireEvent.click(cassetto.querySelectorAll('[role="option"]')[2] as HTMLElement);
+    const barra = document.getElementById('js-palette-menu') as HTMLElement;
+    const selezione = (menu: HTMLElement) =>
+      Array.from(menu.querySelectorAll('[role="option"]')).map((o) => o.getAttribute('aria-selected'));
+    expect(selezione(barra)).toEqual(['false', 'false', 'true', 'false']);
+    expect(selezione(cassetto)).toEqual(['false', 'false', 'true', 'false']);
   });
 });

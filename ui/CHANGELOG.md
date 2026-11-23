@@ -29,6 +29,17 @@ Nessuna API rimossa o rinominata, ma **un cambio di comportamento voluto in `Das
 
 Chi cercava nelle prove la `region` del contenuto (`getByRole('region', { name: … })`) la trova ora con `data-shell="content"`, oppure passa `contentLandmark="main"`. Le pagine senza un proprio `<main>` devono aprirlo, altrimenti axe segnala `landmark-one-main`.
 
+Due note emerse dalla revisione della PR:
+
+- **Versione.** Togliere la `region` per default cambia le prove dei consumatori che la cercano: per questo la nota qui sopra. Resta una 1.7.0 e non una 2.0.0 perché nessuna API è stata tolta o rinominata.
+- **Regola axe `region`.** Nelle pagine di un'applicazione che non hanno un proprio `<main>`, tolta la `region` del guscio, axe `region` segnalerà il contenuto montato dal layout fuori da ogni landmark: in heuresys-advanced le `SectionTabs` e il pannello dell'agente. Si sistema nel consumer (un `<main>` nella pagina, o quei blocchi dentro un landmark), non qui.
+
+### Correzioni dalla revisione della PR
+
+- Il gruppo di sinistra dell'header non ha più `overflow-hidden`, che tagliava il contorno del fuoco dell'hamburger a ogni larghezza (WCAG 2.4.7): ora cede solo il collegamento del marchio.
+- L'hamburger ha `shrink-0`: a 320 px si schiacciava a 26 px.
+- Le istanze di `PaletteDropdown` condividono la scelta: scelta una tavolozza nel cassetto, la copia nella barra la segna appena la finestra si allarga.
+
 ---
 
 ## 1.6.0 — 2026-11-16

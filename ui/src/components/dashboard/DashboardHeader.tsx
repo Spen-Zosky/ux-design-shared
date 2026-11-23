@@ -190,15 +190,17 @@ export function DashboardHeader({
         className
       )}
     >
-      {/* A 390 px il gruppo di sinistra è quello che cede (min-w-0, overflow nascosto): il
-          gruppo di destra tiene il menu utente, che non può sparire. */}
-      <div className="flex min-w-0 shrink items-center gap-3 overflow-hidden">
+      {/* A 390 px il gruppo di sinistra è quello che cede (min-w-0) e dentro cede solo il
+          marchio, che taglia il proprio contenuto: niente overflow nascosto sul gruppo, che
+          taglierebbe il contorno del fuoco dell'hamburger (WCAG 2.4.7). Il gruppo di destra
+          tiene il menu utente, che non può sparire. */}
+      <div className="flex min-w-0 shrink items-center gap-3">
         <HeaderMenuTrigger onOpenMenu={handleOpenMenu} label={labels?.menu} />
 
         {/* WCAG 2.5.3 (Label in Name): il collegamento prende il nome dal suo contenuto (il
             marchio, il distintivo, e la destinazione per chi non vede), invece di un aria-label
             che non conteneva il testo visibile. */}
-        <a href="/app" className="flex min-w-0 items-center gap-2.5">
+        <a href="/app" className="flex min-w-0 shrink items-center gap-2.5 overflow-hidden">
           {logo ?? <HeuresysWordmark variant="brand" size="md" />}
           {logoBadge}
           <span className="sr-only">{homeLabel}</span>

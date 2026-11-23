@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 /**
  * Palette dropdown listbox — canonical implementation.
@@ -40,6 +40,37 @@ function readSavedIdx(): PaletteIdx {
   return raw as PaletteIdx;
 }
 
+/*
+ * Una sola scelta per tutta la pagina (1.7.0). La tavolozza può comparire due volte (barra e
+ * cassetto del telefono): con uno stato per istanza, scelta la terza nel cassetto, la copia
+ * nella barra segnava ancora la prima. Le istanze leggono tutte da qui.
+ */
+const listeners = new Set<() => void>();
+let currentIdx: PaletteIdx | null = null;
+
+function getIdx(): PaletteIdx {
+  if (currentIdx === null) currentIdx = readSavedIdx();
+  return currentIdx;
+}
+
+function setSharedIdx(next: PaletteIdx) {
+  currentIdx = next;
+  applyPalette(next);
+  try {
+    window.localStorage.setItem(STORAGE_KEY, String(next));
+  } catch {
+    // Archivio del browser non disponibile: la scelta vale per la pagina aperta.
+  }
+  listeners.forEach((l) => l());
+}
+
+function subscribe(l: () => void) {
+  listeners.add(l);
+  return () => {
+    listeners.delete(l);
+  };
+}
+
 /** Testi e posizione del menu, tutti opzionali: i default sono quelli storici. */
 export interface PaletteDropdownProps {
   /** Nome accessibile del pulsante. Default "Cambia palette accent (apri menu)". */
@@ -63,13 +94,11 @@ export function PaletteDropdown({
   align = "end",
 }: PaletteDropdownProps = {}) {
   const [open, setOpen] = useState(false);
-  const [idx, setIdx] = useState<PaletteIdx>(0);
+  const idx = useSyncExternalStore(subscribe, getIdx, () => 0 as PaletteIdx);
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = readSavedIdx();
-    setIdx(saved);
-    applyPalette(saved);
+    applyPalette(getIdx());
   }, []);
 
   useEffect(() => {
@@ -87,9 +116,7 @@ export function PaletteDropdown({
   }, [open]);
 
   function selectPalette(next: PaletteIdx) {
-    setIdx(next);
-    applyPalette(next);
-    window.localStorage.setItem(STORAGE_KEY, String(next));
+    setSharedIdx(next);
     setOpen(false);
   }
 

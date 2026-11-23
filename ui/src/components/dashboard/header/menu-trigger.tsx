@@ -17,7 +17,7 @@ export function HeaderMenuTrigger({
       type="button"
       aria-label={label}
       onClick={onOpenMenu}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30"
+      className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30"
     >
       <svg
         className="h-4 w-4"

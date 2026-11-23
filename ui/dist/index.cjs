@@ -5029,7 +5029,7 @@ function SortableCardItem({
   card,
   dragCardLabel
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = sortable.useSortable({
+  const { attributes, listeners: listeners2, setNodeRef, transform, transition, isDragging } = sortable.useSortable({
     id: card.id
   });
   const style = {
@@ -5043,7 +5043,7 @@ function SortableCardItem({
       {
         type: "button",
         ...attributes,
-        ...listeners,
+        ...listeners2,
         "aria-label": dragCardLabel(card.title),
         className: "cursor-grab text-muted-fg hover:text-foreground active:cursor-grabbing",
         children: /* @__PURE__ */ jsxRuntime.jsx(lucideReact.GripVertical, { className: "h-4 w-4", "aria-hidden": "true" })
@@ -8295,6 +8295,27 @@ function readSavedIdx() {
   if (!Number.isFinite(raw) || raw < 0 || raw >= PALETTES.length) return 0;
   return raw;
 }
+var listeners = /* @__PURE__ */ new Set();
+var currentIdx = null;
+function getIdx() {
+  if (currentIdx === null) currentIdx = readSavedIdx();
+  return currentIdx;
+}
+function setSharedIdx(next) {
+  currentIdx = next;
+  applyPalette(next);
+  try {
+    window.localStorage.setItem(STORAGE_KEY2, String(next));
+  } catch {
+  }
+  listeners.forEach((l) => l());
+}
+function subscribe(l) {
+  listeners.add(l);
+  return () => {
+    listeners.delete(l);
+  };
+}
 function PaletteDropdown({
   label = "Cambia palette accent (apri menu)",
   listLabel = "Palette disponibili",
@@ -8303,12 +8324,10 @@ function PaletteDropdown({
   align = "end"
 } = {}) {
   const [open, setOpen] = React5.useState(false);
-  const [idx, setIdx] = React5.useState(0);
+  const idx = React5.useSyncExternalStore(subscribe, getIdx, () => 0);
   const rootRef = React5.useRef(null);
   React5.useEffect(() => {
-    const saved = readSavedIdx();
-    setIdx(saved);
-    applyPalette(saved);
+    applyPalette(getIdx());
   }, []);
   React5.useEffect(() => {
     if (!open) return;
@@ -8326,9 +8345,7 @@ function PaletteDropdown({
     };
   }, [open]);
   function selectPalette(next) {
-    setIdx(next);
-    applyPalette(next);
-    window.localStorage.setItem(STORAGE_KEY2, String(next));
+    setSharedIdx(next);
     setOpen(false);
   }
   return /* @__PURE__ */ jsxRuntime.jsxs("div", { ref: rootRef, className: "relative", "data-palette-menu-root": true, children: [
@@ -8400,7 +8417,7 @@ function HeaderMenuTrigger({
       type: "button",
       "aria-label": label,
       onClick: onOpenMenu,
-      className: "inline-flex h-9 w-9 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
+      className: "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-control border border-border text-muted-foreground transition hover:bg-accent hover:text-foreground hover:border-foreground/30",
       children: /* @__PURE__ */ jsxRuntime.jsxs(
         "svg",
         {
@@ -8881,9 +8898,9 @@ function DashboardHeader({
         className
       ),
       children: [
-        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex min-w-0 shrink items-center gap-3 overflow-hidden", children: [
+        /* @__PURE__ */ jsxRuntime.jsxs("div", { className: "flex min-w-0 shrink items-center gap-3", children: [
           /* @__PURE__ */ jsxRuntime.jsx(HeaderMenuTrigger, { onOpenMenu: handleOpenMenu, label: labels?.menu }),
-          /* @__PURE__ */ jsxRuntime.jsxs("a", { href: "/app", className: "flex min-w-0 items-center gap-2.5", children: [
+          /* @__PURE__ */ jsxRuntime.jsxs("a", { href: "/app", className: "flex min-w-0 shrink items-center gap-2.5 overflow-hidden", children: [
             logo ?? /* @__PURE__ */ jsxRuntime.jsx(HeuresysWordmark, { variant: "brand", size: "md" }),
             logoBadge,
             /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: homeLabel })
@@ -9283,10 +9300,10 @@ function AlertBanner({ variant = "warning", icon, title, meta, details, actions,
 function attachCrossHair(table) {
   const headerCells = Array.from(table.querySelectorAll("thead th"));
   const bodyRows = Array.from(table.querySelectorAll("tbody tr"));
-  const listeners = [];
+  const listeners2 = [];
   function on(el, type, handler) {
     el.addEventListener(type, handler);
-    listeners.push({ el, type, handler });
+    listeners2.push({ el, type, handler });
   }
   function clearTableCross() {
     table.querySelectorAll(".col-cross").forEach((el) => el.classList.remove("col-cross"));
@@ -9320,7 +9337,7 @@ function attachCrossHair(table) {
     });
   });
   return function unbind() {
-    listeners.forEach(({ el, type, handler }) => el.removeEventListener(type, handler));
+    listeners2.forEach(({ el, type, handler }) => el.removeEventListener(type, handler));
     clearTableCross();
   };
 }

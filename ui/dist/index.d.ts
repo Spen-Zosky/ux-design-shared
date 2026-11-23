@@ -2507,12 +2507,6 @@ interface DashboardHeaderLabels {
     /** Testo del pulsante di ricerca nell'header (1.7.0). Se assente usa
      *  `commandPalettePlaceholder`, poi il default "Cerca tenant, log, audit…". */
     searchPlaceholder?: string;
-    /** Nome accessibile del pulsante della tavolozza (1.7.0). Default "Cambia palette accent (apri menu)". */
-    palette?: string;
-    /** Nome accessibile dell'elenco delle tavolozze (1.7.0). Default "Palette disponibili". */
-    paletteList?: string;
-    /** Intestazione visibile del menu delle tavolozze (1.7.0). Default "Accent palette". */
-    paletteHeading?: string;
     /** Testo della command palette vuota. Default "Nessun comando configurato". */
     commandPaletteEmpty?: string;
     /** Titolo del drawer mobile. Default "Menu di navigazione". */

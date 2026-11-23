@@ -431,6 +431,7 @@ export {
   applyPalette,
   type PaletteIdx,
   type PalettePreset,
+  type PaletteDropdownProps,
 } from './components/dashboard/PaletteDropdown';
 export { GroupToggle, type GroupToggleProps } from './components/dashboard/GroupToggle';
 export {

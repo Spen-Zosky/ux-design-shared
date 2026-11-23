@@ -5,6 +5,32 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.7.0 — 2026-11-23
+
+Nessuna API rimossa o rinominata, ma **un cambio di comportamento voluto in `DashboardShell`**: il contenitore del contenuto non è più una `region`. Correzioni nate dal giro forense di heuresys-advanced del 2026-11-23 (classi K03, K04, K05 e i titoli fissi visti nella revisione di K13).
+
+### Correzioni
+
+**Il guscio non esce più dai 390 px.** La griglia esterna di `DashboardShell` dichiara la sua colonna (`grid-cols-[minmax(0,1fr)]`, `min-w-0`): prima l'unica colonna implicita prendeva la larghezza minima dell'header, e a 390 px tavolozza, tema e menu utente finivano fuori dallo schermo, insieme alla pagina. In `DashboardHeader` il gruppo di sinistra cede (`min-w-0`, `overflow-hidden`), quello di destra no (`shrink-0`), e quando c'è il cassetto (`mobileNav`) lingua, tavolozza e tema sotto `sm` si spostano nel cassetto; il menu utente resta nella barra. Senza `mobileNav` restano nella barra come prima.
+
+**Il `main` della pagina non sta più dentro un altro landmark.** Nella 1.6.0 il contenitore del contenuto era una `region` con nome, che conteneva il `<main>` di ogni pagina (axe `landmark-main-is-top-level`, `landmark-unique`, e `landmark-banner-is-top-level` sulle pagine senza `<main>`). Ora per default è un `<div>` senza ruolo, sempre focalizzabile per lo scorrimento da tastiera; ogni pagina apre il proprio `<main>`. Chi preferisce che il `main` lo dia il guscio passa `contentLandmark="main"` (e allora le pagine non ne aprono un secondo); `contentLabel` vale solo in quel caso.
+
+**Il pulsante della ricerca nell'header era sempre in italiano.** Usa ora `labels.searchPlaceholder` e, se manca, `labels.commandPalettePlaceholder`: chi passa già il segnaposto tradotto della palette lo vede anche sul pulsante senza cambiare niente.
+
+### Novità (tutte opzionali)
+
+- `DashboardShell` prop `contentLandmark` (`none` | `main`, default `none`).
+- `DashboardHeader` `labels.searchPlaceholder`, `labels.palette`, `labels.paletteList`, `labels.paletteHeading`.
+- `PaletteDropdown` prop `label`, `listLabel`, `heading` (i testi prima fissi), `idPrefix` e `align`; tipo `PaletteDropdownProps` esportato.
+- `HeaderThemeToggle` prop `id` (default `js-theme-toggle`).
+- Livello del titolo, default `h3` come prima: `EmptyState` ed `ErrorState` prop `headingLevel`, `AgentPanel` prop `headingLevel`, `KanbanBoard` prop `columnHeadingLevel`.
+
+### Per adottarla
+
+Chi cercava nelle prove la `region` del contenuto (`getByRole('region', { name: … })`) la trova ora con `data-shell="content"`, oppure passa `contentLandmark="main"`. Le pagine senza un proprio `<main>` devono aprirlo, altrimenti axe segnala `landmark-one-main`.
+
+---
+
 ## 1.6.0 — 2026-11-16
 
 Nessuna API rimossa o rinominata: solo prop opzionali nuove con default identici a prima. Correzioni nate dal controllo forense di heuresys-advanced del 2026-11-16.

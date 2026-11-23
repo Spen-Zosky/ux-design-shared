@@ -4,6 +4,7 @@ import { DashboardHeader } from './DashboardHeader';
 import { DashboardSidebar, type NavGroup } from './DashboardSidebar';
 import { DashboardFooter } from './DashboardFooter';
 import { ThemeProvider } from '../theme-provider';
+import { HeuresysLogoBadge } from '../brand/HeuresysLogoBadge';
 
 const meta: Meta<typeof DashboardShell> = {
   title: 'Layout/Dashboard Shell (Complete)',
@@ -48,4 +49,35 @@ export const Assembled: Story = {
       },
     },
   },
+};
+
+/**
+ * Il guscio come lo monta un consumer vero, da guardare a 390 px: distintivo accanto al
+ * marchio, nome utente lungo, menu utente, un extra a destra e un contenuto che si adatta.
+ * La prova `e2e/shell-390.spec.ts` apre questa story a 390 e a 1440 px e controlla che
+ * niente esca dalla larghezza della finestra.
+ */
+export const Telefono390: Story = {
+  name: 'Telefono 390 px',
+  render: () => (
+    <DashboardShell
+      header={
+        <DashboardHeader
+          language="IT"
+          logoBadge={<HeuresysLogoBadge aria-hidden="true">advanced</HeuresysLogoBadge>}
+          user={{ initials: 'MR', username: 'Mariangela Rossi-Bianchi', role: 'tenant admin' }}
+          userMenu={{}}
+          mobileNav={<nav aria-label="Navigazione"><a href="/">Dashboard</a></nav>}
+          rightExtras={<span className="rounded-control border border-border px-2 py-1 text-xs">Bozza</span>}
+        />
+      }
+      sidebar={<DashboardSidebar groups={groups} />}
+      footer={<DashboardFooter />}
+    >
+      <main>
+        <h1 className="text-xl font-semibold">Faldone della persona</h1>
+        <p>Contenuto pagina — popolato dal consumer.</p>
+      </main>
+    </DashboardShell>
+  ),
 };

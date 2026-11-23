@@ -3,7 +3,7 @@ import * as React from 'react';
 import { cn } from '../../lib/cn';
 import { Badge } from '../badge';
 import { Button } from '../Button';
-import { Card, CardContent, CardHeader, CardTitle } from '../Card';
+import { Card, CardContent, CardHeader, CardTitle, type CardTitleLevel } from '../Card';
 
 /**
  * AgentPanel — la superficie riusabile dell'assistente sulle pagine di un'applicazione.
@@ -93,6 +93,9 @@ export interface AgentPanelProps {
   /** Prefisso dei `data-testid` (default `agent`): un consumatore che ha già delle prove
    *  E2E lo imposta sul proprio e non le riscrive. */
   testIdPrefix?: string;
+  /** Livello dei titoli delle schede del pannello (1.7.0). Default `h3`, come prima: chi monta
+   *  il pannello subito sotto l'`h1` della pagina passa `h2`. */
+  headingLevel?: CardTitleLevel;
   className?: string;
 }
 
@@ -117,6 +120,7 @@ export function AgentPanel({
   notice = null,
   gatewayUrl,
   testIdPrefix = 'agent',
+  headingLevel = 'h3',
   className,
 }: AgentPanelProps) {
   const id = (s: string) => `${testIdPrefix}-${s}`;
@@ -130,7 +134,7 @@ export function AgentPanel({
     <div className={cn('space-y-6', className)} data-testid={id('page')} role="region" aria-label={labels.title}>
       <Card>
         <CardHeader>
-          <CardTitle data-testid={id('title')}>{labels.title}</CardTitle>
+          <CardTitle as={headingLevel} data-testid={id('title')}>{labels.title}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {labels.description && <p className="text-sm text-muted-fg">{labels.description}</p>}
@@ -188,7 +192,7 @@ export function AgentPanel({
       {approval && (
         <Card data-testid={id('approval')}>
           <CardHeader>
-            <CardTitle>{labels.approvalTitle}</CardTitle>
+            <CardTitle as={headingLevel}>{labels.approvalTitle}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {labels.approvalDesc && <p className="text-sm text-muted-fg">{labels.approvalDesc}</p>}
@@ -265,7 +269,7 @@ export function AgentPanel({
 
       <Card>
         <CardHeader>
-          <CardTitle>{labels.streamTitle}</CardTitle>
+          <CardTitle as={headingLevel}>{labels.streamTitle}</CardTitle>
         </CardHeader>
         <CardContent>
           {lines.length === 0 ? (

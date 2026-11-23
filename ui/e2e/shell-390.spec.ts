@@ -45,17 +45,13 @@ for (const larghezza of [390, 1440]) {
   });
 }
 
-test("a 390 px lingua, tavolozza e tema stanno nel cassetto, e il menu della tavolozza ci sta dentro", async ({ page }) => {
+test("a 390 px lingua e tema stanno nel cassetto, e la tavolozza non c'è", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(STORY);
-  await expect(page.locator("#js-palette-trigger")).toBeHidden();
+  await expect(page.locator("#js-theme-toggle")).toBeHidden();
   await page.locator("header button").first().click();
-  await page.locator("#js-palette-drawer-trigger").click();
-  const menu = await page.locator("#js-palette-drawer-menu").boundingBox();
-  const cassetto = await page.getByRole("dialog").boundingBox();
-  expect(menu && cassetto).toBeTruthy();
-  expect(menu!.x + menu!.width).toBeLessThanOrEqual(cassetto!.x + cassetto!.width);
   await expect(page.locator("#js-theme-toggle-drawer")).toBeVisible();
+  await expect(page.locator("[id^='js-palette']")).toHaveCount(0);
 });
 
 /*

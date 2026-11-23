@@ -5,6 +5,13 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.7.1 — 2026-11-23
+
+**Il selettore di tavolozza non è più nell'header.** `DashboardHeader` non mostra più `PaletteDropdown`, né nella barra né nel cassetto: restano lingua e tema. Decisione di Enzo del 2026-11-23, definitiva.
+
+- Tolte da `DashboardHeader` le etichette `labels.palette`, `labels.paletteList`, `labels.paletteHeading` (introdotte nella 1.7.0): un consumer che le passa non le vede più usate, senza errori a runtime; in TypeScript vanno tolte.
+- Il componente `PaletteDropdown` resta esportato (lo usano le pagine di mostra dei consumer), ma non fa più parte dell'header.
+
 ## 1.7.0 — 2026-11-23
 
 Nessuna API rimossa o rinominata, ma **un cambio di comportamento voluto in `DashboardShell`**: il contenitore del contenuto non è più una `region`. Correzioni nate dal giro forense di heuresys-advanced del 2026-11-23 (classi K03, K04, K05 e i titoli fissi visti nella revisione di K13).

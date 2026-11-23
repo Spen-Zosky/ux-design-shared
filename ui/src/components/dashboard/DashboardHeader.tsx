@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { cn } from '../../lib/cn';
 import { HeuresysWordmark } from '../wordmark';
-import { PaletteDropdown } from './PaletteDropdown';
 import { CommandPalette, useGlobalCmdK } from '../command-palette';
 import {
   HeaderMenuTrigger,
@@ -60,12 +59,6 @@ export interface DashboardHeaderLabels {
   /** Testo del pulsante di ricerca nell'header (1.7.0). Se assente usa
    *  `commandPalettePlaceholder`, poi il default "Cerca tenant, log, audit…". */
   searchPlaceholder?: string;
-  /** Nome accessibile del pulsante della tavolozza (1.7.0). Default "Cambia palette accent (apri menu)". */
-  palette?: string;
-  /** Nome accessibile dell'elenco delle tavolozze (1.7.0). Default "Palette disponibili". */
-  paletteList?: string;
-  /** Intestazione visibile del menu delle tavolozze (1.7.0). Default "Accent palette". */
-  paletteHeading?: string;
   /** Testo della command palette vuota. Default "Nessun comando configurato". */
   commandPaletteEmpty?: string;
   /** Titolo del drawer mobile. Default "Menu di navigazione". */
@@ -150,33 +143,21 @@ export function DashboardHeader({
   const searchPlaceholder =
     labels?.searchPlaceholder ?? labels?.commandPalettePlaceholder ?? DEFAULT_SEARCH_PLACEHOLDER;
 
-  // Lingua, tavolozza e tema: nella barra e, sotto `sm`, nel cassetto. Due copie, quindi
-  // tavolozza e tema ricevono id diversi. Nel cassetto la tavolozza va per prima e apre il
-  // menu verso destra, così i suoi 256 px restano dentro i 288 del cassetto.
+  // Lingua e tema: nella barra e, sotto `sm`, nel cassetto. Due copie, quindi il tema
+  // riceve id diversi. Il selettore di tavolozza non c'è più dalla 1.7.1.
   const preferences = (inDrawer: boolean) => {
     const lingua = (
       <HeaderLanguageSwitcher language={language} onToggleLanguage={onToggleLanguage} label={labels?.language} />
     );
-    const tavolozza = (
-      <PaletteDropdown
-        label={labels?.palette}
-        listLabel={labels?.paletteList}
-        heading={labels?.paletteHeading}
-        idPrefix={inDrawer ? 'js-palette-drawer' : 'js-palette'}
-        align={inDrawer ? 'start' : 'end'}
-      />
-    );
     const tema = <HeaderThemeToggle label={labels?.theme} id={inDrawer ? 'js-theme-toggle-drawer' : undefined} />;
     return inDrawer ? (
       <>
-        {tavolozza}
         {lingua}
         {tema}
       </>
     ) : (
       <>
         {lingua}
-        {tavolozza}
         {tema}
       </>
     );

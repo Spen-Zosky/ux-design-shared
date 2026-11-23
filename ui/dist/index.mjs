@@ -3,7 +3,7 @@ export { MermaidDiagram } from './chunk-ARWFBL7V.mjs';
 import { cn } from './chunk-5UY7U2ED.mjs';
 export { cn } from './chunk-5UY7U2ED.mjs';
 import * as React5 from 'react';
-import { useState, useMemo, useSyncExternalStore, useRef, useEffect } from 'react';
+import { useState, useMemo, useEffect, useSyncExternalStore, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -8054,137 +8054,6 @@ function DashboardShell({
     }
   );
 }
-var PALETTES = [
-  { name: "Default \xB7 balanced", vars: ["222 80% 50%", "188 75% 45%", "262 65% 60%", "38 90% 55%"] },
-  { name: "Cool ocean", vars: ["178 75% 42%", "195 85% 48%", "215 85% 55%", "245 78% 60%"] },
-  { name: "Warm sunset", vars: ["0 80% 55%", "22 92% 55%", "38 90% 55%", "52 92% 60%"] },
-  { name: "Brand mono", vars: ["221 83% 35%", "221 75% 48%", "221 65% 60%", "221 55% 72%"] }
-];
-var STORAGE_KEY2 = "heuresys-palette";
-function applyPalette(idx) {
-  const p = PALETTES[idx];
-  if (!p) return;
-  const html = document.documentElement;
-  p.vars.forEach((value, i) => html.style.setProperty(`--palette-${i + 1}`, value));
-}
-function readSavedIdx() {
-  if (typeof window === "undefined") return 0;
-  const raw = parseInt(window.localStorage.getItem(STORAGE_KEY2) || "0", 10);
-  if (!Number.isFinite(raw) || raw < 0 || raw >= PALETTES.length) return 0;
-  return raw;
-}
-var listeners = /* @__PURE__ */ new Set();
-var currentIdx = null;
-function getIdx() {
-  if (currentIdx === null) currentIdx = readSavedIdx();
-  return currentIdx;
-}
-function setSharedIdx(next) {
-  currentIdx = next;
-  applyPalette(next);
-  try {
-    window.localStorage.setItem(STORAGE_KEY2, String(next));
-  } catch {
-  }
-  listeners.forEach((l) => l());
-}
-function subscribe(l) {
-  listeners.add(l);
-  return () => {
-    listeners.delete(l);
-  };
-}
-function PaletteDropdown({
-  label = "Cambia palette accent (apri menu)",
-  listLabel = "Palette disponibili",
-  heading = "Accent palette",
-  idPrefix = "js-palette",
-  align = "end"
-} = {}) {
-  const [open, setOpen] = useState(false);
-  const idx = useSyncExternalStore(subscribe, getIdx, () => 0);
-  const rootRef = useRef(null);
-  useEffect(() => {
-    applyPalette(getIdx());
-  }, []);
-  useEffect(() => {
-    if (!open) return;
-    const onDocClick = (e) => {
-      if (!rootRef.current?.contains(e.target)) setOpen(false);
-    };
-    const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("click", onDocClick);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("click", onDocClick);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
-  function selectPalette(next) {
-    setSharedIdx(next);
-    setOpen(false);
-  }
-  return /* @__PURE__ */ jsxs("div", { ref: rootRef, className: "relative", "data-palette-menu-root": true, children: [
-    /* @__PURE__ */ jsxs(
-      "button",
-      {
-        id: `${idPrefix}-trigger`,
-        type: "button",
-        "aria-haspopup": "listbox",
-        "aria-expanded": open,
-        "aria-controls": `${idPrefix}-menu`,
-        "aria-label": label,
-        onClick: (e) => {
-          e.stopPropagation();
-          setOpen((o) => !o);
-        },
-        className: "inline-flex h-9 items-center gap-1.5 rounded-control border border-border px-2 transition hover:bg-accent hover:border-foreground/30",
-        children: [
-          /* @__PURE__ */ jsxs("span", { className: "flex gap-0.5", children: [
-            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-1" }),
-            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-2" }),
-            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-3" }),
-            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-4" })
-          ] }),
-          /* @__PURE__ */ jsx("svg", { "data-palette-chevron": true, className: "h-3.5 w-3.5 text-muted-foreground transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsx("polyline", { points: "6 9 12 15 18 9" }) })
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsxs(
-      "div",
-      {
-        id: `${idPrefix}-menu`,
-        role: "listbox",
-        "aria-label": listLabel,
-        hidden: !open,
-        className: `absolute ${align === "start" ? "left-0" : "right-0"} top-full z-50 mt-1.5 w-64 overflow-hidden rounded-card border border-border bg-card shadow-card`,
-        children: [
-          /* @__PURE__ */ jsx("div", { className: "border-b border-border bg-muted/30 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground", children: heading }),
-          /* @__PURE__ */ jsx("ul", { className: "py-1", children: PALETTES.map((p, i) => {
-            const selected = i === idx;
-            return /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsxs(
-              "button",
-              {
-                role: "option",
-                type: "button",
-                "aria-selected": selected,
-                onClick: () => selectPalette(i),
-                className: "flex w-full items-center gap-3 px-3 py-2.5 text-left transition hover:bg-accent",
-                children: [
-                  /* @__PURE__ */ jsx("span", { className: "flex gap-0.5 shrink-0", children: p.vars.map((v, k) => /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm", style: { background: `hsl(${v})` } }, k)) }),
-                  /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 text-xs font-medium text-foreground", children: p.name }),
-                  /* @__PURE__ */ jsx("svg", { className: `h-3.5 w-3.5 shrink-0 text-primary ${selected ? "" : "hidden"}`, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsx("polyline", { points: "20 6 9 17 4 12" }) })
-                ]
-              }
-            ) }, p.name);
-          }) })
-        ]
-      }
-    )
-  ] });
-}
 function HeaderMenuTrigger({
   onOpenMenu,
   label = "Apri menu contesto globale"
@@ -8646,24 +8515,12 @@ function DashboardHeader({
   const searchPlaceholder = labels?.searchPlaceholder ?? labels?.commandPalettePlaceholder ?? DEFAULT_SEARCH_PLACEHOLDER;
   const preferences = (inDrawer) => {
     const lingua = /* @__PURE__ */ jsx(HeaderLanguageSwitcher, { language, onToggleLanguage, label: labels?.language });
-    const tavolozza = /* @__PURE__ */ jsx(
-      PaletteDropdown,
-      {
-        label: labels?.palette,
-        listLabel: labels?.paletteList,
-        heading: labels?.paletteHeading,
-        idPrefix: inDrawer ? "js-palette-drawer" : "js-palette",
-        align: inDrawer ? "start" : "end"
-      }
-    );
     const tema = /* @__PURE__ */ jsx(HeaderThemeToggle, { label: labels?.theme, id: inDrawer ? "js-theme-toggle-drawer" : void 0 });
     return inDrawer ? /* @__PURE__ */ jsxs(Fragment, { children: [
-      tavolozza,
       lingua,
       tema
     ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
       lingua,
-      tavolozza,
       tema
     ] });
   };
@@ -8948,6 +8805,137 @@ function renderIcon(id) {
     case "x":
       return /* @__PURE__ */ jsx("svg", { className: "h-3.5 w-3.5", viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": "true", children: /* @__PURE__ */ jsx("path", { d: "M18.244 2H21.5l-7.11 8.13L22.75 22h-6.54l-5.12-6.69L5.23 22H1.97l7.6-8.69L1.55 2h6.7l4.63 6.12L18.244 2Zm-1.14 17.91h1.8L7.27 3.98H5.34l11.764 15.93Z" }) });
   }
+}
+var PALETTES = [
+  { name: "Default \xB7 balanced", vars: ["222 80% 50%", "188 75% 45%", "262 65% 60%", "38 90% 55%"] },
+  { name: "Cool ocean", vars: ["178 75% 42%", "195 85% 48%", "215 85% 55%", "245 78% 60%"] },
+  { name: "Warm sunset", vars: ["0 80% 55%", "22 92% 55%", "38 90% 55%", "52 92% 60%"] },
+  { name: "Brand mono", vars: ["221 83% 35%", "221 75% 48%", "221 65% 60%", "221 55% 72%"] }
+];
+var STORAGE_KEY2 = "heuresys-palette";
+function applyPalette(idx) {
+  const p = PALETTES[idx];
+  if (!p) return;
+  const html = document.documentElement;
+  p.vars.forEach((value, i) => html.style.setProperty(`--palette-${i + 1}`, value));
+}
+function readSavedIdx() {
+  if (typeof window === "undefined") return 0;
+  const raw = parseInt(window.localStorage.getItem(STORAGE_KEY2) || "0", 10);
+  if (!Number.isFinite(raw) || raw < 0 || raw >= PALETTES.length) return 0;
+  return raw;
+}
+var listeners = /* @__PURE__ */ new Set();
+var currentIdx = null;
+function getIdx() {
+  if (currentIdx === null) currentIdx = readSavedIdx();
+  return currentIdx;
+}
+function setSharedIdx(next) {
+  currentIdx = next;
+  applyPalette(next);
+  try {
+    window.localStorage.setItem(STORAGE_KEY2, String(next));
+  } catch {
+  }
+  listeners.forEach((l) => l());
+}
+function subscribe(l) {
+  listeners.add(l);
+  return () => {
+    listeners.delete(l);
+  };
+}
+function PaletteDropdown({
+  label = "Cambia palette accent (apri menu)",
+  listLabel = "Palette disponibili",
+  heading = "Accent palette",
+  idPrefix = "js-palette",
+  align = "end"
+} = {}) {
+  const [open, setOpen] = useState(false);
+  const idx = useSyncExternalStore(subscribe, getIdx, () => 0);
+  const rootRef = useRef(null);
+  useEffect(() => {
+    applyPalette(getIdx());
+  }, []);
+  useEffect(() => {
+    if (!open) return;
+    const onDocClick = (e) => {
+      if (!rootRef.current?.contains(e.target)) setOpen(false);
+    };
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("click", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("click", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+  function selectPalette(next) {
+    setSharedIdx(next);
+    setOpen(false);
+  }
+  return /* @__PURE__ */ jsxs("div", { ref: rootRef, className: "relative", "data-palette-menu-root": true, children: [
+    /* @__PURE__ */ jsxs(
+      "button",
+      {
+        id: `${idPrefix}-trigger`,
+        type: "button",
+        "aria-haspopup": "listbox",
+        "aria-expanded": open,
+        "aria-controls": `${idPrefix}-menu`,
+        "aria-label": label,
+        onClick: (e) => {
+          e.stopPropagation();
+          setOpen((o) => !o);
+        },
+        className: "inline-flex h-9 items-center gap-1.5 rounded-control border border-border px-2 transition hover:bg-accent hover:border-foreground/30",
+        children: [
+          /* @__PURE__ */ jsxs("span", { className: "flex gap-0.5", children: [
+            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-1" }),
+            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-2" }),
+            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-3" }),
+            /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm bg-palette-4" })
+          ] }),
+          /* @__PURE__ */ jsx("svg", { "data-palette-chevron": true, className: "h-3.5 w-3.5 text-muted-foreground transition-transform", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsx("polyline", { points: "6 9 12 15 18 9" }) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs(
+      "div",
+      {
+        id: `${idPrefix}-menu`,
+        role: "listbox",
+        "aria-label": listLabel,
+        hidden: !open,
+        className: `absolute ${align === "start" ? "left-0" : "right-0"} top-full z-50 mt-1.5 w-64 overflow-hidden rounded-card border border-border bg-card shadow-card`,
+        children: [
+          /* @__PURE__ */ jsx("div", { className: "border-b border-border bg-muted/30 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground", children: heading }),
+          /* @__PURE__ */ jsx("ul", { className: "py-1", children: PALETTES.map((p, i) => {
+            const selected = i === idx;
+            return /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsxs(
+              "button",
+              {
+                role: "option",
+                type: "button",
+                "aria-selected": selected,
+                onClick: () => selectPalette(i),
+                className: "flex w-full items-center gap-3 px-3 py-2.5 text-left transition hover:bg-accent",
+                children: [
+                  /* @__PURE__ */ jsx("span", { className: "flex gap-0.5 shrink-0", children: p.vars.map((v, k) => /* @__PURE__ */ jsx("span", { className: "h-4 w-4 rounded-sm", style: { background: `hsl(${v})` } }, k)) }),
+                  /* @__PURE__ */ jsx("span", { className: "min-w-0 flex-1 text-xs font-medium text-foreground", children: p.name }),
+                  /* @__PURE__ */ jsx("svg", { className: `h-3.5 w-3.5 shrink-0 text-primary ${selected ? "" : "hidden"}`, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsx("polyline", { points: "20 6 9 17 4 12" }) })
+                ]
+              }
+            ) }, p.name);
+          }) })
+        ]
+      }
+    )
+  ] });
 }
 var STORAGE_KEY3 = "heuresys-sidebar-groups";
 function readGroupState() {

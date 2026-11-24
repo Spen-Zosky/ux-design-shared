@@ -9029,10 +9029,18 @@ function renderIcon(id) {
   }
 }
 var PALETTES = [
-  { name: "Default \xB7 balanced", vars: ["222 80% 50%", "188 75% 45%", "262 65% 60%", "38 90% 55%"] },
-  { name: "Cool ocean", vars: ["178 75% 42%", "195 85% 48%", "215 85% 55%", "245 78% 60%"] },
-  { name: "Warm sunset", vars: ["0 80% 55%", "22 92% 55%", "38 90% 55%", "52 92% 60%"] },
-  { name: "Brand mono", vars: ["221 83% 35%", "221 75% 48%", "221 65% 60%", "221 55% 72%"] }
+  // hsl: 222 80% 50% · 188 75% 45% · 262 65% 60% · 38 90% 55%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Default \xB7 balanced", vars: ["#1957E6", "#1DB2C9", "#8757DB", "#F4A825"] },
+  // hsl: 178 75% 42% · 195 85% 48% · 215 85% 55% · 245 78% 60%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Cool ocean", vars: ["#1BBBB6", "#12AEE2", "#2B7CEE", "#5749E9"] },
+  // hsl: 0 80% 55% · 22 92% 55% · 38 90% 55% · 52 92% 60%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Warm sunset", vars: ["#E83030", "#F67023", "#F4A825", "#F7DE3B"] },
+  // hsl: 221 83% 35% · 221 75% 48% · 221 65% 60% · 221 55% 72%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Brand mono", vars: ["#0F3EA3", "#1F59D6", "#5781DB", "#90A9DF"] }
 ];
 var STORAGE_KEY2 = "heuresys-palette";
 function applyPalette(idx) {
@@ -9147,7 +9155,7 @@ function PaletteDropdown({
                 onClick: () => selectPalette(i),
                 className: "flex w-full items-center gap-3 px-3 py-2.5 text-left transition hover:bg-accent",
                 children: [
-                  /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex gap-0.5 shrink-0", children: p.vars.map((v, k) => /* @__PURE__ */ jsxRuntime.jsx("span", { className: "h-4 w-4 rounded-sm", style: { background: `hsl(${v})` } }, k)) }),
+                  /* @__PURE__ */ jsxRuntime.jsx("span", { className: "flex gap-0.5 shrink-0", children: p.vars.map((v, k) => /* @__PURE__ */ jsxRuntime.jsx("span", { className: "h-4 w-4 rounded-sm", style: { background: v } }, k)) }),
                   /* @__PURE__ */ jsxRuntime.jsx("span", { className: "min-w-0 flex-1 text-xs font-medium text-foreground", children: p.name }),
                   /* @__PURE__ */ jsxRuntime.jsx("svg", { className: `h-3.5 w-3.5 shrink-0 text-primary ${selected ? "" : "hidden"}`, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "3", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntime.jsx("polyline", { points: "20 6 9 17 4 12" }) })
                 ]

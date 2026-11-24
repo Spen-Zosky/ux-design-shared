@@ -2630,12 +2630,20 @@ declare function DashboardFooter({ rightSlot, socials, websiteHref, websiteLabel
  * Palette dropdown listbox — canonical implementation.
  * Spec: docs/06_header_specification.md § "Interactive specification — palette switcher".
  *
- * 4 ratified presets. Active palette HSL values written to `--palette-1..4`
+ * 4 ratified presets. Active palette colors written to `--palette-1..4`
  * on `<html>` via inline style. Selection persisted in localStorage.
+ *
+ * 1.7.2 — i valori sono esadecimali `#RRGGBB`, come nel foglio di stile (`theme-heuresys.css`).
+ * Fino alla 1.7.1 erano terne HSL nude («222 80% 50%»): in tema chiaro restavano su <html> e
+ * `bg-palette-*`, `text-palette-*` e ogni `var(--palette-*)` non erano più un colore. La regola è
+ * una sola per tutta la libreria: una variabile di colore è un colore completo, si usa diretta
+ * (`var(--x)`) o con `color-mix()` per la trasparenza, mai dentro `hsl(var(--x))`.
+ * I valori sono la conversione esatta delle terne ratificate in ADR-0005, riportate a fianco.
  */
 type PaletteIdx = 0 | 1 | 2 | 3;
 type PalettePreset = {
     readonly name: string;
+    /** Colori completi `#RRGGBB` per palette-1..4 (fino alla 1.7.1 erano terne HSL nude). */
     readonly vars: readonly [string, string, string, string];
 };
 declare const PALETTES: readonly PalettePreset[];

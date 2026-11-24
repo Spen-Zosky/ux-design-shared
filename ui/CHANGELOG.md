@@ -5,6 +5,20 @@ la libreria**, non cosa è stato toccato dentro.
 
 ---
 
+## 1.7.2 — 2026-11-24
+
+**La tavolozza scelta non rompe più i colori in tema chiaro.** `applyPalette` scriveva su `<html>` le variabili `--palette-1..4` come terne HSL nude («222 80% 50%»), mentre il foglio di stile le dà in esadecimale. In tema scuro vinceva `.dark … !important` e non si notava; in chiaro restava la terna, che non è un colore: `bg-palette-*`, `text-palette-*` e ogni `var(--palette-*)` diventavano trasparenti, e i grafici disegnati su canvas (ECharts) neri. Ora `applyPalette` scrive esadecimali `#RRGGBB`, la stessa forma del foglio di stile, in entrambi i temi.
+
+- **Una regola sola per tutta la libreria**: ogni variabile di colore, dichiarata nel tema o scritta dal codice, è un esadecimale `#RRGGBB`; si usa diretta (`var(--x)`) o con `color-mix()` per la trasparenza (le utility Tailwind con l'alfa, come `bg-palette-1/12`, lo fanno già), mai dentro `hsl(var(--x))`. La ricerca in tutta la libreria ha trovato un solo scrittore fuori regola (`applyPalette`) e un solo avvolgimento `hsl(${…})` (i campioni del menu di `PaletteDropdown`): corretti entrambi. Le altre variabili scritte dal codice (`--sidebar-w`, `--motion-duration-*`) non sono colori.
+- `PALETTES[].vars` contiene ora esadecimali, conversione esatta delle terne ratificate in ADR-0005 (entro 1/255 per canale, misurato nel browser). Chi li usava avvolti in `hsl(${v})` li usa così come sono.
+- In tema scuro non cambia niente: come prima, `.dark` sovrascrive le `--palette-*` con i valori del tema.
+- Prove nuove: `tavolozza-colori-completi.test.tsx` (forma dei valori, foglio di stile nei due temi, nessuna forma mista nei sorgenti) e `tavolozza-browser.test.ts` (Chromium vero: due temi per quattro tavolozze per quattro variabili, con uso diretto, con l'alfa e con la rampa ink). La seconda richiede il Chromium di Playwright (`pnpm exec playwright install --only-shell chromium`).
+
+### Per adottarla
+
+- Chi legge il valore calcolato di `--palette-*` trova sempre un esadecimale, anche in chiaro dopo `applyPalette`. Una prova che si aspettava la terna (per esempio `"178 75% 42%"` per «Cool ocean») si aspetta ora `#1BBBB6`.
+- Il codice che avvolge le variabili in `hsl(var(--palette-1))` resta sbagliato come lo era già con l'esadecimale del foglio di stile: va scritto `var(--palette-1)`, oppure `color-mix(in oklab, var(--palette-1) 12%, transparent)` per la trasparenza.
+
 ## 1.7.1 — 2026-11-23
 
 **Il selettore di tavolozza non è più nell'header.** `DashboardHeader` non mostra più `PaletteDropdown`, né nella barra né nel cassetto: restano lingua e tema. Decisione di Enzo del 2026-11-23, definitiva.

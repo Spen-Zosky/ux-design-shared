@@ -6,22 +6,38 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
  * Palette dropdown listbox — canonical implementation.
  * Spec: docs/06_header_specification.md § "Interactive specification — palette switcher".
  *
- * 4 ratified presets. Active palette HSL values written to `--palette-1..4`
+ * 4 ratified presets. Active palette colors written to `--palette-1..4`
  * on `<html>` via inline style. Selection persisted in localStorage.
+ *
+ * 1.7.2 — i valori sono esadecimali `#RRGGBB`, come nel foglio di stile (`theme-heuresys.css`).
+ * Fino alla 1.7.1 erano terne HSL nude («222 80% 50%»): in tema chiaro restavano su <html> e
+ * `bg-palette-*`, `text-palette-*` e ogni `var(--palette-*)` non erano più un colore. La regola è
+ * una sola per tutta la libreria: una variabile di colore è un colore completo, si usa diretta
+ * (`var(--x)`) o con `color-mix()` per la trasparenza, mai dentro `hsl(var(--x))`.
+ * I valori sono la conversione esatta delle terne ratificate in ADR-0005, riportate a fianco.
  */
 
 export type PaletteIdx = 0 | 1 | 2 | 3;
 
 export type PalettePreset = {
   readonly name: string;
-  readonly vars: readonly [string, string, string, string]; // HSL "H S% L%" for palette-1..4
+  /** Colori completi `#RRGGBB` per palette-1..4 (fino alla 1.7.1 erano terne HSL nude). */
+  readonly vars: readonly [string, string, string, string];
 };
 
 export const PALETTES: readonly PalettePreset[] = [
-  { name: "Default · balanced", vars: ["222 80% 50%", "188 75% 45%", "262 65% 60%", "38 90% 55%"] },
-  { name: "Cool ocean",         vars: ["178 75% 42%", "195 85% 48%", "215 85% 55%", "245 78% 60%"] },
-  { name: "Warm sunset",        vars: ["0 80% 55%",   "22 92% 55%",  "38 90% 55%",  "52 92% 60%"] },
-  { name: "Brand mono",         vars: ["221 83% 35%", "221 75% 48%", "221 65% 60%", "221 55% 72%"] },
+  // hsl: 222 80% 50% · 188 75% 45% · 262 65% 60% · 38 90% 55%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Default · balanced", vars: ["#1957E6", "#1DB2C9", "#8757DB", "#F4A825"] },
+  // hsl: 178 75% 42% · 195 85% 48% · 215 85% 55% · 245 78% 60%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Cool ocean",         vars: ["#1BBBB6", "#12AEE2", "#2B7CEE", "#5749E9"] },
+  // hsl: 0 80% 55% · 22 92% 55% · 38 90% 55% · 52 92% 60%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Warm sunset",        vars: ["#E83030", "#F67023", "#F4A825", "#F7DE3B"] },
+  // hsl: 221 83% 35% · 221 75% 48% · 221 65% 60% · 221 55% 72%
+  // eslint-disable-next-line no-restricted-syntax -- dati della tavolozza ratificata: sono la fonte dei token --palette-*, non un colore di componente
+  { name: "Brand mono",         vars: ["#0F3EA3", "#1F59D6", "#5781DB", "#90A9DF"] },
 ] as const;
 
 const STORAGE_KEY = "heuresys-palette";
@@ -169,7 +185,7 @@ export function PaletteDropdown({
                 >
                   <span className="flex gap-0.5 shrink-0">
                     {p.vars.map((v, k) => (
-                      <span key={k} className="h-4 w-4 rounded-sm" style={{ background: `hsl(${v})` }} />
+                      <span key={k} className="h-4 w-4 rounded-sm" style={{ background: v }} />
                     ))}
                   </span>
                   <span className="min-w-0 flex-1 text-xs font-medium text-foreground">{p.name}</span>
